@@ -1,62 +1,62 @@
 .legend-container {
-    position: absolute;
-    bottom: 35px;
-    left: 5px;
-    z-index: 2;
-    color: white;
-    /* text-align: left; */
-    display: grid;
-    grid-template-columns: auto 25px;
-    gap: 2px;
-    max-width: 92vw;
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;
-    transition: transform 1s;
+  position: absolute;
+  bottom: 35px;
+  left: 5px;
+  z-index: 2;
+  color: white;
+  /* text-align: left; */
+  display: grid;
+  grid-template-columns: auto 25px;
+  gap: 2px;
+  max-width: 92vw;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none;
+  transition: transform 1s;
 }
 
 .legend-content {
-    text-align: left;
-    display: flex;
+  text-align: left;
+  display: flex;
 }
 
 .legend-item {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;
-    display: flex;
-    flex-direction: column;
-    background-color: #192e44;
-    border: 2px solid #395879;
-    border-radius: 20px;
-    margin: 2px;
-    max-width: 175px;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none;
+  display: flex;
+  flex-direction: column;
+  background-color: #192e44;
+  border: 2px solid #395879;
+  border-radius: 20px;
+  margin: 2px;
+  max-width: 175px;
 }
 
-.legend-layer-title { 
-    font-size: 1.35em;
-    padding-left: 10px;
-    padding-top: 5px;
+.legend-layer-title {
+  font-size: 1.35em;
+  padding-left: 10px;
+  padding-top: 5px;
 }
 
-.legend-layer-subtitle { 
-    font-size: 0.8em;
-    padding-left: 10px;
-    padding-bottom: -10px;
+.legend-layer-subtitle {
+  font-size: 0.8em;
+  padding-left: 10px;
+  padding-bottom: -10px;
 }
 
 .open-close-legend-toggle-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: white;
-    color: black;
-    margin: 25px 0px;
-    border-radius: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  color: black;
+  margin: 25px 0px;
+  border-radius: 50px;
 }
 
 .open-close-toggle-text {
-    writing-mode: vertical-lr;
-    text-orientation: upright;
-    font-size: 0.8em;
-    cursor: pointer;
+  writing-mode: vertical-lr;
+  text-orientation: upright;
+  font-size: 0.8em;
+  cursor: pointer;
 }

@@ -1,73 +1,72 @@
 .left-pane {
-    position: absolute;
-    z-index: 2;
-    left: 5px;
-    top: 5px;
-    pointer-events: none;
+  position: absolute;
+  z-index: 2;
+  left: 5px;
+  top: 5px;
+  pointer-events: none;
 }
 
 .homeinfo-breadcrumbs-panel-layout {
-    display: flex;
-    flex-direction: row;
-    margin-top: 10px;
-    pointer-events: none;
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
+  pointer-events: none;
 }
 
 .homeinfo-breadcrumbs-panel-layout > * {
-    pointer-events: all;
+  pointer-events: all;
 }
 
 .home-container {
-    display: flex;
-    flex-direction: column;
-    background-color: #192e44;
-    border: 2px solid #395879;
-    border-radius: 30px;
-    padding: 3px 12px 5px;
-    text-align: center;
-    vertical-align: middle;
-    margin-top: 2px;
+  display: flex;
+  flex-direction: column;
+  background-color: #192e44;
+  border: 2px solid #395879;
+  border-radius: 30px;
+  padding: 3px 12px 5px;
+  text-align: center;
+  vertical-align: middle;
+  margin-top: 2px;
 }
 
 .home-info-button-container {
-    display: flex;
-    flex-direction: column;
-    align-content: center;
-    align-items: center;
-    justify-content: center;
-    justify-items: center;
-    margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  margin-top: 10px;
 }
 
 .horiz-break {
-    background-color: #395879;
-    height: 2px;
-    margin: 0px 1px;
-    border-width: 0;
-
+  background-color: #395879;
+  height: 2px;
+  margin: 0px 1px;
+  border-width: 0;
 }
 
 .home-info-button {
-    width: 20px;
-    height: 30px;
-    fill: white;
-    cursor: pointer;
+  width: 20px;
+  height: 30px;
+  fill: white;
+  cursor: pointer;
 }
 
 .home-info-button-container > .home-info-text {
-    color: white;
-    /* font-weight:700; */
-    font-size: 0.8em;
-    margin-bottom: 10px;
+  color: white;
+  /* font-weight:700; */
+  font-size: 0.8em;
+  margin-bottom: 10px;
 }
 
 @media screen and (max-height: 800px) {
-    .home-info-button {
-       width: 20px;
-       height: 30px;
-       padding: 0px 3px 10px 3px;
-    }
-    .home-info-text {
-        display: none;
-    }
+  .home-info-button {
+    width: 20px;
+    height: 30px;
+    padding: 0px 3px 10px 3px;
+  }
+  .home-info-text {
+    display: none;
+  }
 }

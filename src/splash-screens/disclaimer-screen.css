@@ -1,49 +1,49 @@
 .disclaimer-container {
-    position: absolute;
-    top: 10%;
-    left: 20%;
-    right: 20%;
-    /* bottom: 20%; */
-    max-height: 60%;
-    z-index: 7;
-    /* background-color: #192e44; */
-    background: rgba(25, 46, 68, 0.7);
-    border: 2px solid #395879;
-    /* opacity: 0.92; */
-    overflow-y: auto;
-    border-radius: 45px;
-    padding: 35px;
-    text-align: center;
-    vertical-align: middle;
-    color: white;
+  position: absolute;
+  top: 10%;
+  left: 20%;
+  right: 20%;
+  /* bottom: 20%; */
+  max-height: 60%;
+  z-index: 7;
+  /* background-color: #192e44; */
+  background: rgba(25, 46, 68, 0.7);
+  border: 2px solid #395879;
+  /* opacity: 0.92; */
+  overflow-y: auto;
+  border-radius: 45px;
+  padding: 35px;
+  text-align: center;
+  vertical-align: middle;
+  color: white;
 }
 
 .disclaimer-title {
-    font-size: 1.3em;
-    text-align: left;
-    padding-bottom: 10px;;
+  font-size: 1.3em;
+  text-align: left;
+  padding-bottom: 10px;
 }
 
 .disclaimer-body {
-    text-align: left;
-    padding-bottom: 10px;;
+  text-align: left;
+  padding-bottom: 10px;
 }
 
 .browser-disclaimer-container {
-    display: flex;
-    align-items: flex-end;
+  display: flex;
+  align-items: flex-end;
 }
 
 .browser-disclaimer-container > * {
-    padding: 2px;
-    font-size: 12px;
+  padding: 2px;
+  font-size: 12px;
 }
 
 .browser-icon {
-    width: 30px;
-    height: 30px;
+  width: 30px;
+  height: 30px;
 }
 
 .browser-icon > img {
-    width: 100%;
+  width: 100%;
 }

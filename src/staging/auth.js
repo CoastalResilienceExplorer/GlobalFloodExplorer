@@ -21,8 +21,10 @@ export const StagingLogin = ({ setAuthed }) => {
     const password = document.getElementById("password").value;
 
     if (
-      (await digestMessage(password)) === process.env.REACT_APP_SITE_GATING_MATCH
-    ) setAuthed(true);
+      (await digestMessage(password)) ===
+      process.env.REACT_APP_SITE_GATING_MATCH
+    )
+      setAuthed(true);
     else alert("Incorrect password");
     setLoading(false);
   };

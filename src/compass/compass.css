@@ -1,45 +1,43 @@
 .compass-panel {
-    position: absolute;
-    z-index: 4;
-    right: 5px;
-    top: 5px;
-    width: 60px;
-    height: 60px;
+  position: absolute;
+  z-index: 4;
+  right: 5px;
+  top: 5px;
+  width: 60px;
+  height: 60px;
 }
 
 .compass-container {
-    position: absolute;
-    right: 20px;
-    top: 20px;
-    
-    display: flex;
-    flex-direction: column;
-    align-content: center;
-    align-items: center;
-    justify-content: center;
-    justify-items: center;
-    width: 60px;
-    height: 60px;
-    box-shadow: 0 0 0 5pt rgba(60, 132, 150, 0.3);
-    background-color: rgba(193, 241, 253, 0.9);
-    border: 5px solid rgba(60, 132, 150, 0.8);
-    border-radius: 50%;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  width: 60px;
+  height: 60px;
+  box-shadow: 0 0 0 5pt rgba(60, 132, 150, 0.3);
+  background-color: rgba(193, 241, 253, 0.9);
+  border: 5px solid rgba(60, 132, 150, 0.8);
+  border-radius: 50%;
 }
 
 @media screen and (max-height: 800px) {
-    .compass-container {
-        height: 45px;
-        width: 45px;
-    }
+  .compass-container {
+    height: 45px;
+    width: 45px;
+  }
 }
 
-
 .compass-container:hover {
-    background-color: rgba(231, 195, 252, 0.9);
+  background-color: rgba(231, 195, 252, 0.9);
 }
 
 .compass {
-    height: 100px; 
-    padding: 10px;
+  height: 100px;
+  padding: 10px;
 }
-
