@@ -7,94 +7,94 @@
 } */
 
 .open-close-legend-toggle-container.basemaps {
-    width: 25px;
-    margin: 20px 0px;
-    padding: 0px;
+  width: 25px;
+  margin: 20px 0px;
+  padding: 0px;
 }
 
 .open-close-toggle-text.basemaps {
-    font-size: 0.8em;
-    cursor: pointer;
+  font-size: 0.8em;
+  cursor: pointer;
 }
 
 .basemap-manager-outer-container {
-    position: absolute;
-    display: flex;
-    flex-direction: row;
-    z-index: 1;
-    bottom: 25px;
-    right: 5px;
-    font-size: 14px;
-    transition: transform 1s;
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  z-index: 1;
+  bottom: 25px;
+  right: 5px;
+  font-size: 14px;
+  transition: transform 1s;
 }
 
 .basemap-manager-inner-container {
-    display: flex;
-    flex-direction: column;
-    background-color: #192e44;
-    border: 2px solid #395879;
-    border-radius: 20px;
-    font-size: 1.2em;
-    color: white;
-    text-align: left;
-    /* padding: 10px; */
-    margin: 2px;
+  display: flex;
+  flex-direction: column;
+  background-color: #192e44;
+  border: 2px solid #395879;
+  border-radius: 20px;
+  font-size: 1.2em;
+  color: white;
+  text-align: left;
+  /* padding: 10px; */
+  margin: 2px;
 }
 
 .vl {
-    border-left: 1px solid white;
-    top: 5%;
-    bottom: 5%;
+  border-left: 1px solid white;
+  top: 5%;
+  bottom: 5%;
 }
 
 .basemap-manager-header {
-    display: flex;
-    justify-content: center;
-    font-size: 1.2em;
-    padding: 5px 5px 2px;
-    margin: 2px 5px
+  display: flex;
+  justify-content: center;
+  font-size: 1.2em;
+  padding: 5px 5px 2px;
+  margin: 2px 5px;
 }
 
 .circle-selector-container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    margin: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin: 5px;
 }
 
 .circle-selector-text {
-    padding: 0px 10px 0px 2px;
-    font-size: 0.8em
+  padding: 0px 10px 0px 2px;
+  font-size: 0.8em;
 }
 
 .circle-selector {
-    border-radius: 100px;
-    width: 40px;
-    height: 40px;
-    margin: 2px;
-    background-color: black;
-    cursor: pointer
+  border-radius: 100px;
+  width: 40px;
+  height: 40px;
+  margin: 2px;
+  background-color: black;
+  cursor: pointer;
 }
 
 .circle-selector.selected {
-    border: 2px solid #d66e57;
+  border: 2px solid #d66e57;
 }
 
 .circle-selector.Light {
-    background-image: url('assets/light-img.png');
-    background-position: center;
-    background-size: 60px 60px;
+  background-image: url("assets/light-img.png");
+  background-position: center;
+  background-size: 60px 60px;
 }
 
 .circle-selector.Dark {
-    background-image: url('assets/dark-img.png');
-    background-position: center;
-    background-size: 60px 60px;
+  background-image: url("assets/dark-img.png");
+  background-position: center;
+  background-size: 60px 60px;
 }
 
 .circle-selector.Satellite {
-    background-image: url('assets/satellite-img.png');
-    background-position: center;
-    background-size: 60px 60px;
+  background-image: url("assets/satellite-img.png");
+  background-position: center;
+  background-size: 60px 60px;
 }

@@ -1,30 +1,30 @@
 .right-panel {
-    position: absolute;
-    right: max(-400px, calc(-1 * (100vw - 70px)));
-    top: 5px;
-    vertical-align: middle;
-    display: grid;
-    color: rgb(32, 32, 32);
-    /* Left-most column has compass and toggle button */
-    grid-template-columns: 50px min(400px, calc(100vw - 70px));
-    /* Holder for main panel area */
-    grid-template-rows: calc(100vh - 10px);
-    /* Naming left-most column "x" and main panel area holder "content" */
-    grid-template-areas: "x content";
-    gap: 5px;
-    transition: transform 1s;
-    font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
-    font-weight: normal;
-    font-style: normal;
-    z-index: 5;
-    pointer-events: none;
+  position: absolute;
+  right: max(-400px, calc(-1 * (100vw - 70px)));
+  top: 5px;
+  vertical-align: middle;
+  display: grid;
+  color: rgb(32, 32, 32);
+  /* Left-most column has compass and toggle button */
+  grid-template-columns: 50px min(400px, calc(100vw - 70px));
+  /* Holder for main panel area */
+  grid-template-rows: calc(100vh - 10px);
+  /* Naming left-most column "x" and main panel area holder "content" */
+  grid-template-areas: "x content";
+  gap: 5px;
+  transition: transform 1s;
+  font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  z-index: 5;
+  pointer-events: none;
 }
 
 .right-panel > * {
-    pointer-events: auto;
+  pointer-events: auto;
 }
 
- /*
+/*
 @media screen and (max-height: 705px) {
     .right-panel {
         top: 5px;
@@ -42,7 +42,7 @@
 
 /* Moving the panel off the screen if collapsed */
 .right-panel.open {
-    transform: translateX(max(-405px, calc(-1 * (100vw - 65px))));
+  transform: translateX(max(-405px, calc(-1 * (100vw - 65px))));
 }
 
 /* .right-panel.closed > .right-panel-content {
@@ -51,27 +51,28 @@
 } */
 
 .open-sidebar {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    pointer-events: none;
-    color: white;
-    text-shadow: 0px 0px 10px black, 0px 0px 5px black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  color: white;
+  text-shadow:
+    0px 0px 10px black,
+    0px 0px 5px black;
 }
 
 .open-toggle {
-    display: inline-block;
-    margin: auto;
-    text-align: center;
-    border-radius: 1em;
-    cursor: pointer;
-    pointer-events: all;
+  display: inline-block;
+  margin: auto;
+  text-align: center;
+  border-radius: 1em;
+  cursor: pointer;
+  pointer-events: all;
 }
 
 .open-toggle:hover {
-    filter: 
-    hue-rotate(215deg)
+  filter: hue-rotate(215deg);
 }
 
 /* Setting a grid for 
@@ -82,92 +83,92 @@
 5. Layer selection panel */
 
 .right-panel-content {
-    background-color: #d66e57;
-    border-radius: 12em 2em 0em 1em;
-    /* overflow-y: auto; */
-    display: flex;
-    /* overflow: visible; */
-    /* overflow: scroll; */
-    
-    /* display: grid; */
-    /* grid-template-rows: 50px 100px 80px 325px auto; */
+  background-color: #d66e57;
+  border-radius: 12em 2em 0em 1em;
+  /* overflow-y: auto; */
+  display: flex;
+  /* overflow: visible; */
+  /* overflow: scroll; */
+
+  /* display: grid; */
+  /* grid-template-rows: 50px 100px 80px 325px auto; */
 }
 
 .right-panel-outer-content {
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-    /* background-color: black; */
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  /* background-color: black; */
 }
 
 .right-panel-inner-content {
-    /* height: 99%; */
-    width: 95%;
-    background-color: white;
-    border-radius: 10.5em 1.5em 0em 0.5em;
-    overflow-x: visible;
-    overflow-y: scroll;
-    margin: 5px;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+  /* height: 99%; */
+  width: 95%;
+  background-color: white;
+  border-radius: 10.5em 1.5em 0em 0.5em;
+  overflow-x: visible;
+  overflow-y: scroll;
+  margin: 5px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .right-panel-inner-content::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 .top-banner-container {
-    display: grid;
-    grid-template-columns: auto;
-    height: 100px;
+  display: grid;
+  grid-template-columns: auto;
+  height: 100px;
 }
 
 .top-banner-container > * {
-    margin: 10px;
+  margin: 10px;
 }
 
 .stats-panel-title {
-    text-align: right;
-    color: rgb(32, 32, 32)
+  text-align: right;
+  color: rgb(32, 32, 32);
 }
 
 /* .n-study-units-text {
     /* font-size: 1.5em; */
-    /* font-weight: bold;
+/* font-weight: bold;
 } */
 
 .locations-formatted-text {
-    font-size: 1.8em;
-    font-weight: 600;
+  font-size: 1.8em;
+  font-weight: 600;
 }
 
 .inline-title-text {
-    display: inline;
-    cursor: pointer;
+  display: inline;
+  cursor: pointer;
 }
 
 .download-button {
-    text-align: right;
+  text-align: right;
 }
 
 .locations-list > * {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .stats-panel-locations-tooltip {
-    position: fixed;
-    z-index: 10;
-    background: white;
-    opacity: 0.95;
-    border-radius: 8px;
-    border: 1px solid gray;
-    font-size: 20px;
+  position: fixed;
+  z-index: 10;
+  background: white;
+  opacity: 0.95;
+  border-radius: 8px;
+  border: 1px solid gray;
+  font-size: 20px;
 }
 
 .stats-panel-locations-tooltip {
-    list-style-type: none;
-    text-align: left;
-    margin: 10px;
-    padding: 10px;
-    padding-bottom: 0px;
+  list-style-type: none;
+  text-align: left;
+  margin: 10px;
+  padding: 10px;
+  padding-bottom: 0px;
 }

@@ -1,211 +1,210 @@
 .risk-reduction-pane1 {
-    display: grid;
-    grid-template-columns: 120px auto;
+  display: grid;
+  grid-template-columns: 120px auto;
 }
 
 .risk-reduction-donut-chart-container {
-    /* width: 100px; */
-    display: flex;
-    justify-content: center;
-    /* padding: 20px; */
+  /* width: 100px; */
+  display: flex;
+  justify-content: center;
+  /* padding: 20px; */
 }
 
 .risk-reduction-donut-chart-container > svg {
-    /* width: 100px; */
-    display: inline-block;
-    margin: auto;
+  /* width: 100px; */
+  display: inline-block;
+  margin: auto;
 }
 
 .people-buildings-protected-container {
-    display: grid;
-    grid-template-rows: 50% 50%;
+  display: grid;
+  grid-template-rows: 50% 50%;
 }
 
 .people-protected-pane {
-    display: grid;
-    grid-template-rows: auto 30px 50px;
+  display: grid;
+  grid-template-rows: auto 30px 50px;
 }
 
 .people-protected-text-container {
-    text-align: left;
-    margin-left: 8px;
-    margin-bottom: 5px;
+  text-align: left;
+  margin-left: 8px;
+  margin-bottom: 5px;
 }
 
 .people-protected-text {
-    font-size: 1.4em;
+  font-size: 1.4em;
 }
 
 .people-per-icon-text-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: start;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
 }
 
 .woman-icon {
-    width: 10px;
-    margin-left: 10px;
-    margin-top: -30px;
+  width: 10px;
+  margin-left: 10px;
+  margin-top: -30px;
 }
 
 .aeb-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    /* height: 120px; */
-    border: 1px solid rgba(0, 0, 0 , 0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* height: 120px; */
+  border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 .aeb-container-title {
-    display: flex;
-    width: 100%;
-    height: 40px;
-    background-color: #7bccc4;
+  display: flex;
+  width: 100%;
+  height: 40px;
+  background-color: #7bccc4;
 }
 
 .aeb-container-title.clickable:hover > * {
-    background-color: #94e9e0
+  background-color: #94e9e0;
 }
 
 .aeb-container-title.clickable > * {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .aeb-container-title.selected {
-    background-color: #C76F85
+  background-color: #c76f85;
 }
 
 .aeb-content-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    /* height: 60%; */
-    padding: 5px;
-    padding-top: 16px;
-    padding-bottom: 20px;
-
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* height: 60%; */
+  padding: 5px;
+  padding-top: 16px;
+  padding-bottom: 20px;
 }
 
 .aeb-content-container.start {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    /* height: 60%; */
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  /* height: 60%; */
 }
 
 .aeb-number-text {
-    font-size: 2em;
-    text-align: right;
-    /* justify-content: center; */
+  font-size: 2em;
+  text-align: right;
+  /* justify-content: center; */
 }
 
 .aeb-title-text-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
 }
 
 .aeb-title-text {
-    font-size: 1.3em;
-    color: white;
-    text-align: left;
-    /* padding-top: 10px; */
-    /* padding-left: 30px; */
+  font-size: 1.3em;
+  color: white;
+  text-align: left;
+  /* padding-top: 10px; */
+  /* padding-left: 30px; */
 }
 
 .no-selected-features-panel {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    padding-top: 50px;
-    /* justify-content: space-around; */
-    background-image: linear-gradient(#e47f68, #f5ba89);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding-top: 50px;
+  /* justify-content: space-around; */
+  background-image: linear-gradient(#e47f68, #f5ba89);
 }
 
-.no-selected-features-panel > *{
-    padding: 20px 0px;
+.no-selected-features-panel > * {
+  padding: 20px 0px;
 }
 
 .no-selected-features-panel-text {
-    color: white;
-    font-size: 2.4em;
-    text-shadow: 0px 0px 3px rgba(0, 0, 0, 0.95);
+  color: white;
+  font-size: 2.4em;
+  text-shadow: 0px 0px 3px rgba(0, 0, 0, 0.95);
 }
 
 .no-selected-features-panel-text > .sub-text {
-    color: white;
-    font-size: 0.7em;
-    text-shadow: 0px 0px 3px rgba(0, 0, 0, 0.95);
-    padding: 5px 15px;
+  color: white;
+  font-size: 0.7em;
+  text-shadow: 0px 0px 3px rgba(0, 0, 0, 0.95);
+  padding: 5px 15px;
 }
 
 .fly-to-icon {
-    /* padding: 10px; */
-    display: flex;
-    height: 15%;
-    flex-direction: column;
-    align-items: flex-end;
-    margin: 0px 30px;
+  /* padding: 10px; */
+  display: flex;
+  height: 15%;
+  flex-direction: column;
+  align-items: flex-end;
+  margin: 0px 30px;
 }
 
 .fly-to-icon:hover > .fly-to-icon-text {
-    border: 5px solid white;
+  border: 5px solid white;
 }
 
 .fly-to-icon > * {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .fly-to-icon:hover > img {
-    filter: grayscale(0%)
+  filter: grayscale(0%);
 }
 
 .fly-to-icon > img {
-    max-height: 100%;
-    max-width: 100%;
-    position: relative;
-    z-index: 2;
+  max-height: 100%;
+  max-width: 100%;
+  position: relative;
+  z-index: 2;
 }
 
 .fly-to-icon > .fly-to-icon-text {
-    color: white;
-    text-shadow: 0px 0px 10px black;
-    font-size: 1.6em;
-    border-radius: 30px;
-    padding: 5px 60px 5px 15px;
-    position: relative;
-    left: -70px;
-    top: -30px;
+  color: white;
+  text-shadow: 0px 0px 10px black;
+  font-size: 1.6em;
+  border-radius: 30px;
+  padding: 5px 60px 5px 15px;
+  position: relative;
+  left: -70px;
+  top: -30px;
 }
 
 .fly-to-icon.flooding > .fly-to-icon-text {
-    background-color: #BCDFBB;
+  background-color: #bcdfbb;
 }
 
 .fly-to-icon.hex > .fly-to-icon-text {
-    background-color: #82CEC6
+  background-color: #82cec6;
 }
 
 .fly-to-icon.aeb > .fly-to-icon-text {
-    background-color: #54AACE
+  background-color: #54aace;
 }
 
 .fly-to-icon.aeb-per-ha > .fly-to-icon-text {
-    background-color: #2076B3
+  background-color: #2076b3;
 }
 
 .layer-icon {
-    /* width:  ; */
-    position: relative;
-    top: -18px;
-    left: -12px;
-    height: 70px;
-    width: auto
+  /* width:  ; */
+  position: relative;
+  top: -18px;
+  left: -12px;
+  height: 70px;
+  width: auto;
 }
 
 .crl-logo-panel-fill {
-    width: 90%;
-    padding: 5%;
-    opacity: 0.5;
+  width: 90%;
+  padding: 5%;
+  opacity: 0.5;
 }
