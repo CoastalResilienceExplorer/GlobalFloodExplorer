@@ -1,7 +1,7 @@
 import "./App.css";
 import Map from "./Map";
 import { useState } from "react";
-import { StagingLogin } from "staging/auth";
+import { StagingLogin } from "./staging/auth";
 
 function App() {
   const [authed, setAuthed] = useState(false);
