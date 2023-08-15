@@ -1,5 +1,16 @@
+terraform {
+  backend "gcs" {
+    bucket  = "global-mangroves-tfstate"
+    prefix  = "services"
+  }
+}
+
+provider "google" {
+  project     = "global-mangroves"
+  region      = "us-west1"
+}
+
 resource "google_cloudbuild_trigger" "filename-trigger" {
-  location = "us-west1"
 
   trigger_template {
     branch_name = "staging"
