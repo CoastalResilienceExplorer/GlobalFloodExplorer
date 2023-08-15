@@ -33,7 +33,7 @@ images:
 gcloud builds submit \
     --config ./cloudbuild.yaml
 
-bash CogMaker/eventarc.sh $ENV
+bash ./CogMaker/eventarc.sh $ENV
 
 # Test
 gsutil -m cp CogMaker/test/small.tif gs://test-tiff-to-cog/test/small.tif
