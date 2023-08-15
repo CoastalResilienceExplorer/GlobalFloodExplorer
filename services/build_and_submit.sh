@@ -22,8 +22,8 @@ steps:
     '--allow-unauthenticated', 
     '--region', 'us-west1', 
     '--service-account', 'cog-maker@global-mangroves.iam.gserviceaccount.com',
-    '--cpu', '2',
-    '--memory', '8G'
+    '--cpu', '4',
+    '--memory', '16G'
 ]
 images:
 # - $BASE_IMAGE
@@ -37,4 +37,5 @@ bash ./CogMaker/eventarc.sh $ENV
 
 # Test
 gsutil -m cp CogMaker/test/small.tif gs://test-tiff-to-cog/test/small.tif
+# gsutil -m cp CogMaker/test/medium.tif gs://test-tiff-to-cog/test/medium.tif
 # TODO, implement a proper test that fails

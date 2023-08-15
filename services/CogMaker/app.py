@@ -66,7 +66,7 @@ def upload_blob(bucket_name, source_file_name, destination_blob_name):
         # if_generation_match=generation_match_precondition
     )
 
-    print(
+    logging.info(
         f"File {source_file_name} uploaded to {destination_blob_name}."
     )
 
@@ -74,9 +74,7 @@ def upload_blob(bucket_name, source_file_name, destination_blob_name):
 @app.route("/", methods=["POST"])
 def index():
     """Handle tile requests."""
-    logging.info(request)
     event = from_http(request.headers, request.get_data())
-    logging.info(event)
 
     # Gets the GCS bucket name from the CloudEvent data
     # Example: "storage.googleapis.com/projects/_/buckets/my-bucket"
@@ -103,8 +101,6 @@ def index():
         + f" updated at {update_time}",
         200,
     )
-    # except ValueError as e:
-    #     return (f"Failed to parse event data: {e}", 400)
 
 @app.get('/')
 def test():
@@ -113,7 +109,3 @@ def test():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
-    # app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
-# x = xr.open_dataset(ghsl)
-# x.band_data.isel(band=0).chunk(1000).to_zarr("GHSL_COG.zarr")
-# x.band_data.isel(band=0).chunk(100).rio.to_raster("GHSL_COG.tif", driver="COG")
