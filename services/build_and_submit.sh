@@ -21,17 +21,17 @@ steps:
     '--image', '$COGMAKER_IMAGE', 
     '--allow-unauthenticated', 
     '--region', 'us-west1', 
-    '--service-account', 'cog-maker@global-mangroves.iam.gserviceaccount.com'
+    '--service-account', 'cog-maker@global-mangroves.iam.gserviceaccount.com',
     '--cpu', '2',
     '--memory', '8G'
 ]
 images:
 - $BASE_IMAGE
 - $COGMAKER_IMAGE
-""" > ./cloudbuild.yaml
+""" > /tmp/cloudbuild.yaml
 
 gcloud builds submit \
-    --config ./cloudbuild.yaml
+    --config /tmp/cloudbuild.yaml
 
 bash ./CogMaker/eventarc.sh $ENV
 
