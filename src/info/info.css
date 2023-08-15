@@ -1,73 +1,74 @@
 .tooltip-container {
-    display: flex;
-    pointer-events: none;
+  display: flex;
+  pointer-events: none;
 }
 
 .tooltip-dot {
-    width: 20px;
-    height: 20px;
-    background-color: #f5ba89;
-    border: 5px solid #d66e57;
-    box-shadow: 0 0 0 15px #d66e57;
-    border-radius: 30px;
-    animation: flash 2s infinite;
+  width: 20px;
+  height: 20px;
+  background-color: #f5ba89;
+  border: 5px solid #d66e57;
+  box-shadow: 0 0 0 15px #d66e57;
+  border-radius: 30px;
+  animation: flash 2s infinite;
 }
 
 @media screen and (max-width: 800) {
-    .tooltip {
-        position: absolute;
-        background-color: black;
-        left: 50%;
-        top: 5px;
-    }
+  .tooltip {
+    position: absolute;
+    background-color: black;
+    left: 50%;
+    top: 5px;
+  }
 }
 
 .tooltip {
-    width: 250px;
-    color: white;
-    text-shadow: 0px 0px 2px black;
-    font-size: 1em;
-    animation: fade-in 0.5s, flash 2s infinite;
-    /* animation: flash 2s infinite; */
-    /* box-shadow: 0 0 0 5pt rgba(202, 126, 38, 0.3); */
-    background-color: #d66e57;
-    border: 5px solid #d66e57;
-    border-radius: 100px;
-    /* padding: 5px 10px; */
+  width: 250px;
+  color: white;
+  text-shadow: 0px 0px 2px black;
+  font-size: 1em;
+  animation:
+    fade-in 0.5s,
+    flash 2s infinite;
+  /* animation: flash 2s infinite; */
+  /* box-shadow: 0 0 0 5pt rgba(202, 126, 38, 0.3); */
+  background-color: #d66e57;
+  border: 5px solid #d66e57;
+  border-radius: 100px;
+  /* padding: 5px 10px; */
 }
 
 .tooltip.grey {
-    background-color: #cecece;
-    border: 5px solid #cecece;
-    text-shadow: 0px 0px 5px black;
-    position: relative;
-    left: 50%;
-    font-size: 1.3em;
+  background-color: #cecece;
+  border: 5px solid #cecece;
+  text-shadow: 0px 0px 5px black;
+  position: relative;
+  left: 50%;
+  font-size: 1.3em;
 }
 
 @keyframes flash {
-    0% {
-        box-shadow: 0 0 0 5pt rgba(255, 255, 255, 0);
-        /* background-color: rgba(226, 131, 21, 0.95); */
-    }
+  0% {
+    box-shadow: 0 0 0 5pt rgba(255, 255, 255, 0);
+    /* background-color: rgba(226, 131, 21, 0.95); */
+  }
 
-    50% {
-        box-shadow: 0 0 0 5pt rgba(255, 255, 255, 0.5);
-        /* background-color: rgba(226, 131, 21, 0.8); */
-    }
+  50% {
+    box-shadow: 0 0 0 5pt rgba(255, 255, 255, 0.5);
+    /* background-color: rgba(226, 131, 21, 0.8); */
+  }
 
-    100% {
-        box-shadow: 0 0 0 5pt rgba(255, 255, 255, 0);
-        /* background-color: rgba(226, 131, 21, 0.95); */
-    }
+  100% {
+    box-shadow: 0 0 0 5pt rgba(255, 255, 255, 0);
+    /* background-color: rgba(226, 131, 21, 0.95); */
+  }
 }
 
-
 @keyframes fade-in {
-    from {
-        opacity: 0
-    }
-    to {
-        opacity: 0.8
-    }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.8;
+  }
 }

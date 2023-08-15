@@ -1,22 +1,24 @@
-[{
+[
+  {
     "id": "Florida",
     "overview": {
-        "bearing": -66,
-        "latitude": 27.3,
-        "longitude": -79.8,
-        "pitch": 33.2,
-        "zoom": 5.4,
-        "transitionDuration": 500
+      "bearing": -66,
+      "latitude": 27.3,
+      "longitude": -79.8,
+      "pitch": 33.2,
+      "zoom": 5.4,
+      "transitionDuration": 500
     }
-},
-{
+  },
+  {
     "id": "Zhanjiang",
     "overview": {
-        "bearing": -47.91,
-        "latitude": 20.96,
-        "longitude": 110.19,
-        "pitch": 41.54,
-        "zoom": 7.88,
-        "transitionDuration": 500
+      "bearing": -47.91,
+      "latitude": 20.96,
+      "longitude": 110.19,
+      "pitch": 41.54,
+      "zoom": 7.88,
+      "transitionDuration": 500
     }
-}]
+  }
+]

@@ -1,42 +1,42 @@
-.navigation-panel-container{
-    position: absolute;
-    top: 20%;
-    right: 50%;
-    z-index: 5;
+.navigation-panel-container {
+  position: absolute;
+  top: 20%;
+  right: 50%;
+  z-index: 5;
 }
 
 .navigation-panel {
-    position: relative;
-    left: 50%;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 0 0 5pt rgba(60, 132, 150, 0.3);
-    background-color: rgba(193, 241, 253, 0.9);
-    border: 5px solid rgba(60, 132, 150, 0.8);
-    border-radius: 50px;
-    padding: 10px;
-    padding-bottom: 20px;
+  position: relative;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 0 5pt rgba(60, 132, 150, 0.3);
+  background-color: rgba(193, 241, 253, 0.9);
+  border: 5px solid rgba(60, 132, 150, 0.8);
+  border-radius: 50px;
+  padding: 10px;
+  padding-bottom: 20px;
 }
 
 .navigation-panel-header {
-    display: flex;
-    flex-direction: row;
-    align-content: center;
-    align-items: center;
-    justify-content: space-between;
-    justify-items: center;
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
+  justify-content: space-between;
+  justify-items: center;
 }
 
 .navigation-panel-header > :first-child {
-    padding-left:0.6em;
-    padding-right:0.8em;
-    /* padding-bottom: -30px; */
-    font-size: 1.4em;
+  padding-left: 0.6em;
+  padding-right: 0.8em;
+  /* padding-bottom: -30px; */
+  font-size: 1.4em;
 }
 
 .close-button {
-    padding: 0px;
-    width: 30px;
-    height: 30px;
-    cursor: pointer;
+  padding: 0px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
 }

@@ -1,196 +1,196 @@
 .pie-chart-with-description-container {
-    margin: 2px;
-    border: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 .pie-chart-with-description-title {
-    text-align: left;
-    margin: 5px;
-    margin-left: 15px;
-    font-size: 1.3em;
+  text-align: left;
+  margin: 5px;
+  margin-left: 15px;
+  font-size: 1.3em;
 }
 
 .pie-chart-with-description-content {
-    display: flex;
-    flex-direction: row;
-    margin: 5px;
-    margin-bottom: 20px;
-    justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  margin: 5px;
+  margin-bottom: 20px;
+  justify-content: space-between;
 }
 
 .pie-chart-description {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.pie-chart-description>p {
-    font-size: 3.5em;
+.pie-chart-description > p {
+  font-size: 3.5em;
 }
 
 .custom-tooltip-linechart {
-    background: white;
-    border-radius: 2em;
-    padding: 0.1em 1em;
-    opacity: 0.8;
-    border: 1px solid black;
-    text-align: left;
+  background: white;
+  border-radius: 2em;
+  padding: 0.1em 1em;
+  opacity: 0.8;
+  border: 1px solid black;
+  text-align: left;
 }
 
 .custom-tooltip-linechart > .label {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .custom-tooltip-linechart > .desc {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .bar-chart-container {
-    display: flex;
-    flex-direction: column;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    margin: 2px;
-    /* align-items: flex-start */
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2px;
+  /* align-items: flex-start */
 }
 
 .bar-chart-title {
-    text-align: left;
-    margin: 5px;
-    margin-left: 15px;
-    font-size: 1.3em;
+  text-align: left;
+  margin: 5px;
+  margin-left: 15px;
+  font-size: 1.3em;
 }
 
 .svg-comparison-chart-container {
-    display: flex;
-    flex-direction: column;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    margin: 2px;
-    /* align-items: flex-start */
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2px;
+  /* align-items: flex-start */
 }
 
 .svg-comparison-chart-content {
-    display: flex;
-    flex-direction: row;
-    margin: 2px;
-    align-items: center;
-    justify-content: space-around;
-    /* align-items: flex-start */
+  display: flex;
+  flex-direction: row;
+  margin: 2px;
+  align-items: center;
+  justify-content: space-around;
+  /* align-items: flex-start */
 }
 
 .svg-comparison-percent-change {
-    height: 100%;
-    font-size: 1.2em;
-    padding: 22px 10px;
-    border-radius: 100px;
-    color: white;
-    background-color: gray
-    /* background-color: black; */
-    /* color: white; */
+  height: 100%;
+  font-size: 1.2em;
+  padding: 22px 10px;
+  border-radius: 100px;
+  color: white;
+  background-color: gray;
+  /* background-color: black; */
+  /* color: white; */
 }
 
 .svg-comparison-percent-text {
-    font-size: 1.5em;
-    /* background-color: black; */
-    /* color: white; */
+  font-size: 1.5em;
+  /* background-color: black; */
+  /* color: white; */
 }
 
 .svg-comparison-chart-title {
-    text-align: left;
-    margin: 5px;
-    margin-left: 15px;
-    font-size: 1.3em;
+  text-align: left;
+  margin: 5px;
+  margin-left: 15px;
+  font-size: 1.3em;
 }
 
 .svg-comparison-icon-flipped {
-    transform: scaleX(-1)
+  transform: scaleX(-1);
 }
 
 .descriptor-container-year {
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 15px;
-    padding: 3px 6px;
-    color: white;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+  padding: 3px 6px;
+  color: white;
 }
 
 .descriptor-container-year.first {
-    background-color: #395879;
+  background-color: #395879;
 }
 
 .descriptor-container-year.second {
-    background-color: #7bccc4;
+  background-color: #7bccc4;
 }
 
 .valuable-mangroves-list-container {
-    display: flex;
-    flex-direction: column;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    margin: 2px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2px;
 }
 
 .valuable-mangroves-list-title {
-    text-align: left;
-    margin: 5px;
-    margin-left: 15px;
-    font-size: 1.3em;
+  text-align: left;
+  margin: 5px;
+  margin-left: 15px;
+  font-size: 1.3em;
 }
 
 .flooding-body {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 .flooding-header {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .flooding-header-mangrove-icon-w-text {
-    display: flex;
-    justify-content: flex-start;
-    width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
 }
 
 .flooding-header-mangrove-icon-w-text.end {
-    display: flex;
-    justify-content: flex-end;
-    /* width: 100%; */
+  display: flex;
+  justify-content: flex-end;
+  /* width: 100%; */
 }
 
 .flooding-header-mangrove-text {
-    width: 50%;
-    font-size: 1.2em;
+  width: 50%;
+  font-size: 1.2em;
 }
 
 .flooding-metrics {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 
 .flooding-metrics > .metric {
-    font-size: 3em;
-    padding: 10px;
+  font-size: 3em;
+  padding: 10px;
 }
 
 .flooding-metrics > .metric.withmang {
-    color: #385a57
+  color: #385a57;
 }
 
 .flooding-metrics > .metric.nomang {
-    color: #804a57
+  color: #804a57;
 }
 
 .svg-background-homes {
-    /* /* width: 80%; */
-    height: 20px;
-    width: 100%;
-    margin-top: 10px;
-    mask: url('../../../assets/homes-20.svg');
-    mask-repeat: no-repeat;
+  /* /* width: 80%; */
+  height: 20px;
+  width: 100%;
+  margin-top: 10px;
+  mask: url("../../../assets/homes-20.svg");
+  mask-repeat: no-repeat;
 }
 
 /* @keyframes change {

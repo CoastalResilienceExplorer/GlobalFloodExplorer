@@ -1,63 +1,64 @@
 .breadcrumb-layout {
-    display: flex;
-    flex-direction: column;
-    margin-left: 10px;
-    pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+  pointer-events: none;
 }
 
 .breadcrumb-layout > * {
-    pointer-events: auto;
+  pointer-events: auto;
 }
 
 .crumb-container {
-    display: grid;
-    grid-template-columns: 40px auto;
-    cursor: pointer;
-    margin-top: 10px;
+  display: grid;
+  grid-template-columns: 40px auto;
+  cursor: pointer;
+  margin-top: 10px;
 }
 
 .crumb-circle-holder {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 
 .crumb-circle {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background-color: aliceblue;
-    border: 1px solid white;
-    text-align: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: aliceblue;
+  border: 1px solid white;
+  text-align: center;
 }
 
-.crumb-circle:hover, .crumb-circle.major:hover {
-    border-color: #130525;
-    background-color: #75579c
+.crumb-circle:hover,
+.crumb-circle.major:hover {
+  border-color: #130525;
+  background-color: #75579c;
 }
 
 .crumb-text {
-    display: flex;
-    align-items: center;
-    text-align: left;
-    padding-left: 5px;
-    color: white;
-    cursor: pointer;
+  display: flex;
+  align-items: center;
+  text-align: left;
+  padding-left: 5px;
+  color: white;
+  cursor: pointer;
 }
 
 .crumb-text.major {
-    font-size: 1.2em;
+  font-size: 1.2em;
 }
 
 .crumb-circle.major {
-    width: 30px;
-    height: 30px;
-    background-color: orange;
+  width: 30px;
+  height: 30px;
+  background-color: orange;
 }
 
 @media screen and (max-height: 800px) {
-    .breadcrumb-layout {
-       visibility: hidden;
-    }
+  .breadcrumb-layout {
+    visibility: hidden;
+  }
 }
