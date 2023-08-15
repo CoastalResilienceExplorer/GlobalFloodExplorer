@@ -11,10 +11,11 @@ provider "google" {
 }
 
 resource "google_cloudbuild_trigger" "filename-trigger" {
-
+  name = "services-trigger"
+  
   trigger_template {
     branch_name = "staging"
-    repo_name   = "GlobalFloodExplorer"
+    repo_name   = "CoastalResilienceExplorer/GlobalFloodExplorer"
   }
 
   filename = "services/cloudbuild.yaml"
