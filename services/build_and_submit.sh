@@ -26,7 +26,7 @@ steps:
     '--memory', '8G'
 ]
 images:
-- $BASE_IMAGE
+# - $BASE_IMAGE
 - $COGMAKER_IMAGE
 """ > /tmp/cloudbuild.yaml
 
