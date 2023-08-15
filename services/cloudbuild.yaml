@@ -1,5 +1,6 @@
 steps:
 - name: 'gcr.io/cloud-builders/gcloud'
   entrypoint: bash
-  args: [ 'services/build_and_submit.sh', '${BRANCH_NAME}' ]
+  args: [ 'build_and_submit.sh', '${BRANCH_NAME}' ]
+  dir: services
 
