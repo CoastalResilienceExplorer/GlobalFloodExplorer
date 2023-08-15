@@ -1,0 +1,5 @@
+steps:
+- name: 'gcr.io/cloud-builders/gcloud'
+  entrypoint: bash
+  args: ['build_and_submit.sh', '${BRANCH_NAME}']
+

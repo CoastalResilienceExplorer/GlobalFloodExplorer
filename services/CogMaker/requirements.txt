@@ -1,0 +1,5 @@
+Flask
+gunicorn
+google-events
+cloudevents
+google-cloud-storage
