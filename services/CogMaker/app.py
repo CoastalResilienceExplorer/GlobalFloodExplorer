@@ -74,33 +74,39 @@ def upload_blob(bucket_name, source_file_name, destination_blob_name):
 @app.route("/", methods=["POST"])
 def index():
     """Handle tile requests."""
-    event = from_http(request.headers, request.get_data())
+    try:
+        event = from_http(request.headers, request.get_data())
 
-    # Gets the GCS bucket name from the CloudEvent data
-    # Example: "storage.googleapis.com/projects/_/buckets/my-bucket"
-    # try:
-    gcs_object = os.path.join(event.data['bucket'], event.data['name'])
-    logging.info(gcs_object)
-    update_time = event.data['timeCreated']
-    id = str(uuid.uuid1())
-    tmp = f'/tmp/{id}.tif'
-    tmp_cog = f'/tmp/{id}_cog.tif'
-    download_blob(event.data['bucket'], event.data['name'], tmp)
-    bashCommand = f"gdalwarp {tmp} {tmp_cog} -of COG"
-    process = subprocess.Popen(bashCommand.split(' '), stdout=subprocess.PIPE)
-    logging.info('Preparing COG')
-    while True:
-        line = process.stdout.readline()
-        if not line: break
-        print(line, flush=True)
-    upload_blob('cloud-native-geospatial', tmp_cog, event.data['name'])
-    logging.info('Done')
+        # Gets the GCS bucket name from the CloudEvent data
+        # Example: "storage.googleapis.com/projects/_/buckets/my-bucket"
+        # try:
+        gcs_object = os.path.join(event.data['bucket'], event.data['name'])
+        logging.info(gcs_object)
+        update_time = event.data['timeCreated']
+        id = str(uuid.uuid1())
+        tmp = f'/tmp/{id}.tif'
+        tmp_cog = f'/tmp/{id}_cog.tif'
+        download_blob(event.data['bucket'], event.data['name'], tmp)
+        bashCommand = f"gdalwarp {tmp} {tmp_cog} -of COG"
+        process = subprocess.Popen(bashCommand.split(' '), stdout=subprocess.PIPE)
+        logging.info('Preparing COG')
+        while True:
+            line = process.stdout.readline()
+            if not line: break
+            print(line, flush=True)
+        upload_blob('cloud-native-geospatial', tmp_cog, event.data['name'])
+        logging.info('Done')
 
-    return (
-        f"Cloud Storage object changed: {gcs_object}"
-        + f" updated at {update_time}",
-        200,
-    )
+        return (
+            f"Cloud Storage object changed: {gcs_object}"
+            + f" updated at {update_time}",
+            200,
+        )
+    except:
+        return (
+            f"Something went wrong, but returning 200 to prevent PubSub infinite retries",
+            200,
+        )
 
 @app.get('/')
 def test():
