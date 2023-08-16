@@ -3,3 +3,4 @@ gunicorn
 google-events
 cloudevents
 google-cloud-storage
+requests

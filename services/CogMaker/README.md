@@ -1,9 +1,11 @@
 ## Purpose
 To auto-generate Cloud-Optimized GeoTiffs.
+To prevent PubSub from retrying on a long-running task, I had to use a front service that forwards the requests.
 
 ## TODOs
 - Error handling in Eventarc.  Currently Eventarc keeps retrying, we need it to just fail, and ideally to notify us.
 - Add success/failure notifications on completion.
+- Proper testing
 
 ### Sources
 - https://gdal.org/drivers/raster/cog.html

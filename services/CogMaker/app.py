@@ -6,6 +6,8 @@ import logging
 from google.cloud import storage
 import uuid
 import subprocess
+import requests
+import threading
 
 logging.basicConfig()
 logging.root.setLevel(logging.INFO)
@@ -71,35 +73,78 @@ def upload_blob(bucket_name, source_file_name, destination_blob_name):
     )
 
 
+@app.route("/build_COG/", methods=["POST"])
+def build_cog():
+    """Handle tile requests."""
+    # event = from_http(request.headers, request.get_data())
+    logging.info(request.get_json())
+    logging.info(type(request.get_json()))
+    # logging.info(request.get_json().decode())
+    # logging.info(type(request.get_data().decode()))
+    data = request.get_json()
+    id = str(uuid.uuid1())
+    tmp = f'/tmp/{id}.tif'
+    tmp_cog = f'/tmp/{id}_cog.tif'
+    download_blob(data['bucket'], data['name'], tmp)
+    bashCommand = f"gdalwarp {tmp} {tmp_cog} -of COG"
+    process = subprocess.Popen(bashCommand.split(' '), stdout=subprocess.PIPE)
+    logging.info('Preparing COG')
+    while True:
+        line = process.stdout.readline()
+        if not line: break
+        print(line, flush=True)
+    upload_blob('cloud-native-geospatial', tmp_cog, data['name'])
+    logging.info('Done')
+    return (
+        f"Completed",
+        200,
+    )
+
+
 @app.route("/", methods=["POST"])
 def index():
     """Handle tile requests."""
+    def request_task(url, json):
+        requests.post(url, json=json)
+
+    def fire_and_forget(url, json):
+        threading.Thread(target=request_task, args=(url, json)).start()
+
     try:
         event = from_http(request.headers, request.get_data())
+        logging.info(request.get_data())
+        logging.info(event.data['id'])
 
         # Gets the GCS bucket name from the CloudEvent data
         # Example: "storage.googleapis.com/projects/_/buckets/my-bucket"
         # try:
         gcs_object = os.path.join(event.data['bucket'], event.data['name'])
         logging.info(gcs_object)
-        update_time = event.data['timeCreated']
-        id = str(uuid.uuid1())
-        tmp = f'/tmp/{id}.tif'
-        tmp_cog = f'/tmp/{id}_cog.tif'
-        download_blob(event.data['bucket'], event.data['name'], tmp)
-        bashCommand = f"gdalwarp {tmp} {tmp_cog} -of COG"
-        process = subprocess.Popen(bashCommand.split(' '), stdout=subprocess.PIPE)
-        logging.info('Preparing COG')
-        while True:
-            line = process.stdout.readline()
-            if not line: break
-            print(line, flush=True)
-        upload_blob('cloud-native-geospatial', tmp_cog, event.data['name'])
-        logging.info('Done')
+        logging.info(os.environ['FORWARD_SERVICE'])
+        fire_and_forget(
+            f"{os.environ['FORWARD_SERVICE']}/{os.environ['FORWARD_PATH']}", 
+            json={
+                'bucket':event.data['bucket'],
+                'name': event.data['name']
+            }
+        )
+        # update_time = event.data['timeCreated']
+        # id = str(uuid.uuid1())
+        # tmp = f'/tmp/{id}.tif'
+        # tmp_cog = f'/tmp/{id}_cog.tif'
+        # download_blob(event.data['bucket'], event.data['name'], tmp)
+        # bashCommand = f"gdalwarp {tmp} {tmp_cog} -of COG"
+        # process = subprocess.Popen(bashCommand.split(' '), stdout=subprocess.PIPE)
+        # logging.info('Preparing COG')
+        # while True:
+        #     line = process.stdout.readline()
+        #     if not line: break
+        #     print(line, flush=True)
+        # upload_blob('cloud-native-geospatial', tmp_cog, event.data['name'])
+        # logging.info('Done')
 
         return (
-            f"Cloud Storage object changed: {gcs_object}"
-            + f" updated at {update_time}",
+            f"Forwarded to {os.environ['FORWARD_SERVICE']}",
             200,
         )
     except:

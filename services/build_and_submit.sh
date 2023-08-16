@@ -4,6 +4,7 @@ BASE_GAR_DIRECTORY=us-west1-docker.pkg.dev/global-mangroves
 BASE_IMAGE=${BASE_GAR_DIRECTORY}/base/python_gis_base_dev
 COGMAKER_IMAGE=${BASE_GAR_DIRECTORY}/cogmaker/cogmaker_${ENV}
 COGMAKER_SERVICE=cogmaker-${ENV}
+COGMAKER_SERVICE_FRONT=cogmaker-front-${ENV}
 
 echo """
 steps:
@@ -23,8 +24,19 @@ steps:
     '--region', 'us-west1', 
     '--service-account', 'cog-maker@global-mangroves.iam.gserviceaccount.com',
     '--cpu', '4',
-    '--memory', '16G'
-]
+    '--memory', '16G',
+    '--timeout', '3600'
+    ]
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['run', 'deploy', 
+    '${COGMAKER_SERVICE_FRONT}', 
+    '--image', '$COGMAKER_IMAGE', 
+    '--set-env-vars', 'FORWARD_SERVICE=$(gcloud run services describe $COGMAKER_SERVICE --platform managed --region us-west1 --format 'value(status.url)')',
+    '--set-env-vars', 'FORWARD_PATH=/build_COG/',
+    '--allow-unauthenticated', 
+    '--region', 'us-west1', 
+    '--service-account', 'cog-maker@global-mangroves.iam.gserviceaccount.com'
+    ]
 images:
 # - $BASE_IMAGE
 - $COGMAKER_IMAGE
@@ -33,7 +45,9 @@ images:
 gcloud builds submit \
     --config /tmp/cloudbuild.yaml
 
-bash ./CogMaker/eventarc.sh $ENV
+# echo $(gcloud run services describe $COGMAKER_SERVICE --platform managed --region us-west1 --format 'value(status.url)')
+
+bash ./CogMaker/eventarc.sh $ENV $COGMAKER_SERVICE_FRONT
 
 # Test
 gsutil -m cp CogMaker/test/small.tif gs://test-tiff-to-cog/test/small.tif
