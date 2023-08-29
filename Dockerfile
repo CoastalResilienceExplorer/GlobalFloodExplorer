@@ -3,8 +3,14 @@ WORKDIR app
 COPY ./ /app/
 RUN git submodule init && git submodule update
 RUN yarn add package.json
-RUN yarn run build
 
+ARG REACT_APP_USE_SITE_GATING=default_value
+ENV REACT_APP_USE_SITE_GATING $REACT_APP_USE_SITE_GATING
+
+ARG REACT_APP_SITE_GATING_MATCH=default_value
+ENV REACT_APP_SITE_GATING_MATCH $REACT_APP_SITE_GATING_MATCH
+
+RUN yarn run build
 
 FROM nginx
 # Copy the NPM build
@@ -13,10 +19,7 @@ COPY --from=build-stage /app/build/ /usr/share/nginx/www
 # Copy the nginx configuration file. This sets up the behavior of nginx, most
 # importantly, it ensure nginx listens on port 8080. Google App Engine expects
 # the runtime to respond to HTTP requests at port 8080.
-COPY app_engine_nginx.conf /etc/nginx/nginx.conf
-
-# create log dir configured in nginx.conf
-RUN mkdir -p /var/log/app_engine
+COPY nginx.conf /etc/nginx/nginx.conf
 
 # Create a simple file to handle heath checks. Health checking can be disabled
 # in app.yaml, but is highly recommended. Google App Engine will send an HTTP
