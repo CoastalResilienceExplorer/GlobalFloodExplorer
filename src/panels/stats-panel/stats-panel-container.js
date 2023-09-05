@@ -182,11 +182,11 @@ function OpenToggle({ isOpen, setIsOpen }) {
     transform: "rotate(180deg)",
   };
 
-  useFirst([selectedFeatures.length, "!=", 0], "FIRST_SELECT", [
-    isOpen,
-    "==",
-    true,
-  ]);
+  useFirst(
+    () => selectedFeatures.length !== 0,
+    "FIRST_SELECT",
+    () => !!isOpen,
+  );
   return (
     <div className="open-sidebar" ref={selectRef}>
       <div>

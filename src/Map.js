@@ -89,28 +89,26 @@ export default function Map() {
   const selectRef = useRef();
 
   const floodingRef = useRef();
-  useFirst([layerGroup, "==", "Flooding"], "FIRST_FLOODING", "NONE");
+  useFirst(() => layerGroup === "Flooding", "FIRST_FLOODING");
 
   const compassRef = useRef();
-  useFirst([viewport.pitch, "!=", 0], "FIRST_3D", "NONE");
-  useFirst([viewport.bearing, "!=", 0], "FIRST_3D", "NONE");
+  useFirst(() => viewport.pitch !== 0, "FIRST_3D");
+  useFirst(() => viewport.bearing !== 0, "FIRST_3D");
 
   const centerRef = useRef();
-  useFirst([layerGroup, "==", "Flooding"], "FIRST_FLOODING_ZOOM_IN", [
-    viewport.zoom,
-    ">",
-    4,
-  ]);
-  useFirst([layerGroup, "==", "Risk Reduction Ratio"], "FIRST_HEX", [
-    viewport.zoom,
-    "<",
-    4,
-  ]);
+  useFirst(
+    () => layerGroup === "Flooding",
+    "FIRST_FLOODING_ZOOM_IN",
+    () => viewport.zoom > 4,
+  );
+  useFirst(
+    () => layerGroup === "Risk Reduction Ratio",
+    "FIRST_HEX",
+    () => viewport.zoom < 4,
+  );
 
   const [splashScreen, setSplashScreen] = useState(true);
   const [disclaimer, setDisclaimer] = useState(null);
-  // Manage whether or not the splash Screen is on
-  const [navigationScreenStatus, setNavigationScreenStatus] = useState(false);
   const isTouch = window.matchMedia("(pointer: coarse)").matches;
 
   const setSplashScreen2 = (bool) => {
@@ -172,9 +170,7 @@ export default function Map() {
         _ref={compassRef}
       />
       <HomeInfoPanel
-        // breadcrumbs={breadcrumbs}
         setSplashScreen={setSplashScreen2}
-        setNavigationScreenStatus={setNavigationScreenStatus}
         setViewport={flyToViewport}
         selectedLayer={layerGroup}
         setSelectedLayer={setLayerGroup}

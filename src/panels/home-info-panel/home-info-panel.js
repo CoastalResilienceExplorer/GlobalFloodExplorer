@@ -52,7 +52,6 @@ function HomePanel(props) {
 function LeftPanel({
   breadcrumbs,
   setSplashScreen,
-  setNavigationScreenStatus,
   selectedLayer,
   setSelectedLayer,
   isTouch,
@@ -66,12 +65,7 @@ function LeftPanel({
         isTouch={isTouch}
       />
       <div className="homeinfo-breadcrumbs-panel-layout" onClick={() => {}}>
-        <HomePanel
-          setSplashScreen={setSplashScreen}
-          setNavigationScreenStatus={setNavigationScreenStatus}
-        />
-        {/* {(innerHeight > 700 && breadcrumbs.length > 0) &&
-                <Breadcrumbs crumbs={breadcrumbs} setViewport={setViewport} />} */}
+        <HomePanel setSplashScreen={setSplashScreen} />
       </div>
     </div>
   );

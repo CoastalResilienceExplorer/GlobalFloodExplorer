@@ -34,7 +34,7 @@ export default function FloodSelector({
   floodingOn,
 }) {
   const { useFirst } = useInfoContext();
-  useFirst([floodingOn, "==", true], "FIRST_FLOODING", "NONE");
+  useFirst(() => !!floodingOn, "FIRST_FLOODING");
 
   return (
     <>

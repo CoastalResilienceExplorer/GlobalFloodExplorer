@@ -56,7 +56,7 @@ export default function BasemapManager({
   floodingOn,
 }) {
   const { useFirst, floodingRef } = useInfoContext();
-  useFirst([floodingOn, "==", true], "FIRST_FLOODING", "NONE");
+  useFirst(() => !!floodingOn, "FIRST_FLOODING");
 
   const [isOpen, setIsOpen] = useState(true);
 
