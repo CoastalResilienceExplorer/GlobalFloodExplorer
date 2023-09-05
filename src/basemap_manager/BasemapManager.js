@@ -1,7 +1,7 @@
-import React, { useState, useContext, useRef } from "react";
-import InfoContext from "../context/infoContext";
+import React, { useState, useRef } from "react";
 import "./BasemapManager.css";
 import { ReactComponent as OpenCloseToggleIcon } from "assets/OpenCloseToggle2.svg";
+import { useInfoContext } from "maphooks/maphooks/useInfo";
 
 const base_url = "mapbox://styles/mapbox/";
 
@@ -55,7 +55,7 @@ export default function BasemapManager({
   setFloodGroup,
   floodingOn,
 }) {
-  const { useFirst, floodingRef } = useContext(InfoContext);
+  const { useFirst, floodingRef } = useInfoContext();
   useFirst([floodingOn, "==", true], "FIRST_FLOODING", "NONE");
 
   const [isOpen, setIsOpen] = useState(true);

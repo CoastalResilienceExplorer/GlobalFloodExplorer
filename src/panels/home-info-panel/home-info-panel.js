@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./home-info-panel.css";
 import { ReactComponent as NavigationIcon } from "assets/navigation-icon.svg";
 import { ReactComponent as HomeIcon } from "assets/home-icon.svg";
-import { ReactComponent as DownloadReport } from "assets/downloadReport.svg";
 import LayerSelectionPanel from "./layer-selection-panel";
 
 function HomeButton(props) {
@@ -14,18 +13,6 @@ function HomeButton(props) {
       <HomeIcon className="home-info-button" />
       <div className="home-info-text">home</div>
       {/* </div> */}
-    </div>
-  );
-}
-
-function NavigationButton(props) {
-  return (
-    <div
-      className="home-info-button-container"
-      onClick={() => props.setNavigationScreenStatus(true)}
-    >
-      <NavigationIcon className="home-info-button" />
-      <div className="home-info-text">navigate</div>
     </div>
   );
 }
@@ -66,13 +53,10 @@ function LeftPanel({
   breadcrumbs,
   setSplashScreen,
   setNavigationScreenStatus,
-  setViewport,
   selectedLayer,
   setSelectedLayer,
   isTouch,
 }) {
-  const { innerHeight, innerWidth } = window;
-
   return (
     <div className="left-pane">
       <LayerSelectionPanel

@@ -5,7 +5,7 @@ import { useMap } from "maphooks/useMap";
 import { useLayers } from "maphooks/maphooks/layers/useLayers";
 import { useLegends } from "maphooks/maphooks/useLegends";
 import { useSelection } from "maphooks/maphooks/useSelection";
-import { useInfo } from "maphooks/maphooks/useInfo";
+import { InfoContext, useInfo } from "maphooks/maphooks/useInfo";
 
 // Data
 import sources from "./layers/sources";
@@ -23,7 +23,6 @@ import FloodSelector from "./flood_selector/flood_selector";
 
 //Info
 import Info from "./info/info";
-import InfoContext from "./context/infoContext";
 import infoReducer from "./info/infoReducer";
 import initialInfo from "./info/initialInfo";
 
@@ -37,7 +36,6 @@ const all_selectable_layers = Object.values(layers)
   .map((x) => x.id);
 
 export default function Map() {
-  console.log(process.env);
   const {
     map,
     mapContainer,
@@ -45,7 +43,6 @@ export default function Map() {
     viewport,
     style,
     setStyle,
-    setViewport,
     flyToViewport,
   } = useMap(
     init_viewport,
@@ -88,8 +85,6 @@ export default function Map() {
   );
 
   const { useFirst, activeInfo } = useInfo(initialInfo, infoReducer);
-
-  // const breadcrumbs = useBreadcrumbs(aois, viewport)
 
   const selectRef = useRef();
 
