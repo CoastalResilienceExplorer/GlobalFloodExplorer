@@ -1,19 +1,16 @@
 ENV=${1:?"Must set environment as first arg"}
 echo $ENV
 BASE_GAR_DIRECTORY=us-west1-docker.pkg.dev/global-mangroves
-BASE_IMAGE=${BASE_GAR_DIRECTORY}/base/python_gis_base_dev
+BASE_IMAGE=${BASE_GAR_DIRECTORY}/base/python_gis_base_${ENV}
 COGMAKER_IMAGE=${BASE_GAR_DIRECTORY}/cogmaker/cogmaker_${ENV}
 COGMAKER_SERVICE=cogmaker-${ENV}
 COGMAKER_SERVICE_FRONT=cogmaker-front-${ENV}
 
 echo """
 steps:
-# - name: 'gcr.io/cloud-builders/gcloud'
-#   args: ['builds', 'submit', '-t', '$BASE_IMAGE', '.']
-#   dir: 'BasePythonImage'
 - name: 'gcr.io/cloud-builders/docker'
   args: ['build', '--build-arg', 'BASE_IMAGE=$BASE_IMAGE', '-t', '$COGMAKER_IMAGE', '.']
-  dir: 'CogMaker'
+  dir: '.'
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', '$COGMAKER_IMAGE']
 - name: 'gcr.io/cloud-builders/gcloud'
@@ -45,11 +42,8 @@ images:
 gcloud builds submit \
     --config /tmp/cloudbuild.yaml
 
-# echo $(gcloud run services describe $COGMAKER_SERVICE --platform managed --region us-west1 --format 'value(status.url)')
-
-bash ./CogMaker/eventarc.sh $ENV $COGMAKER_SERVICE_FRONT
+bash ./eventarc.sh $ENV $COGMAKER_SERVICE_FRONT
 
 # Test
-gsutil -m cp CogMaker/test/small.tif gs://test-tiff-to-cog/test/small.tif
-# gsutil -m cp CogMaker/test/medium.tif gs://test-tiff-to-cog/test/medium.tif
+gsutil -m cp ./test/small.tif gs://test-tiff-to-cog/test/small.tif
 # TODO, implement a proper test that fails
