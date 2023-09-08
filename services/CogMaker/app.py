@@ -128,20 +128,6 @@ def index():
                 'name': event.data['name']
             }
         )
-        # update_time = event.data['timeCreated']
-        # id = str(uuid.uuid1())
-        # tmp = f'/tmp/{id}.tif'
-        # tmp_cog = f'/tmp/{id}_cog.tif'
-        # download_blob(event.data['bucket'], event.data['name'], tmp)
-        # bashCommand = f"gdalwarp {tmp} {tmp_cog} -of COG"
-        # process = subprocess.Popen(bashCommand.split(' '), stdout=subprocess.PIPE)
-        # logging.info('Preparing COG')
-        # while True:
-        #     line = process.stdout.readline()
-        #     if not line: break
-        #     print(line, flush=True)
-        # upload_blob('cloud-native-geospatial', tmp_cog, event.data['name'])
-        # logging.info('Done')
 
         return (
             f"Forwarded to {os.environ['FORWARD_SERVICE']}",
