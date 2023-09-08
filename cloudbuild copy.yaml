@@ -1,0 +1,17 @@
+steps:
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "build",
+        "--build-arg",
+        "REACT_APP_USE_SITE_GATING=$_USE_SITE_GATING",
+        'REACT_APP_SITE_GATING_MATCH=$_SITE_GATING_MATCH',
+        "-t",
+        "gcr.io/$PROJECT_ID/react-app",
+        ".",
+      ]
+substitutions:
+  _USE_SITE_GATING: false
+  _SITE_GATING_MATCH: null
+images:
+  - "gcr.io/$PROJECT_ID/react-app"
