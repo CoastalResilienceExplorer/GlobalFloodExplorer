@@ -56,7 +56,10 @@ export default function BasemapManager({
   floodingOn,
 }) {
   const { useFirst, floodingRef } = useInfoContext();
-  useFirst(() => !!floodingOn, "FIRST_FLOODING");
+  useFirst(
+    () => !!floodingOn,
+    "FIRST_FLOODING"
+  );
 
   const [isOpen, setIsOpen] = useState(true);
 
@@ -95,8 +98,8 @@ export default function BasemapManager({
   const transformOffset =
     !isOpen && ref.current
       ? {
-          transform: `translateX(${ref.current.offsetWidth + 5}px)`,
-        }
+        transform: `translateX(${ref.current.offsetWidth + 5}px)`,
+      }
       : {};
 
   return (

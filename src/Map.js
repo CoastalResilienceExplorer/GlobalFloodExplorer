@@ -89,11 +89,20 @@ export default function Map() {
   const selectRef = useRef();
 
   const floodingRef = useRef();
-  useFirst(() => layerGroup === "Flooding", "FIRST_FLOODING");
+  useFirst(
+    () => layerGroup === "Flooding",
+    "FIRST_FLOODING"
+  );
 
   const compassRef = useRef();
-  useFirst(() => viewport.pitch !== 0, "FIRST_3D");
-  useFirst(() => viewport.bearing !== 0, "FIRST_3D");
+  useFirst(
+    () => viewport.pitch !== 0,
+    "FIRST_3D"
+  );
+  useFirst(
+    () => viewport.bearing !== 0,
+    "FIRST_3D"
+  );
 
   const centerRef = useRef();
   useFirst(
