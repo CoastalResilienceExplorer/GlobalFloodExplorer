@@ -1,10 +1,12 @@
 ENV=${1:?"Must set environment as first arg"}
 echo $ENV
+_USE_SITE_GATING=${2:-"true"}
+echo $_USE_SITE_GATING
+_SITE_GATING_MATCH=${3:-"null"}
+echo $_SITE_GATING_MATCH
 BASE_GAR_DIRECTORY=us-west1-docker.pkg.dev/global-mangroves
 IMAGE=${BASE_GAR_DIRECTORY}/base/coastal_resilience_explorer_frontend_${ENV}
 SERVICE=coastal-resilience-explorer-frontend-${ENV}
-_USE_SITE_GATING=true
-_SITE_GATING_MATCH=xxx
 
 # Some code here to determine if site gating should be used based on the ENV parameter.
 
@@ -33,11 +35,6 @@ steps:
       '--memory', '2G',
       '--timeout', '3600'
    ]
-# substitutions:
-#   _USE_SITE_GATING: 'true'
-#   _SITE_GATING_MATCH: 'null'
-images:
-  - "gcr.io/$PROJECT_ID/react-app"
 """ > /tmp/cloudbuild.yaml
 
 gcloud builds submit --config /tmp/cloudbuild.yaml
