@@ -1,4 +1,13 @@
 steps:
-- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  entrypoint: bash
-  args: ['build_and_deploy.sh', 'dev']
+  - name: "gcr.io/cloud-builders/gcloud"
+    entrypoint: bash
+    args:
+      [
+        "build_and_deploy.sh",
+        "$BRANCH_NAME",
+        "$_USE_SITE_GATING",
+        "$_SITE_GATING_MATCH"
+      ]
+substitutions:
+  _USE_SITE_GATING: 'false'
+  _SITE_GATING_MATCH: 'null'

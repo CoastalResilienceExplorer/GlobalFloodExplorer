@@ -20,12 +20,8 @@ export default function DiscretePointLegend({
     textPadding: 80,
     additionalBubbleSpacing: 8,
   },
-  text_width = 200,
 }) {
   const max_width = legend.sizeRamp[legend.sizeRamp.length - 1] * legend.Scale;
-  const max_width_as_perc = (max_width / dimensions.baseSize) * 100;
-  // console.log(max_width)
-  // console.log('L', legend)
 
   let vertical_placement;
   switch (spacing_style) {
@@ -41,6 +37,8 @@ export default function DiscretePointLegend({
         return legend.sizeRamp.slice(0, i).reduce((a, b) => a + 10, 0);
       });
       break;
+    default:
+      console.error("Invalid spacing style");
   }
 
   const bubbles_and_text_total_height =
@@ -55,14 +53,7 @@ export default function DiscretePointLegend({
     dimensions.textPadding +
     dimensions.rightMargin;
 
-  // const total_size = legend.joinedColorSize.map(i => i.size).reduce((a,b) => a+b, 0)
-
-  // console.log(legend)
-  const legendMax = legend.sizeRamp[legend.sizeRamp.length - 1];
   const xTextOffs = 2 * (max_width + dimensions.leftMargin);
-  // const legendScale = 1
-  const legendScale =
-    (dimensions.baseSize + dimensions.ySpread) / legendMax / 2; // Divide by two to work in radius
 
   return (
     <div className="legend-item">

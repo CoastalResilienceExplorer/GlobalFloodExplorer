@@ -5,7 +5,7 @@ import { useMap } from "maphooks/useMap";
 import { useLayers } from "maphooks/maphooks/layers/useLayers";
 import { useLegends } from "maphooks/maphooks/useLegends";
 import { useSelection } from "maphooks/maphooks/useSelection";
-import { useInfo } from "maphooks/maphooks/useInfo";
+import { InfoContext, useInfo } from "maphooks/maphooks/useInfo";
 
 // Data
 import sources from "./layers/sources";
@@ -23,7 +23,6 @@ import FloodSelector from "./flood_selector/flood_selector";
 
 //Info
 import Info from "./info/info";
-import InfoContext from "./context/infoContext";
 import infoReducer from "./info/infoReducer";
 import initialInfo from "./info/initialInfo";
 
@@ -37,7 +36,6 @@ const all_selectable_layers = Object.values(layers)
   .map((x) => x.id);
 
 export default function Map() {
-  console.log(process.env);
   const {
     map,
     mapContainer,
@@ -45,7 +43,6 @@ export default function Map() {
     viewport,
     style,
     setStyle,
-    setViewport,
     flyToViewport,
   } = useMap(
     init_viewport,
@@ -89,33 +86,38 @@ export default function Map() {
 
   const { useFirst, activeInfo } = useInfo(initialInfo, infoReducer);
 
-  // const breadcrumbs = useBreadcrumbs(aois, viewport)
-
   const selectRef = useRef();
 
   const floodingRef = useRef();
-  useFirst([layerGroup, "==", "Flooding"], "FIRST_FLOODING", "NONE");
+  useFirst(
+    () => layerGroup === "Flooding",
+    "FIRST_FLOODING"
+  );
 
   const compassRef = useRef();
-  useFirst([viewport.pitch, "!=", 0], "FIRST_3D", "NONE");
-  useFirst([viewport.bearing, "!=", 0], "FIRST_3D", "NONE");
+  useFirst(
+    () => viewport.pitch !== 0,
+    "FIRST_3D"
+  );
+  useFirst(
+    () => viewport.bearing !== 0,
+    "FIRST_3D"
+  );
 
   const centerRef = useRef();
-  useFirst([layerGroup, "==", "Flooding"], "FIRST_FLOODING_ZOOM_IN", [
-    viewport.zoom,
-    ">",
-    4,
-  ]);
-  useFirst([layerGroup, "==", "Risk Reduction Ratio"], "FIRST_HEX", [
-    viewport.zoom,
-    "<",
-    4,
-  ]);
+  useFirst(
+    () => layerGroup === "Flooding",
+    "FIRST_FLOODING_ZOOM_IN",
+    () => viewport.zoom > 4,
+  );
+  useFirst(
+    () => layerGroup === "Risk Reduction Ratio",
+    "FIRST_HEX",
+    () => viewport.zoom < 4,
+  );
 
   const [splashScreen, setSplashScreen] = useState(true);
   const [disclaimer, setDisclaimer] = useState(null);
-  // Manage whether or not the splash Screen is on
-  const [navigationScreenStatus, setNavigationScreenStatus] = useState(false);
   const isTouch = window.matchMedia("(pointer: coarse)").matches;
 
   const setSplashScreen2 = (bool) => {
@@ -177,9 +179,7 @@ export default function Map() {
         _ref={compassRef}
       />
       <HomeInfoPanel
-        // breadcrumbs={breadcrumbs}
         setSplashScreen={setSplashScreen2}
-        setNavigationScreenStatus={setNavigationScreenStatus}
         setViewport={flyToViewport}
         selectedLayer={layerGroup}
         setSelectedLayer={setLayerGroup}

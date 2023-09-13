@@ -38,7 +38,7 @@ const sum = (acc, cur) => {
 function MetricIcon({ image }) {
   return (
     <div className="layer-image-container">
-      <img src={image} className="layer-icon" />
+      <img src={image} className="layer-icon" alt="" />
     </div>
   );
 }
@@ -116,6 +116,7 @@ function MapExplorerButton({ image, text, type = "x", region, group }) {
     <div className={`fly-to-icon ${type}`}>
       <img
         src={image}
+        alt=""
         onClick={() => {
           flyToViewport(viewports.filter((x) => x.id === region)[0].overview);
           setLayerGroup(group);
@@ -168,68 +169,93 @@ function NoSelectedFeaturesPanel() {
   );
 }
 
+function getStat(
+  metric,
+  selectedFeatures,
+  distinct = false,
+  reduce_by = "sum",
+) {
+  return () => {
+    let return_val;
+    return_val = selectedFeatures.map((x) => x.properties[metric]);
+    if (distinct) return_val = [...new Set(return_val)];
+    switch (reduce_by) {
+      case "sum":
+        return_val = return_val.reduce(sum, 0);
+        break;
+      default:
+        break;
+    }
+    return return_val;
+  };
+}
+
 function SelectedFeaturesPanel({
   selectedFeatures,
   layerGroup,
   setLayerGroup,
-  flyToViewport,
 }) {
-  const countries = useMemo(
-    () => [
-      ...new Set(
-        selectedFeatures
-          .map((x) => x.properties.COUNTRY)
-          .map((c) => c.split(","))
-          .flat(),
-      ),
-    ],
+  const stockNoMangroves = useMemo(
+    () => getStat("Ab_S_WoAE", selectedFeatures),
     [selectedFeatures],
   );
-
-  const fids = useMemo(
-    () => [...new Set(selectedFeatures.map((x) => x.id))],
+  const stockWithMangroves = useMemo(
+    () => getStat("Ab_S_WAE", selectedFeatures),
     [selectedFeatures],
   );
-
-  function getStat(metric, distinct = false, reduce_by = "sum") {
-    return () => {
-      let return_val;
-      return_val = selectedFeatures.map((x) => x.properties[metric]);
-      if (distinct) return_val = [...new Set(return_val)];
-      switch (reduce_by) {
-        case "sum":
-          return_val = return_val.reduce(sum, 0);
-          break;
-        default:
-          break;
-      }
-      return return_val;
-    };
-  }
-
-  const stockNoMangroves = useMemo(getStat("Ab_S_WoAE"), [fids]);
-  const stockWithMangroves = useMemo(getStat("Ab_S_WAE"), [fids]);
-  const AEB = useMemo(getStat("Ab_S_BAE"), [fids]);
-  const mangroves1996 = useMemo(getStat("Man1996"), [fids]);
-  const mangroves2010 = useMemo(getStat("Man2010"), [fids]);
-  const mangroves2015 = useMemo(getStat("Man2015"), [fids]);
-  const peopleWithMangroves = useMemo(getStat("Ab_P_WAE"), [fids]);
-  const peopleNoMangroves = useMemo(getStat("Ab_P_WoAE"), [fids]);
+  const AEB = useMemo(
+    () => getStat("Ab_S_BAE", selectedFeatures),
+    [selectedFeatures],
+  );
+  const mangroves1996 = useMemo(
+    () => getStat("Man1996", selectedFeatures),
+    [selectedFeatures],
+  );
+  const mangroves2010 = useMemo(
+    () => getStat("Man2010", selectedFeatures),
+    [selectedFeatures],
+  );
+  const mangroves2015 = useMemo(
+    () => getStat("Man2015", selectedFeatures),
+    [selectedFeatures],
+  );
 
   const ben_per_ha = AEB / mangroves2010;
-  const ppl_risk_reduct_ratio =
-    (peopleNoMangroves - peopleWithMangroves) / peopleNoMangroves;
   const stock_risk_reduct_ratio =
     (stockNoMangroves - stockWithMangroves) / stockNoMangroves;
 
-  const totalStock_10_WO = useMemo(getStat("Ab_S_Wo10"), [fids]);
-  const totalStock_25_WO = useMemo(getStat("Ab_S_Wo25"), [fids]);
-  const totalStock_50_WO = useMemo(getStat("Ab_S_Wo50"), [fids]);
-  const totalStock_100_WO = useMemo(getStat("Ab_S_Wo100"), [fids]);
-  const totalStock_10_W = useMemo(getStat("Ab_S_W10"), [fids]);
-  const totalStock_25_W = useMemo(getStat("Ab_S_W25"), [fids]);
-  const totalStock_50_W = useMemo(getStat("Ab_S_W50"), [fids]);
-  const totalStock_100_W = useMemo(getStat("Ab_S_W100"), [fids]);
+  const totalStock_10_WO = useMemo(
+    () => getStat("Ab_S_Wo10", selectedFeatures),
+    [selectedFeatures],
+  );
+  const totalStock_25_WO = useMemo(
+    () => getStat("Ab_S_Wo25", selectedFeatures),
+    [selectedFeatures],
+  );
+  const totalStock_50_WO = useMemo(
+    () => getStat("Ab_S_Wo50", selectedFeatures),
+    [selectedFeatures],
+  );
+  const totalStock_100_WO = useMemo(
+    () => getStat("Ab_S_Wo100", selectedFeatures),
+    [selectedFeatures],
+  );
+  const totalStock_10_W = useMemo(
+    () => getStat("Ab_S_W10", selectedFeatures),
+    [selectedFeatures],
+  );
+  const totalStock_25_W = useMemo(
+    () => getStat("Ab_S_W25", selectedFeatures),
+    [selectedFeatures],
+  );
+  const totalStock_50_W = useMemo(
+    () => getStat("Ab_S_W50", selectedFeatures),
+    [selectedFeatures],
+  );
+  const totalStock_100_W = useMemo(
+    () => getStat("Ab_S_W100", selectedFeatures),
+    [selectedFeatures],
+  );
 
   const linechart_data = [
     { name: "RP10", with: totalStock_10_W, without: totalStock_10_WO },
@@ -242,14 +268,6 @@ function SelectedFeaturesPanel({
     { name: "Residual", value: stockWithMangroves },
     { name: "Protected", value: stockNoMangroves - stockWithMangroves },
   ];
-
-  const piechart_people_data = useMemo(
-    () => [
-      { name: "Residual", value: peopleWithMangroves },
-      { name: "Protected", value: peopleNoMangroves - peopleWithMangroves },
-    ],
-    [peopleWithMangroves, peopleNoMangroves],
-  );
 
   if (selectedFeatures.length === 0) {
     return <NoSelectedFeaturesPanel />;
