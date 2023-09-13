@@ -23,7 +23,6 @@ app.add_middleware(
 )
 
 GCS_BASE='gs://cloud-native-geospatial'
-ghsl = 'test/GHSL_fullres_2.tif'
 
 def get_tiffs(bucket, prefix="/test"):
     pass
@@ -45,22 +44,22 @@ def tile(
     y: int,
     dataset: str,
     color: str = 'ylorrd',
-    max_val: int = 10000
-    # url: str = Query(..., description="Cloud Optimized GeoTIFF URL."),
+    max_val: int = 10000,
+    unscale: bool = True
 ):
     """Handle tile requests."""
     dataset = f'{GCS_BASE}/{dataset}'
-    logging.info(dataset)
-
     cm = cmap.get(color)
-    with Reader(dataset) as cog:
+    options={"unscale":unscale}
+    with Reader(dataset, options=options) as cog:
+        # print(cog.info())
         img = cog.tile(x, y, z)
     img.rescale(
         in_range=((0, max_val),),
         out_range=((0, 255),)
     )
     content = img.render(img_format="PNG", colormap=cm, **img_profiles.get("png"))
-    print(img.data)
+    # print(img.data)
     # return 200
     return Response(content, media_type="image/png")
 
@@ -69,7 +68,7 @@ def test():
     return 'OK'
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8080)
+    uvicorn.run(app, host="0.0.0.0", port=8080) 
 # x = xr.open_dataset(ghsl)
 # x.band_data.isel(band=0).chunk(1000).to_zarr("GHSL_COG.zarr")
 # x.band_data.isel(band=0).chunk(100).rio.to_raster("GHSL_COG.tif", driver="COG")
