@@ -50,7 +50,12 @@ function NavigationButton({ text, link, setSplashScreen, type = "minor" }) {
 
   return (
     <div className={`navigation-button ${type}`}>
-      <a href={link} onClick={(e) => e.stopPropagation()} target="_blank" rel="noreferrer">
+      <a
+        href={link}
+        onClick={(e) => e.stopPropagation()}
+        target="_blank"
+        rel="noreferrer"
+      >
         {text}
       </a>
     </div>
@@ -187,7 +192,7 @@ function Mobile({ splashScreenOn, setSplashScreen }) {
 }
 
 export default function SplashScreen({ splashScreenOn, setSplashScreen }) {
-  const { innerWidth, innerHeight } = window;
+  const { innerWidth } = window;
   if (innerWidth < 1100) {
     return (
       <Mobile

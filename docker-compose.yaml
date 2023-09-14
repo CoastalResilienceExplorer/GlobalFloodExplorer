@@ -1,9 +1,0 @@
-version: "3"
-
-services:
-    mdr-frontend:
-        container_name: "globalmangroves"
-        image: globalmangroves
-        ports:
-        - "80:8080"
-

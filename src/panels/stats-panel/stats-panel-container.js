@@ -1,10 +1,10 @@
 import * as React from "react";
-import { useState, useContext } from "react";
+import { useState } from "react";
 import "./stats-panel-container.css";
 import { ReactComponent as OpenLogo } from "assets/Opentab.svg";
 import SelectedFeaturesPanel from "./selected-features-panel";
 import FlyToContext from "../FlyToContext";
-import InfoContext from "context/infoContext";
+import { useInfoContext } from "maphooks/maphooks/useInfo";
 
 function Title({ nStudyUnits, locations, selectionType }) {
   function countryNameOverride(country) {
@@ -46,7 +46,6 @@ function Title({ nStudyUnits, locations, selectionType }) {
   const locations_tmp = locations_spaces.slice(0, 3);
 
   const [showLocationsTooltip, setShowLocationsTooltip] = useState(false);
-  const [locationTooltipX, setLocationTooltipX] = useState(null);
   const [locationTooltipY, setLocationTooltipY] = useState(null);
 
   // console.log(selectionType)
@@ -121,18 +120,9 @@ function Title({ nStudyUnits, locations, selectionType }) {
     return <p className="n-study-units-text inline-title-text">{n}</p>;
   };
 
-  const _locations = (locationsFormatted) => {
-    return (
-      <p className="locations-formatted-text inline-title-text">
-        {locationsFormatted}
-      </p>
-    );
-  };
-
   function onHover(e) {
     if (too_many_locations) {
       setShowLocationsTooltip(true);
-      setLocationTooltipX(e.nativeEvent.offsetX);
       setLocationTooltipY(e.nativeEvent.offsetY);
       setTimeout(() => setShowLocationsTooltip(false), 3500);
     }
@@ -165,11 +155,6 @@ function Title({ nStudyUnits, locations, selectionType }) {
 }
 
 function TopBanner({ selectedFeatures, selectionType }) {
-  const camel_to_spaces = (text) => {
-    const result = text.replace(/([A-Z])/g, " $1");
-    return result.charAt(0).toUpperCase() + result.slice(1);
-  };
-
   const locations = [
     ...new Set(
       selectedFeatures.map((x) => x.properties.COUNTRY.split(",")).flat(),
@@ -192,16 +177,16 @@ function TopBanner({ selectedFeatures, selectionType }) {
 }
 
 function OpenToggle({ isOpen, setIsOpen }) {
-  const { useFirst, selectRef, selectedFeatures } = useContext(InfoContext);
+  const { useFirst, selectRef, selectedFeatures } = useInfoContext();
   const openTransform = {
     transform: "rotate(180deg)",
   };
 
-  useFirst([selectedFeatures.length, "!=", 0], "FIRST_SELECT", [
-    isOpen,
-    "==",
-    true,
-  ]);
+  useFirst(
+    () => selectedFeatures.length !== 0,
+    "FIRST_SELECT",
+    () => !!isOpen,
+  );
   return (
     <div className="open-sidebar" ref={selectRef}>
       <div>

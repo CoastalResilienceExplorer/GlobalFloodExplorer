@@ -1,0 +1,6 @@
+steps:
+- name: 'gcr.io/cloud-builders/gcloud'
+  entrypoint: bash
+  args: [ 'deploy_all.sh', '$BRANCH_NAME' ]
+  dir: 'services'
+

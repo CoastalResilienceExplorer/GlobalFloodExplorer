@@ -1,0 +1,3 @@
+data
+.terraform
+.terraform.lock.hcl

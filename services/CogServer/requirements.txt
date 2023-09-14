@@ -1,0 +1,4 @@
+rio-tiler
+fastapi
+uvicorn
+google-cloud-storage
