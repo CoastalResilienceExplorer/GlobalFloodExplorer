@@ -7,6 +7,7 @@ import FillWithOutlineProto from "../protos/FillWithOutlineProto";
 import RasterInterpolatedProto from "../protos/RasterInterpolatedProto";
 import HexLayerProto from "../protos/FillExtrusionBase";
 import GeoScaledPointProto from "../protos/GeoScaledPointProto";
+import RasterProto from "layers/protos/RasterProto";
 
 const protos = Object.assign(
   { DISCRETE_POINT: DiscretePointProto },
@@ -15,6 +16,7 @@ const protos = Object.assign(
   { RASTER: RasterInterpolatedProto },
   { HEX_3D: HexLayerProto },
   { GEO_POINT: GeoScaledPointProto },
+  { RASTER2: RasterProto }
 );
 
 export default function getLayers(key, args) {
