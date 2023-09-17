@@ -1,5 +1,0 @@
-xarray
-pandas
-geopandas
-rioxarray
-rasterio
