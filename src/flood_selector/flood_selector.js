@@ -6,8 +6,8 @@ function CircleSelector({ selectedFloodGroup, thisFloodgroup, setFloodGroup }) {
 
   const styles = {
     None: "None",
-    with: "With Mangroves",
-    without: "Without Mangroves",
+    flooding_1996: "1996",
+    flooding_2015: "2015",
   };
 
   return (
@@ -44,7 +44,7 @@ export default function FloodSelector({
             <>
               {/* <div className='basemap-options-header' ref={floodingRef}>Flooding</div> */}
 
-              {["None", "with", "without"].map((f) => (
+              {["None", "flooding_1996", "flooding_2015"].map((f) => (
                 <CircleSelector
                   selectedFloodGroup={floodGroup}
                   thisFloodgroup={f}

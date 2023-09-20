@@ -8,4 +8,4 @@ export const init_viewport = {
 };
 
 export const init_layer = "Benefit (AEB)";
-export const init_subgroup = "without";
+export const init_subgroup = "flooding_2015";

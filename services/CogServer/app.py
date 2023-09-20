@@ -59,8 +59,6 @@ def tile(
         out_range=((0, 255),)
     )
     content = img.render(img_format="PNG", colormap=cm, **img_profiles.get("png"))
-    # print(img.data)
-    # return 200
     return Response(content, media_type="image/png")
 
 @app.get('/')
