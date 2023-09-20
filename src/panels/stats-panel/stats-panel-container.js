@@ -211,7 +211,6 @@ export default function StatsPanel({
   flyToViewport,
 }) {
   const [isOpen, setIsOpen] = useState(false);
-  console.log(selectedFeatures)
 
   return (
     <div className={"right-panel" + (isOpen ? " open" : "")}>

@@ -9,15 +9,6 @@ export default class RasterProto {
       legend_suffix,
       display_legend = true,
     }) {
-      console.log(
-        id, //Unique ID
-      layer,
-      legend, //Symbology
-      layer_title,
-      floodGroup,
-      layer_type,
-      legend_suffix,
-      )
       this.id = id;
       this.layer = layer;
       this.legend = legend;

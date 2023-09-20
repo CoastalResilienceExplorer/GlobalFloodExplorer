@@ -175,19 +175,17 @@ function getStat(
   distinct = false,
   reduce_by = "sum",
 ) {
-  return () => {
-    let return_val;
-    return_val = selectedFeatures.map((x) => x.properties[metric]);
-    if (distinct) return_val = [...new Set(return_val)];
-    switch (reduce_by) {
-      case "sum":
-        return_val = return_val.reduce(sum, 0);
-        break;
-      default:
-        break;
-    }
-    return return_val;
-  };
+  let return_val;
+  return_val = selectedFeatures.map((x) => x.properties[metric]);
+  if (distinct) return_val = [...new Set(return_val)];
+  switch (reduce_by) {
+    case "sum":
+      return_val = return_val.reduce(sum, 0);
+      break;
+    default:
+      break;
+  }
+  return return_val;
 }
 
 function SelectedFeaturesPanel({
@@ -196,27 +194,27 @@ function SelectedFeaturesPanel({
   setLayerGroup,
 }) {
   const stockNoMangroves = useMemo(
-    getStat("Ab_S_WoAE", selectedFeatures),
+    () => getStat("Ab_S_WoAE", selectedFeatures),
     [selectedFeatures],
   );
   const stockWithMangroves = useMemo(
-    getStat("Ab_S_WAE", selectedFeatures),
+    () => getStat("Ab_S_WAE", selectedFeatures),
     [selectedFeatures],
   );
   const AEB = useMemo(
-    getStat("Ab_S_BAE", selectedFeatures),
+    () => getStat("Ab_S_BAE", selectedFeatures),
     [selectedFeatures],
   );
   const mangroves1996 = useMemo(
-    getStat("Man1996", selectedFeatures),
+    () => getStat("Man1996", selectedFeatures),
     [selectedFeatures],
   );
   const mangroves2010 = useMemo(
-    getStat("Man2010", selectedFeatures),
+    () => getStat("Man2010", selectedFeatures),
     [selectedFeatures],
   );
   const mangroves2015 = useMemo(
-    getStat("Man2015", selectedFeatures),
+    () => getStat("Man2015", selectedFeatures),
     [selectedFeatures],
   );
 
@@ -225,35 +223,35 @@ function SelectedFeaturesPanel({
     (stockNoMangroves - stockWithMangroves) / stockNoMangroves;
 
   const totalStock_10_WO = useMemo(
-    getStat("Ab_S_Wo10", selectedFeatures),
+    () => getStat("Ab_S_Wo10", selectedFeatures),
     [selectedFeatures],
   );
   const totalStock_25_WO = useMemo(
-    getStat("Ab_S_Wo25", selectedFeatures),
+    () => getStat("Ab_S_Wo25", selectedFeatures),
     [selectedFeatures],
   );
   const totalStock_50_WO = useMemo(
-    getStat("Ab_S_Wo50", selectedFeatures),
+    () => getStat("Ab_S_Wo50", selectedFeatures),
     [selectedFeatures],
   );
   const totalStock_100_WO = useMemo(
-    getStat("Ab_S_Wo100", selectedFeatures),
+    () => getStat("Ab_S_Wo100", selectedFeatures),
     [selectedFeatures],
   );
   const totalStock_10_W = useMemo(
-    getStat("Ab_S_W10", selectedFeatures),
+    () => getStat("Ab_S_W10", selectedFeatures),
     [selectedFeatures],
   );
   const totalStock_25_W = useMemo(
-    getStat("Ab_S_W25", selectedFeatures),
+    () => getStat("Ab_S_W25", selectedFeatures),
     [selectedFeatures],
   );
   const totalStock_50_W = useMemo(
-    getStat("Ab_S_W50", selectedFeatures),
+    () => getStat("Ab_S_W50", selectedFeatures),
     [selectedFeatures],
   );
   const totalStock_100_W = useMemo(
-    getStat("Ab_S_W100", selectedFeatures),
+    () => getStat("Ab_S_W100", selectedFeatures),
     [selectedFeatures],
   );
 
