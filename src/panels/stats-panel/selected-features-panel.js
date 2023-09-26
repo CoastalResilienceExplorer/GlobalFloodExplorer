@@ -175,19 +175,17 @@ function getStat(
   distinct = false,
   reduce_by = "sum",
 ) {
-  return () => {
-    let return_val;
-    return_val = selectedFeatures.map((x) => x.properties[metric]);
-    if (distinct) return_val = [...new Set(return_val)];
-    switch (reduce_by) {
-      case "sum":
-        return_val = return_val.reduce(sum, 0);
-        break;
-      default:
-        break;
-    }
-    return return_val;
-  };
+  let return_val;
+  return_val = selectedFeatures.map((x) => x.properties[metric]);
+  if (distinct) return_val = [...new Set(return_val)];
+  switch (reduce_by) {
+    case "sum":
+      return_val = return_val.reduce(sum, 0);
+      break;
+    default:
+      break;
+  }
+  return return_val;
 }
 
 function SelectedFeaturesPanel({
