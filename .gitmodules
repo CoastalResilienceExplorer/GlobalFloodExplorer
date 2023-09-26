@@ -1,3 +1,3 @@
 [submodule "src/maphooks"]
 	path = src/maphooks
-	url = https://github.com/lowriech/maphooks.git
+	url = https://github.com/CoastalResilienceExplorer/maphooks.git
