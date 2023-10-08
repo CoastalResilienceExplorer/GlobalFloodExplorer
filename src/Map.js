@@ -27,7 +27,7 @@ import infoReducer from "./info/infoReducer";
 import initialInfo from "./info/initialInfo";
 
 // Splash Screens
-import OpeningSplashScreen from "./splash-screens/Opening_11_11.js";
+import OpeningSplashScreen from "./splash-screens/splash-screen";
 import DisclaimerScreen from "./splash-screens/disclaimer-screen";
 
 const all_selectable_layers = Object.values(layers)
@@ -89,20 +89,11 @@ export default function Map() {
   const selectRef = useRef();
 
   const floodingRef = useRef();
-  useFirst(
-    () => layerGroup === "Flooding",
-    "FIRST_FLOODING"
-  );
+  useFirst(() => layerGroup === "Flooding", "FIRST_FLOODING");
 
   const compassRef = useRef();
-  useFirst(
-    () => viewport.pitch !== 0,
-    "FIRST_3D"
-  );
-  useFirst(
-    () => viewport.bearing !== 0,
-    "FIRST_3D"
-  );
+  useFirst(() => viewport.pitch !== 0, "FIRST_3D");
+  useFirst(() => viewport.bearing !== 0, "FIRST_3D");
 
   const centerRef = useRef();
   useFirst(

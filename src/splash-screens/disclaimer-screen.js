@@ -1,6 +1,6 @@
 import * as React from "react";
 import "./disclaimer-screen.css";
-import "./Opening_11_11.css";
+import "./splash-screen.css";
 import pan_logo from "assets/pan.png";
 import tilt_logo from "assets/tilt.png";
 import zoom_logo from "assets/zoom.png";
