@@ -1,14 +1,13 @@
+import { useInfoContext } from "maphooks/maphooks/useInfo";
 import "./flood_selector.css";
-import InfoContext from "context/infoContext";
-import { useContext } from "react";
 
 function CircleSelector({ selectedFloodGroup, thisFloodgroup, setFloodGroup }) {
   const selected = selectedFloodGroup === thisFloodgroup;
 
   const styles = {
     None: "None",
-    with: "With Mangroves",
-    without: "Without Mangroves",
+    flooding_1996: "1996",
+    flooding_2015: "2015",
   };
 
   return (
@@ -34,24 +33,8 @@ export default function FloodSelector({
   setFloodGroup,
   floodingOn,
 }) {
-  console.log(floodGroup);
-  const { useFirst, floodingRef } = useContext(InfoContext);
-  useFirst([floodingOn, "==", true], "FIRST_FLOODING", "NONE");
-
-  const floodgroups = [
-    {
-      id: "None",
-      displayAs: "None",
-    },
-    {
-      id: "with",
-      displayAs: "With Mangroves",
-    },
-    {
-      id: "without",
-      displayAs: "Without Mangroves",
-    },
-  ];
+  const { useFirst } = useInfoContext();
+  useFirst(() => !!floodingOn, "FIRST_FLOODING");
 
   return (
     <>
@@ -61,7 +44,7 @@ export default function FloodSelector({
             <>
               {/* <div className='basemap-options-header' ref={floodingRef}>Flooding</div> */}
 
-              {["None", "with", "without"].map((f) => (
+              {["None", "flooding_1996", "flooding_2015"].map((f) => (
                 <CircleSelector
                   selectedFloodGroup={floodGroup}
                   thisFloodgroup={f}

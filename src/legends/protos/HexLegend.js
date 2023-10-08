@@ -1,11 +1,5 @@
 import * as React from "react";
 import "../legend.css";
-import { kFormatter } from "maphooks/utils/formattingUtils";
-
-const spacing_styles = {
-  CONSTANT: "CONSTANT", //a constant value between each circle
-  CENTER_TO_TOP: "CENTER_TO_TOP", //the center of the circle is placed at the top of the circle below it
-};
 
 function pt_to_hex(x, y, rad) {
   // clockwise, 6 points
@@ -20,23 +14,7 @@ function pt_to_hex(x, y, rad) {
   return angles.map((a) => [x + Math.cos(a) * rad, y + Math.sin(a) * rad]);
 }
 
-export default function HexLegend({
-  legend,
-  spacing_style = spacing_styles.CENTER_TO_TOP,
-  dimensions = {
-    leftMargin: 10,
-    rightMargin: 10,
-    topMargin: 10,
-    bottomMargin: 10,
-    ySpread: 50,
-    baseSize: 150,
-    textPadding: 80,
-    additionalBubbleSpacing: 8,
-  },
-  text_width = 200,
-}) {
-  console.log("XXX");
-  console.log(legend);
+export default function HexLegend({ legend }) {
   const startingPoint = [45, 50];
   const rad = 30;
   const xOffs = 40;
@@ -57,7 +35,6 @@ export default function HexLegend({
         [
           startingPoint[0] + (2 * rad + padding) * Math.sin(Math.PI / 6),
           startingPoint[1] + i * (2 * rad + padding) * Math.cos(Math.PI / 6),
-          // + (i-1)*(2*rad)+padding
         ],
       ];
   });

@@ -23,29 +23,49 @@ const mapbox_dem = {
   maxzoom: 14,
 };
 
-const flooding_with = {
-  type: "vector",
-  tiles: [
-    "https://tiles.arcgis.com/tiles/21H3muniXm83m5hZ/arcgis/rest/services/GlobalPoint_W_50_1215/VectorTileServer/tile/{z}/{y}/{x}",
+// const flooding_with = {
+//   type: "vector",
+//   tiles: [
+//     "https://tiles.arcgis.com/tiles/21H3muniXm83m5hZ/arcgis/rest/services/GlobalPoint_W_50_1215/VectorTileServer/tile/{z}/{y}/{x}",
+//   ],
+//   scheme: "xyz",
+// };
+
+// // FLORIDA, separated layers
+// const flooding_without = {
+//   type: "vector",
+//   tiles: [
+//     "https://tiles.arcgis.com/tiles/21H3muniXm83m5hZ/arcgis/rest/services/GlobalPoint_WO_50_1215/VectorTileServer/tile/{z}/{y}/{x}.pbf",
+//   ],
+//   scheme: "xyz",
+// };
+const floodYear = '100'
+const COGSERVER_URL = 'https://cogserver-main-myzvqet7ua-uw.a.run.app'
+
+const flooding_1996 = {
+  'type': 'raster',
+  'tiles': [
+    `${COGSERVER_URL}/{z}/{x}/{y}.png?dataset=cwon_data/with_1996_TC_Tr_${floodYear}.tiff&max_val=8&color=blues`
   ],
-  scheme: "xyz",
+  'tileSize': 256,
 };
 
-// FLORIDA, separated layers
-const flooding_without = {
-  type: "vector",
-  tiles: [
-    "https://tiles.arcgis.com/tiles/21H3muniXm83m5hZ/arcgis/rest/services/GlobalPoint_WO_50_1215/VectorTileServer/tile/{z}/{y}/{x}.pbf",
+const flooding_2015 = {
+  'type': 'raster',
+  'tiles': [
+    `${COGSERVER_URL}/{z}/{x}/{y}.png?dataset=cwon_data/with_2015_TC_Tr_${floodYear}.tiff&max_val=8&color=blues`
   ],
-  scheme: "xyz",
+  'tileSize': 256,
 };
+
+
 
 const sources = [
   ["tesselas", tesselas],
   ["countries", countries],
   ["mapbox-dem", mapbox_dem],
-  ["flooding_without", flooding_without],
-  ["flooding_with", flooding_with],
+  ["flooding_1996", flooding_1996],
+  ["flooding_2015", flooding_2015]
 ];
 
 export default sources;
