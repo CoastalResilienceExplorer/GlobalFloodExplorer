@@ -2811,6 +2811,13 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-transition-group@^4.4.7":
+  version "4.4.7"
+  resolved "https://registry.yarnpkg.com/@types/react-transition-group/-/react-transition-group-4.4.7.tgz#bf69f269d74aa78b99097673ca6dd6824a68ef1c"
+  integrity sha512-ICCyBl5mvyqYp8Qeq9B5G/fyBSRC0zx3XM3sCC6KkcMsNeAHqXBKkmat4GqdJET5jtYUpZXrxI5flve5qhi2Eg==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react@*", "@types/react@^18.2.20":
   version "18.2.20"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-18.2.20.tgz#1605557a83df5c8a2cc4eeb743b3dfc0eb6aaeb2"

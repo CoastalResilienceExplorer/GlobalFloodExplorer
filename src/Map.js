@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // Maphooks
 import { useMap } from "maphooks/useMap";
@@ -29,6 +29,7 @@ import initialInfo from "./info/initialInfo";
 // Splash Screens
 import OpeningSplashScreen from "./splash-screens/splash-screen";
 import DisclaimerScreen from "./splash-screens/disclaimer-screen";
+import FadeInOut from "components/fade-in-out";
 
 const all_selectable_layers = Object.values(layers)
   .flat()
@@ -111,6 +112,14 @@ export default function Map() {
   const [disclaimer, setDisclaimer] = useState(null);
   const isTouch = window.matchMedia("(pointer: coarse)").matches;
 
+  useEffect(() => {
+    if (disclaimer) {
+      setTimeout(() => {
+        setDisclaimer(false);
+      }, 5000);
+    }
+  }, [disclaimer]);
+
   const setSplashScreen2 = (bool) => {
     setSplashScreen(bool);
     if (disclaimer === null) {
@@ -123,12 +132,12 @@ export default function Map() {
       value={{ useFirst, selectRef, floodingRef, selectedFeatures }}
     >
       <OpeningSplashScreen
-        splashScreenOn={splashScreen}
+        showSplashScreen={splashScreen}
         setSplashScreen={setSplashScreen2}
       />
       <DisclaimerScreen
-        disclaimer={disclaimer}
-        setDisclaimer={setDisclaimer}
+        show={disclaimer}
+        setShow={setDisclaimer}
         isTouch={isTouch}
       />
       <Info

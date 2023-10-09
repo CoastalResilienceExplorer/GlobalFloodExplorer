@@ -18,6 +18,14 @@
   color: white;
 }
 
+.splash-screen-fade {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
 .disclaimer-title {
   font-size: 1.3em;
   text-align: left;
@@ -40,8 +48,8 @@
 }
 
 .browser-icon {
-  width: 30px;
-  height: 30px;
+  width: 15px;
+  height: 15px;
 }
 
 .browser-icon > img {

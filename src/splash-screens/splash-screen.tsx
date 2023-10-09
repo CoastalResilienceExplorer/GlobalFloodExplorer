@@ -197,20 +197,25 @@ function Mobile({
   );
 }
 
-export default function SplashScreen() {
-  const [splashScreen, setSplashScreen] = React.useState(true);
+export default function SplashScreen({
+  showSplashScreen,
+  setSplashScreen,
+}: {
+  showSplashScreen: boolean;
+  setSplashScreen: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   const { innerWidth } = window;
   if (innerWidth < 1100) {
     return (
       <Mobile
-        showSplashScreen={splashScreen}
+        showSplashScreen={showSplashScreen}
         setSplashScreen={setSplashScreen}
       />
     );
   }
   return (
     <Desktop
-      showSplashScreen={splashScreen}
+      showSplashScreen={showSplashScreen}
       setSplashScreen={setSplashScreen}
     />
   );
