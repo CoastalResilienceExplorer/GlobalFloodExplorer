@@ -8,6 +8,48 @@
       "pitch": 33.2,
       "zoom": 5.4,
       "transitionDuration": 500
+    },
+    "location_awareness": {
+      "bbox": [[-78, 24], [-84, 32]],
+      "marker": [-82, 30],
+      "minzoom": 4,
+      "maxzoom": 18
+    },
+    "parent": "Caribbean"
+  },
+  {
+    "id": "Yucatan",
+    "overview": {
+      "bearing": -66,
+      "latitude": 20,
+      "longitude": -87,
+      "pitch": 33.2,
+      "zoom": 5.4,
+      "transitionDuration": 500
+    },
+    "location_awareness": {
+      "bbox": [[-90.192, 16.147], [-84.302, 23.288]],
+      "marker": [-86, 20],
+      "minzoom": 4,
+      "maxzoom": 18
+    },
+    "parent": "Caribbean"
+  },
+  {
+    "id": "Caribbean",
+    "overview": {
+      "bearing": -66,
+      "latitude": 27.3,
+      "longitude": -79.8,
+      "pitch": 33.2,
+      "zoom": 5.4,
+      "transitionDuration": 500
+    },
+    "location_awareness": {
+      "bbox": [[-91.19, 12.87], [-63.78, 34.47]],
+      "marker": [-75, 25],
+      "minzoom": 0,
+      "maxzoom": 4
     }
   },
   {
@@ -19,6 +61,9 @@
       "pitch": 41.54,
       "zoom": 7.88,
       "transitionDuration": 500
+    },
+    "location_awareness": {
+      "bbox": [[20, 109], [22, 111]]
     }
   }
 ]

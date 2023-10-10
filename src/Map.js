@@ -1,10 +1,11 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // Maphooks
 import { useMap } from "maphooks/useMap";
 import { useLayers } from "maphooks/maphooks/layers/useLayers";
 import { useLegends } from "maphooks/maphooks/useLegends";
 import { useSelection } from "maphooks/maphooks/useSelection";
+import { useBreadcrumbs, useMapWithBreadcrumbs } from "maphooks/maphooks/useBreadcrumbs"
 import { InfoContext, useInfo } from "maphooks/maphooks/useInfo";
 
 // Data
@@ -12,6 +13,7 @@ import sources from "./layers/sources";
 import layers from "./layers/layers";
 import { protos as custom_layer_protos } from "./layers/protos/custom_protos";
 import { init_viewport, init_layer, init_subgroup } from "./data/startup_data";
+import aois from "./data/viewports.json"
 
 //Panels
 import Legend from "./legends/legend";
@@ -20,6 +22,7 @@ import HomeInfoPanel from "./panels/home-info-panel/home-info-panel";
 import Compass from "./compass/compass";
 import BasemapManager from "./basemap_manager/BasemapManager";
 import FloodSelector from "./flood_selector/flood_selector";
+import BreadcrumbsContainer from './panels/breadcrumbs/breadcrumbs-container'
 
 //Info
 import Info from "./info/info";
@@ -83,6 +86,11 @@ export default function Map() {
     all_selectable_layers,
     layerSelectionDependencies,
   );
+
+  const breadcrumbs = useBreadcrumbs(aois, viewport)
+  useMapWithBreadcrumbs(viewport, aois, map)
+  // useEffect(() => console.log(breadcrumbs), [breadcrumbs])
+  
 
   const { useFirst, activeInfo } = useInfo(initialInfo, infoReducer);
 
@@ -153,6 +161,7 @@ export default function Map() {
       <div className="screen">
         <Legend legend_items={legends} />
         <div ref={mapContainer} className="map-container">
+          {/* <BreadcrumbsContainer breadcrumbs={breadcrumbs} map={map} /> */}
           <StatsPanel
             selectedFeatures={selectedFeatures}
             selectionType={selectionType}
