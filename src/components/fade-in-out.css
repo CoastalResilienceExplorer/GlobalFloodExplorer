@@ -1,11 +1,4 @@
 .fade {
   position: relative;
   z-index: 100;
-  transition: opacity 500ms ease-in-out;
-  opacity: 0;
-}
-
-.fade-visible {
-  opacity: 1;
-  transition-duration: 250ms; /* Faster fade-in */
 }

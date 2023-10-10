@@ -28,8 +28,10 @@ import initialInfo from "./info/initialInfo";
 
 // Splash Screens
 import OpeningSplashScreen from "./splash-screens/splash-screen";
-import DisclaimerScreen from "./splash-screens/disclaimer-screen";
-import FadeInOut from "components/fade-in-out";
+import {
+  DisclaimerScreen,
+  NavigationControls,
+} from "./splash-screens/disclaimer-screen";
 
 const all_selectable_layers = Object.values(layers)
   .flat()
@@ -110,6 +112,7 @@ export default function Map() {
 
   const [splashScreen, setSplashScreen] = useState(true);
   const [disclaimer, setDisclaimer] = useState(null);
+  const [navigationControls, setNavigationControls] = useState(null);
   const isTouch = window.matchMedia("(pointer: coarse)").matches;
 
   useEffect(() => {
@@ -120,10 +123,19 @@ export default function Map() {
     }
   }, [disclaimer]);
 
+  useEffect(() => {
+    if (navigationControls) {
+      setTimeout(() => {
+        setNavigationControls(false);
+      }, 10000);
+    }
+  }, [navigationControls]);
+
   const setSplashScreen2 = (bool) => {
     setSplashScreen(bool);
     if (disclaimer === null) {
       setDisclaimer(true);
+      setNavigationControls(true);
     }
   };
 
@@ -140,6 +152,7 @@ export default function Map() {
         setShow={setDisclaimer}
         isTouch={isTouch}
       />
+      <NavigationControls show={navigationControls} isTouch={isTouch} />
       <Info
         activeInfo={activeInfo}
         refs={{
