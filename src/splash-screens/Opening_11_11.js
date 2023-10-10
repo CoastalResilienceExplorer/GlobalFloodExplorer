@@ -1,4 +1,5 @@
 import * as React from "react";
+import ReactGA from "react-ga4";
 import "./Opening_11_11.css";
 
 // Researchers
@@ -41,6 +42,10 @@ function NavigationButton({ text, link, setSplashScreen, type = "minor" }) {
         className={`navigation-button ${type}`}
         onClick={() => {
           setSplashScreen(false);
+          ReactGA.event({
+            category: "Opening Splash Screen",
+            action: "Got to Map",
+          });
         }}
       >
         {text}
