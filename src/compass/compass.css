@@ -7,6 +7,10 @@
   height: 60px;
 }
 
+.compass-panel > * {
+  cursor: pointer
+}
+
 .compass-container {
   position: absolute;
   right: 20px;
@@ -40,4 +44,69 @@
 .compass {
   height: 100px;
   padding: 10px;
+}
+
+.full-extent-zoom-container {
+  position: absolute;
+  right: 100px;
+  top: 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  width: 30px;
+  height: 30px;
+  padding: 5px;
+  box-shadow: 0 0 0 5pt rgba(60, 132, 150, 0.3);
+  background-color: rgba(193, 241, 253, 0.9);
+  border: 5px solid rgba(60, 132, 150, 0.8);
+  border-radius: 50%;
+}
+
+.full-extent-zoom {
+  width: 30px;
+  height: 30px;
+}
+
+.full-extent-zoom-container:hover {
+  background-color: rgba(231, 195, 252, 0.9);
+}
+
+.plus-minus-zoom-container {
+  position: absolute;
+  top: 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  width: 20px;
+  height: 20px;
+  padding: 5px;
+  box-shadow: 0 0 0 3pt rgba(60, 132, 150, 0.3);
+  background-color: rgba(193, 241, 253, 0.9);
+  border: 5px solid rgba(60, 132, 150, 0.8);
+  border-radius: 50%;
+}
+
+.plus-minus-zoom-container.plus {
+  right: 160px;
+}
+
+.plus-minus-zoom-container.minus {
+  right: 200px;
+}
+
+.plus-minus-zoom-icon {
+  width: 30px;
+  height: 30px;
+}
+
+.plus-minus-zoom-container:hover {
+  background-color: rgba(231, 195, 252, 0.9);
 }
