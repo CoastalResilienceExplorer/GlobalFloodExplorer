@@ -30,8 +30,11 @@ import infoReducer from "./info/infoReducer";
 import initialInfo from "./info/initialInfo";
 
 // Splash Screens
-import OpeningSplashScreen from "./splash-screens/Opening_11_11.js";
-import DisclaimerScreen from "./splash-screens/disclaimer-screen";
+import OpeningSplashScreen from "./splash-screens/splash-screen";
+import {
+  DisclaimerScreen,
+  NavigationControls,
+} from "./splash-screens/disclaimer-screen";
 
 const all_selectable_layers = Object.values(layers)
   .flat()
@@ -97,20 +100,11 @@ export default function Map() {
   const selectRef = useRef();
 
   const floodingRef = useRef();
-  useFirst(
-    () => layerGroup === "Flooding",
-    "FIRST_FLOODING"
-  );
+  useFirst(() => layerGroup === "Flooding", "FIRST_FLOODING");
 
   const compassRef = useRef();
-  useFirst(
-    () => viewport.pitch !== 0,
-    "FIRST_3D"
-  );
-  useFirst(
-    () => viewport.bearing !== 0,
-    "FIRST_3D"
-  );
+  useFirst(() => viewport.pitch !== 0, "FIRST_3D");
+  useFirst(() => viewport.bearing !== 0, "FIRST_3D");
 
   const centerRef = useRef();
   useFirst(
@@ -126,12 +120,30 @@ export default function Map() {
 
   const [splashScreen, setSplashScreen] = useState(true);
   const [disclaimer, setDisclaimer] = useState(null);
+  const [navigationControls, setNavigationControls] = useState(null);
   const isTouch = window.matchMedia("(pointer: coarse)").matches;
+
+  useEffect(() => {
+    if (disclaimer) {
+      setTimeout(() => {
+        setDisclaimer(false);
+      }, 5000);
+    }
+  }, [disclaimer]);
+
+  useEffect(() => {
+    if (navigationControls) {
+      setTimeout(() => {
+        setNavigationControls(false);
+      }, 10000);
+    }
+  }, [navigationControls]);
 
   const setSplashScreen2 = (bool) => {
     setSplashScreen(bool);
     if (disclaimer === null) {
       setDisclaimer(true);
+      setNavigationControls(true);
     }
   };
 
@@ -140,14 +152,15 @@ export default function Map() {
       value={{ useFirst, selectRef, floodingRef, selectedFeatures }}
     >
       <OpeningSplashScreen
-        splashScreenOn={splashScreen}
+        showSplashScreen={splashScreen}
         setSplashScreen={setSplashScreen2}
       />
       <DisclaimerScreen
-        disclaimer={disclaimer}
-        setDisclaimer={setDisclaimer}
+        show={disclaimer}
+        setShow={setDisclaimer}
         isTouch={isTouch}
       />
+      <NavigationControls show={navigationControls} isTouch={isTouch} />
       <Info
         activeInfo={activeInfo}
         refs={{

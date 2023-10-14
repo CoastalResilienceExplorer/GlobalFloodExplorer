@@ -1,5 +1,5 @@
 import * as React from "react";
-import "./Opening_11_11.css";
+import "./splash-screen.css";
 
 // Researchers
 import UCSC from "../assets/UCSC_White_Logo.png";
@@ -30,17 +30,35 @@ const doi = (
   </a>
 );
 
-function CreditIcon({ image, type = "partner" }) {
-  return <img src={image} className={`credit-icon ${type}`}></img>;
+function CreditIcon({
+  image,
+  type = "partner",
+}: {
+  image: string;
+  type?: "partner" | "sponsor" | "lab";
+}) {
+  return <img src={image} className={`credit-icon ${type}`} />;
 }
 
-function NavigationButton({ text, link, setSplashScreen, type = "minor" }) {
+type NavigationButtonProps = {
+  text: string;
+  link?: string;
+  setSplashScreen?: React.Dispatch<React.SetStateAction<boolean>>;
+  type?: "minor" | "gotomap";
+};
+
+function NavigationButton({
+  text,
+  link,
+  setSplashScreen,
+  type = "minor",
+}: NavigationButtonProps) {
   if (type === "gotomap") {
     return (
       <div
         className={`navigation-button ${type}`}
         onClick={() => {
-          setSplashScreen(false);
+          setSplashScreen?.(false);
         }}
       >
         {text}
@@ -62,10 +80,16 @@ function NavigationButton({ text, link, setSplashScreen, type = "minor" }) {
   );
 }
 
-function Desktop({ splashScreenOn, setSplashScreen }) {
+function Desktop({
+  showSplashScreen,
+  setSplashScreen,
+}: {
+  showSplashScreen: boolean;
+  setSplashScreen: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   return (
     <>
-      {splashScreenOn ? (
+      {showSplashScreen ? (
         <>
           <div className="splash-screen">
             <div className="splash-screen-toplevel-vertical-divide">
@@ -95,21 +119,9 @@ function Desktop({ splashScreenOn, setSplashScreen }) {
                   </div>
                 </div>
                 <div className="sponsors-panel">
-                  <CreditIcon
-                    image={WB}
-                    type="sponsor"
-                    height={38}
-                  ></CreditIcon>
-                  <CreditIcon
-                    image={AXA}
-                    type="sponsor"
-                    height={38}
-                  ></CreditIcon>
-                  <CreditIcon
-                    image={IKI}
-                    type="sponsor"
-                    height={38}
-                  ></CreditIcon>
+                  <CreditIcon image={WB} type="sponsor"></CreditIcon>
+                  <CreditIcon image={AXA} type="sponsor"></CreditIcon>
+                  <CreditIcon image={IKI} type="sponsor"></CreditIcon>
                 </div>
               </div>
               <div className="splash-screen-toplevel-half right" />
@@ -128,10 +140,16 @@ function Desktop({ splashScreenOn, setSplashScreen }) {
   );
 }
 
-function Mobile({ splashScreenOn, setSplashScreen }) {
+function Mobile({
+  showSplashScreen,
+  setSplashScreen,
+}: {
+  showSplashScreen: boolean;
+  setSplashScreen: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   return (
     <>
-      {splashScreenOn ? (
+      {showSplashScreen ? (
         <>
           <div className="splash-screen">
             <div className="splash-screen-toplevel-vertical-divide">
@@ -166,21 +184,9 @@ function Mobile({ splashScreenOn, setSplashScreen }) {
                   </div>
                 </div>
                 <div className="sponsors-panel">
-                  <CreditIcon
-                    image={WB}
-                    type="sponsor"
-                    height={38}
-                  ></CreditIcon>
-                  <CreditIcon
-                    image={AXA}
-                    type="sponsor"
-                    height={38}
-                  ></CreditIcon>
-                  <CreditIcon
-                    image={IKI}
-                    type="sponsor"
-                    height={38}
-                  ></CreditIcon>
+                  <CreditIcon image={WB} type="sponsor"></CreditIcon>
+                  <CreditIcon image={AXA} type="sponsor"></CreditIcon>
+                  <CreditIcon image={IKI} type="sponsor"></CreditIcon>
                 </div>
               </div>
             </div>
@@ -191,19 +197,25 @@ function Mobile({ splashScreenOn, setSplashScreen }) {
   );
 }
 
-export default function SplashScreen({ splashScreenOn, setSplashScreen }) {
+export default function SplashScreen({
+  showSplashScreen,
+  setSplashScreen,
+}: {
+  showSplashScreen: boolean;
+  setSplashScreen: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   const { innerWidth } = window;
   if (innerWidth < 1100) {
     return (
       <Mobile
-        splashScreenOn={splashScreenOn}
+        showSplashScreen={showSplashScreen}
         setSplashScreen={setSplashScreen}
       />
     );
   }
   return (
     <Desktop
-      splashScreenOn={splashScreenOn}
+      showSplashScreen={showSplashScreen}
       setSplashScreen={setSplashScreen}
     />
   );
