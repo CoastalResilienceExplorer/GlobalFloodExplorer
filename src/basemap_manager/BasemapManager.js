@@ -108,24 +108,26 @@ export default function BasemapManager({
       transition={"transform 1s"}
       style={transformOffset}
     >
-      <OpenCloseToggle isOpen={isOpen} setIsOpen={setIsOpen} />
+      {/* <OpenCloseToggle isOpen={isOpen} setIsOpen={setIsOpen} /> */}
       <div className="basemap-manager-inner-container" ref={ref}>
         <div className="basemap-manager-header">Basemaps</div>
-        <CircleSelector
-          selectedStyle={style}
-          setStyle={setStyle}
-          thisStyle={"Satellite"}
-        />
-        <CircleSelector
-          selectedStyle={style}
-          setStyle={setStyle}
-          thisStyle={"Light"}
-        />
-        <CircleSelector
-          selectedStyle={style}
-          setStyle={setStyle}
-          thisStyle={"Dark"}
-        />
+        <div className='circle-selector-outer-container'>
+          <CircleSelector
+            selectedStyle={style}
+            setStyle={setStyle}
+            thisStyle={"Satellite"}
+          />
+          <CircleSelector
+            selectedStyle={style}
+            setStyle={setStyle}
+            thisStyle={"Light"}
+          />
+          <CircleSelector
+            selectedStyle={style}
+            setStyle={setStyle}
+            thisStyle={"Dark"}
+          />
+        </div>
       </div>
     </div>
   );
