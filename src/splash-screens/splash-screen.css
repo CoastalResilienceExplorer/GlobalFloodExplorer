@@ -165,6 +165,9 @@ body {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  @media (min-width: 768px) {
+    flex-direction: row;
+  }
 }
 
 .navigation-button.gotomap:hover {
@@ -192,6 +195,9 @@ body {
   margin: 2px;
   color: white;
   cursor: pointer;
+  @media (min-width: 768px) {
+    margin: 8px;
+  }
 }
 
 .centered-button-container {
@@ -210,8 +216,11 @@ body {
 .navigation-button.minor {
   background-color: rgb(130, 206, 198);
   padding: 6px 30px;
-  margin: 2px;
+  margin: 4px;
   color: white;
+  @media (min-width: 768px) {
+    margin: 8px;
+  }
 }
 
 .navigation-button > a {
