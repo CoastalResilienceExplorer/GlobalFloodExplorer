@@ -119,7 +119,10 @@
   flex-direction: column;
   padding-top: 50px;
   /* justify-content: space-around; */
-  background-image: linear-gradient(#e47f68, #f5ba89);
+  background-image: linear-gradient(
+    rgba(60, 132, 150, 0.6),
+    rgba(60, 132, 150, 0.9)
+  );
 }
 
 .no-selected-features-panel > * {
