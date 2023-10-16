@@ -122,40 +122,38 @@ export function NavigationControls({
   show: boolean;
   isTouch: boolean;
 }) {
-  return (
+  return !isTouch ? (
     <FadeInOut
       show={show}
       animationDuration={animationDuration}
-      additionalClasses={show ? "splash-screen-fade" : ""}
+      additionalClasses={show ? "navigation-controls-fade" : ""}
     >
-      {!isTouch && (
-        <div className="navigation-controls-parent">
-          <div className="navigation-controls">
-            <div className="navigation-icon title">
-              <p>
-                navigation
-                <br />
-                controls
-              </p>
-            </div>
-            <div className="navigation-icon">
-              pan
+      <div className="navigation-controls-parent">
+        <div className="navigation-controls">
+          <div className="navigation-icon title">
+            <p>
+              navigation
               <br />
-              <img src={pan_logo} alt="" />
-            </div>
-            <div className="navigation-icon">
-              tilt
-              <br />
-              <img src={tilt_logo} alt="" />
-            </div>
-            <div className="navigation-icon">
-              zoom
-              <br />
-              <img src={zoom_logo} alt="" />
-            </div>
+              controls
+            </p>
+          </div>
+          <div className="navigation-icon">
+            pan
+            <br />
+            <img src={pan_logo} alt="" />
+          </div>
+          <div className="navigation-icon">
+            tilt
+            <br />
+            <img src={tilt_logo} alt="" />
+          </div>
+          <div className="navigation-icon">
+            zoom
+            <br />
+            <img src={zoom_logo} alt="" />
           </div>
         </div>
-      )}
+      </div>
     </FadeInOut>
-  );
+  ) : null;
 }
