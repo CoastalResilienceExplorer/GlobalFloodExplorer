@@ -199,6 +199,8 @@ export default function Map() {
         viewport={viewport}
         setViewport={flyToViewport}
         _ref={compassRef}
+        navigationControls={navigationControls}
+        setNavigationControls={setNavigationControls}
       />
       <HomeInfoPanel
         setSplashScreen={setSplashScreen2}

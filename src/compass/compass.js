@@ -4,6 +4,8 @@ import { ReactComponent as CompassSVG } from "assets/compass.svg";
 import { ReactComponent as MapSVG } from "assets/Map_Icon.svg"
 import { ReactComponent as Plus } from "assets/Plus.svg"
 import { ReactComponent as Minus } from "assets/Minus.svg"
+import { ReactComponent as Controls } from "assets/Controls.svg"
+import Hover from "components/hover";
 
 export default function Compass(props) {
   function alignViewport() {
@@ -44,7 +46,7 @@ export default function Compass(props) {
       bearing: props.viewport.bearing,
       transitionDuration: 500,
     };
-    const viewport_to = Object.assign(viewport_base, {zoom: props.viewport.zoom + val});
+    const viewport_to = Object.assign(viewport_base, { zoom: props.viewport.zoom + val });
     props.setViewport(viewport_to);
   }
 
@@ -52,32 +54,52 @@ export default function Compass(props) {
     <>
       <div className="compass-panel">
         <div className="compass-container" ref={props._ref} onClick={alignViewport}>
-          <CompassSVG
-            className="compass"
-            style={{
-              transform: `
+          <Hover
+            text="Reorient">
+            <CompassSVG
+              className="compass"
+              style={{
+                transform: `
                     rotateX(${props.viewport.pitch}deg)
                     rotateZ(${-props.viewport.bearing}deg)  
                     `,
-            }}
-          ></CompassSVG>
+              }}
+            ></CompassSVG>
+          </Hover>
         </div>
         <div className="full-extent-zoom" onClick={zoomToHome}>
           <div className="full-extent-zoom-container">
-            <MapSVG style={{
-              width: "80%"
-            }} />
+            <Hover
+              text="Zoom Full">
+              <MapSVG style={{
+                width: "80%"
+              }} />
+            </Hover>
           </div>
+        </div>
+        <div className="plus-minus-zoom-container controls" onClick={() => props.setNavigationControls(!props.naviationControls)}>
+          <Hover
+            text="Controls">
+            <div className="plus-minus-zoom-icon">
+              <Controls />
+            </div>
+          </Hover>
         </div>
         <div className="plus-minus-zoom-container plus" onClick={() => zoomInOut(1)}>
-          <div className="plus-minus-zoom-icon">
-            <Plus />
-          </div>
+          <Hover
+            text="Zoom In">
+            <div className="plus-minus-zoom-icon">
+              <Plus />
+            </div>
+          </Hover>
         </div>
         <div className="plus-minus-zoom-container minus" onClick={() => zoomInOut(-1)}>
-          <div className="plus-minus-zoom-icon">
-            <Minus />
-          </div>
+          <Hover
+            text="Zoom Out">
+            <div className="plus-minus-zoom-icon">
+              <Minus />
+            </div>
+          </Hover>
         </div>
       </div >
     </>
