@@ -28,9 +28,6 @@
   background-color: rgba(193, 241, 253, 0.9);
   border: 5px solid rgba(60, 132, 150, 0.8);
   border-radius: 50%;
-
-  padding-top: 3px;
-  padding-right: 1px;
 }
 
 @media screen and (max-height: 800px) {
@@ -45,8 +42,8 @@
 }
 
 .compass {
-  height: 50px;
-  padding: 15px;
+  height: 100px;
+  padding: 10px;
 }
 
 .full-extent-zoom-container {
@@ -102,16 +99,7 @@
 }
 
 .plus-minus-zoom-container.minus {
-  right: 250px;
-}
-
-.plus-minus-zoom-container.plus {
-  right: 210px;
-}
-
-.plus-minus-zoom-container.controls {
-  right: 150px;
-  padding: 10px
+  right: 200px;
 }
 
 .plus-minus-zoom-icon {
