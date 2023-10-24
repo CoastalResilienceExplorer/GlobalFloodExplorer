@@ -1,8 +1,6 @@
 FROM node:16 as build-stage
 WORKDIR app
 COPY ./ /app/
-RUN git submodule init 
-RUN cd ./src/maphooks && yarn && cd ../..
 RUN yarn
 
 ARG REACT_APP_USE_SITE_GATING=default_value
