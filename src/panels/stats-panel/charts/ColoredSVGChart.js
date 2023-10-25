@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import "./Charts.css";
 import { ReactComponent as FloodingWith_Text } from "assets/Flooding_With.svg";
 import { ReactComponent as FloodingWithout_Text } from "assets/Flooding_Without.svg";
-import { kFormatter } from "maphooks/utils/formattingUtils";
+import { kFormatter } from "hooks/utils/formattingUtils";
 
 export default function ColoredSVGChart({
   risk_reduction_ratio,

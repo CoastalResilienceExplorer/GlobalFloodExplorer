@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import "./BasemapManager.css";
 import { ReactComponent as OpenCloseToggleIcon } from "assets/OpenCloseToggle2.svg";
-import { useInfoContext } from "maphooks/maphooks/useInfo";
+import { useInfoContext } from "hooks/useInfo";
 
 const base_url = "mapbox://styles/mapbox/";
 
@@ -56,10 +56,7 @@ export default function BasemapManager({
   floodingOn,
 }) {
   const { useFirst, floodingRef } = useInfoContext();
-  useFirst(
-    () => !!floodingOn,
-    "FIRST_FLOODING"
-  );
+  useFirst(() => !!floodingOn, "FIRST_FLOODING");
 
   const [isOpen, setIsOpen] = useState(true);
 
@@ -98,8 +95,8 @@ export default function BasemapManager({
   const transformOffset =
     !isOpen && ref.current
       ? {
-        transform: `translateX(${ref.current.offsetWidth + 5}px)`,
-      }
+          transform: `translateX(${ref.current.offsetWidth + 5}px)`,
+        }
       : {};
 
   return (
@@ -111,7 +108,7 @@ export default function BasemapManager({
       {/* <OpenCloseToggle isOpen={isOpen} setIsOpen={setIsOpen} /> */}
       <div className="basemap-manager-inner-container" ref={ref}>
         <div className="basemap-manager-header">Basemaps</div>
-        <div className='circle-selector-outer-container'>
+        <div className="circle-selector-outer-container">
           <CircleSelector
             selectedStyle={style}
             setStyle={setStyle}
