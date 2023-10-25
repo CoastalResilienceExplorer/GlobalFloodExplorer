@@ -1,6 +1,6 @@
 import * as React from "react";
 import "../legend.css";
-import { kFormatter } from "maphooks/utils/formattingUtils";
+import { kFormatter } from "hooks/utils/formattingUtils";
 
 const spacing_styles = {
   CONSTANT: "CONSTANT", //a constant value between each circle

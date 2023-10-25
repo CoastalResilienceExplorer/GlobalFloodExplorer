@@ -4,7 +4,7 @@ import "./stats-panel-container.css";
 import { ReactComponent as OpenLogo } from "assets/Opentab.svg";
 import SelectedFeaturesPanel from "./selected-features-panel";
 import FlyToContext from "../FlyToContext";
-import { useInfoContext } from "maphooks/maphooks/useInfo";
+import { useInfoContext } from "hooks/useInfo";
 
 function Title({ nStudyUnits, locations, selectionType }) {
   function countryNameOverride(country) {

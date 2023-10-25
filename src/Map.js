@@ -1,16 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 
-// Maphooks
-import { useMap } from "maphooks/useMap";
-import { useLayers } from "maphooks/maphooks/layers/useLayers";
-import { useLegends } from "maphooks/maphooks/useLegends";
-import { useSelection } from "maphooks/maphooks/useSelection";
-import {
-  useBreadcrumbs,
-  useMapWithBreadcrumbs,
-} from "maphooks/maphooks/useBreadcrumbs";
-import { InfoContext, useInfo } from "maphooks/maphooks/useInfo";
-import { usePermalinks } from "maphooks/maphooks/usePermalinks";
+import { useMap } from "hooks/useMap";
+import { useLayers } from "hooks/layers/useLayers";
+import { useLegends } from "hooks/useLegends";
+import { useSelection } from "hooks/useSelection";
+import { useBreadcrumbs, useMapWithBreadcrumbs } from "hooks/useBreadcrumbs";
+import { InfoContext, useInfo } from "hooks/useInfo";
+import { usePermalinks } from "hooks/usePermalinks";
 
 // Data
 import sources from "./layers/sources";

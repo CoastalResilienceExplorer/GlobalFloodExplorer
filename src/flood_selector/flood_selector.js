@@ -1,4 +1,4 @@
-import { useInfoContext } from "maphooks/maphooks/useInfo";
+import { useInfoContext } from "hooks/useInfo";
 import "./flood_selector.css";
 
 function CircleSelector({ selectedFloodGroup, thisFloodgroup, setFloodGroup }) {
