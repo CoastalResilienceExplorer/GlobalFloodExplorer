@@ -35,7 +35,7 @@ export default function InterpolateLegend({ legend }) {
             <text
               x={xTextOffs}
               y={b[0] * 100 + (50 - b[0] * 30) - 33 + "%"}
-              fill="white"
+              fill="black"
             >
               {">" + (legend.prefix ? legend.prefix : "")}
               {kFormatter(b[2])}

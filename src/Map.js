@@ -7,6 +7,7 @@ import { useSelection } from "hooks/useSelection";
 import { useBreadcrumbs, useMapWithBreadcrumbs } from "hooks/useBreadcrumbs";
 import { InfoContext, useInfo } from "hooks/useInfo";
 import { usePermalinks } from "hooks/usePermalinks";
+import { useSlideMap } from "hooks/useSlideMap"
 
 // Data
 import sources from "./layers/sources";
@@ -63,6 +64,30 @@ export default function Map() {
   );
 
   const {
+    slideMap,
+    slideMapContainer,
+    leftMap,
+    rightMap,
+    leftMapRef,
+    rightMapRef,
+    leftContainer,
+    rightContainer,
+    leftClip,
+    rightClip,
+    slideTransformPx,
+    sm_viewport,
+    sm_style,
+    sm_setStyle,
+    sm_setViewport,
+    sm_flyToViewport,
+  } = useSlideMap(
+    initialStates.viewport,
+    style,
+    "pk.eyJ1IjoiY2xvd3JpZSIsImEiOiJja21wMHpnMnIwYzM5Mm90OWFqaTlyejhuIn0.TXE-FIaqF4K_K1OirvD0wQ",
+    map
+  );
+
+  const {
     layerGroup,
     layerSelectionDependencies,
     subgroup,
@@ -104,7 +129,6 @@ export default function Map() {
 
   const breadcrumbs = useBreadcrumbs(aois, viewport);
   useMapWithBreadcrumbs(viewport, aois, map);
-  // useEffect(() => console.log(breadcrumbs), [breadcrumbs])
 
   const { useFirst, activeInfo } = useInfo(initialInfo, infoReducer);
 
@@ -184,28 +208,47 @@ export default function Map() {
       />
       <div className="screen">
         <Legend legend_items={legends} />
-        <div ref={mapContainer} className="map-container">
-          {/* <BreadcrumbsContainer breadcrumbs={breadcrumbs} map={map} /> */}
-          <StatsPanel
-            selectedFeatures={selectedFeatures}
-            selectionType={selectionType}
-            layerGroup={layerGroup}
-            setLayerGroup={setLayerGroup}
-            flyToViewport={flyToViewport}
-            selectRef={selectRef}
-          />
-          <BasemapManager
-            style={style}
-            setStyle={setStyle}
-            floodGroup={subgroup}
-            setFloodGroup={setSubgroup}
-            floodingOn={subgroupOn}
-          />
+        <div
+          ref={slideMapContainer}
+          id="slide-map-container"
+          style={{ visibility: layerGroup === "Flooding" ? 'visible' : 'hidden' }}>
+          <div
+            ref={leftContainer}
+            className="map" id="left-map"
+            style={{ "clip-path": leftClip }}></div>
+          <div
+            ref={rightContainer}
+            className="map" id="right-map"
+            style={{ "clip-path": rightClip }}></div>
+          <div
+            className="mapboxgl-compare"
+            style={{ "transform": `translate(${slideTransformPx}px, 0px)` }}>
+            <div id="compare-swiper-vertical"></div>
+          </div>
         </div>
+        <div
+          ref={mapContainer}
+          className="map-container"
+          style={{ visibility: layerGroup !== "Flooding" ? 'visible' : 'hidden' }} />
       </div>
       <div className="center-ref-container">
         <div className="center-ref" ref={centerRef} />
       </div>
+      <StatsPanel
+        selectedFeatures={selectedFeatures}
+        selectionType={selectionType}
+        layerGroup={layerGroup}
+        setLayerGroup={setLayerGroup}
+        flyToViewport={flyToViewport}
+        selectRef={selectRef}
+      />
+      <BasemapManager
+        style={style}
+        setStyle={setStyle}
+        floodGroup={subgroup}
+        setFloodGroup={setSubgroup}
+        floodingOn={subgroupOn}
+      />
       <Compass
         viewport={viewport}
         setViewport={flyToViewport}

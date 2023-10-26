@@ -28,17 +28,19 @@ export function useMap(init_viewport, init_style, access_token) {
 
   useEffect(() => {
     if (map) return; // initialize map only once
-    setMap(
-      new mapboxgl.Map({
-        container: mapContainer.current,
-        style: style,
-        center: [viewport.longitude, viewport.latitude],
-        bearing: viewport.bearing,
-        pitch: viewport.pitch,
-        zoom: viewport.zoom,
-        boxZoom: false,
-      }),
-    );
+    if (mapContainer.current) {
+      setMap(
+        new mapboxgl.Map({
+          container: mapContainer.current,
+          style: style,
+          center: [viewport.longitude, viewport.latitude],
+          bearing: viewport.bearing,
+          pitch: viewport.pitch,
+          zoom: viewport.zoom,
+          boxZoom: false,
+        }),
+      );
+    }
   }, []);
 
   useEffect(() => {
