@@ -1,9 +1,10 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 
 import { getViewport } from "./utils/viewportUtils";
 
-export function useMap(init_viewport, init_style, access_token) {
+export function useMap(init_viewport, init_style, access_token, id=null) {
+  console.log(id)
   mapboxgl.accessToken = access_token;
   const mapContainer = useRef(null);
   const [map, setMap] = useState(null);
@@ -27,8 +28,12 @@ export function useMap(init_viewport, init_style, access_token) {
   }
 
   useEffect(() => {
+    console.log(`useEffect ${id}`)
     if (map) return; // initialize map only once
+    console.log(`f1 ${id}`)
+    console.log(mapContainer)
     if (mapContainer.current) {
+      console.log(`setting map ${id}`)
       setMap(
         new mapboxgl.Map({
           container: mapContainer.current,

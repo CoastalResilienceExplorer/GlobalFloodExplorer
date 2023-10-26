@@ -7,7 +7,7 @@ import { useSelection } from "hooks/useSelection";
 import { useBreadcrumbs, useMapWithBreadcrumbs } from "hooks/useBreadcrumbs";
 import { InfoContext, useInfo } from "hooks/useInfo";
 import { usePermalinks } from "hooks/usePermalinks";
-import { useSlideMap } from "hooks/useSlideMap"
+import { useSlideMap } from "hooks/useSlideMap_copy"
 
 // Data
 import sources from "./layers/sources";
@@ -64,26 +64,43 @@ export default function Map() {
   );
 
   const {
-    slideMap,
-    slideMapContainer,
-    leftMap,
-    rightMap,
-    leftMapRef,
-    rightMapRef,
-    leftContainer,
-    rightContainer,
+    left_map,
+    left_mapContainer,
+    left_mapLoaded,
+    left_viewport,
+    left_style,
+    left_setStyle,
+    left_flyToViewport,
+  } = useMap(
+    initialStates.viewport,
+    "mapbox://styles/mapbox/satellite-v9",
+    "pk.eyJ1IjoiY2xvd3JpZSIsImEiOiJja21wMHpnMnIwYzM5Mm90OWFqaTlyejhuIn0.TXE-FIaqF4K_K1OirvD0wQ",
+    "left"
+  );
+
+  const {
+    right_map,
+    right_mapContainer,
+    right_mapLoaded,
+    right_viewport,
+    right_style,
+    right_setStyle,
+    right_flyToViewport,
+  } = useMap(
+    initialStates.viewport,
+    "mapbox://styles/mapbox/satellite-v9",
+    "pk.eyJ1IjoiY2xvd3JpZSIsImEiOiJja21wMHpnMnIwYzM5Mm90OWFqaTlyejhuIn0.TXE-FIaqF4K_K1OirvD0wQ",
+  );
+
+  console.log(left_map)
+
+  const {
     leftClip,
     rightClip,
     slideTransformPx,
-    sm_viewport,
-    sm_style,
-    sm_setStyle,
-    sm_setViewport,
-    sm_flyToViewport,
   } = useSlideMap(
-    initialStates.viewport,
-    style,
-    "pk.eyJ1IjoiY2xvd3JpZSIsImEiOiJja21wMHpnMnIwYzM5Mm90OWFqaTlyejhuIn0.TXE-FIaqF4K_K1OirvD0wQ",
+    left_map,
+    right_map,
     map
   );
 
@@ -182,6 +199,11 @@ export default function Map() {
     }
   };
 
+  // const slidePercent = 50
+  // const leftClip = `polygon(0% 0%, ${slidePercent}% 0%, ${slidePercent}% 100%, 0% 100%`
+  // const rightClip = `polygon(${slidePercent}% 0%, 100% 0%, 100% 100%, ${slidePercent}% 100%`
+  // const slideTransformPx = window.innerWidth * slidePercent/100
+
   return (
     <InfoContext.Provider
       value={{ useFirst, selectRef, floodingRef, selectedFeatures }}
@@ -209,16 +231,15 @@ export default function Map() {
       <div className="screen">
         <Legend legend_items={legends} />
         <div
-          ref={slideMapContainer}
           id="slide-map-container"
           style={{ visibility: layerGroup === "Flooding" ? 'visible' : 'hidden' }}>
           <div
-            ref={leftContainer}
-            className="map" id="left-map"
+            ref={left_mapContainer}
+            className="map"
             style={{ "clip-path": leftClip }}></div>
           <div
-            ref={rightContainer}
-            className="map" id="right-map"
+            ref={right_mapContainer}
+            className="map"
             style={{ "clip-path": rightClip }}></div>
           <div
             className="mapboxgl-compare"
