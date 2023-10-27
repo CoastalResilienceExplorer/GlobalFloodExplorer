@@ -53,11 +53,11 @@ export default function Legend({ legend_items }) {
           return <Proto legend={x} key={x.layer_title} />;
         })}
       </div>
-      <OpenCloseToggle
+      {/* <OpenCloseToggle
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         style={isOpen ? openTransform : {}}
-      />
+      /> */}
     </div>
   );
 }

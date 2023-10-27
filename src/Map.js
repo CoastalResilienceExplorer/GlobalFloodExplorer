@@ -1,17 +1,20 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-// Maphooks
-import { useMap } from "maphooks/useMap";
-import { useLayers } from "maphooks/maphooks/layers/useLayers";
-import { useLegends } from "maphooks/maphooks/useLegends";
-import { useSelection } from "maphooks/maphooks/useSelection";
-import { InfoContext, useInfo } from "maphooks/maphooks/useInfo";
+import { useMap } from "hooks/useMap";
+import { useLayers } from "hooks/layers/useLayers";
+import { useLegends } from "hooks/useLegends";
+import { useSelection } from "hooks/useSelection";
+import { useBreadcrumbs, useMapWithBreadcrumbs } from "hooks/useBreadcrumbs";
+import { InfoContext, useInfo } from "hooks/useInfo";
+import { usePermalinks } from "hooks/usePermalinks";
+import { useSlideMap } from "hooks/useSlideMap_copy"
 
 // Data
 import sources from "./layers/sources";
 import layers from "./layers/layers";
 import { protos as custom_layer_protos } from "./layers/protos/custom_protos";
 import { init_viewport, init_layer, init_subgroup } from "./data/startup_data";
+import aois from "./data/viewports.json";
 
 //Panels
 import Legend from "./legends/legend";
@@ -19,7 +22,7 @@ import StatsPanel from "./panels/stats-panel/stats-panel-container";
 import HomeInfoPanel from "./panels/home-info-panel/home-info-panel";
 import Compass from "./compass/compass";
 import BasemapManager from "./basemap_manager/BasemapManager";
-import FloodSelector from "./flood_selector/flood_selector";
+import { SlideMap } from "slide_map/slide_map";
 
 //Info
 import Info from "./info/info";
@@ -27,15 +30,26 @@ import infoReducer from "./info/infoReducer";
 import initialInfo from "./info/initialInfo";
 
 // Splash Screens
-import OpeningSplashScreen from "./splash-screens/Opening_11_11.js";
-import DisclaimerScreen from "./splash-screens/disclaimer-screen";
+import OpeningSplashScreen from "./splash-screens/splash-screen";
+import {
+  DisclaimerScreen,
+  NavigationControls,
+} from "./splash-screens/disclaimer-screen";
 
 const all_selectable_layers = Object.values(layers)
   .flat()
   .filter((x) => x.is_selectable)
   .map((x) => x.id);
 
+const token = "pk.eyJ1IjoiY2xvd3JpZSIsImEiOiJja21wMHpnMnIwYzM5Mm90OWFqaTlyejhuIn0.TXE-FIaqF4K_K1OirvD0wQ"
+
 export default function Map() {
+  const [initialStates, useUpdatePermalink] = usePermalinks({
+    defaultViewport: init_viewport,
+    defaultLayer: init_layer,
+    defaultSubgroup: init_subgroup,
+  });
+
   const {
     map,
     mapContainer,
@@ -45,9 +59,9 @@ export default function Map() {
     setStyle,
     flyToViewport,
   } = useMap(
-    init_viewport,
+    initialStates.viewport,
     "mapbox://styles/mapbox/satellite-v9",
-    "pk.eyJ1IjoiY2xvd3JpZSIsImEiOiJja21wMHpnMnIwYzM5Mm90OWFqaTlyejhuIn0.TXE-FIaqF4K_K1OirvD0wQ",
+    token
   );
 
   const {
@@ -60,12 +74,12 @@ export default function Map() {
   } = useLayers(
     map,
     mapLoaded,
-    init_layer,
-    init_subgroup,
+    initialStates.layer,
+    initialStates.subgroup,
     style,
     layers,
     sources,
-    custom_layer_protos,
+    custom_layer_protos
   );
 
   const { legends } = useLegends(
@@ -76,6 +90,12 @@ export default function Map() {
     custom_layer_protos,
   );
 
+  useUpdatePermalink({
+    viewport: viewport,
+    layerGroup: layerGroup,
+    subgroup: subgroup,
+  });
+
   const { selectedFeatures, selectionType } = useSelection(
     map,
     mapLoaded,
@@ -84,25 +104,19 @@ export default function Map() {
     layerSelectionDependencies,
   );
 
+  const breadcrumbs = useBreadcrumbs(aois, viewport);
+  useMapWithBreadcrumbs(viewport, aois, map);
+
   const { useFirst, activeInfo } = useInfo(initialInfo, infoReducer);
 
   const selectRef = useRef();
 
   const floodingRef = useRef();
-  useFirst(
-    () => layerGroup === "Flooding",
-    "FIRST_FLOODING"
-  );
+  useFirst(() => layerGroup === "Flooding", "FIRST_FLOODING");
 
   const compassRef = useRef();
-  useFirst(
-    () => viewport.pitch !== 0,
-    "FIRST_3D"
-  );
-  useFirst(
-    () => viewport.bearing !== 0,
-    "FIRST_3D"
-  );
+  useFirst(() => viewport.pitch !== 0, "FIRST_3D");
+  useFirst(() => viewport.bearing !== 0, "FIRST_3D");
 
   const centerRef = useRef();
   useFirst(
@@ -118,12 +132,30 @@ export default function Map() {
 
   const [splashScreen, setSplashScreen] = useState(true);
   const [disclaimer, setDisclaimer] = useState(null);
+  const [navigationControls, setNavigationControls] = useState(null);
   const isTouch = window.matchMedia("(pointer: coarse)").matches;
+
+  useEffect(() => {
+    if (disclaimer) {
+      setTimeout(() => {
+        setDisclaimer(false);
+      }, 5000);
+    }
+  }, [disclaimer]);
+
+  useEffect(() => {
+    if (navigationControls) {
+      setTimeout(() => {
+        setNavigationControls(false);
+      }, 10000);
+    }
+  }, [navigationControls]);
 
   const setSplashScreen2 = (bool) => {
     setSplashScreen(bool);
     if (disclaimer === null) {
       setDisclaimer(true);
+      setNavigationControls(true);
     }
   };
 
@@ -132,14 +164,15 @@ export default function Map() {
       value={{ useFirst, selectRef, floodingRef, selectedFeatures }}
     >
       <OpeningSplashScreen
-        splashScreenOn={splashScreen}
+        showSplashScreen={splashScreen}
         setSplashScreen={setSplashScreen2}
       />
       <DisclaimerScreen
-        disclaimer={disclaimer}
-        setDisclaimer={setDisclaimer}
+        show={disclaimer}
+        setShow={setDisclaimer}
         isTouch={isTouch}
       />
+      <NavigationControls show={navigationControls} isTouch={isTouch} />
       <Info
         activeInfo={activeInfo}
         refs={{
@@ -152,31 +185,41 @@ export default function Map() {
       />
       <div className="screen">
         <Legend legend_items={legends} />
-        <div ref={mapContainer} className="map-container">
-          <StatsPanel
-            selectedFeatures={selectedFeatures}
-            selectionType={selectionType}
-            layerGroup={layerGroup}
-            setLayerGroup={setLayerGroup}
-            flyToViewport={flyToViewport}
-            selectRef={selectRef}
-          />
-          <BasemapManager
-            style={style}
-            setStyle={setStyle}
-            floodGroup={subgroup}
-            setFloodGroup={setSubgroup}
-            floodingOn={subgroupOn}
-          />
-        </div>
+        <SlideMap
+          visible={layerGroup === "Flooding" ? 'visible' : 'hidden'}
+          initialStates={initialStates}
+          access_token={token}
+          other_map={map}
+        />
+        <div
+          ref={mapContainer}
+          className="map-container"
+          style={{ visibility: layerGroup !== "Flooding" ? 'visible' : 'hidden' }} />
       </div>
       <div className="center-ref-container">
         <div className="center-ref" ref={centerRef} />
       </div>
+      <StatsPanel
+        selectedFeatures={selectedFeatures}
+        selectionType={selectionType}
+        layerGroup={layerGroup}
+        setLayerGroup={setLayerGroup}
+        flyToViewport={flyToViewport}
+        selectRef={selectRef}
+      />
+      <BasemapManager
+        style={style}
+        setStyle={setStyle}
+        floodGroup={subgroup}
+        setFloodGroup={setSubgroup}
+        floodingOn={subgroupOn}
+      />
       <Compass
         viewport={viewport}
         setViewport={flyToViewport}
         _ref={compassRef}
+        navigationControls={navigationControls}
+        setNavigationControls={setNavigationControls}
       />
       <HomeInfoPanel
         setSplashScreen={setSplashScreen2}
@@ -184,11 +227,6 @@ export default function Map() {
         selectedLayer={layerGroup}
         setSelectedLayer={setLayerGroup}
         isTouch={isTouch}
-      />
-      <FloodSelector
-        floodGroup={subgroup}
-        setFloodGroup={setSubgroup}
-        floodingOn={subgroupOn}
       />
     </InfoContext.Provider>
   );

@@ -1,8 +1,7 @@
 FROM node:16 as build-stage
 WORKDIR app
 COPY ./ /app/
-RUN git submodule init && git submodule update
-RUN yarn add package.json
+RUN yarn
 
 ARG REACT_APP_USE_SITE_GATING=default_value
 ENV REACT_APP_USE_SITE_GATING $REACT_APP_USE_SITE_GATING

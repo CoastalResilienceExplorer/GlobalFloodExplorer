@@ -3,8 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "lint-staged": "^13.3.0",
+    "@react-hook/debounce": "^4.0.0",
     "mapbox-gl": "^2.8.2",
+    "mapbox-gl-compare": "^0.4.1",
     "mini-css-extract-plugin": "^2.5.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -16,8 +17,14 @@
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^29.5.3",
+    "@types/node": "^20.5.0",
+    "@types/react": "^18.2.27",
+    "@types/react-dom": "^18.2.7",
     "husky": "^8.0.0",
-    "prettier": "^3.0.1"
+    "lint-staged": "^13.3.0",
+    "prettier": "^3.0.1",
+    "typescript": "^5.1.6"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -43,6 +50,7 @@
   "browserslist": [
     ">0.2%",
     "not dead",
-    "not op_mini all"
+    "not op_mini all",
+    "not android 4.4.3-4.4.4"
   ]
 }

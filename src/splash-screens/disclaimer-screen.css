@@ -18,6 +18,23 @@
   color: white;
 }
 
+.splash-screen-fade {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+}
+
+.navigation-controls-fade {
+  position: absolute !important;
+  left: 0;
+  right: 0;
+  bottom: 5%;
+  z-index: 5;
+}
+
 .disclaimer-title {
   font-size: 1.3em;
   text-align: left;
@@ -40,10 +57,23 @@
 }
 
 .browser-icon {
-  width: 30px;
-  height: 30px;
+  width: 15px;
+  height: 15px;
 }
 
 .browser-icon > img {
   width: 100%;
+}
+
+.disclaimer-close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.close-x {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
 }

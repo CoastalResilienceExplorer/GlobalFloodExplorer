@@ -13,7 +13,7 @@
   grid-template-areas: "x content";
   gap: 5px;
   transition: transform 1s;
-  font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+  /* font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif; */
   font-weight: normal;
   font-style: normal;
   z-index: 5;
@@ -83,7 +83,8 @@
 5. Layer selection panel */
 
 .right-panel-content {
-  background-color: #d66e57;
+  background-color: rgba(60, 132, 150, 0.8);;
+  /* background-color: #d66e57; */
   border-radius: 12em 2em 0em 1em;
   /* overflow-y: auto; */
   display: flex;

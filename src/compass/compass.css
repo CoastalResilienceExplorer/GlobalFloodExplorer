@@ -1,43 +1,51 @@
-.compass-panel {
+.controls-panel-container {
   position: absolute;
+  display: flex;
+  flex-direction: column;
   z-index: 4;
-  right: 5px;
-  top: 5px;
-  width: 60px;
-  height: 60px;
+  right: 10px;
+  top: 10px;
+  color: white
 }
 
-.compass-container {
-  position: absolute;
-  right: 20px;
-  top: 20px;
+.controls-panel-title {
+  font-size: 10px;
+}
+
+.controls-panel {
+  display: flex;
+}
+
+.controls-panel > * {
+  cursor: pointer;
+  color: black
+}
+
+.controls-icon-container {
+  width: 20px;
+  height: 20px;
+  padding: 5px;
+  margin: 3px;
+  box-shadow: 0 0 0 2pt rgba(60, 132, 150, 0.3);
+  background-color: rgba(193, 241, 253, 0.9);
+  border: 5px solid rgba(60, 132, 150, 0.8);
+  border-radius: 50%;
 
   display: flex;
   flex-direction: column;
   align-content: center;
   align-items: center;
-  justify-content: center;
-  justify-items: center;
-  width: 60px;
-  height: 60px;
-  box-shadow: 0 0 0 5pt rgba(60, 132, 150, 0.3);
-  background-color: rgba(193, 241, 253, 0.9);
-  border: 5px solid rgba(60, 132, 150, 0.8);
-  border-radius: 50%;
 }
 
-@media screen and (max-height: 800px) {
-  .compass-container {
-    height: 45px;
-    width: 45px;
-  }
+.controls-icon {
+  width: 20px;
+  height: 20px
 }
 
-.compass-container:hover {
+.controls-icon.zoom-full {
+  padding-top: 10%
+}
+
+.controls-icon-container:hover {
   background-color: rgba(231, 195, 252, 0.9);
-}
-
-.compass {
-  height: 100px;
-  padding: 10px;
 }
