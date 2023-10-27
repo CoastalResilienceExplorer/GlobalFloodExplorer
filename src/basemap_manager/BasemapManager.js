@@ -34,8 +34,6 @@ export default function BasemapManager({
   setStyle
 }) {
   const [isOpen, setIsOpen] = useState(false);
-  console.log(style)
-  console.log(isOpen)
 
   return (
     <div
@@ -54,6 +52,7 @@ export default function BasemapManager({
             ["Satellite", "Light", "Dark"].map(s => {
               if (isOpen || style.includes(s.toLowerCase())){
                 return <CircleSelector
+                  key={s}
                   selectedStyle={style}
                   setStyle={setStyle}
                   thisStyle={s}

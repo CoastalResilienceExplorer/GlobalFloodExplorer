@@ -30,6 +30,7 @@
   align-items: center;
   justify-content: space-around;
   margin: 5px;
+
 }
 
 .circle-selector-text {
@@ -37,15 +38,15 @@
 }
 
 .circle-selector {
-  border-radius: 100px;
   width: 40px;
   height: 40px;
   margin: 2px;
-  background-color: black;
-  cursor: pointer;
+  border-radius: 100px;
   box-shadow: 0 0 0 2pt rgba(60, 132, 150, 0.3);
   background-color: rgba(193, 241, 253, 0.9);
   border: 5px solid rgba(60, 132, 150, 0.8);
+  background-color: black;
+  cursor: pointer;
 }
 
 .circle-selector.selected {

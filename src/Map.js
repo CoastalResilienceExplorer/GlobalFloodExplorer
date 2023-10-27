@@ -22,8 +22,7 @@ import StatsPanel from "./panels/stats-panel/stats-panel-container";
 import HomeInfoPanel from "./panels/home-info-panel/home-info-panel";
 import Compass from "./compass/compass";
 import BasemapManager from "./basemap_manager/BasemapManager";
-import FloodSelector from "./flood_selector/flood_selector";
-import BreadcrumbsContainer from "./panels/breadcrumbs/breadcrumbs-container";
+import { SlideMap } from "slide_map/slide_map";
 
 //Info
 import Info from "./info/info";
@@ -41,6 +40,8 @@ const all_selectable_layers = Object.values(layers)
   .flat()
   .filter((x) => x.is_selectable)
   .map((x) => x.id);
+
+const token = "pk.eyJ1IjoiY2xvd3JpZSIsImEiOiJja21wMHpnMnIwYzM5Mm90OWFqaTlyejhuIn0.TXE-FIaqF4K_K1OirvD0wQ"
 
 export default function Map() {
   const [initialStates, useUpdatePermalink] = usePermalinks({
@@ -60,48 +61,7 @@ export default function Map() {
   } = useMap(
     initialStates.viewport,
     "mapbox://styles/mapbox/satellite-v9",
-    "pk.eyJ1IjoiY2xvd3JpZSIsImEiOiJja21wMHpnMnIwYzM5Mm90OWFqaTlyejhuIn0.TXE-FIaqF4K_K1OirvD0wQ",
-  );
-
-  const {
-    left_map,
-    left_mapContainer,
-    left_mapLoaded,
-    left_viewport,
-    left_style,
-    left_setStyle,
-    left_flyToViewport,
-  } = useMap(
-    initialStates.viewport,
-    "mapbox://styles/mapbox/satellite-v9",
-    "pk.eyJ1IjoiY2xvd3JpZSIsImEiOiJja21wMHpnMnIwYzM5Mm90OWFqaTlyejhuIn0.TXE-FIaqF4K_K1OirvD0wQ",
-    "left"
-  );
-
-  const {
-    right_map,
-    right_mapContainer,
-    right_mapLoaded,
-    right_viewport,
-    right_style,
-    right_setStyle,
-    right_flyToViewport,
-  } = useMap(
-    initialStates.viewport,
-    "mapbox://styles/mapbox/satellite-v9",
-    "pk.eyJ1IjoiY2xvd3JpZSIsImEiOiJja21wMHpnMnIwYzM5Mm90OWFqaTlyejhuIn0.TXE-FIaqF4K_K1OirvD0wQ",
-  );
-
-  console.log(left_map)
-
-  const {
-    leftClip,
-    rightClip,
-    slideTransformPx,
-  } = useSlideMap(
-    left_map,
-    right_map,
-    map
+    token
   );
 
   const {
@@ -119,7 +79,7 @@ export default function Map() {
     style,
     layers,
     sources,
-    custom_layer_protos,
+    custom_layer_protos
   );
 
   const { legends } = useLegends(
@@ -199,11 +159,6 @@ export default function Map() {
     }
   };
 
-  // const slidePercent = 50
-  // const leftClip = `polygon(0% 0%, ${slidePercent}% 0%, ${slidePercent}% 100%, 0% 100%`
-  // const rightClip = `polygon(${slidePercent}% 0%, 100% 0%, 100% 100%, ${slidePercent}% 100%`
-  // const slideTransformPx = window.innerWidth * slidePercent/100
-
   return (
     <InfoContext.Provider
       value={{ useFirst, selectRef, floodingRef, selectedFeatures }}
@@ -230,23 +185,12 @@ export default function Map() {
       />
       <div className="screen">
         <Legend legend_items={legends} />
-        <div
-          id="slide-map-container"
-          style={{ visibility: layerGroup === "Flooding" ? 'visible' : 'hidden' }}>
-          <div
-            ref={left_mapContainer}
-            className="map"
-            style={{ "clip-path": leftClip }}></div>
-          <div
-            ref={right_mapContainer}
-            className="map"
-            style={{ "clip-path": rightClip }}></div>
-          <div
-            className="mapboxgl-compare"
-            style={{ "transform": `translate(${slideTransformPx}px, 0px)` }}>
-            <div id="compare-swiper-vertical"></div>
-          </div>
-        </div>
+        <SlideMap
+          visible={layerGroup === "Flooding" ? 'visible' : 'hidden'}
+          initialStates={initialStates}
+          access_token={token}
+          other_map={map}
+        />
         <div
           ref={mapContainer}
           className="map-container"
@@ -283,11 +227,6 @@ export default function Map() {
         selectedLayer={layerGroup}
         setSelectedLayer={setLayerGroup}
         isTouch={isTouch}
-      />
-      <FloodSelector
-        floodGroup={subgroup}
-        setFloodGroup={setSubgroup}
-        floodingOn={subgroupOn}
       />
     </InfoContext.Provider>
   );

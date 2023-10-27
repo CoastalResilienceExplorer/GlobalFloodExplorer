@@ -3,8 +3,7 @@ import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-load
 
 import { getViewport } from "./utils/viewportUtils";
 
-export function useMap(init_viewport, init_style, access_token, id=null) {
-  console.log(id)
+export function useMap(init_viewport, init_style, access_token) {
   mapboxgl.accessToken = access_token;
   const mapContainer = useRef(null);
   const [map, setMap] = useState(null);
@@ -27,25 +26,22 @@ export function useMap(init_viewport, init_style, access_token, id=null) {
     map.fitBounds(bounds);
   }
 
+
+
   useEffect(() => {
-    console.log(`useEffect ${id}`)
     if (map) return; // initialize map only once
-    console.log(`f1 ${id}`)
-    console.log(mapContainer)
-    if (mapContainer.current) {
-      console.log(`setting map ${id}`)
-      setMap(
-        new mapboxgl.Map({
-          container: mapContainer.current,
-          style: style,
-          center: [viewport.longitude, viewport.latitude],
-          bearing: viewport.bearing,
-          pitch: viewport.pitch,
-          zoom: viewport.zoom,
-          boxZoom: false,
-        }),
-      );
-    }
+    if (!mapContainer.current) return 
+    setMap(
+      new mapboxgl.Map({
+        container: mapContainer.current,
+        style: style,
+        center: [viewport.longitude, viewport.latitude],
+        bearing: viewport.bearing,
+        pitch: viewport.pitch,
+        zoom: viewport.zoom,
+        boxZoom: false,
+      }),
+    );
   }, []);
 
   useEffect(() => {
