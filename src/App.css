@@ -2,6 +2,10 @@
   text-align: center;
 }
 
+body {
+  overflow-x: hidden;
+}
+
 .map-container {
   height: 100vh;
   grid-area: map;

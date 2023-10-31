@@ -11,9 +11,11 @@ do
     echo $layer_name
     gdal_translate \
         -ot Int16 \
+        -of COG \
         -scale 0 8 0 32767 \
         OpenFileGDB:${IN_GDB}:${layer_name} ${OUTPUT_DIR}/${layer_name}.tiff \
         -co NUM_THREADS=ALL_CPUS \
+        -co RESAMPLING=AVERAGE \
         -co COMPRESS=DEFLATE -co PREDICTOR=2 -co BIGTIFF=YES -co SPARSE_OK=TRUE
     gdal_edit.py ${OUTPUT_DIR}/${layer_name}.tiff -scale $(bc -l <<< "8/32767.0")
 done
