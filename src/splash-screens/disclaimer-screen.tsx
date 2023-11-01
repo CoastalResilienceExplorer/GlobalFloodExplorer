@@ -29,7 +29,12 @@ const AnimatedXIcon = ({
   }, []);
 
   return (
-    <svg width="30" height="30" viewBox="0 0 30 30">
+    <svg
+      width="30"
+      height="30"
+      viewBox="0 0 30 30"
+      data-test-id="disclaimer-close-button"
+    >
       {/* Black circle */}
       <circle cx="15" cy="15" r="14.5" fill="black" />
 
