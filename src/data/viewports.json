@@ -10,7 +10,10 @@
       "transitionDuration": 500
     },
     "location_awareness": {
-      "bbox": [[-78, 24], [-84, 32]],
+      "bbox": [
+        [-78, 24],
+        [-84, 32]
+      ],
       "marker": [-82, 30],
       "minzoom": 4,
       "maxzoom": 6
@@ -28,7 +31,10 @@
       "transitionDuration": 500
     },
     "location_awareness": {
-      "bbox": [[-90.192, 16.147], [-84.302, 23.288]],
+      "bbox": [
+        [-90.192, 16.147],
+        [-84.302, 23.288]
+      ],
       "marker": [-86, 20],
       "minzoom": 4,
       "maxzoom": 6
@@ -46,7 +52,10 @@
       "transitionDuration": 500
     },
     "location_awareness": {
-      "bbox": [[-91.19, 12.87], [-63.78, 34.47]],
+      "bbox": [
+        [-91.19, 12.87],
+        [-63.78, 34.47]
+      ],
       "marker": [-75, 25],
       "minzoom": 0,
       "maxzoom": 4
@@ -63,7 +72,10 @@
       "transitionDuration": 500
     },
     "location_awareness": {
-      "bbox": [[33.46, -31.31], [122.07, 34.16]],
+      "bbox": [
+        [33.46, -31.31],
+        [122.07, 34.16]
+      ],
       "marker": [73.343, -2.421],
       "minzoom": 0,
       "maxzoom": 3
@@ -80,7 +92,10 @@
       "transitionDuration": 500
     },
     "location_awareness": {
-      "bbox": [[75.78, 4.57], [102.36,  24.2]],
+      "bbox": [
+        [75.78, 4.57],
+        [102.36, 24.2]
+      ],
       "marker": [88.291, 13.817],
       "minzoom": 3,
       "maxzoom": 11
@@ -98,7 +113,10 @@
       "transitionDuration": 500
     },
     "location_awareness": {
-      "bbox": [[104.44, 8.64], [125.25,  24.01]],
+      "bbox": [
+        [104.44, 8.64],
+        [125.25, 24.01]
+      ],
       "marker": [114.283, 16.534],
       "minzoom": 0,
       "maxzoom": 3
@@ -115,7 +133,10 @@
       "transitionDuration": 500
     },
     "location_awareness": {
-      "bbox": [[35.19, -10.32], [48.84, -0.24]],
+      "bbox": [
+        [35.19, -10.32],
+        [48.84, -0.24]
+      ],
       "marker": [42.374, -5.684],
       "minzoom": 3,
       "maxzoom": 11
@@ -132,7 +153,10 @@
       "transitionDuration": 500
     },
     "location_awareness": {
-      "bbox": [[-9.8, -6.33], [14.08, 11.32]],
+      "bbox": [
+        [-9.8, -6.33],
+        [14.08, 11.32]
+      ],
       "marker": [1.423, 0.114],
       "minzoom": 0,
       "maxzoom": 5
@@ -149,7 +173,10 @@
       "transitionDuration": 500
     },
     "location_awareness": {
-      "bbox": [[20, 109], [22, 111]]
+      "bbox": [
+        [20, 109],
+        [22, 111]
+      ]
     }
   }
 ]

@@ -101,7 +101,7 @@ export default function Compass(props) {
             </div>
           </Hover>
         </div>
-      </div >
+      </div>
     </>
   );
 }
