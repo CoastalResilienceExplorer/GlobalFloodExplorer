@@ -4,7 +4,7 @@ import { useState } from "react";
 import { StagingLogin } from "./staging/auth";
 import ReactGA from "react-ga4";
 
-ReactGA.initialize("G-YTXMLHYTSE", {
+ReactGA.initialize("G-5XWHH710GF", {
   testMode: process.env.NODE_ENV !== "production",
 });
 
