@@ -10,7 +10,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { kFormatter } from "maphooks/utils/formattingUtils";
+import { kFormatter } from "hooks/utils/formattingUtils";
 import "./Charts.css";
 
 const CustomTooltip = ({ active, payload, label }) => {

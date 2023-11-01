@@ -1,5 +1,5 @@
 import React, { useMemo, useContext } from "react";
-import { kFormatter } from "maphooks/utils/formattingUtils";
+import { kFormatter } from "hooks/utils/formattingUtils";
 import "./selected-features-panel.css";
 import "./stats-panel-container.css";
 
