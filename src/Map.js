@@ -10,6 +10,7 @@ import {
   useMapWithBreadcrumbs,
 } from "maphooks/maphooks/useBreadcrumbs";
 import { InfoContext, useInfo } from "maphooks/maphooks/useInfo";
+import { usePermalinks } from "maphooks/maphooks/usePermalinks";
 
 // Data
 import sources from "./layers/sources";
@@ -45,6 +46,12 @@ const all_selectable_layers = Object.values(layers)
   .map((x) => x.id);
 
 export default function Map() {
+  const [initialStates, useUpdatePermalink] = usePermalinks({
+    defaultViewport: init_viewport,
+    defaultLayer: init_layer,
+    defaultSubgroup: init_subgroup,
+  });
+
   const {
     map,
     mapContainer,
@@ -54,7 +61,7 @@ export default function Map() {
     setStyle,
     flyToViewport,
   } = useMap(
-    init_viewport,
+    initialStates.viewport,
     "mapbox://styles/mapbox/satellite-v9",
     "pk.eyJ1IjoiY2xvd3JpZSIsImEiOiJja21wMHpnMnIwYzM5Mm90OWFqaTlyejhuIn0.TXE-FIaqF4K_K1OirvD0wQ",
   );
@@ -69,8 +76,8 @@ export default function Map() {
   } = useLayers(
     map,
     mapLoaded,
-    init_layer,
-    init_subgroup,
+    initialStates.layer,
+    initialStates.subgroup,
     style,
     layers,
     sources,
@@ -84,6 +91,12 @@ export default function Map() {
     layers,
     custom_layer_protos,
   );
+
+  useUpdatePermalink({
+    viewport: viewport,
+    layerGroup: layerGroup,
+    subgroup: subgroup,
+  });
 
   const { selectedFeatures, selectionType } = useSelection(
     map,
@@ -201,6 +214,8 @@ export default function Map() {
         viewport={viewport}
         setViewport={flyToViewport}
         _ref={compassRef}
+        navigationControls={navigationControls}
+        setNavigationControls={setNavigationControls}
       />
       <HomeInfoPanel
         setSplashScreen={setSplashScreen2}
