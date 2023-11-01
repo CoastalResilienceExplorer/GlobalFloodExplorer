@@ -1,5 +1,22 @@
 .controls-panel-container {
   position: absolute;
+  z-index: 4;
+  right: 5px;
+  top: 5px;
+  width: 60px;
+  height: 60px;
+}
+
+.compass-panel > * {
+  cursor: pointer;
+}
+
+.compass-container {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+}
+
   display: flex;
   flex-direction: column;
   z-index: 4;
