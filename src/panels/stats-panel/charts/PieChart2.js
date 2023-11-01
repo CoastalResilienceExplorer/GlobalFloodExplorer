@@ -8,7 +8,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import "./Charts.css";
-import { kFormatter } from "maphooks/utils/formattingUtils";
+import { kFormatter } from "hooks/utils/formattingUtils";
 
 const COLORS1 = ["#7bccc4", "rgba(0,0,0,0)"];
 const COLORS2 = ["rgba(0,0,0,0)", "#C76F85"];

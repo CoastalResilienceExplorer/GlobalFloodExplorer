@@ -40,7 +40,7 @@ const mapbox_dem = {
 //   scheme: "xyz",
 // };
 const floodYear = '100'
-const COGSERVER_URL = 'https://cogserver-main-myzvqet7ua-uw.a.run.app'
+const COGSERVER_URL = 'https://cogserver-staging-myzvqet7ua-uw.a.run.app'
 
 const flooding_1996 = {
   'type': 'raster',

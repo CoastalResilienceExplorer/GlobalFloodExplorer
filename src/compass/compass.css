@@ -1,4 +1,4 @@
-.compass-panel {
+.controls-panel-container {
   position: absolute;
   z-index: 4;
   right: 5px;
@@ -15,110 +15,54 @@
   position: absolute;
   right: 20px;
   top: 20px;
+}
 
   display: flex;
   flex-direction: column;
-  align-content: center;
-  align-items: center;
-  justify-content: center;
-  justify-items: center;
-  width: 60px;
-  height: 60px;
-  box-shadow: 0 0 0 5pt rgba(60, 132, 150, 0.3);
-  background-color: rgba(193, 241, 253, 0.9);
-  border: 5px solid rgba(60, 132, 150, 0.8);
-  border-radius: 50%;
-
-  padding-top: 3px;
-  padding-right: 1px;
+  z-index: 4;
+  right: 10px;
+  top: 10px;
+  color: white
 }
 
-@media screen and (max-height: 800px) {
-  .compass-container {
-    height: 45px;
-    width: 45px;
-  }
+.controls-panel-title {
+  font-size: 10px;
 }
 
-.compass-container:hover {
-  background-color: rgba(231, 195, 252, 0.9);
-}
-
-.compass {
-  height: 50px;
-  padding: 15px;
-}
-
-.full-extent-zoom-container {
-  position: absolute;
-  right: 100px;
-  top: 20px;
-
+.controls-panel {
   display: flex;
-  flex-direction: column;
-  align-content: center;
-  align-items: center;
-  justify-content: center;
-  justify-items: center;
-  width: 30px;
-  height: 30px;
-  padding: 5px;
-  box-shadow: 0 0 0 5pt rgba(60, 132, 150, 0.3);
-  background-color: rgba(193, 241, 253, 0.9);
-  border: 5px solid rgba(60, 132, 150, 0.8);
-  border-radius: 50%;
 }
 
-.full-extent-zoom {
-  width: 30px;
-  height: 30px;
+.controls-panel > * {
+  cursor: pointer;
+  color: black
 }
 
-.full-extent-zoom-container:hover {
-  background-color: rgba(231, 195, 252, 0.9);
-}
-
-.plus-minus-zoom-container {
-  position: absolute;
-  top: 20px;
-
-  display: flex;
-  flex-direction: column;
-  align-content: center;
-  align-items: center;
-  justify-content: center;
-  justify-items: center;
+.controls-icon-container {
   width: 20px;
   height: 20px;
   padding: 5px;
-  box-shadow: 0 0 0 3pt rgba(60, 132, 150, 0.3);
+  margin: 3px;
+  box-shadow: 0 0 0 2pt rgba(60, 132, 150, 0.3);
   background-color: rgba(193, 241, 253, 0.9);
   border: 5px solid rgba(60, 132, 150, 0.8);
   border-radius: 50%;
+
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
 }
 
-.plus-minus-zoom-container.plus {
-  right: 160px;
+.controls-icon {
+  width: 20px;
+  height: 20px
 }
 
-.plus-minus-zoom-container.minus {
-  right: 250px;
+.controls-icon.zoom-full {
+  padding-top: 10%
 }
 
-.plus-minus-zoom-container.plus {
-  right: 210px;
-}
-
-.plus-minus-zoom-container.controls {
-  right: 150px;
-  padding: 10px
-}
-
-.plus-minus-zoom-icon {
-  width: 30px;
-  height: 30px;
-}
-
-.plus-minus-zoom-container:hover {
+.controls-icon-container:hover {
   background-color: rgba(231, 195, 252, 0.9);
 }

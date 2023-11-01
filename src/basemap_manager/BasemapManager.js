@@ -1,30 +1,10 @@
 import React, { useState, useRef } from "react";
 import "./BasemapManager.css";
-import { ReactComponent as OpenCloseToggleIcon } from "assets/OpenCloseToggle2.svg";
-import { useInfoContext } from "maphooks/maphooks/useInfo";
+import { useInfoContext } from "hooks/useInfo";
 
 const base_url = "mapbox://styles/mapbox/";
 
-function OpenCloseToggle({ isOpen, setIsOpen }) {
-  const openTransform = {
-    transform: "rotate(180deg)",
-  };
-
-  return (
-    <div
-      className="open-close-legend-toggle-container basemaps"
-      onClick={() => setIsOpen(!isOpen)}
-    >
-      <p className="open-close-toggle-text basemaps">Basemap</p>
-      <OpenCloseToggleIcon
-        className={"open-close-toggle" + (isOpen ? " open" : "")}
-        style={isOpen ? {} : openTransform}
-      />
-    </div>
-  );
-}
-
-function CircleSelector({ selectedStyle, thisStyle, setStyle, isOpen }) {
+function CircleSelector({ selectedStyle, thisStyle, setStyle }) {
   const selected = selectedStyle.includes(thisStyle.toLowerCase());
 
   const styles = {
@@ -43,17 +23,15 @@ function CircleSelector({ selectedStyle, thisStyle, setStyle, isOpen }) {
         className={
           "circle-selector" + ` ${thisStyle} ${selected ? "selected" : ""}`
         }
-      ></div>
+      >
+      </div>
     </div>
   );
 }
 
 export default function BasemapManager({
   style,
-  setStyle,
-  floodGroup,
-  setFloodGroup,
-  floodingOn,
+  setStyle
 }) {
   const { useFirst, floodingRef } = useInfoContext();
   useFirst(() => !!floodingOn, "FIRST_FLOODING");
@@ -101,9 +79,12 @@ export default function BasemapManager({
 
   return (
     <div
-      className={"basemap-manager-outer-container" + (isOpen ? " open" : "")}
-      transition={"transform 1s"}
-      style={transformOffset}
+      className={
+        "basemap-manager-container"
+        + (style.includes("light") ? " light" : "")
+      }
+      onMouseEnter={() => setIsOpen(true)}
+      onMouseLeave={() => setIsOpen(false)}
     >
       {/* <OpenCloseToggle isOpen={isOpen} setIsOpen={setIsOpen} /> */}
       <div className="basemap-manager-inner-container" ref={ref}>
@@ -132,43 +113,22 @@ export default function BasemapManager({
   return (
     <div className="basemap-manager-outer-container">
       <div className="basemap-manager-inner-container">
-        <div className="basemap-options-container">
-          <div className="basemap-options-header">Basemaps</div>
-          {styles.map((s) => (
-            <label className="basemap-options-button" key={s.id}>
-              <input
-                type="radio"
-                checked={s.id === style}
-                value={s.id}
-                className="basemap-manager-toggle"
-                onChange={() => setStyle(s.id)}
-              ></input>
-              {s.name}
-            </label>
-          ))}
+        <div className={
+          "circle-selector-outer-container"
+          }>
+          {
+            ["Satellite", "Light", "Dark"].map(s => {
+              if (isOpen || style.includes(s.toLowerCase())){
+                return <CircleSelector
+                  key={s}
+                  selectedStyle={style}
+                  setStyle={setStyle}
+                  thisStyle={s}
+                />
+              }
+          })
+        }
         </div>
-        {floodingOn && (
-          <>
-            <div className="vl" />
-            <div className="basemap-options-container">
-              <div className="basemap-options-header" ref={floodingRef}>
-                Flooding
-              </div>
-              {floodgroups.map((s) => (
-                <label className="basemap-options-button" key={s.id}>
-                  <input
-                    type="radio"
-                    checked={s.id === floodGroup}
-                    value={s.id}
-                    className="basemap-manager-toggle"
-                    onChange={() => setFloodGroup(s.id)}
-                  ></input>
-                  {s.displayAs}
-                </label>
-              ))}
-            </div>
-          </>
-        )}
       </div>
     </div>
   );
