@@ -1,5 +1,5 @@
 import { useMap } from "hooks/useMap"
-import { useSlideMap } from "hooks/useSlideMap_copy";
+import { useSlideMap } from "hooks/useSlideMap";
 import { useLayers } from "hooks/layers/useLayers";
 
 import sources from "layers/sources";
@@ -83,6 +83,10 @@ export function SlideMap({
     useEffect(() => {
         left_setLayerGroup("Flooding")
         right_setLayerGroup("Flooding")
+        setTimeout(
+            () => left_setSubgroup("flooding_1996"),
+            1000
+        )
     }, [left_mapLoaded, right_mapLoaded])
 
     const {

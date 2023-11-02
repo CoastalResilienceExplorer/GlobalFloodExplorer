@@ -7,7 +7,7 @@ import { useSelection } from "hooks/useSelection";
 import { useBreadcrumbs, useMapWithBreadcrumbs } from "hooks/useBreadcrumbs";
 import { InfoContext, useInfo } from "hooks/useInfo";
 import { usePermalinks } from "hooks/usePermalinks";
-import { useSlideMap } from "hooks/useSlideMap_copy"
+import { useSlideMap } from "hooks/useSlideMap"
 
 // Data
 import sources from "./layers/sources";
