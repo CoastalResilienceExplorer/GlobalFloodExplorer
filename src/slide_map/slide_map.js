@@ -83,10 +83,6 @@ export function SlideMap({
     useEffect(() => {
         left_setLayerGroup("Flooding")
         right_setLayerGroup("Flooding")
-        setTimeout(
-            () => left_setSubgroup("flooding_1996"),
-            1000
-        )
     }, [left_mapLoaded, right_mapLoaded])
 
     const {
