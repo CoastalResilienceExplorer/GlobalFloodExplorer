@@ -213,10 +213,10 @@ function LayerSelectionPanel({
         ))}
       </div>
       <OpenCloseToggle isOpen={isOpen} setIsOpen={setIsOpen} />
-      <CurrentlyViewingTitle
+      {/* <CurrentlyViewingTitle
         selectedLayer={selectedLayer}
         breadcrumbs={breadcrumbs}
-      />
+      /> */}
     </div>
   );
 }

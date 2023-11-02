@@ -36,7 +36,7 @@ const fetchPlaces = (query: string) => {
   });
 };
 
-// Restrited API key for this project
+// Restricted API key for this project
 const API_KEY = "AIzaSyALn2U5-jll5h_96VoWn2YVe2BO9W1-fAE";
 const fetchPlace = async (placeId: string | number) => {
   const res = await fetch(

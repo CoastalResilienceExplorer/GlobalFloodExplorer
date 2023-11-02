@@ -3,8 +3,16 @@
   z-index: 4;
   right: 5px;
   top: 5px;
-  width: 60px;
-  height: 60px;
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.compass-panel > *:not(:last-child) {
+  margin-right: 10px;
+}
+
+.compass-panel > *:last-child {
+  margin-right: 5px;
 }
 
 .compass-panel > * {
@@ -12,31 +20,26 @@
 }
 
 .compass-container {
-  position: absolute;
-  right: 20px;
-  top: 20px;
-
+  position: relative;
   display: flex;
   flex-direction: column;
   align-content: center;
   align-items: center;
   justify-content: center;
   justify-items: center;
-  width: 60px;
-  height: 60px;
-  box-shadow: 0 0 0 5pt rgba(60, 132, 150, 0.3);
+  width: 30px;
+  height: 30px;
+  box-shadow: 0 0 0 3pt rgba(60, 132, 150, 0.3);
   background-color: rgba(193, 241, 253, 0.9);
   border: 5px solid rgba(60, 132, 150, 0.8);
   border-radius: 50%;
-
-  padding-top: 3px;
-  padding-right: 1px;
+  padding: 5px;
 }
 
 @media screen and (max-height: 800px) {
   .compass-container {
-    height: 45px;
-    width: 45px;
+    width: 30px;
+    height: 30px;
   }
 }
 
@@ -45,15 +48,11 @@
 }
 
 .compass {
-  height: 50px;
-  padding: 15px;
+  height: 26px;
 }
 
 .full-extent-zoom-container {
-  position: absolute;
-  right: 100px;
-  top: 20px;
-
+  position: relative;
   display: flex;
   flex-direction: column;
   align-content: center;
@@ -63,15 +62,13 @@
   width: 30px;
   height: 30px;
   padding: 5px;
-  box-shadow: 0 0 0 5pt rgba(60, 132, 150, 0.3);
+  box-shadow: 0 0 0 3pt rgba(60, 132, 150, 0.3);
   background-color: rgba(193, 241, 253, 0.9);
   border: 5px solid rgba(60, 132, 150, 0.8);
   border-radius: 50%;
 }
 
 .full-extent-zoom {
-  width: 30px;
-  height: 30px;
 }
 
 .full-extent-zoom-container:hover {
@@ -79,9 +76,6 @@
 }
 
 .plus-minus-zoom-container {
-  position: absolute;
-  top: 20px;
-
   display: flex;
   flex-direction: column;
   align-content: center;
@@ -91,7 +85,7 @@
   width: 20px;
   height: 20px;
   padding: 5px;
-  box-shadow: 0 0 0 3pt rgba(60, 132, 150, 0.3);
+  box-shadow: 0 0 0 1pt rgba(60, 132, 150, 0.3);
   background-color: rgba(193, 241, 253, 0.9);
   border: 5px solid rgba(60, 132, 150, 0.8);
   border-radius: 50%;
@@ -110,8 +104,8 @@
 }
 
 .plus-minus-zoom-container.controls {
-  right: 150px;
-  padding: 10px
+  position: relative;
+  padding: 10px;
 }
 
 .plus-minus-zoom-icon {
