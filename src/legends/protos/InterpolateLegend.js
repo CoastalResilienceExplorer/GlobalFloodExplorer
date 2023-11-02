@@ -18,7 +18,7 @@ export default function InterpolateLegend({ legend }) {
       <svg width="100%" height="100%" className="interpolate-legend">
         <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
           {breaks_as_perc.map((b) => (
-            <stop offset={b[0] * 100 + "%"} stopColor={b[1]} />
+            <stop key={b} offset={b[0] * 100 + "%"} stopColor={b[1]} />
           ))}
         </linearGradient>
         <rect
@@ -33,9 +33,10 @@ export default function InterpolateLegend({ legend }) {
         {[breaks_as_perc[0], breaks_as_perc[breaks_as_perc.length - 1]].map(
           (b) => (
             <text
+              key={b[0]}
               x={xTextOffs}
               y={b[0] * 100 + (50 - b[0] * 30) - 33 + "%"}
-              fill="white"
+              fill="black"
             >
               {">" + (legend.prefix ? legend.prefix : "")}
               {kFormatter(b[2])}

@@ -17,6 +17,7 @@
 .legend-content {
   text-align: left;
   display: flex;
+  color: black
 }
 
 .legend-item {
@@ -24,8 +25,9 @@
   scrollbar-width: none;
   display: flex;
   flex-direction: column;
-  background-color: #192e44;
-  border: 2px solid #395879;
+  box-shadow: 0 0 0 2pt rgba(60, 132, 150, 0.3);
+  background-color: rgba(193, 241, 253, 0.9);
+  border: 5px solid rgba(60, 132, 150, 0.8);
   border-radius: 20px;
   margin: 2px;
   max-width: 175px;

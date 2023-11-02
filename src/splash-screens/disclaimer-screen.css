@@ -7,7 +7,9 @@
   max-height: 60%;
   z-index: 7;
   /* background-color: #192e44; */
-  background: rgba(25, 46, 68, 0.7);
+  box-shadow: 0 0 0 2pt rgba(60, 132, 150, 0.3);
+  background-color: rgba(193, 241, 253, 0.9);
+  border: 5px solid rgba(60, 132, 150, 0.8);
   border: 2px solid #395879;
   /* opacity: 0.92; */
   overflow-y: auto;
@@ -15,7 +17,7 @@
   padding: 35px;
   text-align: center;
   vertical-align: middle;
-  color: white;
+  color: black;
 }
 
 .splash-screen-fade {

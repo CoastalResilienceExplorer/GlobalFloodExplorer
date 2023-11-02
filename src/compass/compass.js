@@ -8,6 +8,15 @@ import { ReactComponent as Controls } from "assets/Controls.svg"
 import Hover from "components/hover";
 
 export default function Compass(props) {
+
+  function adjustViewport(adjustment, transitionDuration = 500) {
+    const newViewport = Object.assign(
+      props.viewport,
+      adjustment
+    )
+    props.setViewport(newViewport)
+  }
+
   function alignViewport() {
     const viewport_base = {
       latitude: props.viewport.latitude,
@@ -26,38 +35,23 @@ export default function Compass(props) {
     props.setViewport(viewport_to);
   }
 
-  function zoomToHome() {
-    props.setViewport({
-      latitude: 0,
-      longitude: 0,
-      zoom: 1.8,
-      pitch: 0,
-      bearing: 0,
-      transitionDuration: 500,
-    });
-  }
-
-  function zoomInOut(val) {
-    const viewport_base = {
-      latitude: props.viewport.latitude,
-      longitude: props.viewport.longitude,
-      zoom: props.viewport.zoom,
-      pitch: props.viewport.pitch,
-      bearing: props.viewport.bearing,
-      transitionDuration: 500,
-    };
-    const viewport_to = Object.assign(viewport_base, { zoom: props.viewport.zoom + val });
-    props.setViewport(viewport_to);
-  }
-
   return (
-    <>
-      <div className="compass-panel">
-        <div className="compass-container" ref={props._ref} onClick={alignViewport}>
+    <div className="controls-panel-container">
+      <div className="controls-panel-title">Controls</div>
+      <div className="controls-panel" ref={props._ref}>
+        <div className="controls-icon-container" onClick={alignViewport}>
+          <Hover
+            text="2D">
+            <div className="controls-icon" onClick={() => adjustViewport({ pitch: 0 })}>
+              2D
+            </div>
+          </Hover>
+        </div>
+        <div className="controls-icon-container" onClick={() => adjustViewport({ bearing: 0 })}>
           <Hover
             text="Reorient">
             <CompassSVG
-              className="compass"
+              className="controls-icon compass"
               style={{
                 transform: `
                     rotateX(${props.viewport.pitch}deg)
@@ -67,41 +61,45 @@ export default function Compass(props) {
             ></CompassSVG>
           </Hover>
         </div>
-        <div className="full-extent-zoom" onClick={zoomToHome}>
-          <div className="full-extent-zoom-container">
+        <div className="controls-icon-container" onClick={() => adjustViewport({
+          latitude: 0,
+          longitude: 0,
+          zoom: 1.8,
+          pitch: 0,
+          bearing: 0
+        })}>
+          <div className="controls-icon zoom-full">
             <Hover
               text="Zoom Full">
-              <MapSVG style={{
-                width: "80%"
-              }} />
+              <MapSVG />
             </Hover>
           </div>
         </div>
-        <div className="plus-minus-zoom-container controls" onClick={() => props.setNavigationControls(!props.naviationControls)}>
+        <div className="controls-icon-container" onClick={() => props.setNavigationControls(!props.naviationControls)}>
           <Hover
             text="Controls">
-            <div className="plus-minus-zoom-icon">
+            <div className="controls-icon">
               <Controls />
             </div>
           </Hover>
         </div>
-        <div className="plus-minus-zoom-container plus" onClick={() => zoomInOut(1)}>
+        <div className="controls-icon-container" onClick={() => adjustViewport({ zoom: props.viewport.zoom+1 })}>
           <Hover
             text="Zoom In">
-            <div className="plus-minus-zoom-icon">
+            <div className="controls-icon">
               <Plus />
             </div>
           </Hover>
         </div>
-        <div className="plus-minus-zoom-container minus" onClick={() => zoomInOut(-1)}>
+        <div className="controls-icon-container" onClick={() => adjustViewport({ zoom: props.viewport.zoom-1 })}>
           <Hover
             text="Zoom Out">
-            <div className="plus-minus-zoom-icon">
+            <div className="controls-icon">
               <Minus />
             </div>
           </Hover>
         </div>
-      </div>
-    </>
+      </div >
+    </div>
   );
 }

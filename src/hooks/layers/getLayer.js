@@ -23,6 +23,6 @@ export default function getLayers(layer_lookup, key, args, protos) {
     legends: legends_to_return,
     layers: layers_to_return,
     selectionDependencies: selectionDependencies,
-    subgroups: subgroups,
+    subgroups: subgroups
   };
 }
