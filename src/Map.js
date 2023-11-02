@@ -35,6 +35,7 @@ import {
   DisclaimerScreen,
   NavigationControls,
 } from "./splash-screens/disclaimer-screen";
+import SearchBar from "components/search-bar";
 
 const all_selectable_layers = Object.values(layers)
   .flat()
@@ -56,6 +57,7 @@ export default function Map() {
     style,
     setStyle,
     flyToViewport,
+    flyToBounds,
   } = useMap(
     initialStates.viewport,
     "mapbox://styles/mapbox/satellite-v9",
@@ -171,6 +173,7 @@ export default function Map() {
         setShow={setDisclaimer}
         isTouch={isTouch}
       />
+      <SearchBar flyToBounds={flyToBounds} />
       <NavigationControls show={navigationControls} isTouch={isTouch} />
       <Info
         activeInfo={activeInfo}

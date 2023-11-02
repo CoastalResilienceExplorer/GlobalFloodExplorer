@@ -4,11 +4,11 @@ import React, {
   useEffect,
   useRef,
   KeyboardEventHandler,
-  useCallback,
 } from "react";
 
 interface SearchBarProps {
   onPlaceSelect: (result: any) => void;
+  flyToBounds: (bounds: [[number, number], [number, number]]) => void;
 }
 
 type Place = {
@@ -22,17 +22,12 @@ const sessionToken = new google.maps.places.AutocompleteSessionToken();
 const fetchPlaces = (query: string) => {
   return new Promise((resolve, reject) => {
     service.getPlacePredictions(
-      {
-        types: ["countries", "cities"],
-        input: query,
-        sessionToken,
-      },
+      { input: query, sessionToken },
       (
         predictions: google.maps.places.AutocompletePrediction[] | null,
         status: google.maps.places.PlacesServiceStatus,
       ) => {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
-          console.log(predictions);
           resolve(predictions);
         }
         reject(status);
@@ -41,40 +36,20 @@ const fetchPlaces = (query: string) => {
   });
 };
 
-const SearchBar = ({ onPlaceSelect }: SearchBarProps) => {
+// Restrited API key for this project
+const API_KEY = "AIzaSyALn2U5-jll5h_96VoWn2YVe2BO9W1-fAE";
+const fetchPlace = async (placeId: string | number) => {
+  const res = await fetch(
+    `https://maps.googleapis.com/maps/api/geocode/json?place_id=${placeId}&key=${API_KEY}`,
+  );
+  return res.json();
+};
+
+const SearchBar = ({ onPlaceSelect, flyToBounds }: SearchBarProps) => {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<Place[]>([]);
   const [highlightedIndex, setHighlightedIndex] = useState(0);
   const searchInputRef = useRef(null);
-
-  // Simplified initialization of the Google Maps Places API library
-  // from https://github.com/wellyshen/use-places-autocomplete/blob/master/src/usePlacesAutocomplete.ts
-  const [ready, setReady] = useState(false);
-  const asRef = useRef<google.maps.places.AutocompleteService>();
-
-  const init = useCallback(() => {
-    if (asRef.current) return;
-
-    const { google } = window;
-    const placesLib = google?.maps?.places;
-
-    if (!placesLib) {
-      console.error("Google Maps Places API library must be loaded.");
-      return;
-    }
-
-    asRef.current = new placesLib.AutocompleteService();
-    setReady(true);
-  }, []);
-
-  useEffect(() => {
-    const { google } = window;
-    if (!google?.maps && !(window as any)["init"]) {
-      (window as any)["init"] = init;
-    } else {
-      init();
-    }
-  }, [init]);
 
   const runFetchPlaces = (currentQuery: string) => {
     if (currentQuery.length > 2) {
@@ -85,7 +60,7 @@ const SearchBar = ({ onPlaceSelect }: SearchBarProps) => {
     }
   };
 
-  const debouncedRunFetchPlaces = useDebounceCallback(runFetchPlaces, 1000);
+  const debouncedRunFetchPlaces = useDebounceCallback(runFetchPlaces, 500);
 
   useEffect(() => {
     debouncedRunFetchPlaces(query);
@@ -93,6 +68,18 @@ const SearchBar = ({ onPlaceSelect }: SearchBarProps) => {
 
   const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     setQuery(e.target.value);
+  };
+
+  const handleSelection = async (placeId: string | number) => {
+    setQuery("");
+    setResults([]);
+    const place = await fetchPlace(placeId);
+    const viewport = place?.results[0]?.geometry?.viewport;
+    if (viewport) flyToBounds([viewport?.northeast, viewport?.southwest]);
+    else
+      window.alert(
+        "Coastal Reef Explorer could not find this location automatically.",
+      );
   };
 
   const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (e) => {
@@ -106,9 +93,7 @@ const SearchBar = ({ onPlaceSelect }: SearchBarProps) => {
         setHighlightedIndex((prevIndex) => (prevIndex + 1) % results.length);
         break;
       case "Enter":
-        onPlaceSelect(results[highlightedIndex]);
-        setQuery("");
-        setResults([]);
+        handleSelection(results[highlightedIndex].place_id);
         break;
       default:
         break;
@@ -129,8 +114,8 @@ const SearchBar = ({ onPlaceSelect }: SearchBarProps) => {
         <ul>
           {results.map((result, index) => (
             <li
-              key={result?.place_id}
-              onClick={() => onPlaceSelect(result)}
+              key={result.place_id}
+              onClick={() => handleSelection(result.place_id)}
               style={{
                 backgroundColor: index === highlightedIndex ? "#eee" : "#fff",
               }}
