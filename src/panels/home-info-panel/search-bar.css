@@ -1,14 +1,14 @@
 .search-container {
   display: flex;
   flex-direction: column;
-  background-color: #192e44;
-  border: 2px solid #395879;
+  box-shadow: 0 0 0 2pt rgba(60, 132, 150, 0.3);
+  background-color: rgba(193, 241, 253, 0.9);
+  border: 5px solid rgba(60, 132, 150, 0.8);
   border-radius: 30px;
   padding: 5px 16px 20px;
 }
 
 .search-info-text {
-  color: white;
   font-size: 0.9em;
   margin: 5px 5px 8px;
   text-align: left;
@@ -27,12 +27,11 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin: 5px 0px;
+  padding: 5px 0px;
   width: 100%;
   text-align: left;
-  color: white;
 }
 
 .search-result.highlighted {
-  background-color: #395879;
+  background-color: rgba(60, 132, 150, 0.8);
 }

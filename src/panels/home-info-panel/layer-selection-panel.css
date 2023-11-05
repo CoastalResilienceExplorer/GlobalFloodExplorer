@@ -50,9 +50,9 @@
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  box-shadow: 5px 5px 5px 1pt rgba(0, 0, 0, 0.5);
-  background-color: #192e44;
-  border: 2px solid #395879;
+  box-shadow: 0 0 0 2pt rgba(60, 132, 150, 0.3);
+  background-color: rgba(193, 241, 253, 0.9);
+  border: 5px solid rgba(60, 132, 150, 0.8);
   border-radius: 25px;
   text-align: center;
   vertical-align: middle;
@@ -116,16 +116,35 @@
 }
 
 .layer-selection-button-text {
-  color: white;
-  text-shadow: 0.5px 0.5px 2px black;
+  color: black;
+  /* text-shadow: 0.5px 0.5px 2px white; */
   font-size: 0.9em;
   text-transform: capitalize;
 }
 
+/* Unselected */
+.layer-selection-button-container > .layer-selection-button-text-container {
+  border-radius: 25px;
+  background-color: rgba(60, 132, 150, 0.3);
+}
+
+.layer-selection-button-container > .layer-selection-image-container {
+  border-radius: 50px;
+  background-color: rgba(60, 132, 150, 0.3);
+}
+
+/* Selected */
 .layer-selection-button-container.selected
   > .layer-selection-button-text-container {
   border-radius: 25px;
   background-color: #aa536a;
+}
+
+.layer-selection-button-container.selected
+  > .layer-selection-button-text-container
+  > * {
+  color: white;
+  text-shadow: 0.5px 0.5px 2px black;
 }
 
 .layer-selection-button-container.selected > .layer-selection-image-container {

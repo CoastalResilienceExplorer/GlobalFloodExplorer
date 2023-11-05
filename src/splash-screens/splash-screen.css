@@ -20,10 +20,6 @@
   background-color: rgba(0, 0, 0, 0.4);
 }
 
-body {
-  font-family: "Century Gothic";
-}
-
 .splash-screen-toplevel-vertical-divide {
   display: flex;
 }
@@ -251,8 +247,10 @@ body {
 .navigation-controls {
   position: relative;
   left: -50%;
-  color: white;
-  background-color: #15536d;
+  color: black;
+  box-shadow: 0 0 0 2pt rgba(60, 132, 150, 0.3);
+  background-color: rgba(193, 241, 253, 0.9);
+  border: 5px solid rgba(60, 132, 150, 0.8);
   justify-content: center;
   align-content: center;
   flex-direction: row;
@@ -273,7 +271,7 @@ body {
   justify-content: center;
   align-content: center;
   text-align: left;
-  color: white;
+  color: black;
   padding-left: 30px;
 }
 

@@ -7,6 +7,7 @@ import { useSelection } from "hooks/useSelection";
 import { useBreadcrumbs, useMapWithBreadcrumbs } from "hooks/useBreadcrumbs";
 import { InfoContext, useInfo } from "hooks/useInfo";
 import { usePermalinks } from "hooks/usePermalinks";
+import { useSlideMap } from "hooks/useSlideMap";
 
 // Data
 import sources from "./layers/sources";
@@ -21,8 +22,7 @@ import StatsPanel from "./panels/stats-panel/stats-panel-container";
 import HomeInfoPanel from "./panels/home-info-panel/home-info-panel";
 import Compass from "./compass/compass";
 import BasemapManager from "./basemap_manager/BasemapManager";
-import FloodSelector from "./flood_selector/flood_selector";
-import BreadcrumbsContainer from "./panels/breadcrumbs/breadcrumbs-container";
+import { SlideMap } from "slide_map/slide_map";
 
 //Info
 import Info from "./info/info";
@@ -41,6 +41,9 @@ const all_selectable_layers = Object.values(layers)
   .flat()
   .filter((x) => x.is_selectable)
   .map((x) => x.id);
+
+const token =
+  "pk.eyJ1IjoiY2xvd3JpZSIsImEiOiJja21wMHpnMnIwYzM5Mm90OWFqaTlyejhuIn0.TXE-FIaqF4K_K1OirvD0wQ";
 
 export default function Map() {
   const [initialStates, useUpdatePermalink] = usePermalinks({
@@ -61,7 +64,7 @@ export default function Map() {
   } = useMap(
     initialStates.viewport,
     "mapbox://styles/mapbox/satellite-v9",
-    "pk.eyJ1IjoiY2xvd3JpZSIsImEiOiJja21wMHpnMnIwYzM5Mm90OWFqaTlyejhuIn0.TXE-FIaqF4K_K1OirvD0wQ",
+    token,
   );
 
   const {
@@ -106,7 +109,6 @@ export default function Map() {
 
   const breadcrumbs = useBreadcrumbs(aois, viewport);
   useMapWithBreadcrumbs(viewport, aois, map);
-  // useEffect(() => console.log(breadcrumbs), [breadcrumbs])
 
   const { useFirst, activeInfo } = useInfo(initialInfo, infoReducer);
 
@@ -186,28 +188,38 @@ export default function Map() {
       />
       <div className="screen">
         <Legend legend_items={legends} />
-        <div ref={mapContainer} className="map-container">
-          {/* <BreadcrumbsContainer breadcrumbs={breadcrumbs} map={map} /> */}
-          <StatsPanel
-            selectedFeatures={selectedFeatures}
-            selectionType={selectionType}
-            layerGroup={layerGroup}
-            setLayerGroup={setLayerGroup}
-            flyToViewport={flyToViewport}
-            selectRef={selectRef}
-          />
-          <BasemapManager
-            style={style}
-            setStyle={setStyle}
-            floodGroup={subgroup}
-            setFloodGroup={setSubgroup}
-            floodingOn={subgroupOn}
-          />
-        </div>
+        <SlideMap
+          visible={layerGroup === "Flooding" ? "visible" : "hidden"}
+          initialStates={initialStates}
+          access_token={token}
+          other_map={map}
+        />
+        <div
+          ref={mapContainer}
+          className="map-container"
+          style={{
+            visibility: layerGroup !== "Flooding" ? "visible" : "hidden",
+          }}
+        />
       </div>
       <div className="center-ref-container">
         <div className="center-ref" ref={centerRef} />
       </div>
+      <StatsPanel
+        selectedFeatures={selectedFeatures}
+        selectionType={selectionType}
+        layerGroup={layerGroup}
+        setLayerGroup={setLayerGroup}
+        flyToViewport={flyToViewport}
+        selectRef={selectRef}
+      />
+      <BasemapManager
+        style={style}
+        setStyle={setStyle}
+        floodGroup={subgroup}
+        setFloodGroup={setSubgroup}
+        floodingOn={subgroupOn}
+      />
       <Compass
         viewport={viewport}
         setViewport={flyToViewport}
@@ -221,11 +233,6 @@ export default function Map() {
         selectedLayer={layerGroup}
         setSelectedLayer={setLayerGroup}
         isTouch={isTouch}
-      />
-      <FloodSelector
-        floodGroup={subgroup}
-        setFloodGroup={setSubgroup}
-        floodingOn={subgroupOn}
       />
     </InfoContext.Provider>
   );

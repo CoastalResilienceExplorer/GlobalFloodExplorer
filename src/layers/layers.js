@@ -412,42 +412,42 @@ const flooding = [
 const flooding_test = [
   {
     layer: {
-      id: 'flooding_1996',
-      type: 'raster',
-      source: 'flooding_1996',
+      id: "flooding_1996",
+      type: "raster",
+      source: "flooding_1996",
       minzoom: 5,
-      maxzoom: 22
+      maxzoom: 22,
     },
     legend: FloodMaps_Bathy,
-    layer_type: 'RASTER2',
-    layer_title: "1996 Mangroves, RP50",
+    layer_type: "RASTER2",
+    layer_title: "Flooding, 1 in 50 year storm",
     // is_subgroup: true,
     legend_suffix: "m",
     // display_legend: false,
   },
   {
     layer: {
-      id: 'flooding_2015',
-      type: 'raster',
-      source: 'flooding_2015',
+      id: "flooding_2015",
+      type: "raster",
+      source: "flooding_2015",
       minzoom: 5,
-      maxzoom: 22
+      maxzoom: 22,
     },
     legend: FloodMaps_Bathy,
-    layer_type: 'RASTER2',
-    layer_title: "2015 Mangroves, RP50",
+    layer_type: "RASTER2",
+    layer_title: "Flooding, 1 in 50 year storm",
     // is_subgroup: true,
     legend_suffix: "m",
     // display_legend: false,
-  }
-]
+  },
+];
 
 const layers = {
   "Benefit (AEB)": annual_benefits,
   "Benefit per Hectare": per_ha,
   "Risk Reduction Ratio": reduct_ratio,
   // Flooding: flooding,
-  "Flooding": flooding_test
+  Flooding: flooding_test,
 };
 
 export default layers;

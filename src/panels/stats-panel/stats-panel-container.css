@@ -13,11 +13,12 @@
   grid-template-areas: "x content";
   gap: 5px;
   transition: transform 1s;
-  font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+  /* font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif; */
   font-weight: normal;
   font-style: normal;
   z-index: 5;
   pointer-events: none;
+  font-size: 0.7rem;
 }
 
 .right-panel > * {
