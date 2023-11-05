@@ -7,6 +7,7 @@ import React, {
   useMemo,
   useCallback,
 } from "react";
+import "./search-bar.css";
 
 type bounds = [[number, number], [number, number]];
 
@@ -24,6 +25,7 @@ type Place = {
 const API_KEY = "AIzaSyALn2U5-jll5h_96VoWn2YVe2BO9W1-fAE";
 
 const SearchBar = ({ onPlaceSelect, setBounds }: SearchBarProps) => {
+  const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<Place[]>([]);
   const [highlightedIndex, setHighlightedIndex] = useState(0);
@@ -96,7 +98,6 @@ const SearchBar = ({ onPlaceSelect, setBounds }: SearchBarProps) => {
       [northeast?.lng(), northeast?.lat()],
       [southwest?.lng(), southwest?.lat()],
     ];
-    console.log(bounds);
     if (bounds) setBounds(bounds);
     else
       window.alert(
@@ -123,7 +124,8 @@ const SearchBar = ({ onPlaceSelect, setBounds }: SearchBarProps) => {
   };
 
   return (
-    <div>
+    <div className="search-container">
+      <div className="search-info-text">Search</div>
       <input
         ref={searchInputRef}
         type="text"
@@ -133,14 +135,14 @@ const SearchBar = ({ onPlaceSelect, setBounds }: SearchBarProps) => {
         placeholder="Search for a place..."
       />
       {results.length > 0 && (
-        <ul>
+        <ul className="search-results-container">
           {results.map((result, index) => (
             <li
               key={result.place_id}
               onClick={() => handleSelection(result.place_id)}
-              style={{
-                backgroundColor: index === highlightedIndex ? "#eee" : "#fff",
-              }}
+              className={`search-result ${
+                index === highlightedIndex && "highlighted"
+              }`}
             >
               {result?.description}
             </li>

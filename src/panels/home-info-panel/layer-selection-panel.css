@@ -3,6 +3,7 @@
   flex-direction: column;
   pointer-events: none;
   position: relative;
+  margin-right: 5px;
 }
 
 .layer-selection-container.mobile {
@@ -89,7 +90,7 @@
   grid-template-rows: 25px 60px;
   margin: 5px;
   cursor: pointer;
-  font-size: 0.8em;
+  font-size: 0.9em;
 }
 
 .layer-selection-icon {
