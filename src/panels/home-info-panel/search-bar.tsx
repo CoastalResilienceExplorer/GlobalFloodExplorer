@@ -4,52 +4,67 @@ import React, {
   useEffect,
   useRef,
   KeyboardEventHandler,
+  useMemo,
+  useCallback,
 } from "react";
+
+type bounds = [[number, number], [number, number]];
 
 interface SearchBarProps {
   onPlaceSelect: (result: any) => void;
-  flyToBounds: (bounds: [[number, number], [number, number]]) => void;
+  setBounds: (bounds: bounds) => void;
 }
 
 type Place = {
-  place_id: number;
+  place_id: string;
   description: string;
-};
-
-const service = new google.maps.places.AutocompleteService();
-const sessionToken = new google.maps.places.AutocompleteSessionToken();
-
-const fetchPlaces = (query: string) => {
-  return new Promise((resolve, reject) => {
-    service.getPlacePredictions(
-      { input: query, sessionToken },
-      (
-        predictions: google.maps.places.AutocompletePrediction[] | null,
-        status: google.maps.places.PlacesServiceStatus,
-      ) => {
-        if (status === google.maps.places.PlacesServiceStatus.OK) {
-          resolve(predictions);
-        }
-        reject(status);
-      },
-    );
-  });
 };
 
 // Restricted API key for this project
 const API_KEY = "AIzaSyALn2U5-jll5h_96VoWn2YVe2BO9W1-fAE";
-const fetchPlace = async (placeId: string | number) => {
-  const res = await fetch(
-    `https://maps.googleapis.com/maps/api/geocode/json?place_id=${placeId}&key=${API_KEY}`,
-  );
-  return res.json();
-};
 
-const SearchBar = ({ onPlaceSelect, flyToBounds }: SearchBarProps) => {
+const SearchBar = ({ onPlaceSelect, setBounds }: SearchBarProps) => {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<Place[]>([]);
   const [highlightedIndex, setHighlightedIndex] = useState(0);
   const searchInputRef = useRef(null);
+
+  const AutocompleteService = useMemo(
+    () => new google.maps.places.AutocompleteService(),
+    [],
+  );
+  const sessionToken = useMemo(
+    () => new google.maps.places.AutocompleteSessionToken(),
+    [],
+  );
+  const Geocoder = useMemo(() => new google.maps.Geocoder(), []);
+
+  const fetchPlace = useCallback(
+    async (placeId: string) => {
+      const { results } = await Geocoder.geocode({ placeId });
+      return results[0];
+    },
+    [Geocoder],
+  );
+
+  const fetchPlaces = useCallback(
+    (query: string) => {
+      return new Promise((resolve, reject) => {
+        AutocompleteService.getPlacePredictions(
+          { input: query, sessionToken, types: ["political"] },
+          (
+            predictions: google.maps.places.AutocompletePrediction[] | null,
+            status: google.maps.places.PlacesServiceStatus,
+          ) => {
+            if (status === google.maps.places.PlacesServiceStatus.OK) {
+              resolve(predictions);
+            } else reject(status);
+          },
+        );
+      });
+    },
+    [AutocompleteService, sessionToken],
+  );
 
   const runFetchPlaces = (currentQuery: string) => {
     if (currentQuery.length > 2) {
@@ -70,12 +85,19 @@ const SearchBar = ({ onPlaceSelect, flyToBounds }: SearchBarProps) => {
     setQuery(e.target.value);
   };
 
-  const handleSelection = async (placeId: string | number) => {
+  const handleSelection = async (placeId: string) => {
     setQuery("");
     setResults([]);
     const place = await fetchPlace(placeId);
-    const viewport = place?.results[0]?.geometry?.viewport;
-    if (viewport) flyToBounds([viewport?.northeast, viewport?.southwest]);
+    const viewport = place?.geometry?.viewport;
+    const northeast = viewport?.getNorthEast();
+    const southwest = viewport?.getSouthWest();
+    const bounds: bounds = [
+      [northeast?.lng(), northeast?.lat()],
+      [southwest?.lng(), southwest?.lat()],
+    ];
+    console.log(bounds);
+    if (bounds) setBounds(bounds);
     else
       window.alert(
         "Coastal Reef Explorer could not find this location automatically.",

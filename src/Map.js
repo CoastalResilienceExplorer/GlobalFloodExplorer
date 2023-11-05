@@ -35,7 +35,7 @@ import {
   DisclaimerScreen,
   NavigationControls,
 } from "./splash-screens/disclaimer-screen";
-import SearchBar from "components/search-bar";
+import SearchBar from "panels/home-info-panel/search-bar";
 
 const all_selectable_layers = Object.values(layers)
   .flat()
@@ -173,7 +173,6 @@ export default function Map() {
         setShow={setDisclaimer}
         isTouch={isTouch}
       />
-      <SearchBar flyToBounds={flyToBounds} />
       <NavigationControls show={navigationControls} isTouch={isTouch} />
       <Info
         activeInfo={activeInfo}
@@ -218,7 +217,7 @@ export default function Map() {
       />
       <HomeInfoPanel
         setSplashScreen={setSplashScreen2}
-        setViewport={flyToViewport}
+        setBounds={flyToBounds}
         selectedLayer={layerGroup}
         setSelectedLayer={setLayerGroup}
         isTouch={isTouch}

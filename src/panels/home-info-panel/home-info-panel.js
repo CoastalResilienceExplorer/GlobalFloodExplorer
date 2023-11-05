@@ -3,6 +3,7 @@ import "./home-info-panel.css";
 import { ReactComponent as NavigationIcon } from "assets/navigation-icon.svg";
 import { ReactComponent as HomeIcon } from "assets/home-icon.svg";
 import LayerSelectionPanel from "./layer-selection-panel";
+import SearchBar from "panels/home-info-panel/search-bar";
 
 function HomeButton(props) {
   return (
@@ -10,9 +11,8 @@ function HomeButton(props) {
       className="home-info-button-container"
       onClick={() => props.setSplashScreen(true)}
     >
+      <div className="home-info-text">Home</div>
       <HomeIcon className="home-info-button" />
-      <div className="home-info-text">home</div>
-      {/* </div> */}
     </div>
   );
 }
@@ -54,19 +54,19 @@ function LeftPanel({
   setSplashScreen,
   selectedLayer,
   setSelectedLayer,
+  setBounds,
   isTouch,
 }) {
   return (
     <div className="left-pane">
+      <HomePanel setSplashScreen={setSplashScreen} />
       <LayerSelectionPanel
         selectedLayer={selectedLayer}
         setSelectedLayer={setSelectedLayer}
         breadcrumbs={breadcrumbs}
         isTouch={isTouch}
       />
-      <div className="homeinfo-breadcrumbs-panel-layout" onClick={() => {}}>
-        <HomePanel setSplashScreen={setSplashScreen} />
-      </div>
+      <SearchBar setBounds={setBounds} />
     </div>
   );
 }

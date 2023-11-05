@@ -52,7 +52,7 @@ function LayerSelectionButtonContainer({
               "layer-selection-button-text" + (isSelected ? " selected" : "")
             }
           >
-            {id.toUpperCase()}
+            {id}
           </div>
         )}
       </div>
@@ -62,16 +62,14 @@ function LayerSelectionButtonContainer({
 }
 
 function OpenCloseToggle({ isOpen, setIsOpen }) {
-  const openTransform = {
-    transform: "rotate(180deg)",
-  };
+  const transform = isOpen ? "rotate(270deg)" : "rotate(90deg)";
 
   return (
     <div className="open-close-toggle-container">
       <OpenCloseToggleIcon
         className={"open-close-toggle" + (!isOpen ? " collapsed" : "")}
         onClick={() => setIsOpen(!isOpen)}
-        style={isOpen ? openTransform : {}}
+        style={{ transform }}
       />
     </div>
   );

@@ -1,7 +1,8 @@
 .layer-selection-container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   pointer-events: none;
+  position: relative;
 }
 
 .layer-selection-container.mobile {
@@ -25,20 +26,19 @@
 }
 
 .open-close-toggle-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin-left: 5px;
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 50%;
+  background-color: white;
+  padding: 3px 15px 0;
+  border-radius: 10px;
+  cursor: pointer;
+  transform: translateX(-50%);
 }
 
 .open-close-toggle {
   width: 22px;
-  height: 22px;
-  background-color: white;
-  padding-top: 15px;
-  padding-bottom: 15px;
-  border-radius: 10px;
-  cursor: pointer;
+  height: 18px;
 }
 
 .open-close-toggle:hover {
@@ -47,7 +47,7 @@
 
 .layer-selection-content-container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-around;
   box-shadow: 5px 5px 5px 1pt rgba(0, 0, 0, 0.5);
   background-color: #192e44;
@@ -86,7 +86,7 @@
 
 .layer-selection-button-container {
   display: grid;
-  grid-template-rows: 40px 100px;
+  grid-template-rows: 25px 60px;
   margin: 5px;
   cursor: pointer;
   font-size: 0.8em;
@@ -94,8 +94,9 @@
 
 .layer-selection-icon {
   align-self: center;
-  width: 100px;
-  height: 100px;
+  width: 50px;
+  height: 50px;
+  margin: 2.5px;
 }
 
 .layer-selection-icon.beta {
@@ -110,13 +111,14 @@
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  width: 100px;
+  width: 110px;
 }
 
 .layer-selection-button-text {
   color: white;
   text-shadow: 0.5px 0.5px 2px black;
   font-size: 0.9em;
+  text-transform: capitalize;
 }
 
 .layer-selection-button-container.selected
@@ -128,6 +130,9 @@
 .layer-selection-button-container.selected > .layer-selection-image-container {
   border-radius: 50px;
   background-color: #aa536a;
+  height: 55px;
+  width: 55px;
+  margin: 5px auto;
 }
 
 .currently-viewing-text-container {
@@ -143,7 +148,6 @@
 .currently-viewing-text-container > * {
   pointer-events: all;
   text-align: left;
-  /* height: 100px */
 }
 
 .currently-viewing-text-layer,
