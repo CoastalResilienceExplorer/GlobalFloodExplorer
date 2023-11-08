@@ -25,6 +25,7 @@
     "husky": "^8.0.0",
     "lint-staged": "^13.3.0",
     "prettier": "^3.0.1",
+    "serve": "^14.2.1",
     "typescript": "^5.1.6",
     "wait-on": "^7.0.1"
   },
@@ -33,8 +34,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "cypress:dev": "cypress open",
-    "cypress:ci": "yarn start & wait-on http://localhost:3000 & cypress run"
-
+    "cypress:ci": "yarn build & npx serve -s build & wait-on http://localhost:3000 & cypress run"
   },
   "lint-staged": {
     "{src,cypress}/**/*.{js,jsx,ts,tsx}": [
