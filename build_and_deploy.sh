@@ -31,7 +31,6 @@ steps:
         "$IMAGE",
         "."
       ]
-  waitFor: ['test']
 - name: 'gcr.io/cloud-builders/docker'
   id: 'push-image'
   args: ['push', '$IMAGE']
