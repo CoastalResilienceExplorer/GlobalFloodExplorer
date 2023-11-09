@@ -1,8 +1,13 @@
 describe("Map spec", () => {
   beforeEach(() => {
     cy.visit("/");
-    cy.get(".navigation-button").contains("Explore").click();
-    cy.get('[data-test-id="disclaimer-close-button"]').click();
+    cy.get(".navigation-button")
+      .should("be.visible")
+      .contains("Explore")
+      .click();
+    cy.get('[data-test-id="disclaimer-close-button"]')
+      .should("be.visible")
+      .click();
   });
 
   it("renders various elements of the map page", () => {

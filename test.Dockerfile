@@ -1,8 +1,9 @@
 FROM cypress/base:16
 
 WORKDIR /app
-COPY ./ /app/
+COPY ./package.json /app/
 RUN yarn
+COPY ./ /app/
 EXPOSE 3000
 
 ARG REACT_APP_USE_SITE_GATING=0
@@ -11,7 +12,5 @@ ENV REACT_APP_USE_SITE_GATING $REACT_APP_USE_SITE_GATING
 ARG REACT_APP_SITE_GATING_MATCH=default_value
 ENV REACT_APP_SITE_GATING_MATCH $REACT_APP_SITE_GATING_MATCH
 
-RUN npm install --save-dev start-server-and-test
-RUN yarn cypress:ci
-
-# ENTRYPOINT [ "npm", "start" ]
+RUN yarn build
+RUN npx serve -s build & npx wait-on http://localhost:3000 && yarn cypress:run
