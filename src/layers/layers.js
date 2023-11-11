@@ -6,6 +6,7 @@ import {
   SelectedTessela,
   FloodMaps_Bathy,
   Empty,
+  Mangroves,
 } from "./colormaps/colormaps";
 
 const annual_benefits = [
@@ -412,14 +413,14 @@ const flooding = [
 const flooding_test = [
   {
     layer: {
-      id: 'flooding_1996',
-      type: 'raster',
-      source: 'flooding_1996',
+      id: "flooding_1996",
+      type: "raster",
+      source: "flooding_1996",
       minzoom: 5,
-      maxzoom: 22
+      maxzoom: 22,
     },
     legend: FloodMaps_Bathy,
-    layer_type: 'RASTER2',
+    layer_type: "RASTER2",
     layer_title: "Flooding, 1 in 50 year storm",
     // is_subgroup: true,
     legend_suffix: "m",
@@ -427,27 +428,36 @@ const flooding_test = [
   },
   {
     layer: {
-      id: 'flooding_2015',
-      type: 'raster',
-      source: 'flooding_2015',
+      id: "flooding_2015",
+      type: "raster",
+      source: "flooding_2015",
       minzoom: 5,
-      maxzoom: 22
+      maxzoom: 22,
     },
     legend: FloodMaps_Bathy,
-    layer_type: 'RASTER2',
+    layer_type: "RASTER2",
     layer_title: "Flooding, 1 in 50 year storm",
     // is_subgroup: true,
     legend_suffix: "m",
     // display_legend: false,
-  }
-]
+  },
+  {
+    id: "mangroves_2015",
+    source: "mangroves_2015",
+    source_layer: "2450fda8806a11ee85eec120a2bff741",
+    legend: Mangroves,
+    layer_title: "Tessela",
+    layer_type: "SIMPLE_OUTLINE",
+    display_legend: false,
+  },
+];
 
 const layers = {
   "Benefit (AEB)": annual_benefits,
   "Benefit per Hectare": per_ha,
   "Risk Reduction Ratio": reduct_ratio,
   // Flooding: flooding,
-  "Flooding": flooding_test
+  Flooding: flooding_test,
 };
 
 export default layers;

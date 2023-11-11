@@ -114,6 +114,17 @@ const SelectedTesselaStrokes = {
   },
 };
 
+const MangroveStrokes = {
+  width: 1,
+  color: "white",
+  opacity: 0.6,
+  selected: {
+    width: 10.0,
+    color: "cyan",
+    opacity: 0.5,
+  },
+};
+
 const _Blue_5Step = {
   breaks: [0, 1000000, 10000000, 100000000, 1000000000],
 
@@ -209,6 +220,8 @@ export const Blue_5Step_per_ha = new DiscreteColorSizeScale(
 );
 
 export const SelectedTessela = new SimpleColorScale(SelectedTesselaStrokes);
+
+export const Mangroves = new SimpleColorScale(MangroveStrokes);
 
 export const FloodMaps_Bathy = new DiscreteColorSizeScale(
   _Floodmaps_Bathy,
