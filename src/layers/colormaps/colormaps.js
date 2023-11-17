@@ -205,6 +205,16 @@ const _Empty = {
   legendScale: 3,
 };
 
+const _Green = {
+  breaks: [0, 1, 2],
+
+  colorRamp: ["#00871D", "#00871D", "#00871D"],
+
+  sizeRamp: [5, 10, 15],
+
+  legendScale: 3,
+};
+
 export const Empty = new DiscreteColorSizeScale(_Empty, BasicStrokes);
 
 export const Blue_5Step_0_1 = new DiscreteColorSizeScale(
@@ -227,3 +237,5 @@ export const FloodMaps_Bathy = new DiscreteColorSizeScale(
   _Floodmaps_Bathy,
   BasicStrokes,
 );
+
+export const Green = new DiscreteColorSizeScale(_Green, BasicStrokes);

@@ -9,6 +9,7 @@ export default class FillWithOutlineProto {
     layer_title,
     layer_type,
     opacity,
+    floodGroup,
     display_legend = true,
     filter_value = 250000,
     legend_prefix = null,
@@ -33,6 +34,7 @@ export default class FillWithOutlineProto {
     this.opacity = opacity;
     this.minzoom = minzoom;
     this.maxzoom = maxzoom;
+    this.visible = this.id.includes(floodGroup) ? "visible" : "none";
   }
 
   get MBLayer() {
@@ -60,7 +62,11 @@ export default class FillWithOutlineProto {
       maxzoom: this.maxzoom,
     };
 
-    return layer_proto;
+    return Object.assign(layer_proto, {
+      layout: {
+        visibility: this.visible,
+      },
+    });
   }
 
   get Legend() {

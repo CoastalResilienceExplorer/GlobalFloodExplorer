@@ -36,13 +36,7 @@ export default class GeoScaledPointProto {
     // this.display_legend = display_legend
     this.format = format;
 
-    this.visible =
-      (floodGroup === "with" &&
-        this.id.includes("flooding_with") &&
-        !this.id.includes("flooding_without")) ||
-      (floodGroup === "without" && this.id.includes("flooding_without"))
-        ? "visible"
-        : "none";
+    this.visible = "visible";
   }
 
   get MBLayer() {

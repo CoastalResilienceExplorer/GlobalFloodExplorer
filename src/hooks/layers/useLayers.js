@@ -74,8 +74,8 @@ export function useLayers(
   }
 
   useEffect(() => {
-    console.log(layerGroup, subgroup)
-  }, [subgroup])
+    console.log(layerGroup, subgroup);
+  }, [subgroup]);
 
   useEffect(() => {
     if (!mapLoaded) return;
@@ -85,6 +85,7 @@ export function useLayers(
       addSourcesAndSupps();
       addLayers(layers);
     });
+    console.log(map);
   }, [style]);
 
   useEffect(() => {
