@@ -81,7 +81,7 @@ const flooding_2015_pt = {
 };
 
 const mangroves_1996 = {
-  id: "mangroves",
+  id: "mangroves_1996",
   type: "vector",
   format: "mvt",
   tiles: [
@@ -92,7 +92,7 @@ const mangroves_1996 = {
 };
 
 const mangroves_2015 = {
-  id: "mangroves",
+  id: "mangroves_2015",
   type: "vector",
   format: "mvt",
   tiles: [
