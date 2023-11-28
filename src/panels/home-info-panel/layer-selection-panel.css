@@ -123,6 +123,11 @@
 }
 
 /* Unselected */
+.layer-selection-button-container > .layer-selection-button-text-container {
+  border-radius: 25px;
+  background-color: rgba(60, 132, 150, 0.3);
+}
+
 .layer-selection-button-container > .layer-selection-image-container {
   border-radius: 50px;
   background-color: rgba(60, 132, 150, 0.3);
