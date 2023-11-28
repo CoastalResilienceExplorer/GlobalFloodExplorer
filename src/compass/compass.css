@@ -5,7 +5,7 @@
   z-index: 4;
   right: 10px;
   top: 10px;
-  color: white
+  color: white;
 }
 
 .controls-panel-title {
@@ -18,7 +18,7 @@
 
 .controls-panel > * {
   cursor: pointer;
-  color: black
+  color: black;
 }
 
 .controls-icon-container {
@@ -39,11 +39,11 @@
 
 .controls-icon {
   width: 20px;
-  height: 20px
+  height: 20px;
 }
 
 .controls-icon.zoom-full {
-  padding-top: 10%
+  padding-top: 10%;
 }
 
 .controls-icon-container:hover {

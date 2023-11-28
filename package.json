@@ -22,23 +22,26 @@
     "@types/node": "^20.5.0",
     "@types/react": "^18.2.27",
     "@types/react-dom": "^18.2.7",
+    "cypress": "^13.4.0",
     "husky": "^8.0.0",
     "lint-staged": "^13.3.0",
     "prettier": "^3.0.1",
-    "typescript": "^5.1.6"
+    "serve": "^14.2.1",
+    "typescript": "^5.1.6",
+    "wait-on": "^7.0.1"
   },
   "scripts": {
+    "prepare": "husky install",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "prepare": "husky install"
+    "cypress:dev": "cypress open",
+    "cypress:ci": "yarn build & npx serve -s build & wait-on http://localhost:3000 & cypress run"
   },
   "lint-staged": {
-    "src/**/*.{js,jsx,ts,tsx}": [
+    "{src,cypress}/**/*.{js,jsx,ts,tsx}": [
       "eslint --fix"
     ],
-    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+    "{src,cypress}/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
       "prettier --write"
     ]
   },

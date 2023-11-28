@@ -1,7 +1,7 @@
 .floodgroup-manager-outer-container {
   font-size: 0.9em;
   z-index: 2;
-  color: white
+  color: white;
 }
 
 .floodgroup-manager-inner-container {
@@ -13,7 +13,7 @@
   /* box-shadow: 0 0 0 2pt rgba(60, 132, 150, 0.3); */
   background-color: rgba(193, 241, 253, 0.9);
   border: 5px solid rgba(60, 132, 150, 0.8);
-  
+
   border-radius: 0px 50px 50px 0px;
   font-size: 1.2em;
   color: black;
@@ -23,7 +23,6 @@
 }
 
 .left > * > .floodgroup-manager-inner-container {
-
   border-radius: 50px 0px 0px 50px;
 }
 
@@ -38,7 +37,6 @@
   justify-content: space-between;
   margin: 0px 0px 0px;
   max-width: 100px;
-  
 }
 
 .circle-selector-text.flooding {

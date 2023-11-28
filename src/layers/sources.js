@@ -39,33 +39,31 @@ const mapbox_dem = {
 //   ],
 //   scheme: "xyz",
 // };
-const floodYear = '100'
-const COGSERVER_URL = 'https://cogserver-staging-myzvqet7ua-uw.a.run.app'
+const floodYear = "100";
+const COGSERVER_URL = "https://cogserver-staging-myzvqet7ua-uw.a.run.app";
 
 const flooding_1996 = {
-  'type': 'raster',
-  'tiles': [
-    `${COGSERVER_URL}/{z}/{x}/{y}.png?dataset=cwon_data/with_1996_TC_Tr_${floodYear}.tiff&max_val=8&color=blues`
+  type: "raster",
+  tiles: [
+    `${COGSERVER_URL}/{z}/{x}/{y}.png?dataset=cwon_data/with_1996_TC_Tr_${floodYear}.tiff&max_val=8&color=blues`,
   ],
-  'tileSize': 256,
+  tileSize: 256,
 };
 
 const flooding_2015 = {
-  'type': 'raster',
-  'tiles': [
-    `${COGSERVER_URL}/{z}/{x}/{y}.png?dataset=cwon_data/with_2015_TC_Tr_${floodYear}.tiff&max_val=8&color=blues`
+  type: "raster",
+  tiles: [
+    `${COGSERVER_URL}/{z}/{x}/{y}.png?dataset=cwon_data/with_2015_TC_Tr_${floodYear}.tiff&max_val=8&color=blues`,
   ],
-  'tileSize': 256,
+  tileSize: 256,
 };
-
-
 
 const sources = [
   ["tesselas", tesselas],
   ["countries", countries],
   ["mapbox-dem", mapbox_dem],
   ["flooding_1996", flooding_1996],
-  ["flooding_2015", flooding_2015]
+  ["flooding_2015", flooding_2015],
 ];
 
 export default sources;

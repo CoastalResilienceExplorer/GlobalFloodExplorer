@@ -5,11 +5,11 @@
   z-index: 4;
   right: 10px;
   bottom: 20px;
-  color: white
+  color: white;
 }
 
 .basemap-manager-container.light {
-  color: black
+  color: black;
 }
 
 .basemap-manager-header {
@@ -30,7 +30,6 @@
   align-items: center;
   justify-content: space-around;
   margin: 5px;
-
 }
 
 .circle-selector-text {
