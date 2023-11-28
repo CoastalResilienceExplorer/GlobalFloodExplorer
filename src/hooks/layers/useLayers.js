@@ -74,6 +74,10 @@ export function useLayers(
   }
 
   useEffect(() => {
+    console.log(layerGroup, subgroup);
+  }, [subgroup]);
+
+  useEffect(() => {
     if (!mapLoaded) return;
     map.setStyle(style);
     map.on("style.load", () => {

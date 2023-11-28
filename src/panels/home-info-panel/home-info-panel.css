@@ -20,8 +20,9 @@
 .home-container {
   display: flex;
   flex-direction: column;
-  background-color: #192e44;
-  border: 2px solid #395879;
+  box-shadow: 0 0 0 2pt rgba(60, 132, 150, 0.3);
+  background-color: rgba(193, 241, 253, 0.9);
+  border: 5px solid rgba(60, 132, 150, 0.8);
   border-radius: 30px;
   padding: 3px 12px 5px;
   text-align: center;
@@ -49,12 +50,12 @@
 .home-info-button {
   width: 20px;
   height: 30px;
-  fill: white;
+  fill: black;
   cursor: pointer;
 }
 
 .home-info-button-container > .home-info-text {
-  color: white;
+  color: black;
   /* font-weight:700; */
   font-size: 0.8em;
   margin-bottom: 10px;

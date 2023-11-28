@@ -64,7 +64,8 @@ export default function HexLegend({ legend }) {
         {placements.map((p, i) => (
           <text
             class="hex-text"
-            fill={p[0]}
+            fill="black"
+            // fill={p[0]}
             fontSize="1.2em"
             x={p[1][0] + xOffs}
             y={p[1][1] + yOffs}
