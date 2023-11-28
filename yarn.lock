@@ -2770,10 +2770,10 @@
     "@types/qs" "*"
     "@types/serve-static" "*"
 
-"@types/google.maps@^3.54.4":
-  version "3.54.4"
-  resolved "https://registry.yarnpkg.com/@types/google.maps/-/google.maps-3.54.4.tgz#f9e457c06fccbd6b67b96df89eb277280ab9c2fd"
-  integrity sha512-cUX4SOo5eN1Fotpcm6cH3//F8/UgXrs6/3OUkLYDkAizGo0AaecjBGCJMmY/n5XcMKogRFrqN/69JNKwCjBskg==
+"@types/google.maps@^3.54.10":
+  version "3.54.10"
+  resolved "https://registry.yarnpkg.com/@types/google.maps/-/google.maps-3.54.10.tgz#f3101dda3e873f3602ae664cf518592686ca215b"
+  integrity sha512-N6gwM01mKhooXaw+IKbUH7wJcIJCn8U60VoaVvom5EiQjmfgevhQ+0+/r17beXW5j8ad2x+WPr0iyOUodCw4/w==
 
 "@types/graceful-fs@^4.1.2":
   version "4.1.5"

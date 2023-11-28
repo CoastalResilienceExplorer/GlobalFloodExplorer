@@ -21,11 +21,7 @@ type Place = {
   description: string;
 };
 
-// Restricted API key for this project
-const API_KEY = "AIzaSyALn2U5-jll5h_96VoWn2YVe2BO9W1-fAE";
-
 const SearchBar = ({ onPlaceSelect, setBounds }: SearchBarProps) => {
-  const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<Place[]>([]);
   const [highlightedIndex, setHighlightedIndex] = useState(0);
@@ -91,6 +87,7 @@ const SearchBar = ({ onPlaceSelect, setBounds }: SearchBarProps) => {
     setQuery("");
     setResults([]);
     const place = await fetchPlace(placeId);
+    onPlaceSelect?.(place);
     const viewport = place?.geometry?.viewport;
     const northeast = viewport?.getNorthEast();
     const southwest = viewport?.getSouthWest();
