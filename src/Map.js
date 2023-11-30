@@ -7,7 +7,7 @@ import { useSelection } from "hooks/useSelection";
 import { useBreadcrumbs, useMapWithBreadcrumbs } from "hooks/useBreadcrumbs";
 import { InfoContext, useInfo } from "hooks/useInfo";
 import { usePermalinks } from "hooks/usePermalinks";
-import { useSlideMap } from "hooks/useSlideMap"
+import { useSlideMap } from "hooks/useSlideMap";
 
 // Data
 import sources from "./layers/sources";
@@ -41,7 +41,8 @@ const all_selectable_layers = Object.values(layers)
   .filter((x) => x.is_selectable)
   .map((x) => x.id);
 
-const token = "pk.eyJ1IjoiY2xvd3JpZSIsImEiOiJja21wMHpnMnIwYzM5Mm90OWFqaTlyejhuIn0.TXE-FIaqF4K_K1OirvD0wQ"
+const token =
+  "pk.eyJ1IjoiY2xvd3JpZSIsImEiOiJja21wMHpnMnIwYzM5Mm90OWFqaTlyejhuIn0.TXE-FIaqF4K_K1OirvD0wQ";
 
 export default function Map() {
   const [initialStates, useUpdatePermalink] = usePermalinks({
@@ -61,7 +62,7 @@ export default function Map() {
   } = useMap(
     initialStates.viewport,
     "mapbox://styles/mapbox/satellite-v9",
-    token
+    token,
   );
 
   const {
@@ -79,7 +80,7 @@ export default function Map() {
     style,
     layers,
     sources,
-    custom_layer_protos
+    custom_layer_protos,
   );
 
   const { legends } = useLegends(
@@ -185,16 +186,21 @@ export default function Map() {
       />
       <div className="screen">
         <Legend legend_items={legends} />
-        <SlideMap
-          visible={layerGroup === "Flooding" ? 'visible' : 'hidden'}
-          initialStates={initialStates}
-          access_token={token}
-          other_map={map}
-        />
+        {layerGroup === "Flooding" && (
+          <SlideMap
+            initialStates={initialStates}
+            style={style}
+            access_token={token}
+            other_map={map}
+          />
+        )}
         <div
           ref={mapContainer}
           className="map-container"
-          style={{ visibility: layerGroup !== "Flooding" ? 'visible' : 'hidden' }} />
+          style={{
+            visibility: layerGroup !== "Flooding" ? "visible" : "hidden",
+          }}
+        />
       </div>
       <div className="center-ref-container">
         <div className="center-ref" ref={centerRef} />

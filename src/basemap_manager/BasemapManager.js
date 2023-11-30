@@ -23,43 +23,36 @@ function CircleSelector({ selectedStyle, thisStyle, setStyle }) {
         className={
           "circle-selector" + ` ${thisStyle} ${selected ? "selected" : ""}`
         }
-      >
-      </div>
+      ></div>
     </div>
   );
 }
 
-export default function BasemapManager({
-  style,
-  setStyle
-}) {
+export default function BasemapManager({ style, setStyle }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div
       className={
-        "basemap-manager-container"
-        + (style.includes("light") ? " light" : "")
+        "basemap-manager-container" + (style.includes("light") ? " light" : "")
       }
       onMouseEnter={() => setIsOpen(true)}
       onMouseLeave={() => setIsOpen(false)}
     >
       <div className="basemap-manager-inner-container">
-        <div className={
-          "circle-selector-outer-container"
-          }>
-          {
-            ["Satellite", "Light", "Dark"].map(s => {
-              if (isOpen || style.includes(s.toLowerCase())){
-                return <CircleSelector
+        <div className={"circle-selector-outer-container"}>
+          {["Satellite", "Light", "Dark"].map((s) => {
+            if (isOpen || style.includes(s.toLowerCase())) {
+              return (
+                <CircleSelector
                   key={s}
                   selectedStyle={style}
                   setStyle={setStyle}
                   thisStyle={s}
                 />
-              }
-          })
-        }
+              );
+            }
+          })}
         </div>
       </div>
     </div>

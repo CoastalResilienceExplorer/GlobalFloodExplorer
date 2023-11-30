@@ -61,7 +61,7 @@ export function useLayers(
         map.addSource(source[0], source[1]);
       }
     }
-    map.setTerrain({ source: "mapbox-dem", exaggeration: 1.5 });
+    // map.setTerrain({ source: "mapbox-dem", exaggeration: 1.5 });
     map.setFog({ color: "rgba(255, 255, 255, 0.82)" });
   }
 

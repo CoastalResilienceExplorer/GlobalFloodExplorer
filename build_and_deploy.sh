@@ -13,6 +13,14 @@ SERVICE=coastal-resilience-explorer-frontend-${ENV}
 echo """
 steps:
 - name: "gcr.io/cloud-builders/docker"
+  id: 'test'
+  args: [
+        "build",
+        "-f", "test.Dockerfile",
+        "."
+      ]
+- name: "gcr.io/cloud-builders/docker"
+  id: 'build-image'
   args: [
         "build",
         "--build-arg",
@@ -21,10 +29,12 @@ steps:
         "REACT_APP_SITE_GATING_MATCH=${_SITE_GATING_MATCH}",
         "-t",
         "$IMAGE",
-        ".",
+        "."
       ]
 - name: 'gcr.io/cloud-builders/docker'
+  id: 'push-image'
   args: ['push', '$IMAGE']
+  waitFor: ['build-image']
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['run', 'deploy', 
       '$SERVICE', 
@@ -35,6 +45,7 @@ steps:
       '--memory', '2G',
       '--timeout', '3600'
    ]
+  waitFor: ['test', 'push-image']
 """ > /tmp/cloudbuild.yaml
 
 gcloud builds submit --config /tmp/cloudbuild.yaml

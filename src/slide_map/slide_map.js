@@ -10,15 +10,13 @@ import { useEffect } from "react";
 import "./flood_selector.css";
 import { FloodSelector } from "./flood_selector";
 
-export function SlideMap({ visible, initialStates, access_token, other_map }) {
+export function SlideMap({ initialStates, style, access_token, other_map }) {
   const {
     map: left_map,
     mapContainer: left_mapContainer,
     mapLoaded: left_mapLoaded,
-    viewport: left_viewport,
     style: left_style,
     setStyle: left_setStyle,
-    flyToViewport: left_flyToViewport,
   } = useMap(
     initialStates.viewport,
     "mapbox://styles/mapbox/satellite-v9",
@@ -29,10 +27,8 @@ export function SlideMap({ visible, initialStates, access_token, other_map }) {
     map: right_map,
     mapContainer: right_mapContainer,
     mapLoaded: right_mapLoaded,
-    viewport: right_viewport,
     style: right_style,
     setStyle: right_setStyle,
-    flyToViewport: right_flyToViewport,
   } = useMap(
     initialStates.viewport,
     "mapbox://styles/mapbox/satellite-v9",
@@ -40,17 +36,14 @@ export function SlideMap({ visible, initialStates, access_token, other_map }) {
   );
 
   const {
-    layerGroup: left_layerGroup,
-    layerSelectionDependencies: left_layerSelectionDependencies,
     subgroup: left_subgroup,
-    subgroupOn: left_subgroupOn,
     setLayerGroup: left_setLayerGroup,
     setSubgroup: left_setSubgroup,
   } = useLayers(
     left_map,
     left_mapLoaded,
     initialStates.layer,
-    "flooding_1996",
+    initialStates.subgroup,
     left_style,
     layers,
     sources,
@@ -58,17 +51,14 @@ export function SlideMap({ visible, initialStates, access_token, other_map }) {
   );
 
   const {
-    layerGroup: right_layerGroup,
-    layerSelectionDependencies: right_layerSelectionDependencies,
     subgroup: right_subgroup,
-    subgroupOn: right_subgroupOn,
     setLayerGroup: right_setLayerGroup,
     setSubgroup: right_setSubgroup,
   } = useLayers(
     right_map,
     right_mapLoaded,
     initialStates.layer,
-    "flooding_2015",
+    initialStates.subgroup,
     right_style,
     layers,
     sources,
@@ -78,7 +68,14 @@ export function SlideMap({ visible, initialStates, access_token, other_map }) {
   useEffect(() => {
     left_setLayerGroup("Flooding");
     right_setLayerGroup("Flooding");
-  }, [left_mapLoaded, right_mapLoaded]);
+    // Wait for initialization
+    setTimeout(() => {
+      left_setSubgroup("flooding_1996");
+      right_setSubgroup("flooding_2015");
+    }, 500);
+    // only run on mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const { leftClip, rightClip, slideTransformPx } = useSlideMap(
     left_map,
@@ -86,8 +83,13 @@ export function SlideMap({ visible, initialStates, access_token, other_map }) {
     other_map,
   );
 
+  useEffect(() => {
+    left_setStyle(style);
+    right_setStyle(style);
+  }, [style]);
+
   return (
-    <div id="slide-map-container" style={{ visibility: visible }}>
+    <div id="slide-map-container">
       <div
         ref={left_mapContainer}
         className="map"
