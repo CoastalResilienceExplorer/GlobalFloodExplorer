@@ -186,12 +186,14 @@ export default function Map() {
       />
       <div className="screen">
         <Legend legend_items={legends} />
-        <SlideMap
-          visible={layerGroup === "Flooding" ? "visible" : "hidden"}
-          initialStates={initialStates}
-          access_token={token}
-          other_map={map}
-        />
+        {layerGroup === "Flooding" && (
+          <SlideMap
+            initialStates={initialStates}
+            style={style}
+            access_token={token}
+            other_map={map}
+          />
+        )}
         <div
           ref={mapContainer}
           className="map-container"
