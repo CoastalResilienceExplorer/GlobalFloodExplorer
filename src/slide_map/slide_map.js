@@ -23,7 +23,7 @@ export function SlideMap({
     mapLoaded: left_mapLoaded,
     style: left_style,
     setStyle: left_setStyle,
-  } = useMap(viewport, "mapbox://styles/mapbox/satellite-v9", access_token);
+  } = useMap(viewport, style, access_token);
 
   const {
     map: right_map,
@@ -31,7 +31,7 @@ export function SlideMap({
     mapLoaded: right_mapLoaded,
     style: right_style,
     setStyle: right_setStyle,
-  } = useMap(viewport, "mapbox://styles/mapbox/satellite-v9", access_token);
+  } = useMap(viewport, style, access_token);
 
   const {
     subgroup: left_subgroup,
