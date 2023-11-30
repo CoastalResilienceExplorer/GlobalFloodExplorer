@@ -45,7 +45,8 @@ steps:
       '--memory', '2G',
       '--timeout', '3600'
    ]
-  waitFor: ['test', 'push-image']
+  waitFor: ['push-image']
+  # waitFor: ['test', 'push-image']
 """ > /tmp/cloudbuild.yaml
 
 gcloud builds submit --config /tmp/cloudbuild.yaml

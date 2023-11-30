@@ -10,18 +10,20 @@ import { useEffect } from "react";
 import "./flood_selector.css";
 import { FloodSelector } from "./flood_selector";
 
-export function SlideMap({ initialStates, style, access_token, other_map }) {
+export function SlideMap({
+  initialStates,
+  style,
+  viewport,
+  access_token,
+  other_map,
+}) {
   const {
     map: left_map,
     mapContainer: left_mapContainer,
     mapLoaded: left_mapLoaded,
     style: left_style,
     setStyle: left_setStyle,
-  } = useMap(
-    initialStates.viewport,
-    "mapbox://styles/mapbox/satellite-v9",
-    access_token,
-  );
+  } = useMap(viewport, style, access_token);
 
   const {
     map: right_map,
@@ -29,11 +31,7 @@ export function SlideMap({ initialStates, style, access_token, other_map }) {
     mapLoaded: right_mapLoaded,
     style: right_style,
     setStyle: right_setStyle,
-  } = useMap(
-    initialStates.viewport,
-    "mapbox://styles/mapbox/satellite-v9",
-    access_token,
-  );
+  } = useMap(viewport, style, access_token);
 
   const {
     subgroup: left_subgroup,

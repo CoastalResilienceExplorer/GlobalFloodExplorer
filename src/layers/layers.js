@@ -12,6 +12,15 @@ import {
 
 const annual_benefits = [
   {
+    id: "tessela_bounds",
+    source: "tesselas",
+    source_layer: "Tesselas",
+    legend: SelectedTessela,
+    layer_title: "Tessela",
+    layer_type: "SIMPLE_OUTLINE",
+    selection_dependent_on: "RP",
+  },
+  {
     id: "countries",
     source: "countries",
     source_layer: "Countries",
@@ -37,6 +46,9 @@ const annual_benefits = [
     format: "$",
     is_selectable: true,
   },
+];
+
+const reduct_ratio = [
   {
     id: "tessela_bounds",
     source: "tesselas",
@@ -44,11 +56,8 @@ const annual_benefits = [
     legend: SelectedTessela,
     layer_title: "Tessela",
     layer_type: "SIMPLE_OUTLINE",
-    selection_dependent_on: "RP",
+    selection_dependent_on: "Hex_p035",
   },
-];
-
-const reduct_ratio = [
   {
     id: "countries",
     source: "countries",
@@ -130,6 +139,9 @@ const reduct_ratio = [
     display_legend: false,
     is_selectable: true,
   },
+];
+
+const per_ha = [
   {
     id: "tessela_bounds",
     source: "tesselas",
@@ -137,11 +149,8 @@ const reduct_ratio = [
     legend: SelectedTessela,
     layer_title: "Tessela",
     layer_type: "SIMPLE_OUTLINE",
-    selection_dependent_on: "Hex_p035",
+    selection_dependent_on: "RP",
   },
-];
-
-const per_ha = [
   {
     id: "countries",
     source: "countries",
@@ -185,15 +194,6 @@ const per_ha = [
     legend_prefix: "$",
     format: "$",
     is_selectable: true,
-  },
-  {
-    id: "tessela_bounds",
-    source: "tesselas",
-    source_layer: "Tesselas",
-    legend: SelectedTessela,
-    layer_title: "Tessela",
-    layer_type: "SIMPLE_OUTLINE",
-    selection_dependent_on: "RP",
   },
 ];
 

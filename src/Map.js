@@ -190,6 +190,7 @@ export default function Map() {
           <SlideMap
             initialStates={initialStates}
             style={style}
+            viewport={viewport}
             access_token={token}
             other_map={map}
           />
