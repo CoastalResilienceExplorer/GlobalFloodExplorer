@@ -189,6 +189,7 @@ export default function Map() {
         {layerGroup === "Flooding" && (
           <SlideMap
             initialStates={initialStates}
+            style={style}
             access_token={token}
             other_map={map}
           />
