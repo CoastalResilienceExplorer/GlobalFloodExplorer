@@ -3,8 +3,6 @@ on: push
 jobs:
   cypress-run:
     runs-on: ubuntu-22.04
-    env:
-      CI: ""
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -12,6 +10,8 @@ jobs:
       # and run all Cypress tests
       - name: Cypress run
         uses: cypress-io/github-action@v6
+        env:
+          CI: false
         with:
           build: npm run build
           start: npx serve -s build & wait-on http://localhost:3000
