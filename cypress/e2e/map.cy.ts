@@ -18,7 +18,7 @@ describe("Map spec", () => {
     cy.get(".legend-container").should("be.visible");
 
     // Check that the basemap manager are rendered
-    cy.get(".basemap-manager-outer-container").should("be.visible");
+    cy.get(".basemap-manager-container").should("be.visible");
 
     // Check that the layer manager is rendered
     cy.get(".layer-selection-container").should("be.visible");
