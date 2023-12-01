@@ -11,7 +11,7 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
-          build: npm install && CI="" npm run build
+          build: npm run build
           start: npx serve -s build & wait-on http://localhost:3000
         env:
           DISABLE_ESLINT_PLUGIN: true
