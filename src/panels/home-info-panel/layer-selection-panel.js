@@ -28,6 +28,16 @@ const layers = {
       <img src={Flood} className="layer-selection-icon" />
     </div>
   ),
+  SHDI: (
+    <div className="layer-selection-image-container">
+      <img src={Flood} className="layer-selection-icon" />
+    </div>
+  ),
+  MangLoss: (
+    <div className="layer-selection-image-container">
+      <img src={Flood} className="layer-selection-icon" />
+    </div>
+  ),
 };
 
 function LayerSelectionButtonContainer({

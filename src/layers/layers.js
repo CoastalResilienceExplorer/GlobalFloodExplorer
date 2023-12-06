@@ -3,6 +3,8 @@ import {
   Blue_5Step,
   Blue_5Step_0_1,
   Blue_5Step_per_ha,
+  Red_10Step_0_1,
+  Red_10Step_negative1_positive1,
   SelectedTessela,
   FloodMaps_Bathy,
   Empty,
@@ -466,11 +468,69 @@ const flooding_test = [
   },
 ];
 
+const SHDI = [
+  {
+    id: "tessela_bounds",
+    source: "CWON_tesela_bounds",
+    source_layer: "CWON_combined_teselas",
+    legend: SelectedTessela,
+    layer_title: "Tessela",
+    layer_type: "SIMPLE_OUTLINE",
+    selection_dependent_on: "CWON_combined_teselas_reppts",
+  },
+  {
+    id: "tessela_rps",
+    source: "CWON_tesela_reppts",
+    source_layer: "CWON_combined_teselas_reppts",
+    colorValue: ["to-number", ["get", "SHDI_2015"]],
+    legend: Red_10Step_0_1,
+    layer_title: "Annual Expected Benefit",
+    layer_type: "DISCRETE_POINT",
+    legend_prefix: "",
+    // format: "$",
+    is_selectable: true,
+  },
+];
+
+const MangroveLoss = [
+  {
+    id: "tessela_bounds",
+    source: "CWON_tesela_bounds",
+    source_layer: "CWON_combined_teselas",
+    legend: SelectedTessela,
+    layer_title: "Tessela",
+    layer_type: "SIMPLE_OUTLINE",
+    selection_dependent_on: "CWON_combined_teselas_reppts",
+  },
+  {
+    id: "tessela_rps",
+    source: "CWON_tesela_reppts",
+    source_layer: "CWON_combined_teselas_reppts",
+    colorValue: [
+      "/",
+      [
+        "-",
+        ["to-number", ["get", "Mang_Ha_2020"]],
+        ["to-number", ["get", "Mang_Ha_1996"]],
+      ],
+      ["+", ["to-number", ["get", "Mang_Ha_1996"]], 1], //Divide by zero
+    ],
+    legend: Red_10Step_negative1_positive1,
+    layer_title: "Annual Expected Benefit",
+    layer_type: "DISCRETE_POINT",
+    legend_prefix: "",
+    format: "%",
+    is_selectable: true,
+  },
+];
+
 const layers = {
   "Benefit (AEB)": annual_benefits,
   "Benefit per Hectare": per_ha,
   "Risk Reduction Ratio": reduct_ratio,
   Flooding: flooding_test,
+  SHDI: SHDI,
+  MangLoss: MangroveLoss,
 };
 
 export default layers;

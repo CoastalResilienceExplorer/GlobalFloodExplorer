@@ -102,6 +102,28 @@ const mangroves_2015 = {
   maxzoom: 14,
 };
 
+const CWON_tesela_reppts = {
+  id: "CWON_reppt",
+  type: "vector",
+  format: "mvt",
+  tiles: [
+    "https://pmtileserver-staging-myzvqet7ua-uw.a.run.app/vectors/CWON_combined_teselas_reppts/{z}/{x}/{y}.mvt",
+  ],
+  minzoom: 0,
+  maxzoom: 14,
+};
+
+const CWON_tesela_bounds = {
+  id: "CWON_reppt",
+  type: "vector",
+  format: "mvt",
+  tiles: [
+    "https://pmtileserver-staging-myzvqet7ua-uw.a.run.app/vectors/CWON_combined_teselas/{z}/{x}/{y}.mvt",
+  ],
+  minzoom: 0,
+  maxzoom: 14,
+};
+
 const sources = [
   ["tesselas", tesselas],
   ["countries", countries],
@@ -111,6 +133,8 @@ const sources = [
   ["mangroves_2015", mangroves_2015],
   ["mangroves_1996", mangroves_1996],
   ["flooding_2015_pt", flooding_2015_pt],
+  ["CWON_tesela_bounds", CWON_tesela_bounds],
+  ["CWON_tesela_reppts", CWON_tesela_reppts],
 ];
 
 export default sources;

@@ -215,6 +215,58 @@ const _Green = {
   legendScale: 3,
 };
 
+const _Red_10Step_0_1 = {
+  breaks: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
+
+  colorRamp: [
+    "#FB1414",
+    "#FC471C",
+    "#FD7A24",
+    "#FEAD2C",
+    "#FFE134",
+    "#E1E730",
+    "#C3ED2C",
+    "#A6F328",
+    "#88F924",
+    "#6BFF21",
+  ],
+
+  sizeRamp: [7, 7, 7, 5, 5, 5, 4, 4, 4, 3],
+
+  legendScale: 3,
+};
+
+const _Red_10Step_negative1_positive1 = {
+  breaks: [-0.5, -0.4, -0.3, -0.2, -0.1, 0, 0.1, 0.2, 0.3, 0.4, 0.5],
+
+  colorRamp: [
+    "#FB1414",
+    "#FC471C",
+    "#FD7A24",
+    "#FEAD2C",
+    "#FFE134",
+    "#FFE134",
+    "#E1E730",
+    "#C3ED2C",
+    "#A6F328",
+    "#88F924",
+    "#6BFF21",
+  ],
+
+  sizeRamp: [7, 7, 7, 5, 5, 5, 5, 5, 5, 7, 7],
+
+  legendScale: 3,
+};
+
+export const Red_10Step_0_1 = new DiscreteColorSizeScale(
+  _Red_10Step_0_1,
+  BasicStrokes,
+);
+export const Red_10Step_negative1_positive1 = new DiscreteColorSizeScale(
+  _Red_10Step_negative1_positive1,
+  BasicStrokes,
+);
+
 export const Empty = new DiscreteColorSizeScale(_Empty, BasicStrokes);
 
 export const Blue_5Step_0_1 = new DiscreteColorSizeScale(
