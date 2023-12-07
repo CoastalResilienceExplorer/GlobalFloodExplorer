@@ -212,6 +212,21 @@ export default function StatsPanel({
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
+  if (layerGroup === "SHDI") {
+    return (
+      <div className={"right-panel" + (isOpen ? " open" : "")}>
+        <OpenToggle isOpen={isOpen} setIsOpen={setIsOpen} />
+        <div className="right-panel-content">
+          <div className="right-panel-outer-content">
+            <div className="right-panel-inner-content">
+              {JSON.stringify(selectedFeatures, null, 2)}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={"right-panel" + (isOpen ? " open" : "")}>
       <OpenToggle isOpen={isOpen} setIsOpen={setIsOpen} />

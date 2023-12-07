@@ -4,6 +4,7 @@ import aeb_ha from "assets/AEB_ha_square.png";
 import aeb from "assets/AEB_square.png";
 import HEX from "assets/HEX_square.png";
 import Flood from "assets/Flood_square.png";
+import { Icon } from "@iconify/react";
 
 import { ReactComponent as OpenCloseToggleIcon } from "assets/OpenCloseToggle2.svg";
 
@@ -30,7 +31,11 @@ const layers = {
   ),
   SHDI: (
     <div className="layer-selection-image-container">
-      <img src={Flood} className="layer-selection-icon" />
+      <Icon
+        icon="fluent:people-team-28-regular"
+        className="layer-selection-icon"
+      />
+      {/* <img src={Flood} className="layer-selection-icon" /> */}
     </div>
   ),
   MangLoss: (
