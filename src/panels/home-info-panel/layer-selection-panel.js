@@ -14,11 +14,6 @@ const layers = {
       <img src={aeb} className="layer-selection-icon" />
     </div>
   ),
-  "Benefit per Hectare": (
-    <div className="layer-selection-image-container">
-      <img src={aeb_ha} className="layer-selection-icon" />
-    </div>
-  ),
   "Risk Reduction Ratio": (
     <div className="layer-selection-image-container">
       <img src={HEX} className="layer-selection-icon" />

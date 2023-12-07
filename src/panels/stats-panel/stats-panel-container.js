@@ -5,6 +5,7 @@ import { ReactComponent as OpenLogo } from "assets/Opentab.svg";
 import SelectedFeaturesPanel from "./selected-features-panel";
 import FlyToContext from "../FlyToContext";
 import { useInfoContext } from "hooks/useInfo";
+import countryMapping from "data/ISO_country_mapping";
 
 function Title({ nStudyUnits, locations, selectionType }) {
   function countryNameOverride(country) {
@@ -156,9 +157,7 @@ function Title({ nStudyUnits, locations, selectionType }) {
 
 function TopBanner({ selectedFeatures, selectionType }) {
   const locations = [
-    ...new Set(
-      selectedFeatures.map((x) => x.properties.COUNTRY.split(",")).flat(),
-    ),
+    ...new Set(selectedFeatures.map((x) => countryMapping[x.properties.ISO3])),
   ];
   if (selectedFeatures.length === 0) {
     return <></>;
@@ -212,20 +211,19 @@ export default function StatsPanel({
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
-  if (layerGroup === "SHDI") {
-    return (
-      <div className={"right-panel" + (isOpen ? " open" : "")}>
-        <OpenToggle isOpen={isOpen} setIsOpen={setIsOpen} />
-        <div className="right-panel-content">
-          <div className="right-panel-outer-content">
-            <div className="right-panel-inner-content">
-              {JSON.stringify(selectedFeatures, null, 2)}
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  // return (
+  //   <div className={"right-panel" + (isOpen ? " open" : "")}>
+  //     <OpenToggle isOpen={isOpen} setIsOpen={setIsOpen} />
+  //     <div className="right-panel-content">
+  //       <div className="right-panel-outer-content">
+  //         <div className="right-panel-inner-content">
+  //           {JSON.stringify(selectedFeatures, null, 2)}
+  //         </div>
+  //       </div>
+  //     </div>
+  //   </div>
+  // );
+  console.log(JSON.stringify(selectedFeatures, null, 2));
 
   return (
     <div className={"right-panel" + (isOpen ? " open" : "")}>

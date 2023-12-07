@@ -15,10 +15,17 @@ import {
   Red,
 } from "./colormaps/colormaps";
 
-const year = 2020;
-const ben_stock = ["to-number", ["get", `Ben_Stock_${year}`]];
-const risk_stock = ["to-number", ["get", `Risk_Stock_${year}`]];
-const wo_risk_stock = ["+", ben_stock, risk_stock];
+let year = 2020;
+if (year === 2015) {
+  year = "";
+} else {
+  year = `_${year}`;
+}
+const ben_stock = ["to-number", ["get", `Ben_Stock${year}`]];
+const risk_stock = ["to-number", ["get", `Risk_Stock${year}`]];
+const ben_pop = ["to-number", ["get", `Ben_Pop${year}`]];
+const risk_pop = ["to-number", ["get", `Risk_Pop${year}`]];
+const nomang_risk_stock = ["+", ben_stock, risk_stock];
 
 const annual_benefits = [
   {
@@ -28,13 +35,13 @@ const annual_benefits = [
     legend: SelectedTessela,
     layer_title: "Tessela",
     layer_type: "SIMPLE_OUTLINE",
-    selection_dependent_on: "RP",
+    selection_dependent_on: "CWON_combined_teselas_reppts",
   },
   {
     id: "tessela_rps",
     source: "CWON_combined_teselas_reppts",
     source_layer: "CWON_combined_teselas_reppts",
-    colorValue: ["to-number", ["get", `Ben_Stock_${year}`]],
+    colorValue: ben_stock,
     legend: Blue_5Step,
     layer_title: "Annual Expected Benefit",
     layer_type: "DISCRETE_POINT",
@@ -47,67 +54,26 @@ const annual_benefits = [
 const reduct_ratio = [
   {
     id: "tessela_bounds",
-    source: "tesselas",
-    source_layer: "Tesselas",
+    source: "CWON_combined_teselas",
+    source_layer: "CWON_combined_teselas",
     legend: SelectedTessela,
     layer_title: "Tessela",
     layer_type: "SIMPLE_OUTLINE",
-    selection_dependent_on: "Hex_p035",
-  },
-  {
-    id: "countries",
-    source: "countries",
-    source_layer: "Countries",
-    colorValue: [
-      "case",
-      ["==", ["to-number", ["get", "Ab_S_WoAE"]], 0],
-      0,
-      [
-        "-",
-        1,
-        [
-          "to-number",
-          [
-            "/",
-            ["to-number", ["get", "Ab_S_WAE"]],
-            ["to-number", ["get", "Ab_S_WoAE"]],
-          ],
-        ],
-      ],
-    ],
-    legend: Blue_5Step_0_1,
-    layer_title: "Tessela",
-    layer_type: "FILL_WITH_OUTLINE",
-    display_legend: false,
-    minzoom: 0,
-    maxzoom: 4,
-    opacity: 0.9,
-    is_selectable: true,
+    selection_dependent_on: "CWON_combined_teselas_hexs",
   },
   {
     id: "hex",
-    source: "tesselas",
-    source_layer: "Hex_p035",
+    source: "CWON_combined_teselas_hexs",
+    source_layer: "CWON_combined_teselas_hexs",
     legend: Blue_5Step_0_1,
     colorValue: [
       "case",
-      ["==", ["to-number", ["get", "Ab_S_WoAE"]], 0],
+      ["==", nomang_risk_stock, 0],
       0,
-      [
-        "-",
-        1,
-        [
-          "to-number",
-          [
-            "/",
-            ["to-number", ["get", "Ab_S_WAE"]],
-            ["to-number", ["get", "Ab_S_WoAE"]],
-          ],
-        ],
-      ],
+      ["-", 1, ["to-number", ["/", risk_stock, nomang_risk_stock]]],
     ],
-    heightValue: ["get", "Ab_S_WoAE"],
-    baseValue: ["get", "Ab_S_WAE"],
+    heightValue: nomang_risk_stock,
+    baseValue: risk_stock,
     scale: 0.5,
     legend: Blue_5Step_0_1,
     layer_title: "Risk Reduction",
@@ -120,11 +86,11 @@ const reduct_ratio = [
   },
   {
     id: "hex2",
-    source: "tesselas",
-    source_layer: "Hex_p035",
+    source: "CWON_combined_teselas_hexs",
+    source_layer: "CWON_combined_teselas_hexs",
     legend: Blue_5Step_0_1,
     colorValue: "white",
-    heightValue: ["get", "Ab_S_WAE"],
+    heightValue: risk_stock,
     baseValue: 0,
     scale: 0.5,
     layer_title: "Tessela",
@@ -133,62 +99,6 @@ const reduct_ratio = [
     legend_suffix: "%",
     format: "%",
     display_legend: false,
-    is_selectable: true,
-  },
-];
-
-const per_ha = [
-  {
-    id: "tessela_bounds",
-    source: "tesselas",
-    source_layer: "Tesselas",
-    legend: SelectedTessela,
-    layer_title: "Tessela",
-    layer_type: "SIMPLE_OUTLINE",
-    selection_dependent_on: "RP",
-  },
-  {
-    id: "countries",
-    source: "countries",
-    source_layer: "Countries",
-    colorValue: [
-      "case",
-      ["==", ["to-number", ["get", "Man2010"]], 0],
-      0,
-      [
-        "/",
-        ["to-number", ["get", "Ab_S_BAE"]],
-        ["to-number", ["get", "Man2010"]],
-      ],
-    ],
-    legend: Blue_5Step_per_ha,
-    layer_title: "Tessela",
-    layer_type: "FILL_WITH_OUTLINE",
-    minzoom: 0,
-    maxzoom: 4,
-    display_legend: false,
-    opacity: 0.9,
-    is_selectable: true,
-  },
-  {
-    id: "tessela_rps",
-    source: "tesselas",
-    source_layer: "RP",
-    colorValue: [
-      "case",
-      ["==", ["to-number", ["get", "Man2010"]], 0],
-      0,
-      [
-        "/",
-        ["to-number", ["get", "Ab_S_BAE"]],
-        ["to-number", ["get", "Man2010"]],
-      ],
-    ],
-    legend: Blue_5Step_per_ha,
-    layer_title: "Benefit per Hectare",
-    layer_type: "DISCRETE_POINT",
-    legend_prefix: "$",
-    format: "$",
     is_selectable: true,
   },
 ];
@@ -347,7 +257,6 @@ const MangroveLoss = [
 
 const layers = {
   "Benefit (AEB)": annual_benefits,
-  "Benefit per Hectare": per_ha,
   "Risk Reduction Ratio": reduct_ratio,
   Flooding: flooding,
   SHDI: SHDI,

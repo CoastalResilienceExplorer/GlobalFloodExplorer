@@ -29,16 +29,16 @@ print(gdf_with_shdi)
 
 gdf_with_shdi['RN'] = gdf_with_shdi.groupby("fid")["SHDI_2015"].rank(method="first", ascending=True).fillna(1.0).astype(int)
 gdf_with_shdi = gdf_with_shdi[gdf_with_shdi["RN"] == 1]
-gdf_with_shdi = gdf_with_shdi.drop(columns=['index_right', 'RN'])
-gdf_with_shdi['SHDI_2015'] = gdf_with_shdi['SHDI_2015'].fillna(-1)
+# gdf_with_shdi = gdf_with_shdi.drop(columns=['index_right', 'RN'])
+# gdf_with_shdi['SHDI_2015'] = gdf_with_shdi['SHDI_2015'].fillna(-1)
 
-gdf = gdf_with_shdi
+# gdf = gdf_with_shdi
 
-filename = "/data/CWON_combined_teselas.parquet"
-# remote_path = os.path.join(f"gs://geopmaker-output-staging", filename)
-gdf.to_parquet(filename)
-# If polygon, write the Rep Pts as well since those are generally useful.
-filename_pts = "/data/CWON_combined_teselas_reppts.parquet"
-# remote_path = os.path.join(f"gs://geopmaker-output-staging", filename_pts)
-gdf.geometry = gdf.geometry.representative_point()
-gdf.to_parquet(filename_pts)
+# filename = "/data/CWON_combined_teselas.parquet"
+# # remote_path = os.path.join(f"gs://geopmaker-output-staging", filename)
+# gdf.to_parquet(filename)
+# # If polygon, write the Rep Pts as well since those are generally useful.
+# filename_pts = "/data/CWON_combined_teselas_reppts.parquet"
+# # remote_path = os.path.join(f"gs://geopmaker-output-staging", filename_pts)
+# gdf.geometry = gdf.geometry.representative_point()
+# gdf.to_parquet(filename_pts)
