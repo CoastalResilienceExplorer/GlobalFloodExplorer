@@ -223,7 +223,6 @@ export default function StatsPanel({
   //     </div>
   //   </div>
   // );
-  console.log(JSON.stringify(selectedFeatures, null, 2));
 
   return (
     <div className={"right-panel" + (isOpen ? " open" : "")}>
