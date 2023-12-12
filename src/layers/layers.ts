@@ -1,4 +1,4 @@
-// AEB REP PTS
+import { ReactComponent as ExampleSvg } from "assets/Map_Icon.svg";
 import {
   Blue_5Step,
   Blue_5Step_0_1,
@@ -8,7 +8,10 @@ import {
   Empty,
   Mangroves,
   Green,
+  DiscreteColorSizeScale,
+  SimpleColorScale,
 } from "./colormaps/colormaps";
+import { SVGProps } from "react";
 
 const annual_benefits = [
   {
@@ -113,7 +116,6 @@ const reduct_ratio = [
     heightValue: ["get", "Ab_S_WoAE"],
     baseValue: ["get", "Ab_S_WAE"],
     scale: 0.5,
-    legend: Blue_5Step_0_1,
     layer_title: "Risk Reduction",
     layer_type: "HEX_3D",
     hex_type: "REDUCTION",
@@ -414,7 +416,6 @@ const flooding_test = [
     id: "mangroves_2015",
     source: "mangroves_2015",
     source_layer: "cf23fc24843b11eeb772b580fc9aa31f",
-    legend: Mangroves,
     layer_title: "Mangroves 2015",
     colorValue: ["to-number", ["get", "PXLVAL"]],
     legend: Green,
@@ -429,7 +430,6 @@ const flooding_test = [
     id: "mangroves_1996",
     source: "mangroves_1996",
     source_layer: "GMW_1996_v3_Areas",
-    legend: Mangroves,
     layer_title: "Mangroves 1996",
     colorValue: ["to-number", ["get", "PXLVAL"]],
     legend: Green,
@@ -466,11 +466,76 @@ const flooding_test = [
   },
 ];
 
-const layers = {
-  "Benefit (AEB)": annual_benefits,
-  "Benefit per Hectare": per_ha,
-  "Risk Reduction Ratio": reduct_ratio,
-  Flooding: flooding_test,
+export enum LayerName {
+  BenefitAEB = "Benefit (EAB)",
+  BenefitPerHectare = "Benefit per Hectare",
+  RiskReduction = "Risk Reduction Ratio",
+  Flooding = "Flooding",
+}
+
+export type Layer = {
+  id: string;
+  source: string;
+  source_layer: string;
+  colorValue?: any;
+  heightValue?: any;
+  baseValue?: any;
+  scale?: number;
+  legend:
+    | InstanceType<typeof DiscreteColorSizeScale>
+    | InstanceType<typeof SimpleColorScale>;
+  layer_title: string;
+  layer_type: string;
+  legend_prefix?: string;
+  legend_suffix?: string;
+  format?: string;
+  display_legend?: boolean;
+  is_selectable?: boolean;
+  selection_dependent_on?: string;
+  is_subgroup?: boolean;
+  subgroup?: string;
+  minzoom?: number;
+  maxzoom?: number;
+  opacity?: number;
+  hex_type?: string;
 };
 
-export default layers;
+export type LayerGroup = {
+  name: LayerName;
+  shortDescription: string;
+  IconComponent: React.FC<React.SVGProps<SVGSVGElement>>;
+  layers: Layer[];
+};
+
+const layerGroups: Record<LayerName, LayerGroup> = {
+  [LayerName.BenefitAEB]: {
+    name: LayerName.BenefitAEB,
+    shortDescription:
+      "The annual expected benefit (AEB) is the average annual benefit of mangroves over a 20-year period.",
+    IconComponent: ExampleSvg,
+    layers: annual_benefits,
+  },
+  [LayerName.BenefitPerHectare]: {
+    name: LayerName.BenefitPerHectare,
+    shortDescription:
+      "The benefit per hectare is the annual expected benefit (AEB) divided by the area of mangroves.",
+    IconComponent: ExampleSvg,
+    layers: per_ha,
+  },
+  [LayerName.RiskReduction]: {
+    name: LayerName.RiskReduction,
+    shortDescription:
+      "The risk reduction ratio is the ratio of the annual expected benefit (AEB) of mangroves to the annual expected benefit of the same area without mangroves.",
+    IconComponent: ExampleSvg,
+    layers: reduct_ratio,
+  },
+  [LayerName.Flooding]: {
+    name: LayerName.Flooding,
+    shortDescription:
+      "The flooding maps show the depth of flooding in the event of a 50-year storm surge, with and without mangroves.",
+    IconComponent: ExampleSvg,
+    layers: flooding_test,
+  },
+};
+
+export default layerGroups;

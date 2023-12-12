@@ -23,7 +23,7 @@ class MapboxPaintManager {
   }
 }
 
-class DiscreteColorSizeScale extends MapboxPaintManager {
+export class DiscreteColorSizeScale extends MapboxPaintManager {
   constructor(info, strokes, scale = 1) {
     super();
     this.breaks = info.breaks;
@@ -74,7 +74,7 @@ class RasterInterpolatedSymbology {
   }
 }
 
-class SimpleColorScale {
+export class SimpleColorScale {
   constructor(strokes, scale = 1) {
     this.strokes = strokes;
     this.scale = scale;

@@ -23,6 +23,7 @@ import HomeInfoPanel from "./panels/home-info-panel/home-info-panel";
 import Compass from "./compass/compass";
 import BasemapManager from "./basemap_manager/BasemapManager";
 import { SlideMap } from "slide_map/slide_map";
+import { LayerSelection } from "./panels/layer-selection/layer-selection";
 
 //Info
 import Info from "./info/info";
@@ -228,13 +229,21 @@ export default function Map() {
         navigationControls={navigationControls}
         setNavigationControls={setNavigationControls}
       />
-      <HomeInfoPanel
-        setSplashScreen={setSplashScreen2}
-        setViewport={flyToViewport}
-        selectedLayer={layerGroup}
-        setSelectedLayer={setLayerGroup}
-        isTouch={isTouch}
-      />
+      {process.env.REACT_APP_USE_NEW_LAYER_SELECTION === "true" ? (
+        <LayerSelection
+          layers={Object.values(layers)}
+          selectedLayer={layerGroup}
+          setSelectedLayer={setLayerGroup}
+        />
+      ) : (
+        <HomeInfoPanel
+          setSplashScreen={setSplashScreen2}
+          setViewport={flyToViewport}
+          selectedLayer={layerGroup}
+          setSelectedLayer={setLayerGroup}
+          isTouch={isTouch}
+        />
+      )}
     </InfoContext.Provider>
   );
 }
