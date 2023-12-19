@@ -9,7 +9,7 @@ module.exports = {
         shoreline: "#79ABB7",
         open: "#21233A",
         trench: {
-          light: '#47485C"',
+          light: '#47485C',
           DEFAULT: "#323340"
         }
       }

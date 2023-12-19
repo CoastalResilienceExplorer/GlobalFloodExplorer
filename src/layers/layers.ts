@@ -6,12 +6,9 @@ import {
   SelectedTessela,
   FloodMaps_Bathy,
   Empty,
-  Mangroves,
   Green,
-  DiscreteColorSizeScale,
-  SimpleColorScale,
 } from "./colormaps/colormaps";
-import { SVGProps } from "react";
+import { LayerGroup, LayerName } from "types/dataModel";
 
 const annual_benefits = [
   {
@@ -466,47 +463,6 @@ const flooding_test = [
   },
 ];
 
-export enum LayerName {
-  BenefitAEB = "Benefit (EAB)",
-  BenefitPerHectare = "Benefit per Hectare",
-  RiskReduction = "Risk Reduction Ratio",
-  Flooding = "Flooding",
-}
-
-export type Layer = {
-  id: string;
-  source: string;
-  source_layer: string;
-  colorValue?: any;
-  heightValue?: any;
-  baseValue?: any;
-  scale?: number;
-  legend:
-    | InstanceType<typeof DiscreteColorSizeScale>
-    | InstanceType<typeof SimpleColorScale>;
-  layer_title: string;
-  layer_type: string;
-  legend_prefix?: string;
-  legend_suffix?: string;
-  format?: string;
-  display_legend?: boolean;
-  is_selectable?: boolean;
-  selection_dependent_on?: string;
-  is_subgroup?: boolean;
-  subgroup?: string;
-  minzoom?: number;
-  maxzoom?: number;
-  opacity?: number;
-  hex_type?: string;
-};
-
-export type LayerGroup = {
-  name: LayerName;
-  shortDescription: string;
-  IconComponent: React.FC<React.SVGProps<SVGSVGElement>>;
-  layers: Layer[];
-};
-
 const layerGroups: Record<LayerName, LayerGroup> = {
   [LayerName.BenefitAEB]: {
     name: LayerName.BenefitAEB,
@@ -525,14 +481,14 @@ const layerGroups: Record<LayerName, LayerGroup> = {
   [LayerName.RiskReduction]: {
     name: LayerName.RiskReduction,
     shortDescription:
-      "The risk reduction ratio is the ratio of the annual expected benefit (AEB) of mangroves to the annual expected benefit of the same area without mangroves.",
+      "The ratio of the expected annual benefit (AEB)  mangroves to the annual expected benefit without.",
     IconComponent: ExampleSvg,
     layers: reduct_ratio,
   },
   [LayerName.Flooding]: {
     name: LayerName.Flooding,
     shortDescription:
-      "The flooding maps show the depth of flooding in the event of a 50-year storm surge, with and without mangroves.",
+      "The depth of flooding in the event of a 50-year storm surge at different years.",
     IconComponent: ExampleSvg,
     layers: flooding_test,
   },
