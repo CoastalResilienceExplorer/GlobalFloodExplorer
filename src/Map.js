@@ -7,11 +7,10 @@ import { useSelection } from "hooks/useSelection";
 import { useBreadcrumbs, useMapWithBreadcrumbs } from "hooks/useBreadcrumbs";
 import { InfoContext, useInfo } from "hooks/useInfo";
 import { usePermalinks } from "hooks/usePermalinks";
-import { useSlideMap } from "hooks/useSlideMap";
 
 // Data
 import sources from "./layers/sources";
-import layers from "./layers/layers";
+import layerGroups, { layersByGroup } from "./layers/layers";
 import { protos as custom_layer_protos } from "./layers/protos/custom_protos";
 import { init_viewport, init_layer, init_subgroup } from "./data/startup_data";
 import aois from "./data/viewports.json";
@@ -23,6 +22,7 @@ import HomeInfoPanel from "./panels/home-info-panel/home-info-panel";
 import Compass from "./compass/compass";
 import BasemapManager from "./basemap_manager/BasemapManager";
 import { SlideMap } from "slide_map/slide_map";
+import { LayerSelection } from "./panels/layer-selection/layer-selection";
 
 //Info
 import Info from "./info/info";
@@ -35,8 +35,9 @@ import {
   DisclaimerScreen,
   NavigationControls,
 } from "./splash-screens/disclaimer-screen";
+import { LayerName } from "types/dataModel";
 
-const all_selectable_layers = Object.values(layers)
+const all_selectable_layers = Object.values(layersByGroup)
   .flat()
   .filter((x) => x.is_selectable)
   .map((x) => x.id);
@@ -78,7 +79,7 @@ export default function Map() {
     initialStates.layer,
     initialStates.subgroup,
     style,
-    layers,
+    layersByGroup,
     sources,
     custom_layer_protos,
   );
@@ -87,7 +88,7 @@ export default function Map() {
     layerGroup,
     subgroup,
     mapLoaded,
-    layers,
+    layersByGroup,
     custom_layer_protos,
   );
 
@@ -113,7 +114,7 @@ export default function Map() {
   const selectRef = useRef();
 
   const floodingRef = useRef();
-  useFirst(() => layerGroup === "Flooding", "FIRST_FLOODING");
+  useFirst(() => layerGroup === LayerName.Flooding, "FIRST_FLOODING");
 
   const compassRef = useRef();
   useFirst(() => viewport.pitch !== 0, "FIRST_3D");
@@ -121,12 +122,12 @@ export default function Map() {
 
   const centerRef = useRef();
   useFirst(
-    () => layerGroup === "Flooding",
+    () => layerGroup === LayerName.Flooding,
     "FIRST_FLOODING_ZOOM_IN",
     () => viewport.zoom > 4,
   );
   useFirst(
-    () => layerGroup === "Risk Reduction Ratio",
+    () => layerGroup === LayerName.RiskReduction,
     "FIRST_HEX",
     () => viewport.zoom < 4,
   );
@@ -186,7 +187,7 @@ export default function Map() {
       />
       <div className="screen">
         <Legend legend_items={legends} />
-        {layerGroup === "Flooding" && (
+        {layerGroup === LayerName.Flooding && (
           <SlideMap
             initialStates={initialStates}
             style={style}
@@ -199,7 +200,8 @@ export default function Map() {
           ref={mapContainer}
           className="map-container"
           style={{
-            visibility: layerGroup !== "Flooding" ? "visible" : "hidden",
+            visibility:
+              layerGroup !== LayerName.Flooding ? "visible" : "hidden",
           }}
         />
       </div>
@@ -228,13 +230,21 @@ export default function Map() {
         navigationControls={navigationControls}
         setNavigationControls={setNavigationControls}
       />
-      <HomeInfoPanel
-        setSplashScreen={setSplashScreen2}
-        setViewport={flyToViewport}
-        selectedLayer={layerGroup}
-        setSelectedLayer={setLayerGroup}
-        isTouch={isTouch}
-      />
+      {process.env.REACT_APP_USE_NEW_LAYER_SELECTION === "true" ? (
+        <LayerSelection
+          layerGroups={layerGroups}
+          selectedLayer={layerGroup}
+          setSelectedLayer={setLayerGroup}
+        />
+      ) : (
+        <HomeInfoPanel
+          setSplashScreen={setSplashScreen2}
+          setViewport={flyToViewport}
+          selectedLayer={layerGroup}
+          setSelectedLayer={setLayerGroup}
+          isTouch={isTouch}
+        />
+      )}
     </InfoContext.Provider>
   );
 }

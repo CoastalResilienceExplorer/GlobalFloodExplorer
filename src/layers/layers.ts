@@ -1,22 +1,18 @@
-// AEB REP PTS
+import { ReactComponent as ExampleSvg } from "assets/Map_Icon.svg";
 import {
   Blue_5Step,
   Blue_5Step_0_1,
-  Blue_5Step_per_ha,
   Red_10Step_0_1,
   Red_10Step_negative1_positive1,
-  Red_10Step,
   SelectedTessela,
   FloodMaps_Bathy,
-  Floodmaps_Bathy2,
-  Empty,
-  Mangroves,
   Green,
   Red,
 } from "./colormaps/colormaps";
+import { Layer, LayerGroup, LayerName } from "types/dataModel";
 
-let year = 2020;
-if (year === 2015) {
+let year = "2020";
+if (year === "2015") {
   year = "";
 } else {
   year = `_${year}`;
@@ -75,7 +71,6 @@ const reduct_ratio = [
     heightValue: nomang_risk_stock,
     baseValue: risk_stock,
     scale: 0.5,
-    legend: Blue_5Step_0_1,
     layer_title: "Risk Reduction",
     layer_type: "HEX_3D",
     hex_type: "REDUCTION",
@@ -108,7 +103,6 @@ const flooding = [
     id: "mangroves_2015",
     source: "mangroves_2015",
     source_layer: "cf23fc24843b11eeb772b580fc9aa31f",
-    legend: Mangroves,
     layer_title: "Mangroves 2015",
     colorValue: ["to-number", ["get", "PXLVAL"]],
     legend: Green,
@@ -123,7 +117,6 @@ const flooding = [
     id: "mangroves_1996",
     source: "mangroves_1996",
     source_layer: "GMW_1996_v3_Areas",
-    legend: Mangroves,
     layer_title: "Mangroves 1996",
     colorValue: ["to-number", ["get", "PXLVAL"]],
     legend: Green,
@@ -229,7 +222,7 @@ const MangroveLoss = [
     id: "mangroves_1996",
     source: "mangroves_1996",
     source_layer: "GMW_1996_v3_Areas",
-    legend: Mangroves,
+    // legend: Mangroves,
     layer_title: "Mangroves 1996",
     colorValue: ["to-number", ["get", "PXLVAL"]],
     legend: Green,
@@ -243,7 +236,7 @@ const MangroveLoss = [
     id: "mangroves_2015",
     source: "mangroves_2015",
     source_layer: "cf23fc24843b11eeb772b580fc9aa31f",
-    legend: Mangroves,
+    // legend: Mangroves,
     layer_title: "Mangroves 2015",
     colorValue: ["to-number", ["get", "PXLVAL"]],
     legend: Red,
@@ -255,12 +248,49 @@ const MangroveLoss = [
   },
 ];
 
-const layers = {
-  "Benefit (AEB)": annual_benefits,
-  "Risk Reduction Ratio": reduct_ratio,
-  Flooding: flooding,
-  SHDI: SHDI,
-  MangLoss: MangroveLoss,
+const layerGroups: Record<LayerName, LayerGroup> = {
+  [LayerName.BenefitAEB]: {
+    name: LayerName.BenefitAEB,
+    shortDescription:
+      "The annual expected benefit (AEB) is the average annual benefit of mangroves over a 20-year period.",
+    IconComponent: ExampleSvg,
+    layers: annual_benefits,
+  },
+  [LayerName.RiskReduction]: {
+    name: LayerName.RiskReduction,
+    shortDescription:
+      "The ratio of the expected annual benefit (AEB)  mangroves to the annual expected benefit without.",
+    IconComponent: ExampleSvg,
+    layers: reduct_ratio,
+  },
+  [LayerName.Flooding]: {
+    name: LayerName.Flooding,
+    shortDescription:
+      "The depth of flooding in the event of a 50-year storm surge at different years.",
+    IconComponent: ExampleSvg,
+    layers: flooding,
+  },
+  [LayerName.SHDI]: {
+    name: LayerName.SHDI,
+    shortDescription:
+      "The Social and Human Development Index (SHDI) is a composite index of development indicators.",
+    IconComponent: ExampleSvg,
+    layers: SHDI,
+  },
+  [LayerName.MangLoss]: {
+    name: LayerName.MangLoss,
+    shortDescription: "The percentage of mangroves lost between 1996 and 2015.",
+    IconComponent: ExampleSvg,
+    layers: MangroveLoss,
+  },
 };
 
-export default layers;
+export const layersByGroup = Object.values(layerGroups).reduce(
+  (acc, group) => {
+    acc[group.name] = group.layers;
+    return acc;
+  },
+  {} as Record<LayerName, Layer[]>,
+);
+
+export default layerGroups;
