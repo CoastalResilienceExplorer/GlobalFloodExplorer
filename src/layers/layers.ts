@@ -273,7 +273,7 @@ const layerGroups: Record<LayerName, LayerGroup> = {
   [LayerName.SHDI]: {
     name: LayerName.SHDI,
     shortDescription:
-      "The Social and Human Development Index (SHDI) is a composite index of social and human development indicators.",
+      "The Social and Human Development Index (SHDI) is a composite index of development indicators.",
     IconComponent: ExampleSvg,
     layers: SHDI,
   },
