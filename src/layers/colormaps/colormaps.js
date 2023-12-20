@@ -189,6 +189,22 @@ const _Floodmaps_Bathy = {
   legendScale: 3,
 };
 
+const _Floodmaps_Bathy2 = {
+  breaks: [0, 2, 4, 6, 8],
+
+  colorRamp: [
+    "rgba(255, 255, 255, 0.8)",
+    "rgba(255, 255, 255, 0.8)",
+    "rgba(255, 255, 255, 0.8)",
+    "rgba(255, 255, 255, 0.8)",
+    "rgba(255, 255, 255, 0.8)",
+  ],
+
+  sizeRamp: [10, 10, 10, 10, 10],
+
+  legendScale: 3,
+};
+
 const _Empty = {
   breaks: [0, 1000000, 10000000, 100000000, 1000000000],
 
@@ -215,6 +231,90 @@ const _Green = {
   legendScale: 3,
 };
 
+const _Red = {
+  breaks: [0, 1, 2],
+
+  colorRamp: ["#FB1414", "#FB1414", "#FB1414"],
+
+  sizeRamp: [5, 10, 15],
+
+  legendScale: 3,
+};
+
+const _Red_10Step_0_1 = {
+  breaks: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
+
+  colorRamp: [
+    "#FB1414",
+    "#FC471C",
+    "#FD7A24",
+    "#FEAD2C",
+    "#FFE134",
+    "#E1E730",
+    "#C3ED2C",
+    "#A6F328",
+    "#88F924",
+    "#6BFF21",
+  ],
+
+  sizeRamp: [7, 7, 7, 5, 5, 5, 4, 4, 4, 3],
+
+  legendScale: 3,
+};
+
+const _Red_10Step = {
+  breaks: [0, 1000000, 10000000, 100000000, 1000000000],
+
+  colorRamp: [
+    "#FB1414",
+    // "#FC471C",
+    "#FD7A24",
+    // "#FEAD2C",
+    "#FFE134",
+    // "#E1E730",
+    "#C3ED2C",
+    // "#A6F328",
+    // "#88F924",
+    "#6BFF21",
+  ],
+
+  sizeRamp: [5, 10, 15, 20, 25],
+
+  legendScale: 3,
+};
+
+const _Red_10Step_negative1_positive1 = {
+  breaks: [-0.5, -0.4, -0.3, -0.2, -0.1, 0, 0.1, 0.2, 0.3, 0.4, 0.5],
+
+  colorRamp: [
+    "#FB1414",
+    "#FC471C",
+    "#FD7A24",
+    "#FEAD2C",
+    "#FFE134",
+    "#FFE134",
+    "#E1E730",
+    "#C3ED2C",
+    "#A6F328",
+    "#88F924",
+    "#6BFF21",
+  ],
+
+  sizeRamp: [7, 7, 7, 5, 5, 5, 5, 5, 7, 7, 7],
+
+  legendScale: 3,
+};
+
+export const Red_10Step_0_1 = new DiscreteColorSizeScale(
+  _Red_10Step_0_1,
+  BasicStrokes,
+);
+export const Red_10Step_negative1_positive1 = new DiscreteColorSizeScale(
+  _Red_10Step_negative1_positive1,
+  BasicStrokes,
+);
+export const Red_10Step = new DiscreteColorSizeScale(_Red_10Step, BasicStrokes);
+
 export const Empty = new DiscreteColorSizeScale(_Empty, BasicStrokes);
 
 export const Blue_5Step_0_1 = new DiscreteColorSizeScale(
@@ -237,5 +337,10 @@ export const FloodMaps_Bathy = new DiscreteColorSizeScale(
   _Floodmaps_Bathy,
   BasicStrokes,
 );
+export const Floodmaps_Bathy2 = new DiscreteColorSizeScale(
+  _Floodmaps_Bathy2,
+  BasicStrokes,
+);
 
 export const Green = new DiscreteColorSizeScale(_Green, BasicStrokes);
+export const Red = new DiscreteColorSizeScale(_Red, BasicStrokes);
