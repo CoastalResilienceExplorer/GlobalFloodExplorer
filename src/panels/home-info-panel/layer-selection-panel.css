@@ -45,14 +45,18 @@
   background-color: rgb(1000, 1000, 1000, 0.5);
 }
 
-.layer-selection-content-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
+.layer-selection-content-parent-container {
   box-shadow: 0 0 0 2pt rgba(60, 132, 150, 0.3);
   background-color: rgba(193, 241, 253, 0.9);
   border: 5px solid rgba(60, 132, 150, 0.8);
   border-radius: 25px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.layer-selection-content-container {
+  display: flex;
+  flex-direction: row;
   text-align: center;
   vertical-align: middle;
 }
@@ -87,7 +91,7 @@
 .layer-selection-button-container {
   display: grid;
   grid-template-rows: 40px 100px;
-  margin: 5px;
+  margin: 5px 7px;
   cursor: pointer;
   font-size: 0.8em;
 }
