@@ -3,12 +3,39 @@ import {
   Blue_5Step,
   Blue_5Step_0_1,
   Blue_5Step_per_ha,
+  Red_10Step_0_1,
+  Red_10Step_negative1_positive1,
+  Red_10Step,
   SelectedTessela,
   FloodMaps_Bathy,
+  Floodmaps_Bathy2,
   Empty,
+  Mangroves,
+  Green,
+  Red,
 } from "./colormaps/colormaps";
 
 const annual_benefits = [
+  // {
+  //   id: "flooding_2015",
+  //   source: "flooding_2015_pt",
+  //   source_layer: "with_2015_TC_Tr_100",
+  //   legend: Floodmaps_Bathy2,
+  //   colorValue: ["to-number", ["get", "value"]],
+  //   layer_title: "Without Mangroves, RP50",
+  //   layer_type: "GEO_POINT",
+  //   legend_suffix: "m",
+  //   minzoom: 4,
+  // },
+  {
+    id: "tessela_bounds",
+    source: "tesselas",
+    source_layer: "Tesselas",
+    legend: SelectedTessela,
+    layer_title: "Tessela",
+    layer_type: "SIMPLE_OUTLINE",
+    selection_dependent_on: "RP",
+  },
   {
     id: "countries",
     source: "countries",
@@ -35,6 +62,9 @@ const annual_benefits = [
     format: "$",
     is_selectable: true,
   },
+];
+
+const reduct_ratio = [
   {
     id: "tessela_bounds",
     source: "tesselas",
@@ -42,11 +72,8 @@ const annual_benefits = [
     legend: SelectedTessela,
     layer_title: "Tessela",
     layer_type: "SIMPLE_OUTLINE",
-    selection_dependent_on: "RP",
+    selection_dependent_on: "Hex_p035",
   },
-];
-
-const reduct_ratio = [
   {
     id: "countries",
     source: "countries",
@@ -128,6 +155,9 @@ const reduct_ratio = [
     display_legend: false,
     is_selectable: true,
   },
+];
+
+const per_ha = [
   {
     id: "tessela_bounds",
     source: "tesselas",
@@ -135,11 +165,8 @@ const reduct_ratio = [
     legend: SelectedTessela,
     layer_title: "Tessela",
     layer_type: "SIMPLE_OUTLINE",
-    selection_dependent_on: "Hex_p035",
+    selection_dependent_on: "RP",
   },
-];
-
-const per_ha = [
   {
     id: "countries",
     source: "countries",
@@ -183,15 +210,6 @@ const per_ha = [
     legend_prefix: "$",
     format: "$",
     is_selectable: true,
-  },
-  {
-    id: "tessela_bounds",
-    source: "tesselas",
-    source_layer: "Tesselas",
-    legend: SelectedTessela,
-    layer_title: "Tessela",
-    layer_type: "SIMPLE_OUTLINE",
-    selection_dependent_on: "RP",
   },
 ];
 
@@ -365,7 +383,6 @@ const flooding = [
     source: "flooding_with",
     source_layer: "T5",
     legend: FloodMaps_Bathy,
-    // colorValue: ['to-number', ['get', 'grid_code']],
     colorValue: "#0868ac",
     layer_title: "Without Mangroves, RP50",
     layer_type: "GEO_POINT",
@@ -378,7 +395,6 @@ const flooding = [
     source: "flooding_with",
     source_layer: "T6",
     legend: FloodMaps_Bathy,
-    // colorValue: ['to-number', ['get', 'grid_code']],
     colorValue: "#0868ac",
     layer_title: "Without Mangroves, RP50",
     layer_type: "GEO_POINT",
@@ -411,34 +427,153 @@ const flooding = [
 
 const flooding_test = [
   {
-    layer: {
-      id: "flooding_1996",
-      type: "raster",
-      source: "flooding_1996",
-      minzoom: 5,
-      maxzoom: 22,
-    },
-    legend: FloodMaps_Bathy,
-    layer_type: "RASTER2",
-    layer_title: "Flooding, 1 in 50 year storm",
-    // is_subgroup: true,
-    legend_suffix: "m",
-    // display_legend: false,
+    id: "mangroves_2015",
+    source: "mangroves_2015",
+    source_layer: "cf23fc24843b11eeb772b580fc9aa31f",
+    legend: Mangroves,
+    layer_title: "Mangroves 2015",
+    colorValue: ["to-number", ["get", "PXLVAL"]],
+    legend: Green,
+    layer_type: "FILL_WITH_OUTLINE",
+    display_legend: false,
+    subgroup: "flooding_2015",
+    opacity: 1,
+    minzoom: 4,
+    maxzoom: 18,
   },
   {
-    layer: {
-      id: "flooding_2015",
-      type: "raster",
-      source: "flooding_2015",
-      minzoom: 5,
-      maxzoom: 22,
-    },
+    id: "mangroves_1996",
+    source: "mangroves_1996",
+    source_layer: "GMW_1996_v3_Areas",
+    legend: Mangroves,
+    layer_title: "Mangroves 1996",
+    colorValue: ["to-number", ["get", "PXLVAL"]],
+    legend: Green,
+    layer_type: "FILL_WITH_OUTLINE",
+    display_legend: false,
+    subgroup: "flooding_1996",
+    opacity: 1,
+    minzoom: 4,
+    maxzoom: 18,
+  },
+  {
+    id: "flooding_1996",
+    source: "flooding_1996_pt",
+    source_layer: "with_1996_TC_Tr_100",
     legend: FloodMaps_Bathy,
-    layer_type: "RASTER2",
-    layer_title: "Flooding, 1 in 50 year storm",
-    // is_subgroup: true,
+    colorValue: ["to-number", ["get", "value"]],
+    layer_title: "Without Mangroves, RP50",
+    layer_type: "GEO_POINT",
     legend_suffix: "m",
-    // display_legend: false,
+    subgroup: "flooding_1996",
+    minzoom: 4,
+  },
+  {
+    id: "flooding_2015",
+    source: "flooding_2015_pt",
+    source_layer: "with_2015_TC_Tr_100",
+    legend: FloodMaps_Bathy,
+    colorValue: ["to-number", ["get", "value"]],
+    layer_title: "Without Mangroves, RP50",
+    layer_type: "GEO_POINT",
+    legend_suffix: "m",
+    subgroup: "flooding_2015",
+    minzoom: 4,
+  },
+];
+
+const SHDI = [
+  {
+    id: "tessela_bounds",
+    source: "CWON_tesela_bounds",
+    source_layer: "CWON_combined_teselas",
+    legend: SelectedTessela,
+    layer_title: "Tessela",
+    layer_type: "SIMPLE_OUTLINE",
+    selection_dependent_on: "CWON_combined_teselas_reppts",
+  },
+  {
+    id: "tessela_rps",
+    source: "CWON_combined_teselas_reppts",
+    source_layer: "CWON_combined_teselas_reppts",
+    colorValue: ["to-number", ["get", "SHDI_2015"]],
+    legend: Red_10Step_0_1,
+    layer_title: "Annual Expected Benefit",
+    layer_type: "DISCRETE_POINT",
+    legend_prefix: "",
+    // format: "$",
+    is_selectable: true,
+  },
+];
+
+const MangroveLoss = [
+  {
+    id: "tessela_bounds",
+    source: "CWON_combined_teselas",
+    source_layer: "CWON_combined_teselas",
+    legend: SelectedTessela,
+    layer_title: "Tessela",
+    layer_type: "SIMPLE_OUTLINE",
+    selection_dependent_on: "CWON_combined_teselas_reppts",
+  },
+  {
+    id: "tessela_rps",
+    source: "CWON_combined_teselas_reppts",
+    source_layer: "CWON_combined_teselas_reppts",
+    colorValue: [
+      "/",
+      [
+        "-",
+        ["to-number", ["get", "Mang_Ha_2020"]],
+        ["to-number", ["get", "Mang_Ha_1996"]],
+      ],
+      ["+", ["to-number", ["get", "Mang_Ha_1996"]], 1], //Divide by zero
+    ],
+    legend: Red_10Step_negative1_positive1,
+    layer_title: "Annual Expected Benefit",
+    layer_type: "DISCRETE_POINT",
+    legend_prefix: "",
+    format: "%",
+    is_selectable: true,
+  },
+  {
+    id: "flooding_2015",
+    source: "flooding_2015_pt",
+    source_layer: "with_2015_TC_Tr_100",
+    legend: FloodMaps_Bathy,
+    colorValue: ["to-number", ["get", "value"]],
+    layer_title: "Without Mangroves, RP50",
+    layer_type: "GEO_POINT",
+    legend_suffix: "m",
+    minzoom: 4,
+  },
+  {
+    id: "mangroves_1996",
+    source: "mangroves_1996",
+    source_layer: "GMW_1996_v3_Areas",
+    legend: Mangroves,
+    layer_title: "Mangroves 1996",
+    colorValue: ["to-number", ["get", "PXLVAL"]],
+    legend: Green,
+    layer_type: "FILL_WITH_OUTLINE",
+    display_legend: false,
+    opacity: 1.0,
+    minzoom: 4,
+    maxzoom: 18,
+  },
+  {
+    id: "mangroves_2015",
+    source: "mangroves_2015",
+    source_layer: "cf23fc24843b11eeb772b580fc9aa31f",
+    legend: Mangroves,
+    layer_title: "Mangroves 2015",
+    colorValue: ["to-number", ["get", "PXLVAL"]],
+    legend: Red,
+    layer_type: "FILL_WITH_OUTLINE",
+    display_legend: false,
+    opacity: 0.5,
+    minzoom: 4,
+    maxzoom: 18,
   },
 ];
 
@@ -446,8 +581,9 @@ const layers = {
   "Benefit (AEB)": annual_benefits,
   "Benefit per Hectare": per_ha,
   "Risk Reduction Ratio": reduct_ratio,
-  // Flooding: flooding,
   Flooding: flooding_test,
+  SHDI: SHDI,
+  MangLoss: MangroveLoss,
 };
 
 export default layers;

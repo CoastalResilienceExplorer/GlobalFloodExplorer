@@ -13,4 +13,4 @@ ARG REACT_APP_SITE_GATING_MATCH=default_value
 ENV REACT_APP_SITE_GATING_MATCH $REACT_APP_SITE_GATING_MATCH
 
 RUN yarn build
-RUN npx serve -s build & npx wait-on http://localhost:3000 && yarn cypress:run
+RUN npx serve -s build & npx wait-on http://localhost:3000 && yarn cypress:ci

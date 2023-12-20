@@ -35,14 +35,8 @@ export default class GeoScaledPointProto {
       : false;
     // this.display_legend = display_legend
     this.format = format;
-
-    this.visible =
-      (floodGroup === "with" &&
-        this.id.includes("flooding_with") &&
-        !this.id.includes("flooding_without")) ||
-      (floodGroup === "without" && this.id.includes("flooding_without"))
-        ? "visible"
-        : "none";
+    this.visible = this.id.includes(floodGroup) ? "visible" : "none";
+    // this.visible = "visible"
   }
 
   get MBLayer() {
@@ -64,10 +58,10 @@ export default class GeoScaledPointProto {
           1,
           // When zoom is 15 or higher, radius will be 15px.
           15,
-          16,
+          40,
         ],
-        // "circle-color": [].concat(this.color_header, ...this.legend.ColorRamp),
-        "circle-color": this.colorValue,
+        "circle-color": [].concat(this.color_header, ...this.legend.ColorRamp),
+        // "circle-color": this.colorValue,
         "circle-stroke-color": "#000000",
         "circle-stroke-width": [
           "interpolate",

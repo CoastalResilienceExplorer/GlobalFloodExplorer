@@ -16,11 +16,12 @@ const protos = Object.assign(
   { RASTER: RasterInterpolatedProto },
   { HEX_3D: HexLayerProto },
   { GEO_POINT: GeoScaledPointProto },
-  { RASTER2: RasterProto }
+  { RASTER2: RasterProto },
 );
 
 export default function getLayers(key, args) {
-  const layers = layer_lookup[key];
+  console.log(key, args);
+  const layers = layer_lookup[key].layers;
 
   if (!layers || !layers[0])
     return {

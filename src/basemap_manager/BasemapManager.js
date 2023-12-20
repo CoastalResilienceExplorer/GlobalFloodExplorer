@@ -4,14 +4,14 @@ import { useInfoContext } from "hooks/useInfo";
 
 const base_url = "mapbox://styles/mapbox/";
 
-function CircleSelector({ selectedStyle, thisStyle, setStyle }) {
-  const selected = selectedStyle.includes(thisStyle.toLowerCase());
+const styles = {
+  Satellite: base_url + "satellite-v9",
+  Light: "mapbox://styles/clowrie/clpufcesr00g601q19a2jakzb",
+  Dark: "mapbox://styles/clowrie/clpueibwk00fv01pxf6jeh7gr",
+};
 
-  const styles = {
-    Satellite: base_url + "satellite-v9",
-    Light: base_url + "light-v10",
-    Dark: base_url + "dark-v10",
-  };
+function CircleSelector({ selectedStyle, thisStyle, setStyle }) {
+  const selected = styles[thisStyle] === selectedStyle;
 
   return (
     <div
@@ -42,7 +42,7 @@ export default function BasemapManager({ style, setStyle }) {
       <div className="basemap-manager-inner-container">
         <div className={"circle-selector-outer-container"}>
           {["Satellite", "Light", "Dark"].map((s) => {
-            if (isOpen || style.includes(s.toLowerCase())) {
+            if (isOpen || styles[s] === style) {
               return (
                 <CircleSelector
                   key={s}
