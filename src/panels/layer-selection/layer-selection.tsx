@@ -4,14 +4,13 @@ import { LayerGroup, LayerName } from "types/dataModel";
 import { ReactComponent as LinkSvg } from "assets/link-icon.svg";
 
 type LayerSelectionProps = {
-  layers: LayerGroup[];
-  // TODO: refactor this state to reference the layer name instead of the layer group
+  layerGroups: Record<LayerName, LayerGroup>;
   selectedLayer: LayerName;
   setSelectedLayer: (layer: LayerName) => void;
 };
 
 export const LayerSelection: React.FC<LayerSelectionProps> = ({
-  layers,
+  layerGroups,
   selectedLayer,
   setSelectedLayer,
 }) => {
@@ -51,7 +50,7 @@ export const LayerSelection: React.FC<LayerSelectionProps> = ({
       ref={layerSelectionContainer}
       style={{ ...containerSprings }}
     >
-      {layers.map((layerGroup, index) => (
+      {Object.values(layerGroups).map((layerGroup, index) => (
         <button
           key={index}
           className={`hover:bg-shoreline text-left transition-[height] ${

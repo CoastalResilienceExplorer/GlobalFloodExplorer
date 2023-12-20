@@ -9,7 +9,7 @@ import {
   Green,
   Red,
 } from "./colormaps/colormaps";
-import { LayerGroup, LayerName } from "types/dataModel";
+import { Layer, LayerGroup, LayerName } from "types/dataModel";
 
 let year = "2020";
 if (year === "2015") {
@@ -284,5 +284,13 @@ const layerGroups: Record<LayerName, LayerGroup> = {
     layers: MangroveLoss,
   },
 };
+
+export const layersByGroup = Object.values(layerGroups).reduce(
+  (acc, group) => {
+    acc[group.name] = group.layers;
+    return acc;
+  },
+  {} as Record<LayerName, Layer[]>,
+);
 
 export default layerGroups;

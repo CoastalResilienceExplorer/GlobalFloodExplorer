@@ -3,7 +3,7 @@ import { useSlideMap } from "hooks/useSlideMap";
 import { useLayers } from "hooks/layers/useLayers";
 
 import sources from "layers/sources";
-import layers from "layers/layers";
+import { layersByGroup } from "layers/layers";
 import { protos as custom_layer_protos } from "layers/protos/custom_protos";
 import { useEffect } from "react";
 
@@ -43,7 +43,7 @@ export function SlideMap({
     initialStates.layer,
     initialStates.subgroup,
     left_style,
-    layers,
+    layersByGroup,
     sources,
     custom_layer_protos,
   );
@@ -58,7 +58,7 @@ export function SlideMap({
     initialStates.layer,
     initialStates.subgroup,
     right_style,
-    layers,
+    layersByGroup,
     sources,
     custom_layer_protos,
   );
