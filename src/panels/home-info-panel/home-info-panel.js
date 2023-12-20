@@ -1,34 +1,10 @@
 import React from "react";
 import "./home-info-panel.css";
-import { ReactComponent as NavigationIcon } from "assets/navigation-icon.svg";
 import { ReactComponent as HomeIcon } from "assets/home-icon.svg";
-import { Icon } from "@iconify/react";
 
 import LayerSelectionPanel from "./layer-selection-panel";
 import SearchBar from "panels/home-info-panel/search-bar";
-
-const downloads = [
-  {
-    url: "https://storage.googleapis.com/cwon-data/Downloads/UCSC_CWON_studyunits.gpkg",
-    icon: <Icon icon="material-symbols:download-sharp" />,
-    download: true,
-  },
-  {
-    url: "https://storage.googleapis.com/cwon-data/Downloads/FloodMaps.zip",
-    icon: <Icon icon="teenyicons:layers-outline" />,
-    download: true,
-  },
-  {
-    url: "https://www.coastalresiliencelab.org/",
-    icon: <Icon icon="streamline-emojis:water-wave" />,
-    download: false,
-  },
-  {
-    url: "https://doi.org/10.1038/s41598-020-61136-6",
-    icon: <Icon icon="game-icons:materials-science" />,
-    download: false,
-  },
-];
+import downloads from "data/downloads";
 
 function HomeButton(props) {
   return (
@@ -58,7 +34,7 @@ function DownloadReportButton({ url, Icon, download }) {
   );
 }
 
-function HomePanel(props) {
+export function HomePanel(props) {
   return (
     <div className="home-container">
       <HomeButton setSplashScreen={props.setSplashScreen} />

@@ -18,7 +18,9 @@ import aois from "./data/viewports.json";
 //Panels
 import Legend from "./legends/legend";
 import StatsPanel from "./panels/stats-panel/stats-panel-container";
-import HomeInfoPanel from "./panels/home-info-panel/home-info-panel";
+import HomeInfoPanel, {
+  HomePanel,
+} from "./panels/home-info-panel/home-info-panel";
 import Compass from "./compass/compass";
 import BasemapManager from "./basemap_manager/BasemapManager";
 import { SlideMap } from "slide_map/slide_map";
@@ -231,13 +233,6 @@ export default function Map() {
         _ref={compassRef}
         navigationControls={navigationControls}
         setNavigationControls={setNavigationControls}
-      />
-      <HomeInfoPanel
-        setSplashScreen={setSplashScreen2}
-        setBounds={flyToBounds}
-        selectedLayer={layerGroup}
-        setSelectedLayer={setLayerGroup}
-        isTouch={isTouch}
       />
       {process.env.REACT_APP_USE_NEW_LAYER_SELECTION === "true" ? (
         <LayerSelection
