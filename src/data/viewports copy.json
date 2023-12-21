@@ -18,8 +18,7 @@
       "minzoom": 4,
       "maxzoom": 6
     },
-    "parent": "Caribbean",
-    "size": 50
+    "parent": "Caribbean"
   },
   {
     "id": "Yucatan",
@@ -40,8 +39,7 @@
       "minzoom": 4,
       "maxzoom": 6
     },
-    "parent": "Caribbean",
-    "size": 40
+    "parent": "Caribbean"
   },
   {
     "id": "Caribbean",
@@ -61,8 +59,27 @@
       "marker": [-75, 25],
       "minzoom": 0,
       "maxzoom": 4
+    }
+  },
+  {
+    "id": "Indian Ocean",
+    "overview": {
+      "bearing": -66,
+      "latitude": -2.421,
+      "longitude": 73.343,
+      "pitch": 33.2,
+      "zoom": 5.4,
+      "transitionDuration": 500
     },
-    "size": 40
+    "location_awareness": {
+      "bbox": [
+        [33.46, -31.31],
+        [122.07, 34.16]
+      ],
+      "marker": [73.343, -2.421],
+      "minzoom": 0,
+      "maxzoom": 3
+    }
   },
   {
     "id": "Bay of Bengal",
@@ -83,8 +100,7 @@
       "minzoom": 3,
       "maxzoom": 11
     },
-    "parent": "Indian Ocean",
-    "size": 60
+    "parent": "Indian Ocean"
   },
   {
     "id": "South China Sea",
@@ -104,8 +120,7 @@
       "marker": [114.283, 16.534],
       "minzoom": 0,
       "maxzoom": 3
-    },
-    "size": 40
+    }
   },
   {
     "id": "Kenya and Tanzania",
@@ -125,8 +140,7 @@
       "marker": [42.374, -5.684],
       "minzoom": 3,
       "maxzoom": 11
-    },
-    "size": 30
+    }
   },
   {
     "id": "Gulf of Guinea",
@@ -146,8 +160,7 @@
       "marker": [1.423, 0.114],
       "minzoom": 0,
       "maxzoom": 5
-    },
-    "size": 30
+    }
   },
   {
     "id": "Zhanjiang",
@@ -164,7 +177,6 @@
         [20, 109],
         [22, 111]
       ]
-    },
-    "size": 30
+    }
   }
 ]

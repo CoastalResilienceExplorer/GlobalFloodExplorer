@@ -9,6 +9,7 @@ export function useLegends(
   mapLoaded,
   layers,
   custom_layer_protos,
+  filters,
 ) {
   const legends = useMemo(() => {
     return getLayers(
@@ -16,6 +17,7 @@ export function useLegends(
       layerGroup,
       { floodGroup: subgroup },
       custom_layer_protos,
+      filters,
     ).legends;
   }, [layerGroup, subgroup, mapLoaded]);
 

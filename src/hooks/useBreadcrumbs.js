@@ -74,8 +74,11 @@ export function useMapWithBreadcrumbs(viewport, aois, map) {
 
     // create DOM element for the marker
     aoisToPlace.map((aoi) => {
+      const size = aoi.size;
       var el = document.createElement("div");
-      el.innerHTML = aoi.id;
+      const src = `<img src="/images/important.svg" height="${size}px" width="${size}px" alt="My Happy SVG"/>`;
+      el.innerHTML = src;
+
       el.className = "marker";
 
       // create the marker

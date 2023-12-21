@@ -37,7 +37,6 @@ export default class HexLayerProto {
     this.legend_prefix = legend_prefix;
     this.legend_suffix = legend_suffix;
     this.format = format;
-    console.log(legend);
   }
 
   get Legend() {

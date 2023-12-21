@@ -44,3 +44,5 @@ export type LayerGroup = {
   IconComponent: React.FC<React.SVGProps<SVGSVGElement>>;
   layers: Layer[];
 };
+
+export type Filter = [string, any, any];

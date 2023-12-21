@@ -4,7 +4,8 @@ import getLayers from "./getLayer";
 // Data
 import sky from "./sky";
 // PROTOS
-import { all_protos } from "./protos/all_protos";
+import layerGroups from "layers/layers";
+import { LayerName } from "types/dataModel";
 
 export function useLayers(
   map,
@@ -15,6 +16,7 @@ export function useLayers(
   all_layers,
   all_sources,
   custom_protos,
+  filters,
 ) {
   /**
    * Maintains the loaded sources and layers for a MapboxGL Map.  Allows for switching of groups of layers.
@@ -26,6 +28,7 @@ export function useLayers(
    * @param all_layers   An object mapping layer_groups to sets of layers
    * @param all_sources All sources used amongst layers
    * @param custom_protos  Custom layer parsers, which lets you create your own symbology.
+   * @param filters  Custom filters to use on every layer.
    * @return {Object} layerGroup, layerSelectionDependencies, subgroup, subgroupOn, setLayerGroup, setSubgroup
    */
   const [layerGroup, setLayerGroup] = useState(init_layer_group);
@@ -34,13 +37,22 @@ export function useLayers(
   const layersRef = useRef([]);
 
   const layers_and_legends = useMemo(() => {
+    if (mapLoaded) {
+      if (layerGroup === LayerName.RiskReduction) {
+        map.setMaxPitch(75);
+      } else {
+        map.setMaxPitch(0);
+      }
+    }
+
     return getLayers(
       all_layers,
       layerGroup,
       { floodGroup: subgroup },
-      custom_protos || all_protos,
+      custom_protos,
+      filters,
     );
-  }, [layerGroup, subgroup]);
+  }, [layerGroup, subgroup, filters]);
 
   const layers = useMemo(() => layers_and_legends.layers, [layers_and_legends]);
   const layerSelectionDependencies = useMemo(
@@ -72,10 +84,6 @@ export function useLayers(
     map.addLayer(sky);
     layersRef.current = [...layers_to_add, sky];
   }
-
-  useEffect(() => {
-    console.log(layerGroup, subgroup);
-  }, [subgroup]);
 
   useEffect(() => {
     if (!mapLoaded) return;

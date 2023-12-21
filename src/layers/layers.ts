@@ -17,11 +17,22 @@ if (year === "2015") {
 } else {
   year = `_${year}`;
 }
-const ben_stock = ["to-number", ["get", `Ben_Stock${year}`]];
+export const ben_stock = ["to-number", ["get", `Ben_Stock${year}`]];
 const risk_stock = ["to-number", ["get", `Risk_Stock${year}`]];
 const ben_pop = ["to-number", ["get", `Ben_Pop${year}`]];
 const risk_pop = ["to-number", ["get", `Risk_Pop${year}`]];
 const nomang_risk_stock = ["+", ben_stock, risk_stock];
+export const mang_ha_perc_change = [
+  "/",
+  [
+    "-",
+    ["to-number", ["get", `Mang_Ha`]],
+    ["to-number", ["get", `Mang_Ha_1996`]],
+  ],
+  ["to-number", ["get", `Mang_Ha_1996`]],
+];
+
+const ben_filter_value = 200000;
 
 const annual_benefits = [
   {
@@ -32,6 +43,7 @@ const annual_benefits = [
     layer_title: "Tessela",
     layer_type: "SIMPLE_OUTLINE",
     selection_dependent_on: "CWON_combined_teselas_reppts",
+    filter: [">", ben_stock, ben_filter_value],
   },
   {
     id: "tessela_rps",
@@ -44,6 +56,7 @@ const annual_benefits = [
     legend_prefix: "$",
     format: "$",
     is_selectable: true,
+    filter: [">", ben_stock, ben_filter_value],
   },
 ];
 
