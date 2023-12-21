@@ -34,14 +34,14 @@
 
 .legend-layer-title {
   font-size: 1.35em;
-  padding-left: 10px;
+  padding: 0 10px;
   padding-top: 5px;
 }
 
 .legend-layer-subtitle {
   font-size: 0.8em;
-  padding-left: 10px;
-  padding-bottom: -10px;
+  padding: 0 10px;
+  margin-bottom: -10px;
 }
 
 .open-close-legend-toggle-container {

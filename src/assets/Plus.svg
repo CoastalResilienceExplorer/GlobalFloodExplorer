@@ -4,7 +4,7 @@
 <svg height="100%" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 32 32" width="100%" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <defs/>
 <g id="Layer-2">
-<path d="M23 15L17 15L17 9C17 8.44772 16.5523 8 16 8C15.4477 8 15 8.44772 15 9L15 15L9 15C8.44772 15 8 15.4477 8 16C8 16.5523 8.44772 17 9 17L15 17L15 23C15 23.5523 15.4477 24 16 24C16.5523 24 17 23.5523 17 23L17 17L23 17C23.5523 17 24 16.5523 24 16C24 15.4477 23.5523 15 23 15Z" fill="#000000" fill-rule="nonzero" opacity="1" stroke="none"/>
-<path d="M16 2C8.26801 2 2 8.26801 2 16C2 23.732 8.26801 30 16 30C23.732 30 30 23.732 30 16C30 8.26801 23.732 2 16 2ZM16 28C9.37258 28 4 22.6274 4 16C4 9.37258 9.37258 4 16 4C22.6274 4 28 9.37258 28 16C28 22.6274 22.6274 28 16 28Z" fill="#000000" fill-rule="nonzero" opacity="1" stroke="none"/>
+<path d="M23 15L17 15L17 9C17 8.44772 16.5523 8 16 8C15.4477 8 15 8.44772 15 9L15 15L9 15C8.44772 15 8 15.4477 8 16C8 16.5523 8.44772 17 9 17L15 17L15 23C15 23.5523 15.4477 24 16 24C16.5523 24 17 23.5523 17 23L17 17L23 17C23.5523 17 24 16.5523 24 16C24 15.4477 23.5523 15 23 15Z" fill="currentColor" fill-rule="nonzero" opacity="1" stroke="none"/>
+<path d="M16 2C8.26801 2 2 8.26801 2 16C2 23.732 8.26801 30 16 30C23.732 30 30 23.732 30 16C30 8.26801 23.732 2 16 2ZM16 28C9.37258 28 4 22.6274 4 16C4 9.37258 9.37258 4 16 4C22.6274 4 28 9.37258 28 16C28 22.6274 22.6274 28 16 28Z" fill="currentColor" fill-rule="nonzero" opacity="1" stroke="none"/>
 </g>
 </svg>
