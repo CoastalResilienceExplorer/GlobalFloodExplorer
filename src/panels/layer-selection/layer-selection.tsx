@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useSpring, animated, SpringValue } from "@react-spring/web";
 import { LayerGroup, LayerName } from "types/dataModel";
 import { ReactComponent as LinkSvg } from "assets/link-icon.svg";
 import downloads from "data/downloads";
 import SearchBar, { Bounds } from "panels/home-info-panel/search-bar";
+import { Icon } from "@iconify/react";
 
 type LayerSelectionProps = {
   layerGroups: Record<LayerName, LayerGroup>;
@@ -86,9 +87,9 @@ export const LayerSelection: React.FC<LayerSelectionProps> = ({
       {Object.values(layerGroups).map((layerGroup, index) => (
         <button
           key={index}
-          className={`hover:bg-shoreline text-left transition-[height] ${
+          className={`hover:bg-shoreline block text-left transition-[height] ${
             layerGroup.name === selectedLayer && "bg-shoreline"
-          }}`}
+          }`}
           onClick={() => setSelectedLayer(layerGroup.name)}
           ref={layerGroup.name === selectedLayer ? activeLayerButton : null}
         >
@@ -100,20 +101,41 @@ export const LayerSelection: React.FC<LayerSelectionProps> = ({
           />
         </button>
       ))}
-      {LINKS.map((link, index) => (
-        <button className="bg-trench hover:bg-shoreline text-left transition-[height]">
+      {LINKS.map((link, i) => (
+        <button
+          key={i}
+          className="bg-trench hover:bg-shoreline block  text-left transition-[height]"
+        >
           <MenuItem
             iconSprings={iconSprings}
-            // handleCopyHover={handleCopyHover}
             name={link.name}
             description={link.description}
           />
         </button>
       ))}
-      <SearchBar setBounds={setBounds} />
+      <div className="bg-trench hover:bg-shoreline block  text-left transition-[height]">
+        <MenuItem
+          iconSprings={iconSprings}
+          name="Search"
+          description={(updateHeight) => (
+            <SearchBar setBounds={setBounds} updateHeight={updateHeight} />
+          )}
+          IconComponent={() => (
+            <Icon
+              icon="material-symbols:search"
+              width="1.5em"
+              height="1.5em"
+              color="white"
+              className="w-full h-full"
+            />
+          )}
+        />
+      </div>
     </animated.div>
   );
 };
+
+export type UpdateHeightFunc = (height?: number) => void;
 
 const MenuItem: React.FC<{
   iconSprings: {
@@ -122,7 +144,10 @@ const MenuItem: React.FC<{
   };
   name: string | React.ReactNode;
   IconComponent?: React.FC<React.SVGProps<SVGSVGElement>>;
-  description: string | React.ReactNode;
+  description:
+    | string
+    | React.ReactNode
+    | ((updateHeight: UpdateHeightFunc) => React.ReactNode);
 }> = ({ iconSprings, name, IconComponent, description }) => {
   const descriptionRef = useRef<HTMLParagraphElement>(null);
 
@@ -139,6 +164,15 @@ const MenuItem: React.FC<{
       descriptionApi.start({ height: 0 });
     }, 200);
   };
+
+  const updateHeight = useCallback<UpdateHeightFunc>(
+    (height) => {
+      descriptionApi.start({
+        height: height ? height : descriptionRef.current?.scrollHeight,
+      });
+    },
+    [descriptionApi],
+  );
 
   return (
     <div className="grid grid-flow-col gap-4 px-4 max-w-lg">
@@ -157,13 +191,25 @@ const MenuItem: React.FC<{
         className="w-96 py-2 text-white px-4"
       >
         <h3 className="w-full">{name}</h3>
-        <animated.p
-          className="w-full overflow-hidden"
-          style={{ ...descriptionSprings }}
-          ref={descriptionRef}
-        >
-          {description}
-        </animated.p>
+        {description && typeof description === "string" ? (
+          <animated.p
+            className="w-full overflow-hidden"
+            style={{ ...descriptionSprings }}
+            ref={descriptionRef}
+          >
+            {description}
+          </animated.p>
+        ) : (
+          <animated.div
+            className="w-full overflow-hidden"
+            style={{ ...descriptionSprings }}
+            ref={descriptionRef}
+          >
+            {typeof description === "function"
+              ? description(updateHeight)
+              : description}
+          </animated.div>
+        )}
       </div>
     </div>
   );

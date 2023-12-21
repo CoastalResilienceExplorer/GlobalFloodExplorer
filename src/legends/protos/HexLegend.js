@@ -51,6 +51,7 @@ export default function HexLegend({ legend }) {
           .map((h) => (
             <polygon
               class="hex"
+              key={h}
               fill={h[0]}
               stroke="white"
               points={`${h[1][0][0]},${h[1][0][1]} 

@@ -8,12 +8,14 @@ import React, {
   useCallback,
 } from "react";
 import "./search-bar.css";
+import { UpdateHeightFunc } from "panels/layer-selection/layer-selection";
 
 export type Bounds = [[number, number], [number, number]];
 
 interface SearchBarProps {
   onPlaceSelect?: (result: any) => void;
   setBounds: (bounds: Bounds) => void;
+  updateHeight: UpdateHeightFunc;
 }
 
 type Place = {
@@ -21,9 +23,14 @@ type Place = {
   description: string;
 };
 
-const SearchBar = ({ onPlaceSelect, setBounds }: SearchBarProps) => {
+const SearchBar = ({
+  onPlaceSelect,
+  setBounds,
+  updateHeight,
+}: SearchBarProps) => {
+  const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState<Place[]>([]);
+  const [results, setResults] = useState<Place[] | null>(null);
   const [highlightedIndex, setHighlightedIndex] = useState(0);
   const searchInputRef = useRef(null);
 
@@ -47,31 +54,50 @@ const SearchBar = ({ onPlaceSelect, setBounds }: SearchBarProps) => {
 
   const fetchPlaces = useCallback(
     (query: string) => {
-      return new Promise((resolve, reject) => {
-        AutocompleteService.getPlacePredictions(
-          { input: query, sessionToken, types: ["political"] },
-          (
-            predictions: google.maps.places.AutocompletePrediction[] | null,
-            status: google.maps.places.PlacesServiceStatus,
-          ) => {
-            if (status === google.maps.places.PlacesServiceStatus.OK) {
-              resolve(predictions);
-            } else reject(status);
-          },
-        );
-      });
+      return new Promise<google.maps.places.AutocompletePrediction[] | null>(
+        (resolve, reject) => {
+          AutocompleteService.getPlacePredictions(
+            {
+              input: query,
+              sessionToken,
+              // TODO: ADD admin area levels 2 and 3 when max zoom control is in place
+              types: ["country", "administrative_area_level_1"],
+            },
+            (
+              predictions: google.maps.places.AutocompletePrediction[] | null,
+              status: google.maps.places.PlacesServiceStatus,
+            ) => {
+              if (
+                status === google.maps.places.PlacesServiceStatus.OK ||
+                status === google.maps.places.PlacesServiceStatus.ZERO_RESULTS
+              ) {
+                resolve(predictions);
+              } else {
+                reject(status);
+              }
+            },
+          );
+        },
+      );
     },
     [AutocompleteService, sessionToken],
   );
 
-  const runFetchPlaces = (currentQuery: string) => {
+  const runFetchPlaces = async (currentQuery: string) => {
     if (currentQuery.length > 2) {
+      setLoading(true);
       // Assuming you have a function fetchPlaces to get results from the API
-      fetchPlaces(currentQuery).then((data) => setResults(data as any));
+      const data = await fetchPlaces(currentQuery);
+      setLoading(false);
+      setResults(data);
     } else {
       setResults([]);
     }
   };
+
+  useEffect(() => {
+    updateHeight();
+  }, [updateHeight, results]);
 
   const debouncedRunFetchPlaces = useDebounceCallback(runFetchPlaces, 500);
 
@@ -101,29 +127,32 @@ const SearchBar = ({ onPlaceSelect, setBounds }: SearchBarProps) => {
       window.alert(
         "Coastal Reef Explorer could not find this location automatically.",
       );
+
+    updateHeight(20);
   };
 
   const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (e) => {
-    switch (e.key) {
-      case "ArrowUp":
-        setHighlightedIndex(
-          (prevIndex) => (prevIndex - 1 + results.length) % results.length,
-        );
-        break;
-      case "ArrowDown":
-        setHighlightedIndex((prevIndex) => (prevIndex + 1) % results.length);
-        break;
-      case "Enter":
-        handleSelection(results[highlightedIndex].place_id);
-        break;
-      default:
-        break;
+    if (results?.length) {
+      switch (e.key) {
+        case "ArrowUp":
+          setHighlightedIndex(
+            (prevIndex) => (prevIndex - 1 + results?.length) % results?.length,
+          );
+          break;
+        case "ArrowDown":
+          setHighlightedIndex((prevIndex) => (prevIndex + 1) % results?.length);
+          break;
+        case "Enter":
+          handleSelection(results?.[highlightedIndex].place_id);
+          break;
+        default:
+          break;
+      }
     }
   };
 
   return (
     <div className="search-container">
-      <div className="search-info-text">Search</div>
       <input
         ref={searchInputRef}
         type="text"
@@ -132,21 +161,27 @@ const SearchBar = ({ onPlaceSelect, setBounds }: SearchBarProps) => {
         onKeyDown={handleKeyDown}
         placeholder="Search for a place..."
       />
-      {results.length > 0 && (
-        <ul className="search-results-container">
-          {results.map((result, index) => (
-            <li
-              key={result.place_id}
-              onClick={() => handleSelection(result.place_id)}
-              className={`search-result ${
-                index === highlightedIndex && "highlighted"
-              }`}
-            >
-              {result?.description}
-            </li>
-          ))}
-        </ul>
-      )}
+
+      <ul className="search-results-container">
+        {results?.length
+          ? results.map((result, index) => (
+              <li
+                key={result.place_id}
+                className={`search-result ${
+                  index === highlightedIndex && "highlighted"
+                }`}
+              >
+                <button onClick={() => handleSelection(result.place_id)}>
+                  {result?.description}
+                </button>
+              </li>
+            ))
+          : null}
+        {loading && <li className="search-result">Loading...</li>}
+        {query.length > 2 && !loading && !results?.length && (
+          <li className="search-result">No results found</li>
+        )}
+      </ul>
     </div>
   );
 };
