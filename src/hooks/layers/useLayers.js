@@ -6,6 +6,7 @@ import sky from "./sky";
 // PROTOS
 import layerGroups from "layers/layers";
 import { LayerName } from "types/dataModel";
+import { useDebounce } from "@react-hook/debounce";
 
 export function useLayers(
   map,
@@ -37,14 +38,6 @@ export function useLayers(
   const layersRef = useRef([]);
 
   const layers_and_legends = useMemo(() => {
-    if (mapLoaded) {
-      if (layerGroup === LayerName.RiskReduction) {
-        map.setMaxPitch(75);
-      } else {
-        map.setMaxPitch(0);
-      }
-    }
-
     return getLayers(
       all_layers,
       layerGroup,
@@ -53,6 +46,22 @@ export function useLayers(
       filters,
     );
   }, [layerGroup, subgroup, filters]);
+
+  useEffect(() => {
+    if (mapLoaded) {
+      if (layerGroup === LayerName.RiskReduction) {
+        map.setMaxPitch(75);
+        map.dragRotate.enable();
+      } else {
+        map.setPitch(0, { duration: 2000 });
+        map.rotateTo(0, { duration: 2000 });
+        setTimeout(() => {
+          map.setMaxPitch(0);
+          map.dragRotate.disable();
+        }, 2000);
+      }
+    }
+  }, [layerGroup, mapLoaded]);
 
   const layers = useMemo(() => layers_and_legends.layers, [layers_and_legends]);
   const layerSelectionDependencies = useMemo(
