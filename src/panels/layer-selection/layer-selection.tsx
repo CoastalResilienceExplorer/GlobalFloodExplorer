@@ -3,11 +3,13 @@ import { useSpring, animated, SpringValue } from "@react-spring/web";
 import { LayerGroup, LayerName } from "types/dataModel";
 import { ReactComponent as LinkSvg } from "assets/link-icon.svg";
 import downloads from "data/downloads";
+import SearchBar, { Bounds } from "panels/home-info-panel/search-bar";
 
 type LayerSelectionProps = {
   layerGroups: Record<LayerName, LayerGroup>;
   selectedLayer: LayerName;
   setSelectedLayer: (layer: LayerName) => void;
+  setBounds: (bounds: Bounds) => void;
 };
 
 const LINKS = [
@@ -48,10 +50,10 @@ export const LayerSelection: React.FC<LayerSelectionProps> = ({
   layerGroups,
   selectedLayer,
   setSelectedLayer,
+  setBounds,
 }) => {
   const layerSelectionContainer = useRef<HTMLDivElement>(null);
   const activeLayerButton = useRef<HTMLButtonElement>(null);
-  // const [showDescription, setShowDescription] = useState(false);
   const [containerSprings, containerApi] = useSpring(() => ({
     from: { width: 60 },
   }));
@@ -71,11 +73,6 @@ export const LayerSelection: React.FC<LayerSelectionProps> = ({
   const handleIconUnhover = () => {
     containerApi.start({ width: 60 });
     iconApi.start({ width: ICON_INITIAL_SIZE, height: ICON_INITIAL_SIZE });
-    // setShowDescription(false);
-  };
-
-  const handleCopyHover = () => {
-    // setShowDescription(true);
   };
 
   return (
@@ -97,8 +94,8 @@ export const LayerSelection: React.FC<LayerSelectionProps> = ({
         >
           <MenuItem
             iconSprings={iconSprings}
-            // handleCopyHover={handleCopyHover}
             name={layerGroup.name}
+            IconComponent={layerGroup.IconComponent}
             description={layerGroup.shortDescription}
           />
         </button>
@@ -113,6 +110,7 @@ export const LayerSelection: React.FC<LayerSelectionProps> = ({
           />
         </button>
       ))}
+      <SearchBar setBounds={setBounds} />
     </animated.div>
   );
 };
@@ -122,17 +120,10 @@ const MenuItem: React.FC<{
     width: SpringValue<number>;
     height: SpringValue<number>;
   };
-  // handleCopyHover: () => void;
-  // showDescription: boolean;
   name: string | React.ReactNode;
+  IconComponent?: React.FC<React.SVGProps<SVGSVGElement>>;
   description: string | React.ReactNode;
-}> = ({
-  iconSprings,
-  // handleCopyHover,
-  // showDescription,
-  name,
-  description,
-}) => {
+}> = ({ iconSprings, name, IconComponent, description }) => {
   const descriptionRef = useRef<HTMLParagraphElement>(null);
 
   const [descriptionSprings, descriptionApi] = useSpring(() => ({
@@ -153,7 +144,11 @@ const MenuItem: React.FC<{
     <div className="grid grid-flow-col gap-4 px-4 max-w-lg">
       <div className="self-start py-2">
         <animated.div style={{ ...iconSprings }}>
-          <LinkSvg fill="white" />
+          {IconComponent ? (
+            <IconComponent fill="white" />
+          ) : (
+            <LinkSvg fill="white" />
+          )}
         </animated.div>
       </div>
       <div

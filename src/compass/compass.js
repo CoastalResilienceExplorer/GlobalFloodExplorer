@@ -46,9 +46,9 @@ export default function Compass(props) {
               className="controls-icon compass"
               style={{
                 transform: `
-                    rotateX(${props.viewport.pitch}deg)
-                    rotateZ(${-props.viewport.bearing}deg)  
-                    `,
+                  rotateX(${props.viewport.pitch}deg)
+                  rotateZ(${-props.viewport.bearing}deg)  
+                `,
               }}
             />
           </Hover>

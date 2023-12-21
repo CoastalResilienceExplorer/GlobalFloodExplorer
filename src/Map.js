@@ -18,9 +18,7 @@ import aois from "./data/viewports.json";
 //Panels
 import Legend from "./legends/legend";
 import StatsPanel from "./panels/stats-panel/stats-panel-container";
-import HomeInfoPanel, {
-  HomePanel,
-} from "./panels/home-info-panel/home-info-panel";
+import HomeInfoPanel from "./panels/home-info-panel/home-info-panel";
 import Compass from "./compass/compass";
 import BasemapManager from "./basemap_manager/BasemapManager";
 import { SlideMap } from "slide_map/slide_map";
@@ -37,7 +35,6 @@ import {
   DisclaimerScreen,
   NavigationControls,
 } from "./splash-screens/disclaimer-screen";
-import SearchBar from "panels/home-info-panel/search-bar";
 import { LayerName } from "types/dataModel";
 
 const all_selectable_layers = Object.values(layersByGroup)
@@ -239,6 +236,7 @@ export default function Map() {
           layerGroups={layerGroups}
           selectedLayer={layerGroup}
           setSelectedLayer={setLayerGroup}
+          setBounds={flyToBounds}
         />
       ) : (
         <HomeInfoPanel

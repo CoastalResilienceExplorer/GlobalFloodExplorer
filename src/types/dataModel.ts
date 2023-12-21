@@ -7,7 +7,6 @@ export enum LayerName {
   BenefitAEB = "Benefit (EAB)",
   RiskReduction = "Risk Reduction Ratio",
   Flooding = "Flooding",
-  SHDI = "SHDI",
   MangLoss = "Mangrove Loss",
 }
 

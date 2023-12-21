@@ -9,11 +9,11 @@ import React, {
 } from "react";
 import "./search-bar.css";
 
-type bounds = [[number, number], [number, number]];
+export type Bounds = [[number, number], [number, number]];
 
 interface SearchBarProps {
-  onPlaceSelect: (result: any) => void;
-  setBounds: (bounds: bounds) => void;
+  onPlaceSelect?: (result: any) => void;
+  setBounds: (bounds: Bounds) => void;
 }
 
 type Place = {
@@ -91,10 +91,11 @@ const SearchBar = ({ onPlaceSelect, setBounds }: SearchBarProps) => {
     const viewport = place?.geometry?.viewport;
     const northeast = viewport?.getNorthEast();
     const southwest = viewport?.getSouthWest();
-    const bounds: bounds = [
+    const bounds: Bounds = [
       [northeast?.lng(), northeast?.lat()],
       [southwest?.lng(), southwest?.lat()],
     ];
+    // TODO: use flyToViewport instead of setBounds and define a maxZoom IF bounds are too small
     if (bounds) setBounds(bounds);
     else
       window.alert(

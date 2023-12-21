@@ -268,13 +268,6 @@ const layerGroups: Record<LayerName, LayerGroup> = {
     IconComponent: ExampleSvg,
     layers: flooding,
   },
-  [LayerName.SHDI]: {
-    name: LayerName.SHDI,
-    shortDescription:
-      "The Social and Human Development Index (SHDI) is a composite index of development indicators.",
-    IconComponent: ExampleSvg,
-    layers: SHDI,
-  },
   [LayerName.MangLoss]: {
     name: LayerName.MangLoss,
     shortDescription: "The percentage of mangroves lost between 1996 and 2015.",
