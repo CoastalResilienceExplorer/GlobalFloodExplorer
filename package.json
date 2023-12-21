@@ -2,6 +2,22 @@
   "name": "maptest",
   "version": "0.1.0",
   "private": true,
+  "scripts": {
+    "prepare": "husky install",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "cypress:dev": "cypress open",
+    "cypress:run": "cypress run",
+    "cypress:ci": "react-scripts build & npx serve -s build & wait-on http://localhost:3000 & cypress run"
+  },
+  "lint-staged": {
+    "{src,cypress}/**/*.{js,jsx,ts,tsx}": [
+      "eslint --fix"
+    ],
+    "{src,cypress}/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "prettier --write"
+    ]
+  },
   "dependencies": {
     "@react-hook/debounce": "^4.0.0",
     "@react-spring/web": "^9.7.3",
@@ -37,21 +53,6 @@
     "tailwindcss": "^3.3.6",
     "typescript": "^5.1.6",
     "wait-on": "^7.0.1"
-  },
-  "scripts": {
-    "prepare": "husky install",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "cypress:dev": "cypress open",
-    "cypress:ci": "yarn build & npx serve -s build & wait-on http://localhost:3000 & cypress run"
-  },
-  "lint-staged": {
-    "{src,cypress}/**/*.{js,jsx,ts,tsx}": [
-      "eslint --fix"
-    ],
-    "{src,cypress}/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
-      "prettier --write"
-    ]
   },
   "eslintConfig": {
     "extends": [

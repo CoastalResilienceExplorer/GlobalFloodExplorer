@@ -140,7 +140,7 @@ function TouchLayerSelectionPanel({ selectedLayer, setSelectedLayer }) {
 
   return (
     <div
-      className="layer-selection-container mobile"
+      className="layer-selection layer-selection-container mobile"
       onTouchStart={(e) => {
         setSwipeStartX(e.touches[0].clientX);
         setSwipeStartY(e.touches[0].clientY);

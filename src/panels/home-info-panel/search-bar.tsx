@@ -10,6 +10,8 @@ import React, {
 import "./search-bar.css";
 import { UpdateHeightFunc } from "panels/layer-selection/layer-selection";
 
+const google = window.google;
+
 export type Bounds = [[number, number], [number, number]];
 
 interface SearchBarProps {
@@ -35,17 +37,21 @@ const SearchBar = ({
   const searchInputRef = useRef(null);
 
   const AutocompleteService = useMemo(
-    () => new google.maps.places.AutocompleteService(),
+    () => (google ? new google.maps.places.AutocompleteService() : null),
     [],
   );
   const sessionToken = useMemo(
-    () => new google.maps.places.AutocompleteSessionToken(),
+    () => (google ? new google.maps.places.AutocompleteSessionToken() : null),
     [],
   );
-  const Geocoder = useMemo(() => new google.maps.Geocoder(), []);
+  const Geocoder = useMemo(
+    () => (google ? new google.maps.Geocoder() : null),
+    [],
+  );
 
   const fetchPlace = useCallback(
     async (placeId: string) => {
+      if (!Geocoder) return;
       const { results } = await Geocoder.geocode({ placeId });
       return results[0];
     },
@@ -56,10 +62,11 @@ const SearchBar = ({
     (query: string) => {
       return new Promise<google.maps.places.AutocompletePrediction[] | null>(
         (resolve, reject) => {
+          if (!AutocompleteService) return;
           AutocompleteService.getPlacePredictions(
             {
               input: query,
-              sessionToken,
+              sessionToken: sessionToken ?? undefined,
               // TODO: ADD admin area levels 2 and 3 when max zoom control is in place
               types: ["country", "administrative_area_level_1"],
             },
@@ -113,6 +120,12 @@ const SearchBar = ({
     setQuery("");
     setResults([]);
     const place = await fetchPlace(placeId);
+    if (!place) {
+      window.alert(
+        "Coastal Reef Explorer could not find this location automatically.",
+      );
+      return;
+    }
     onPlaceSelect?.(place);
     const viewport = place?.geometry?.viewport;
     const northeast = viewport?.getNorthEast();

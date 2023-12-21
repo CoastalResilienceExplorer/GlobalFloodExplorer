@@ -78,7 +78,7 @@ export const LayerSelection: React.FC<LayerSelectionProps> = ({
 
   return (
     <animated.div
-      className="absolute z-[02] top-0 left-0 bg-open overflow-hidden rounded-br-lg"
+      className="layer-selection absolute z-[02] top-0 left-0 bg-open overflow-hidden rounded-br-lg"
       onMouseEnter={handleIconHover}
       onMouseLeave={handleIconUnhover}
       ref={layerSelectionContainer}
@@ -113,24 +113,26 @@ export const LayerSelection: React.FC<LayerSelectionProps> = ({
           />
         </button>
       ))}
-      <div className="bg-trench hover:bg-shoreline block  text-left transition-[height]">
-        <MenuItem
-          iconSprings={iconSprings}
-          name="Search"
-          description={(updateHeight) => (
-            <SearchBar setBounds={setBounds} updateHeight={updateHeight} />
-          )}
-          IconComponent={() => (
-            <Icon
-              icon="material-symbols:search"
-              width="1.5em"
-              height="1.5em"
-              color="white"
-              className="w-full h-full"
-            />
-          )}
-        />
-      </div>
+      {typeof window.google !== "undefined" && (
+        <div className="bg-trench hover:bg-shoreline block  text-left transition-[height]">
+          <MenuItem
+            iconSprings={iconSprings}
+            name="Search"
+            description={(updateHeight) => (
+              <SearchBar setBounds={setBounds} updateHeight={updateHeight} />
+            )}
+            IconComponent={() => (
+              <Icon
+                icon="material-symbols:search"
+                width="1.5em"
+                height="1.5em"
+                color="white"
+                className="w-full h-full"
+              />
+            )}
+          />
+        </div>
+      )}
     </animated.div>
   );
 };

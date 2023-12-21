@@ -21,7 +21,7 @@ describe("Map spec", () => {
     cy.get(".basemap-manager-container").should("be.visible");
 
     // Check that the layer manager is rendered
-    cy.get(".layer-selection-container").should("be.visible");
+    cy.get(".layer-selection").should("be.visible");
 
     // Check that the metrics are rendered
     cy.get('[data-test-id="open-metrics-button"]').should("be.visible");
