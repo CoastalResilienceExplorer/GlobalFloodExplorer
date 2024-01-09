@@ -43,7 +43,6 @@ export default function Info({ activeInfo, refs, allTheThings }) {
   };
 
   const { innerWidth, innerHeight } = window;
-  console.log(allTheThings);
 
   return (
     <>

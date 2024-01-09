@@ -169,7 +169,7 @@ const flooding = [
   },
 ];
 
-const SHDI = [
+const Population = [
   {
     id: "tessela_bounds",
     source: "CWON_tesela_bounds",
@@ -185,7 +185,7 @@ const SHDI = [
     source_layer: "CWON_combined_teselas_reppts",
     colorValue: ["to-number", ["get", "Ben_Pop"]],
     legend: Blue_5Step_Pop,
-    layer_title: "Annual Expected Benefit",
+    layer_title: "Annual Population Benefit",
     layer_type: "DISCRETE_POINT",
     legend_prefix: "",
     // format: "$",
@@ -284,11 +284,12 @@ const layerGroups: Record<LayerName, LayerGroup> = {
     IconComponent: ExampleSvg,
     layers: flooding,
   },
-  [LayerName.MangLoss]: {
-    name: LayerName.MangLoss,
-    shortDescription: "The percentage of mangroves lost between 1996 and 2015.",
+  [LayerName.Population]: {
+    name: LayerName.Population,
+    shortDescription:
+      "The annual expected population protection is the average annual reduction in people exposed to flooding.",
     IconComponent: ExampleSvg,
-    layers: MangroveLoss,
+    layers: Population,
   },
 };
 

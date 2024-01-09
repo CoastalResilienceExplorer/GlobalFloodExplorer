@@ -3,6 +3,7 @@ import Map from "./Map";
 import { useState } from "react";
 import { StagingLogin } from "./staging/auth";
 import ReactGA from "react-ga4";
+import { FiltersContext, useFilters } from "hooks/useFilters";
 
 ReactGA.initialize("G-5XWHH710GF", {
   testMode: process.env.NODE_ENV !== "production",
@@ -16,7 +17,13 @@ function App() {
       {process.env.REACT_APP_USE_SITE_GATING === "true" && !authed ? (
         <StagingLogin setAuthed={setAuthed} />
       ) : (
-        <Map />
+        <FiltersContext.Provider
+          value={{
+            useFilters,
+          }}
+        >
+          <Map />
+        </FiltersContext.Provider>
       )}
     </div>
   );

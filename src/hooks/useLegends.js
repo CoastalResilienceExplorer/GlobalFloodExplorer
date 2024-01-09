@@ -2,6 +2,7 @@
 import { useMemo } from "react";
 
 import getLayers from "./layers/getLayer";
+import { useFilterContext } from "./useFilters";
 
 export function useLegends(
   layerGroup,
@@ -9,8 +10,10 @@ export function useLegends(
   mapLoaded,
   layers,
   custom_layer_protos,
-  filters,
 ) {
+  const { useFilters } = useFilterContext();
+  const { activeFilters: filters } = useFilters();
+
   const legends = useMemo(() => {
     return getLayers(
       layers,

@@ -34,7 +34,7 @@ export function useInfo(initial_state, reducer) {
     }
   }
 
-  function useEvery(confirmIf, event, skipIf, text) {
+  function useEvery(confirmIf, event, skipIf, text, timeout = 1000) {
     if (
       confirmIf() &&
       (skipIf === undefined || !skipIf()) &&
@@ -55,12 +55,10 @@ export function useInfo(initial_state, reducer) {
             active: null,
             payload: {},
           }),
-        4500,
+        timeout,
       );
     }
   }
-
-  console.log(state);
 
   return {
     useFirst,

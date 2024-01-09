@@ -4,9 +4,8 @@ import getLayers from "./getLayer";
 // Data
 import sky from "./sky";
 // PROTOS
-import layerGroups from "layers/layers";
 import { LayerName } from "types/dataModel";
-import { useDebounce } from "@react-hook/debounce";
+import { useFilterContext } from "hooks/useFilters";
 
 export function useLayers(
   map,
@@ -17,7 +16,6 @@ export function useLayers(
   all_layers,
   all_sources,
   custom_protos,
-  filters,
 ) {
   /**
    * Maintains the loaded sources and layers for a MapboxGL Map.  Allows for switching of groups of layers.
@@ -29,7 +27,6 @@ export function useLayers(
    * @param all_layers   An object mapping layer_groups to sets of layers
    * @param all_sources All sources used amongst layers
    * @param custom_protos  Custom layer parsers, which lets you create your own symbology.
-   * @param filters  Custom filters to use on every layer.
    * @return {Object} layerGroup, layerSelectionDependencies, subgroup, subgroupOn, setLayerGroup, setSubgroup
    */
   const [layerGroup, setLayerGroup] = useState(init_layer_group);
@@ -37,15 +34,19 @@ export function useLayers(
   const [subgroupOn, setSubgroupOn] = useState(false);
   const layersRef = useRef([]);
 
+  const { useFilters } = useFilterContext();
+  const { filtersOn, activeFilters: filters } = useFilters();
+  console.log(filters);
+
   const layers_and_legends = useMemo(() => {
     return getLayers(
       all_layers,
       layerGroup,
       { floodGroup: subgroup },
       custom_protos,
-      filters,
+      filters | {},
     );
-  }, [layerGroup, subgroup, filters]);
+  }, [layerGroup, subgroup, filters, filtersOn]);
 
   useEffect(() => {
     if (mapLoaded) {

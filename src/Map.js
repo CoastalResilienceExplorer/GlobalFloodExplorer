@@ -37,9 +37,6 @@ import {
 } from "./splash-screens/disclaimer-screen";
 import { LayerName } from "types/dataModel";
 
-// For Filters
-import { filters } from "layers/filters";
-
 const all_selectable_layers = Object.values(layersByGroup)
   .flat()
   .filter((x) => x.is_selectable)
@@ -86,7 +83,6 @@ export default function Map() {
     layersByGroup,
     sources,
     custom_layer_protos,
-    filters,
   );
 
   const { legends } = useLegends(
@@ -95,7 +91,6 @@ export default function Map() {
     mapLoaded,
     layersByGroup,
     custom_layer_protos,
-    filters,
   );
 
   useUpdatePermalink({

@@ -1,11 +1,8 @@
 import { useRef, useEffect, useState } from "react";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
-import { useInfo } from "hooks/useInfo";
-import { useInfoContext } from "hooks/useInfo";
-import infoReducer from "../info/infoReducer";
-import initialInfo from "../info/initialInfo";
 
-const TIMEOUT = 3000;
+const HOVER_TIMEOUT = 3000;
+const LEAVE_TIMEOUT = 1000;
 
 export function useBreadcrumbs(aois, viewport) {
   const [breadcrumbs, setBreadcrumbs] = useState([]);
@@ -91,7 +88,8 @@ function MarkerWithHook(aoi, map, setIsHovering, setPayload) {
       }
       setTimeout(() => {
         setIsHovering(false);
-      }, TIMEOUT);
+        setPayload(false);
+      }, HOVER_TIMEOUT);
     },
     false,
   );
@@ -101,7 +99,7 @@ function MarkerWithHook(aoi, map, setIsHovering, setPayload) {
       console.log("hovering");
       setTimeout(() => {
         setIsHovering(false);
-      }, TIMEOUT);
+      }, LEAVE_TIMEOUT);
     },
     false,
   );
@@ -119,13 +117,15 @@ export function useMapWithBreadcrumbs(viewport, aois, map, useEvery) {
     if (!payload) return;
     payloadRef.current = payload;
     setIsHovering(true);
-    setTimeout(() => {
-      setIsHovering(false);
-      setPayload(false);
-    }, TIMEOUT);
   }, [payload]);
 
-  useEvery(() => isHovering, "FIRST_HOVER", undefined, payloadRef.current);
+  useEvery(
+    () => isHovering,
+    "FIRST_HOVER",
+    undefined,
+    payloadRef.current,
+    HOVER_TIMEOUT,
+  );
 
   useEffect(() => {
     const filtered_aois = aois.filter((aoi) => {
