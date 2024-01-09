@@ -49,8 +49,6 @@ function Title({ nStudyUnits, locations, selectionType }) {
   const [showLocationsTooltip, setShowLocationsTooltip] = useState(false);
   const [locationTooltipY, setLocationTooltipY] = useState(null);
 
-  // console.log(selectionType)
-
   function formatLocationList(locations) {
     let locationsFormatted;
     if (locations.length === 1)

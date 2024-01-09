@@ -222,7 +222,6 @@ const MangroveLoss = [
     id: "mangroves_1996",
     source: "mangroves_1996",
     source_layer: "GMW_1996_v3_Areas",
-    // legend: Mangroves,
     layer_title: "Mangroves 1996",
     colorValue: ["to-number", ["get", "PXLVAL"]],
     legend: Green,
@@ -236,7 +235,6 @@ const MangroveLoss = [
     id: "mangroves_2015",
     source: "mangroves_2015",
     source_layer: "cf23fc24843b11eeb772b580fc9aa31f",
-    // legend: Mangroves,
     layer_title: "Mangroves 2015",
     colorValue: ["to-number", ["get", "PXLVAL"]],
     legend: Red,
@@ -269,13 +267,6 @@ const layerGroups: Record<LayerName, LayerGroup> = {
       "The depth of flooding in the event of a 50-year storm surge at different years.",
     IconComponent: ExampleSvg,
     layers: flooding,
-  },
-  [LayerName.SHDI]: {
-    name: LayerName.SHDI,
-    shortDescription:
-      "The Social and Human Development Index (SHDI) is a composite index of development indicators.",
-    IconComponent: ExampleSvg,
-    layers: SHDI,
   },
   [LayerName.MangLoss]: {
     name: LayerName.MangLoss,

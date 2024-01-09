@@ -31,62 +31,26 @@ export default function Compass(props) {
     props.setViewport(viewport_to);
   }
 
+  const highlightCompass =
+    props.viewport.pitch !== 0 || props.viewport.bearing !== 0;
   return (
     <div className="controls-panel-container">
-      <div className="controls-panel-title">Controls</div>
       <div className="controls-panel" ref={props._ref}>
-        <div className="controls-icon-container" onClick={alignViewport}>
-          <Hover text="2D">
-            <div
-              className="controls-icon"
-              onClick={() => adjustViewport({ pitch: 0 })}
-            >
-              2D
-            </div>
-          </Hover>
-        </div>
         <div
-          className="controls-icon-container"
-          onClick={() => adjustViewport({ bearing: 0 })}
+          className={`controls-icon-container`}
+          onClick={() => adjustViewport({ bearing: 0, pitch: 0 })}
         >
           <Hover text="Reorient">
             <CompassSVG
+              fill={highlightCompass ? "coral" : "white"}
               className="controls-icon compass"
               style={{
                 transform: `
-                    rotateX(${props.viewport.pitch}deg)
-                    rotateZ(${-props.viewport.bearing}deg)  
-                    `,
+                  rotateX(${props.viewport.pitch}deg)
+                  rotateZ(${-props.viewport.bearing}deg)  
+                `,
               }}
-            ></CompassSVG>
-          </Hover>
-        </div>
-        <div
-          className="controls-icon-container"
-          onClick={() =>
-            adjustViewport({
-              latitude: 0,
-              longitude: 0,
-              zoom: 1.8,
-              pitch: 0,
-              bearing: 0,
-            })
-          }
-        >
-          <div className="controls-icon zoom-full">
-            <Hover text="Zoom Full">
-              <MapSVG />
-            </Hover>
-          </div>
-        </div>
-        <div
-          className="controls-icon-container"
-          onClick={() => props.setNavigationControls(!props.naviationControls)}
-        >
-          <Hover text="Controls">
-            <div className="controls-icon">
-              <Controls />
-            </div>
+            />
           </Hover>
         </div>
         <div
@@ -95,7 +59,7 @@ export default function Compass(props) {
         >
           <Hover text="Zoom In">
             <div className="controls-icon">
-              <Plus />
+              <Plus fill="white" />
             </div>
           </Hover>
         </div>
@@ -105,7 +69,7 @@ export default function Compass(props) {
         >
           <Hover text="Zoom Out">
             <div className="controls-icon">
-              <Minus />
+              <Minus fill="white" />
             </div>
           </Hover>
         </div>

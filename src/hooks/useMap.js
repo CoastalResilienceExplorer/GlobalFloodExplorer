@@ -67,5 +67,6 @@ export function useMap(init_viewport, init_style, access_token) {
     setStyle,
     setViewport,
     flyToViewport,
+    flyToBounds,
   };
 }

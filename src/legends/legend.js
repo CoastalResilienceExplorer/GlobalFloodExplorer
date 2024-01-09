@@ -44,7 +44,6 @@ export default function Legend({ legend_items }) {
   return (
     <div
       className={"legend-container" + (isOpen ? " open" : "")}
-      // transition={'transform 10s'}
       style={transformOffset}
     >
       <div className="legend-content" ref={ref}>

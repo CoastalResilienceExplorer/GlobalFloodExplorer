@@ -60,6 +60,7 @@ export default function Map() {
     style,
     setStyle,
     flyToViewport,
+    flyToBounds,
   } = useMap(
     initialStates.viewport,
     "mapbox://styles/mapbox/satellite-v9",
@@ -235,6 +236,7 @@ export default function Map() {
           layerGroups={layerGroups}
           selectedLayer={layerGroup}
           setSelectedLayer={setLayerGroup}
+          setBounds={flyToBounds}
         />
       ) : (
         <HomeInfoPanel
