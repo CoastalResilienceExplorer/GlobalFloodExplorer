@@ -5,6 +5,8 @@ import { useInfoContext } from "hooks/useInfo";
 import infoReducer from "../info/infoReducer";
 import initialInfo from "../info/initialInfo";
 
+const TIMEOUT = 3000;
+
 export function useBreadcrumbs(aois, viewport) {
   const [breadcrumbs, setBreadcrumbs] = useState([]);
   const previousBreadcrumbs = useRef([]);
@@ -57,12 +59,73 @@ export function useBreadcrumbs(aois, viewport) {
   return breadcrumbs;
 }
 
+function MarkerWithHook(aoi, map, setIsHovering, setPayload) {
+  console.log(aoi);
+  const size = aoi.size;
+  var el = document.createElement("div");
+  const src = `<img src="/images/important.svg" height="${size}px" width="${size}px" alt="My Happy SVG"/>`;
+  el.innerHTML = src;
+  el.className = "marker";
+
+  // create the marker
+  const m = new mapboxgl.Marker(el)
+    .setLngLat(aoi.location_awareness.marker)
+    .addTo(map);
+
+  el.addEventListener(
+    "click",
+    (e) => {
+      map.flyToBounds(aoi.location_awareness.bbox);
+      e.stopImmediatePropagation();
+    },
+    false,
+  );
+  el.addEventListener(
+    "mouseover",
+    (e) => {
+      console.log("hovering");
+      if (aoi.description) {
+        setPayload(aoi.description);
+      } else {
+        setPayload(aoi.id);
+      }
+      setTimeout(() => {
+        setIsHovering(false);
+      }, TIMEOUT);
+    },
+    false,
+  );
+  el.addEventListener(
+    "mouseleave",
+    (e) => {
+      console.log("hovering");
+      setTimeout(() => {
+        setIsHovering(false);
+      }, TIMEOUT);
+    },
+    false,
+  );
+  return m;
+}
+
 export function useMapWithBreadcrumbs(viewport, aois, map, useEvery) {
   const [aoisToPlace, setAoisToPlace] = useState([]);
   const [markers, setMarkers] = useState([]);
   const [isHovering, setIsHovering] = useState(false);
+  const [payload, setPayload] = useState(false);
+  const payloadRef = useRef(null);
 
-  useEvery(() => isHovering, "FIRST_HOVER");
+  useEffect(() => {
+    if (!payload) return;
+    payloadRef.current = payload;
+    setIsHovering(true);
+    setTimeout(() => {
+      setIsHovering(false);
+      setPayload(false);
+    }, TIMEOUT);
+  }, [payload]);
+
+  useEvery(() => isHovering, "FIRST_HOVER", undefined, payloadRef.current);
 
   useEffect(() => {
     const filtered_aois = aois.filter((aoi) => {
@@ -77,42 +140,11 @@ export function useMapWithBreadcrumbs(viewport, aois, map, useEvery) {
   useEffect(() => {
     if (aoisToPlace.length === 0) return;
     markers.map((m) => m.remove());
-    let _markers = [];
-
     // create DOM element for the marker
-    aoisToPlace.map((aoi) => {
-      const size = aoi.size;
-      var el = document.createElement("div");
-      const src = `<img src="/images/important.svg" height="${size}px" width="${size}px" alt="My Happy SVG"/>`;
-      el.innerHTML = src;
-
-      el.className = "marker";
-
-      // create the marker
-      const m = new mapboxgl.Marker(el)
-        .setLngLat(aoi.location_awareness.marker)
-        .addTo(map);
-      _markers.push(m);
-      el.addEventListener(
-        "click",
-        (e) => {
-          map.flyToBounds(aoi.location_awareness.bbox);
-          e.stopImmediatePropagation();
-        },
-        false,
-      );
-      el.addEventListener(
-        "mouseover",
-        (e) => {
-          console.log("hovering");
-          setIsHovering(true);
-          setTimeout(() => {
-            setIsHovering(false);
-          }, 5000);
-        },
-        false,
-      );
-    });
+    console.log(aoisToPlace);
+    const _markers = aoisToPlace.map((aoi) =>
+      MarkerWithHook(aoi, map, setIsHovering, setPayload),
+    );
     setMarkers(_markers);
   }, [aoisToPlace]);
 }

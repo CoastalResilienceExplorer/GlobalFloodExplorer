@@ -79,6 +79,10 @@ body {
   justify-content: center;
 }
 
+.lower-middle-ref-container > * {
+  font-size: 10px;
+}
+
 .breadcrumbs-container {
   position: absolute;
   bottom: 5px;

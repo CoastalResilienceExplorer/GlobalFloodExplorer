@@ -19,7 +19,8 @@
       "maxzoom": 6
     },
     "parent": "Caribbean",
-    "size": 50
+    "size": 50,
+    "description": "Florida has one of the highest concentrations of mangrove shoreline protection in the world"
   },
   {
     "id": "Yucatan",
@@ -41,7 +42,8 @@
       "maxzoom": 6
     },
     "parent": "Caribbean",
-    "size": 40
+    "size": 40,
+    "description": "Belize is protected by mangroves from over $100M of damage each year"
   },
   {
     "id": "Caribbean",

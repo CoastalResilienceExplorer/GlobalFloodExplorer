@@ -112,7 +112,10 @@ export default function Map() {
   );
 
   // const breadcrumbs = useBreadcrumbs(aois, viewport);
-  const { useFirst, useEvery, activeInfo } = useInfo(initialInfo, infoReducer);
+  const { useFirst, useEvery, activeInfo, allTheThings } = useInfo(
+    initialInfo,
+    infoReducer,
+  );
   useMapWithBreadcrumbs(viewport, aois, map, useEvery);
 
   const selectRef = useRef();
@@ -188,6 +191,7 @@ export default function Map() {
       <NavigationControls show={navigationControls} isTouch={isTouch} />
       <Info
         activeInfo={activeInfo}
+        allTheThings={allTheThings}
         refs={{
           COMPASS: compassRef,
           SELECT: selectRef,

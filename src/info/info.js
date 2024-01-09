@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import "./info.css";
 
-export default function Info({ activeInfo, refs }) {
+export default function Info({ activeInfo, refs, allTheThings }) {
   const dotRef = useRef();
   const infoToText = {
     FIRST_3D: {
@@ -43,7 +43,7 @@ export default function Info({ activeInfo, refs }) {
   };
 
   const { innerWidth, innerHeight } = window;
-  console.log(activeInfo);
+  console.log(allTheThings);
 
   return (
     <>
@@ -73,7 +73,11 @@ export default function Info({ activeInfo, refs }) {
                     "tooltip" + (infoToText[i].style == "grey" ? " grey" : "")
                   }
                 >
-                  {infoToText[i].text}
+                  {allTheThings &&
+                  allTheThings[i].payload &&
+                  allTheThings[i].payload.text
+                    ? allTheThings[i].payload.text
+                    : infoToText[i].text}
                 </div>
                 {infoToText[i].with_dot && (
                   <div className="tooltip-dot" ref={dotRef} />
