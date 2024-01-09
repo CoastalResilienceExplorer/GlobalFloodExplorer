@@ -111,10 +111,9 @@ export default function Map() {
     layerSelectionDependencies,
   );
 
-  const breadcrumbs = useBreadcrumbs(aois, viewport);
-  useMapWithBreadcrumbs(viewport, aois, map);
-
-  const { useFirst, activeInfo } = useInfo(initialInfo, infoReducer);
+  // const breadcrumbs = useBreadcrumbs(aois, viewport);
+  const { useFirst, useEvery, activeInfo } = useInfo(initialInfo, infoReducer);
+  useMapWithBreadcrumbs(viewport, aois, map, useEvery);
 
   const selectRef = useRef();
 
@@ -126,6 +125,7 @@ export default function Map() {
   useFirst(() => viewport.bearing !== 0, "FIRST_3D");
 
   const centerRef = useRef();
+  const lowerMiddleRef = useRef();
   useFirst(
     () => layerGroup === LayerName.Flooding,
     "FIRST_FLOODING_ZOOM_IN",
@@ -168,7 +168,13 @@ export default function Map() {
 
   return (
     <InfoContext.Provider
-      value={{ useFirst, selectRef, floodingRef, selectedFeatures }}
+      value={{
+        useFirst,
+        selectRef,
+        floodingRef,
+        lowerMiddleRef,
+        selectedFeatures,
+      }}
     >
       <OpeningSplashScreen
         showSplashScreen={splashScreen}
@@ -188,6 +194,7 @@ export default function Map() {
           FLOOD: floodingRef,
           FLOOD_ZOOM: centerRef,
           HEX: centerRef,
+          HOVER: lowerMiddleRef,
         }}
       />
       <div className="screen">
@@ -212,6 +219,9 @@ export default function Map() {
       </div>
       <div className="center-ref-container">
         <div className="center-ref" ref={centerRef} />
+      </div>
+      <div className="lower-middle-ref-container">
+        <div className="lower-middle-ref" ref={lowerMiddleRef} />
       </div>
       <StatsPanel
         selectedFeatures={selectedFeatures}

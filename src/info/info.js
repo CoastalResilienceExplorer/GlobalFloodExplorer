@@ -34,9 +34,16 @@ export default function Info({ activeInfo, refs }) {
       with_dot: false,
       style: "grey",
     },
+    FIRST_HOVER: {
+      text: "Zoom To",
+      ref: refs.HOVER,
+      with_dot: false,
+      style: "grey",
+    },
   };
 
   const { innerWidth, innerHeight } = window;
+  console.log(activeInfo);
 
   return (
     <>

@@ -1,5 +1,9 @@
 import { useRef, useEffect, useState } from "react";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
+import { useInfo } from "hooks/useInfo";
+import { useInfoContext } from "hooks/useInfo";
+import infoReducer from "../info/infoReducer";
+import initialInfo from "../info/initialInfo";
 
 export function useBreadcrumbs(aois, viewport) {
   const [breadcrumbs, setBreadcrumbs] = useState([]);
@@ -53,9 +57,12 @@ export function useBreadcrumbs(aois, viewport) {
   return breadcrumbs;
 }
 
-export function useMapWithBreadcrumbs(viewport, aois, map) {
+export function useMapWithBreadcrumbs(viewport, aois, map, useEvery) {
   const [aoisToPlace, setAoisToPlace] = useState([]);
   const [markers, setMarkers] = useState([]);
+  const [isHovering, setIsHovering] = useState(false);
+
+  useEvery(() => isHovering, "FIRST_HOVER");
 
   useEffect(() => {
     const filtered_aois = aois.filter((aoi) => {
@@ -91,6 +98,17 @@ export function useMapWithBreadcrumbs(viewport, aois, map) {
         (e) => {
           map.flyToBounds(aoi.location_awareness.bbox);
           e.stopImmediatePropagation();
+        },
+        false,
+      );
+      el.addEventListener(
+        "mouseover",
+        (e) => {
+          console.log("hovering");
+          setIsHovering(true);
+          setTimeout(() => {
+            setIsHovering(false);
+          }, 5000);
         },
         false,
       );

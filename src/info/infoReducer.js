@@ -25,6 +25,11 @@ export default function reducer(state, action) {
         ...state,
         FIRST_HEX: action.payload,
       };
+    case "FIRST_HOVER":
+      return {
+        ...state,
+        FIRST_HOVER: action.payload,
+      };
     default:
       return state;
   }

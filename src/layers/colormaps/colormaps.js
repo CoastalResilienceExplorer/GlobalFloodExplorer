@@ -141,6 +141,22 @@ const _Blue_5Step = {
   legendScale: 3,
 };
 
+const _Blue_5Step_Pop = {
+  breaks: [0, 500, 5000, 10000, 25000],
+
+  colorRamp: [
+    "rgba(255, 255, 255, 0)",
+    "#bae4bc",
+    "#7bccc4",
+    "#43a2ca",
+    "#0868ac",
+  ],
+
+  sizeRamp: [5, 10, 15, 20, 25],
+
+  legendScale: 3,
+};
+
 const _Blue_5Step_0_1 = {
   breaks: [0, 0.2, 0.4, 0.6, 0.8],
 
@@ -339,6 +355,11 @@ export const FloodMaps_Bathy = new DiscreteColorSizeScale(
 );
 export const Floodmaps_Bathy2 = new DiscreteColorSizeScale(
   _Floodmaps_Bathy2,
+  BasicStrokes,
+);
+
+export const Blue_5Step_Pop = new DiscreteColorSizeScale(
+  _Blue_5Step_Pop,
   BasicStrokes,
 );
 

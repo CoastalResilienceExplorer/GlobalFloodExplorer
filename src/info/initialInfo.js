@@ -4,6 +4,7 @@ const initial_state = {
   FIRST_FLOODING: null,
   FIRST_FLOODING_ZOOM_IN: null,
   FIRST_HEX: null,
+  FIRST_HOVER: null,
 };
 
 export default initial_state;

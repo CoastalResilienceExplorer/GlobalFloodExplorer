@@ -29,8 +29,31 @@ export function useInfo(initial_state, reducer) {
     }
   }
 
+  function useEvery(confirmIf, event, skipIf) {
+    if (
+      confirmIf() &&
+      (skipIf === undefined || !skipIf()) &&
+      state[event] === null
+    ) {
+      dispatch({
+        type: event,
+        payload: true,
+      });
+
+      setTimeout(
+        () =>
+          dispatch({
+            type: event,
+            payload: null,
+          }),
+        4500,
+      );
+    }
+  }
+
   return {
     useFirst,
+    useEvery,
     activeInfo: Object.keys(state).filter((k) => state[k]),
   };
 }

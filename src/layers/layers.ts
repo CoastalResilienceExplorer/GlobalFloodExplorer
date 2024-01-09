@@ -8,8 +8,10 @@ import {
   FloodMaps_Bathy,
   Green,
   Red,
+  Blue_5Step_Pop,
 } from "./colormaps/colormaps";
 import { Layer, LayerGroup, LayerName } from "types/dataModel";
+import { RP } from "./floodconf";
 
 let year = "2020";
 if (year === "2015") {
@@ -143,10 +145,11 @@ const flooding = [
   {
     id: "flooding_1996",
     source: "flooding_1996_pt",
-    source_layer: "with_1996_TC_Tr_100",
+    source_layer: `with_1996_TC_Tr_${RP}`,
     legend: FloodMaps_Bathy,
     colorValue: ["to-number", ["get", "value"]],
-    layer_title: "Without Mangroves, RP50",
+    layer_title: `Without Mangroves, RP${parseInt(RP)}`,
+    display_legend: true,
     layer_type: "GEO_POINT",
     legend_suffix: "m",
     subgroup: "flooding_1996",
@@ -155,10 +158,10 @@ const flooding = [
   {
     id: "flooding_2015",
     source: "flooding_2015_pt",
-    source_layer: "with_2015_TC_Tr_100",
+    source_layer: `with_2015_TC_Tr_${RP}`,
     legend: FloodMaps_Bathy,
     colorValue: ["to-number", ["get", "value"]],
-    layer_title: "Without Mangroves, RP50",
+    layer_title: `Without Mangroves, RP${parseInt(RP)}`,
     layer_type: "GEO_POINT",
     legend_suffix: "m",
     subgroup: "flooding_2015",
@@ -180,8 +183,8 @@ const SHDI = [
     id: "tessela_rps",
     source: "CWON_combined_teselas_reppts",
     source_layer: "CWON_combined_teselas_reppts",
-    colorValue: ["to-number", ["get", "SHDI_2015"]],
-    legend: Red_10Step_0_1,
+    colorValue: ["to-number", ["get", "Ben_Pop"]],
+    legend: Blue_5Step_Pop,
     layer_title: "Annual Expected Benefit",
     layer_type: "DISCRETE_POINT",
     legend_prefix: "",
