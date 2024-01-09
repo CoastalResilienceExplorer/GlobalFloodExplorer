@@ -18,28 +18,26 @@
 
 .controls-panel > * {
   cursor: pointer;
-  color: black;
 }
 
 .controls-icon-container {
-  width: 20px;
-  height: 20px;
-  padding: 5px;
+  width: 40px;
+  height: 40px;
   margin: 3px;
-  box-shadow: 0 0 0 2pt rgba(60, 132, 150, 0.3);
-  background-color: rgba(193, 241, 253, 0.9);
-  border: 5px solid rgba(60, 132, 150, 0.8);
+  background-color: var(--open);
   border-radius: 50%;
-
+  border: 3px solid var(--open);
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-content: center;
   align-items: center;
+  transition: all 0.2s ease-in-out;
 }
 
 .controls-icon {
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
 }
 
 .controls-icon.zoom-full {
@@ -47,5 +45,6 @@
 }
 
 .controls-icon-container:hover {
-  background-color: rgba(231, 195, 252, 0.9);
+  background-color: var(--shoreline);
+  border-color: var(--shoreline);
 }
