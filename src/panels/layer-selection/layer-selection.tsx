@@ -28,7 +28,7 @@ const LINKS = [
     name: "Downloads",
     description: (
       <>
-        {downloads.map((download, index) => (
+        {downloads.map((download) => (
           <a
             href={download.url}
             target="_blank"
@@ -44,8 +44,9 @@ const LINKS = [
   },
 ];
 
+const ICON_CONTAINER_INITIAL_WIDTH = 55;
 const ICON_INITIAL_SIZE = 30;
-const ICON_HOVER_SIZE = 40;
+const ICON_HOVER_SIZE = 35;
 
 export const LayerSelection: React.FC<LayerSelectionProps> = ({
   layerGroups,
@@ -56,14 +57,14 @@ export const LayerSelection: React.FC<LayerSelectionProps> = ({
   const layerSelectionContainer = useRef<HTMLDivElement>(null);
   const activeLayerButton = useRef<HTMLButtonElement>(null);
   const [containerSprings, containerApi] = useSpring(() => ({
-    from: { width: 60 },
+    from: { width: ICON_CONTAINER_INITIAL_WIDTH },
   }));
   const [iconSprings, iconApi] = useSpring(() => ({
     from: { width: ICON_INITIAL_SIZE, height: ICON_INITIAL_SIZE },
   }));
 
   useEffect(() => {
-    containerApi.start({ width: 60 });
+    containerApi.start({ width: ICON_CONTAINER_INITIAL_WIDTH });
   }, [containerApi]);
 
   const handleIconHover = () => {
@@ -72,7 +73,7 @@ export const LayerSelection: React.FC<LayerSelectionProps> = ({
   };
 
   const handleIconUnhover = () => {
-    containerApi.start({ width: 60 });
+    containerApi.start({ width: ICON_CONTAINER_INITIAL_WIDTH });
     iconApi.start({ width: ICON_INITIAL_SIZE, height: ICON_INITIAL_SIZE });
   };
 
@@ -104,7 +105,7 @@ export const LayerSelection: React.FC<LayerSelectionProps> = ({
       {LINKS.map((link, i) => (
         <button
           key={i}
-          className="bg-trench hover:bg-shoreline block  text-left transition-[height]"
+          className="bg-trench hover:bg-shoreline block text-left transition-[height]"
         >
           <MenuItem
             iconSprings={iconSprings}
@@ -114,12 +115,16 @@ export const LayerSelection: React.FC<LayerSelectionProps> = ({
         </button>
       ))}
       {typeof window.google !== "undefined" && (
-        <div className="bg-trench hover:bg-shoreline block  text-left transition-[height]">
+        <div className="bg-trench hover:bg-shoreline block text-left transition-[height]">
           <MenuItem
             iconSprings={iconSprings}
             name="Search"
-            description={(updateHeight) => (
-              <SearchBar setBounds={setBounds} updateHeight={updateHeight} />
+            description={(updateHeight, hovered) => (
+              <SearchBar
+                setBounds={setBounds}
+                updateHeight={updateHeight}
+                hovered={hovered}
+              />
             )}
             IconComponent={() => (
               <Icon
@@ -149,21 +154,23 @@ const MenuItem: React.FC<{
   description:
     | string
     | React.ReactNode
-    | ((updateHeight: UpdateHeightFunc) => React.ReactNode);
+    | ((updateHeight: UpdateHeightFunc, hovered: boolean) => React.ReactNode);
 }> = ({ iconSprings, name, IconComponent, description }) => {
   const descriptionRef = useRef<HTMLParagraphElement>(null);
-
+  const [hovered, setHovered] = useState(false);
   const [descriptionSprings, descriptionApi] = useSpring(() => ({
     from: { height: 0 },
   }));
 
   const handleCopyHover = () => {
     descriptionApi.start({ height: descriptionRef.current?.scrollHeight });
+    setHovered(true);
   };
 
   const handleCopyUnhover = () => {
     setTimeout(() => {
       descriptionApi.start({ height: 0 });
+      setHovered(false);
     }, 200);
   };
 
@@ -177,20 +184,25 @@ const MenuItem: React.FC<{
   );
 
   return (
-    <div className="grid grid-flow-col gap-4 px-4 max-w-lg">
+    <div className="grid grid-flow-col gap-3 px-3 max-w-lg">
       <div className="self-start py-2">
         <animated.div style={{ ...iconSprings }}>
           {IconComponent ? (
             <IconComponent fill="white" />
           ) : (
-            <LinkSvg fill="white" />
+            <LinkSvg
+              fill="white"
+              width="83%"
+              height="83%"
+              className="mx-auto"
+            />
           )}
         </animated.div>
       </div>
       <div
         onMouseEnter={handleCopyHover}
         onMouseLeave={handleCopyUnhover}
-        className="w-96 py-2 text-white px-4"
+        className="w-96 py-2 text-white px-3"
       >
         <h3 className="w-full">{name}</h3>
         {description && typeof description === "string" ? (
@@ -208,7 +220,7 @@ const MenuItem: React.FC<{
             ref={descriptionRef}
           >
             {typeof description === "function"
-              ? description(updateHeight)
+              ? description(updateHeight, hovered)
               : description}
           </animated.div>
         )}
