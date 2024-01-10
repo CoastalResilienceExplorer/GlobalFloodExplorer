@@ -19,7 +19,6 @@ export function useFilters() {
   }, [filtersOn]);
 
   useEffect(() => {
-    console.log(activeFilters);
     activeFiltersRef.current = activeFilters;
   }, [activeFilters]);
 

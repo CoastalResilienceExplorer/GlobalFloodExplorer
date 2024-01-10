@@ -34,6 +34,12 @@ export const mang_ha_perc_change = [
   ["to-number", ["get", `Mang_Ha_1996`]],
 ];
 
+export const mang_ha_total_change = [
+  "-",
+  ["to-number", ["get", `Mang_Ha`]],
+  ["to-number", ["get", `Mang_Ha_1996`]],
+];
+
 const ben_filter_value = 200000;
 
 const annual_benefits = [

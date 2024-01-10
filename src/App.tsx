@@ -12,6 +12,9 @@ ReactGA.initialize("G-5XWHH710GF", {
 function App() {
   const [authed, setAuthed] = useState(false);
 
+  const { filtersOn, setFiltersOn, activeFilters, activeFiltersRef } =
+    useFilters();
+
   return (
     <div className="App">
       {process.env.REACT_APP_USE_SITE_GATING === "true" && !authed ? (
@@ -19,7 +22,10 @@ function App() {
       ) : (
         <FiltersContext.Provider
           value={{
-            useFilters,
+            filtersOn,
+            setFiltersOn,
+            activeFilters,
+            activeFiltersRef,
           }}
         >
           <Map />

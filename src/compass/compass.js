@@ -7,6 +7,7 @@ import { ReactComponent as Minus } from "assets/Minus.svg";
 import { ReactComponent as Controls } from "assets/Controls.svg";
 import Hover from "components/hover";
 import { useFilterContext } from "hooks/useFilters";
+import { Icon } from "@iconify/react";
 
 export default function Compass(props) {
   function adjustViewport(adjustment, transitionDuration = 500) {
@@ -14,8 +15,8 @@ export default function Compass(props) {
     props.setViewport(newViewport);
   }
 
-  const { useFilters } = useFilterContext();
-  const { filtersOn, setFiltersOn } = useFilters();
+  const { filtersOn, setFiltersOn, activeFilters, activeFiltersRef } =
+    useFilterContext();
 
   function alignViewport() {
     const viewport_base = {
@@ -35,8 +36,6 @@ export default function Compass(props) {
     props.setViewport(viewport_to);
   }
 
-  console.log(filtersOn);
-
   const highlightCompass =
     props.viewport.pitch !== 0 || props.viewport.bearing !== 0;
   return (
@@ -47,15 +46,9 @@ export default function Compass(props) {
           onClick={() => setFiltersOn(!filtersOn)}
         >
           <Hover text="Set Filters">
-            <CompassSVG
-              fill={highlightCompass ? "coral" : "white"}
-              className="controls-icon compass"
-              style={{
-                transform: `
-                  rotateX(${props.viewport.pitch}deg)
-                  rotateZ(${-props.viewport.bearing}deg)  
-                `,
-              }}
+            <Icon
+              icon="mdi:filter"
+              className={`controls-icon ${filtersOn ? "filters-on" : ""}`}
             />
           </Hover>
         </div>

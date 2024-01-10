@@ -57,7 +57,6 @@ export function useBreadcrumbs(aois, viewport) {
 }
 
 function MarkerWithHook(aoi, map, setIsHovering, setPayload) {
-  console.log(aoi);
   const size = aoi.size;
   var el = document.createElement("div");
   const src = `<img src="/images/important.svg" height="${size}px" width="${size}px" alt="My Happy SVG"/>`;
@@ -141,7 +140,6 @@ export function useMapWithBreadcrumbs(viewport, aois, map, useEvery) {
     if (aoisToPlace.length === 0) return;
     markers.map((m) => m.remove());
     // create DOM element for the marker
-    console.log(aoisToPlace);
     const _markers = aoisToPlace.map((aoi) =>
       MarkerWithHook(aoi, map, setIsHovering, setPayload),
     );

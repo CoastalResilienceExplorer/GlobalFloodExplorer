@@ -11,8 +11,12 @@ export function useLegends(
   layers,
   custom_layer_protos,
 ) {
-  const { useFilters } = useFilterContext();
-  const { activeFilters: filters } = useFilters();
+  const {
+    filtersOn,
+    setFiltersOn,
+    activeFilters: filters,
+    activeFiltersRef,
+  } = useFilterContext();
 
   const legends = useMemo(() => {
     return getLayers(

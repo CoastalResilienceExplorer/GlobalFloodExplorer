@@ -34,17 +34,21 @@ export function useLayers(
   const [subgroupOn, setSubgroupOn] = useState(false);
   const layersRef = useRef([]);
 
-  const { useFilters } = useFilterContext();
-  const { filtersOn, activeFilters: filters } = useFilters();
-  console.log(filters);
+  const {
+    filtersOn,
+    setFiltersOn,
+    activeFilters: filters,
+    activeFiltersRef,
+  } = useFilterContext();
 
   const layers_and_legends = useMemo(() => {
+    console.log(filters);
     return getLayers(
       all_layers,
       layerGroup,
       { floodGroup: subgroup },
       custom_protos,
-      filters | {},
+      filters,
     );
   }, [layerGroup, subgroup, filters, filtersOn]);
 

@@ -13,7 +13,7 @@ export default class HexLayerProto {
     layer_type,
     hex_type = "REDUCTION",
     display_legend = true,
-    filter_value = 250000,
+    filter = 250000,
     legend_prefix = null,
     legend_suffix = null,
   }) {
@@ -33,10 +33,10 @@ export default class HexLayerProto {
     this.hex_type = hex_type;
     this.color_header = legend.colorHeader(colorValue);
     this.display_legend = display_legend;
-    this.filter_value = filter_value;
     this.legend_prefix = legend_prefix;
     this.legend_suffix = legend_suffix;
     this.format = format;
+    this.filter = filter;
   }
 
   get Legend() {
@@ -98,7 +98,7 @@ export default class HexLayerProto {
       //             this.base,
       //             this.scale], this.offset],
       // },
-      // 'filter': ['>', this.color_value, this.filter_value]
+      filter: this.filter,
     };
 
     return layer_proto;
