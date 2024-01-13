@@ -107,21 +107,12 @@ export default function Map() {
     layerSelectionDependencies,
   );
 
-  const breadcrumbs = useBreadcrumbs(aois, viewport);
-  useMapWithBreadcrumbs(viewport, aois, map);
-
-  const { useFirst, activeInfo } = useInfo(initialInfo, infoReducer);
-
-  const selectRef = useRef();
-
-  const floodingRef = useRef();
+  const { useFirst, useEvery, useWhile, activeInfo, allTheThings, infoRefs } =
+    useInfo(initialInfo, infoReducer);
+  useMapWithBreadcrumbs(viewport, aois, map, useWhile);
   useFirst(() => layerGroup === LayerName.Flooding, "FIRST_FLOODING");
-
-  const compassRef = useRef();
   useFirst(() => viewport.pitch !== 0, "FIRST_3D");
   useFirst(() => viewport.bearing !== 0, "FIRST_3D");
-
-  const centerRef = useRef();
   useFirst(
     () => layerGroup === LayerName.Flooding,
     "FIRST_FLOODING_ZOOM_IN",
@@ -133,7 +124,7 @@ export default function Map() {
     () => viewport.zoom < 4,
   );
 
-  const [splashScreen, setSplashScreen] = useState(true);
+  const [splashScreen, setSplashScreen] = useState(false);
   const [disclaimer, setDisclaimer] = useState(null);
   const [navigationControls, setNavigationControls] = useState(null);
   const isTouch = window.matchMedia("(pointer: coarse)").matches;
@@ -164,7 +155,13 @@ export default function Map() {
 
   return (
     <InfoContext.Provider
-      value={{ useFirst, selectRef, floodingRef, selectedFeatures }}
+      value={{
+        useFirst,
+        useEvery,
+        useWhile,
+        selectedFeatures,
+        infoRefs,
+      }}
     >
       <OpeningSplashScreen
         showSplashScreen={splashScreen}
@@ -178,13 +175,8 @@ export default function Map() {
       <NavigationControls show={navigationControls} isTouch={isTouch} />
       <Info
         activeInfo={activeInfo}
-        refs={{
-          COMPASS: compassRef,
-          SELECT: selectRef,
-          FLOOD: floodingRef,
-          FLOOD_ZOOM: centerRef,
-          HEX: centerRef,
-        }}
+        allTheThings={allTheThings}
+        refs={infoRefs}
       />
       <div className="screen">
         <Legend legend_items={legends} />
@@ -207,16 +199,23 @@ export default function Map() {
         />
       </div>
       <div className="center-ref-container">
-        <div className="center-ref" ref={centerRef} />
+        {infoRefs && <div className="center-ref" ref={infoRefs.CENTER} />}
       </div>
-      <StatsPanel
-        selectedFeatures={selectedFeatures}
-        selectionType={selectionType}
-        layerGroup={layerGroup}
-        setLayerGroup={setLayerGroup}
-        flyToViewport={flyToViewport}
-        selectRef={selectRef}
-      />
+      <div className="lower-middle-ref-container">
+        {infoRefs && (
+          <div className="lower-middle-ref" ref={infoRefs.LOWER_MIDDLE} />
+        )}
+      </div>
+      {infoRefs && (
+        <StatsPanel
+          selectedFeatures={selectedFeatures}
+          selectionType={selectionType}
+          layerGroup={layerGroup}
+          setLayerGroup={setLayerGroup}
+          flyToViewport={flyToViewport}
+          selectRef={infoRefs.SELECT}
+        />
+      )}
       <BasemapManager
         style={style}
         setStyle={setStyle}
@@ -224,13 +223,15 @@ export default function Map() {
         setFloodGroup={setSubgroup}
         floodingOn={subgroupOn}
       />
-      <Compass
-        viewport={viewport}
-        setViewport={flyToViewport}
-        _ref={compassRef}
-        navigationControls={navigationControls}
-        setNavigationControls={setNavigationControls}
-      />
+      {infoRefs && (
+        <Compass
+          viewport={viewport}
+          setViewport={flyToViewport}
+          _ref={infoRefs.COMPASS}
+          navigationControls={navigationControls}
+          setNavigationControls={setNavigationControls}
+        />
+      )}
       <LayerSelection
         layerGroups={layerGroups}
         selectedLayer={layerGroup}

@@ -10,6 +10,8 @@ import { useEffect } from "react";
 import "./flood_selector.css";
 import { FloodSelector } from "./flood_selector";
 
+import { filters } from "layers/filters";
+
 export function SlideMap({
   initialStates,
   style,
@@ -46,6 +48,7 @@ export function SlideMap({
     layersByGroup,
     sources,
     custom_layer_protos,
+    filters,
   );
 
   const {
@@ -61,6 +64,7 @@ export function SlideMap({
     layersByGroup,
     sources,
     custom_layer_protos,
+    filters,
   );
 
   useEffect(() => {

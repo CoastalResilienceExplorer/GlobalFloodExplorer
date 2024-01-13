@@ -1,7 +1,7 @@
 .legend-container {
   position: absolute;
   bottom: 35px;
-  left: 5px;
+  left: 0px;
   z-index: 2;
   color: white;
   /* text-align: left; */
@@ -25,9 +25,10 @@
   scrollbar-width: none;
   display: flex;
   flex-direction: column;
-  background-color: var(--open);
-  border-radius: 20px;
-  margin: 2px;
+  background-color: var(--trench);
+  border-radius: 0px 10px 10px 0px;
+  border: 2px solid rgb(68, 68, 68);
+  margin: 0px;
   max-width: 175px;
   color: white;
 }

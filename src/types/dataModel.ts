@@ -7,7 +7,7 @@ export enum LayerName {
   BenefitAEB = "Benefit (EAB)",
   RiskReduction = "Risk Reduction Ratio",
   Flooding = "Flooding",
-  MangLoss = "Mangrove Loss",
+  Population = "Population",
 }
 
 export type Layer = {
@@ -43,3 +43,5 @@ export type LayerGroup = {
   IconComponent: React.FC<React.SVGProps<SVGSVGElement>>;
   layers: Layer[];
 };
+
+export type Filter = [string, any, any];

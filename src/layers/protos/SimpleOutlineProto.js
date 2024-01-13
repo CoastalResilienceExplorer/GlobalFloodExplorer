@@ -6,6 +6,7 @@ export default class SimpleOutlineProto {
     legend, //Symbology
     layer_title,
     display_legend = false,
+    filter = [],
   }) {
     this.id = id;
     this.source = source;
@@ -14,6 +15,7 @@ export default class SimpleOutlineProto {
     this.strokes = legend.strokes;
     this.layer_title = layer_title;
     this.display_legend = display_legend;
+    this.filter = filter;
   }
 
   get MBLayer() {
@@ -47,6 +49,7 @@ export default class SimpleOutlineProto {
       },
       minzoom: 0,
       maxzoom: 16,
+      filter: this.filter,
     };
 
     return layer_proto;

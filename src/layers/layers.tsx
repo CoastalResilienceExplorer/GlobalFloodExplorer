@@ -8,9 +8,11 @@ import {
   FloodMaps_Bathy,
   Green,
   Red,
+  Blue_5Step_Pop,
 } from "./colormaps/colormaps";
 import { Layer, LayerGroup, LayerName } from "types/dataModel";
 import { Icon } from "@iconify/react";
+import { RP } from "./floodconf";
 
 let year = "2020";
 if (year === "2015") {
@@ -18,11 +20,28 @@ if (year === "2015") {
 } else {
   year = `_${year}`;
 }
-const ben_stock = ["to-number", ["get", `Ben_Stock${year}`]];
+export const ben_stock = ["to-number", ["get", `Ben_Stock${year}`]];
 const risk_stock = ["to-number", ["get", `Risk_Stock${year}`]];
 const ben_pop = ["to-number", ["get", `Ben_Pop${year}`]];
 const risk_pop = ["to-number", ["get", `Risk_Pop${year}`]];
 const nomang_risk_stock = ["+", ben_stock, risk_stock];
+export const mang_ha_perc_change = [
+  "/",
+  [
+    "-",
+    ["to-number", ["get", `Mang_Ha`]],
+    ["to-number", ["get", `Mang_Ha_1996`]],
+  ],
+  ["to-number", ["get", `Mang_Ha_1996`]],
+];
+
+export const mang_ha_total_change = [
+  "-",
+  ["to-number", ["get", `Mang_Ha`]],
+  ["to-number", ["get", `Mang_Ha_1996`]],
+];
+
+const ben_filter_value = 200000;
 
 const annual_benefits = [
   {
@@ -33,6 +52,7 @@ const annual_benefits = [
     layer_title: "Tessela",
     layer_type: "SIMPLE_OUTLINE",
     selection_dependent_on: "CWON_combined_teselas_reppts",
+    filter: [">", ben_stock, ben_filter_value],
   },
   {
     id: "tessela_rps",
@@ -45,6 +65,7 @@ const annual_benefits = [
     legend_prefix: "$",
     format: "$",
     is_selectable: true,
+    filter: [">", ben_stock, ben_filter_value],
   },
 ];
 
@@ -131,10 +152,11 @@ const flooding = [
   {
     id: "flooding_1996",
     source: "flooding_1996_pt",
-    source_layer: "with_1996_TC_Tr_100",
+    source_layer: `with_1996_TC_Tr_${RP}`,
     legend: FloodMaps_Bathy,
     colorValue: ["to-number", ["get", "value"]],
-    layer_title: "Without Mangroves, RP50",
+    layer_title: `Without Mangroves, RP${parseInt(RP)}`,
+    display_legend: true,
     layer_type: "GEO_POINT",
     legend_suffix: "m",
     subgroup: "flooding_1996",
@@ -143,10 +165,10 @@ const flooding = [
   {
     id: "flooding_2015",
     source: "flooding_2015_pt",
-    source_layer: "with_2015_TC_Tr_100",
+    source_layer: `with_2015_TC_Tr_${RP}`,
     legend: FloodMaps_Bathy,
     colorValue: ["to-number", ["get", "value"]],
-    layer_title: "Without Mangroves, RP50",
+    layer_title: `Without Mangroves, RP${parseInt(RP)}`,
     layer_type: "GEO_POINT",
     legend_suffix: "m",
     subgroup: "flooding_2015",
@@ -154,7 +176,7 @@ const flooding = [
   },
 ];
 
-const SHDI = [
+const Population = [
   {
     id: "tessela_bounds",
     source: "CWON_tesela_bounds",
@@ -168,9 +190,9 @@ const SHDI = [
     id: "tessela_rps",
     source: "CWON_combined_teselas_reppts",
     source_layer: "CWON_combined_teselas_reppts",
-    colorValue: ["to-number", ["get", "SHDI_2015"]],
-    legend: Red_10Step_0_1,
-    layer_title: "Annual Expected Benefit",
+    colorValue: ["to-number", ["get", "Ben_Pop"]],
+    legend: Blue_5Step_Pop,
+    layer_title: "Annual Population Benefit",
     layer_type: "DISCRETE_POINT",
     legend_prefix: "",
     // format: "$",
@@ -283,17 +305,18 @@ const layerGroups: Record<LayerName, LayerGroup> = {
     ),
     layers: flooding,
   },
-  [LayerName.MangLoss]: {
-    name: LayerName.MangLoss,
-    shortDescription: "The percentage of mangroves lost between 1996 and 2015.",
+  [LayerName.Population]: {
+    name: LayerName.Population,
+    shortDescription:
+      "The annual expected population protection is the average annual reduction in people exposed to flooding.",
     IconComponent: () => (
       <Icon
-        icon="icon-park-outline:sleaves"
+        icon="pepicons-pencil:people"
         color="white"
         className="w-5/6 h-5/6 mx-auto"
       />
     ),
-    layers: MangroveLoss,
+    layers: Population,
   },
 };
 

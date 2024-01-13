@@ -20,6 +20,10 @@
   cursor: pointer;
 }
 
+.coral > * {
+  fill: coral;
+}
+
 .controls-icon-container {
   width: 40px;
   height: 40px;
@@ -33,6 +37,10 @@
   align-content: center;
   align-items: center;
   transition: all 0.2s ease-in-out;
+}
+
+.controls-icon-container.coral {
+  border: 1px solid coral;
 }
 
 .controls-icon {
