@@ -124,7 +124,7 @@ export default function Map() {
     () => viewport.zoom < 4,
   );
 
-  const [splashScreen, setSplashScreen] = useState(false);
+  const [splashScreen, setSplashScreen] = useState(true);
   const [disclaimer, setDisclaimer] = useState(null);
   const [navigationControls, setNavigationControls] = useState(null);
   const isTouch = window.matchMedia("(pointer: coarse)").matches;
