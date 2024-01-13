@@ -231,22 +231,12 @@ export default function Map() {
         navigationControls={navigationControls}
         setNavigationControls={setNavigationControls}
       />
-      {process.env.REACT_APP_USE_NEW_LAYER_SELECTION === "true" ? (
-        <LayerSelection
-          layerGroups={layerGroups}
-          selectedLayer={layerGroup}
-          setSelectedLayer={setLayerGroup}
-          setBounds={flyToBounds}
-        />
-      ) : (
-        <HomeInfoPanel
-          setSplashScreen={setSplashScreen2}
-          setViewport={flyToViewport}
-          selectedLayer={layerGroup}
-          setSelectedLayer={setLayerGroup}
-          isTouch={isTouch}
-        />
-      )}
+      <LayerSelection
+        layerGroups={layerGroups}
+        selectedLayer={layerGroup}
+        setSelectedLayer={setLayerGroup}
+        setBounds={flyToBounds}
+      />
     </InfoContext.Provider>
   );
 }

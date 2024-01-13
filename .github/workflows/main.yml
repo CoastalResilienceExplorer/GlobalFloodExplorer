@@ -16,4 +16,3 @@ jobs:
           wait-on: http://localhost:3000
         env:
           DISABLE_ESLINT_PLUGIN: true
-          REACT_APP_USE_NEW_LAYER_SELECTION: true
