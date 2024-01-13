@@ -33,12 +33,21 @@ const LINKS = [
             href={download.url}
             target="_blank"
             rel="noreferrer"
-            className="flex row items-center gap-2 hover:text-trench"
+            className="flex row items-center gap-2 hover:text-trench hover:stroke-trench hover:fill-trench"
           >
-            {download.icon} {download.description}
+            {download.description} {download.icon}
           </a>
         ))}
       </>
+    ),
+    IconComponent: () => (
+      <Icon
+        icon="material-symbols:download"
+        className="w-full h-full"
+        height="1.5em"
+        width="1.5em"
+        color="white"
+      />
     ),
     url: "https://www.google.com",
   },
@@ -111,6 +120,7 @@ export const LayerSelection: React.FC<LayerSelectionProps> = ({
             iconSprings={iconSprings}
             name={link.name}
             description={link.description}
+            IconComponent={link.IconComponent}
           />
         </button>
       ))}
@@ -191,7 +201,7 @@ const MenuItem: React.FC<{
             <IconComponent fill="white" />
           ) : (
             <LinkSvg
-              fill="white"
+              color="white"
               width="83%"
               height="83%"
               className="mx-auto"
