@@ -313,7 +313,7 @@ const layerGroups: Record<LayerName, LayerGroup> = {
       <Icon
         icon="pepicons-pencil:people"
         color="white"
-        className="w-5/6 h-5/6 mx-auto"
+        className="w-full h-full -translate-y-1"
       />
     ),
     layers: Population,
