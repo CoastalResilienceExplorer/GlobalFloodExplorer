@@ -108,7 +108,7 @@ const SearchBar = ({
     if (hovered) {
       updateHeight();
     }
-  }, [updateHeight, results, updateHeight]);
+  }, [updateHeight, results, hovered]);
 
   const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     setQuery(e.target.value);

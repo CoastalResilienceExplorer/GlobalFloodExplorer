@@ -287,7 +287,11 @@ const layerGroups: Record<LayerName, LayerGroup> = {
     name: LayerName.MangLoss,
     shortDescription: "The percentage of mangroves lost between 1996 and 2015.",
     IconComponent: () => (
-      <Icon icon="mdi:tree-outline" color="white" className="w-full h-full" />
+      <Icon
+        icon="icon-park-outline:sleaves"
+        color="white"
+        className="w-5/6 h-5/6 mx-auto"
+      />
     ),
     layers: MangroveLoss,
   },
