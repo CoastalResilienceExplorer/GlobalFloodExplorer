@@ -1,7 +1,8 @@
 import { useRef, useEffect, useState } from "react";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
+import { useInfoContext } from "hooks/useInfo";
 
-const HOVER_TIMEOUT = 3000;
+export const HOVER_TIMEOUT = 1000;
 const LEAVE_TIMEOUT = 1000;
 
 export function useBreadcrumbs(aois, viewport) {
@@ -85,27 +86,22 @@ function MarkerWithHook(aoi, map, setIsHovering, setPayload) {
       } else {
         setPayload(aoi.id);
       }
-      setTimeout(() => {
-        setIsHovering(false);
-        setPayload(false);
-      }, HOVER_TIMEOUT);
+      setIsHovering(aoi.id);
     },
     false,
   );
   el.addEventListener(
     "mouseleave",
     (e) => {
-      console.log("hovering");
-      setTimeout(() => {
-        setIsHovering(false);
-      }, LEAVE_TIMEOUT);
+      setIsHovering(false);
     },
     false,
   );
+  m.aoi_id = aoi.id;
   return m;
 }
 
-export function useMapWithBreadcrumbs(viewport, aois, map, useEvery) {
+export function useMapWithBreadcrumbs(viewport, aois, map, useWhile) {
   const [aoisToPlace, setAoisToPlace] = useState([]);
   const [markers, setMarkers] = useState([]);
   const [isHovering, setIsHovering] = useState(false);
@@ -115,16 +111,23 @@ export function useMapWithBreadcrumbs(viewport, aois, map, useEvery) {
   useEffect(() => {
     if (!payload) return;
     payloadRef.current = payload;
-    setIsHovering(true);
   }, [payload]);
 
-  useEvery(
+  useEffect(() => {
+    if (isHovering && !markers.map((m) => m.aoi_id).includes(isHovering)) {
+      setTimeout(() => setIsHovering(false), HOVER_TIMEOUT);
+    }
+  }, [markers, isHovering]);
+
+  useWhile.on(
     () => isHovering,
     "FIRST_HOVER",
     undefined,
     payloadRef.current,
-    HOVER_TIMEOUT,
+    0,
   );
+
+  useWhile.off(() => !isHovering, "FIRST_HOVER", undefined, HOVER_TIMEOUT);
 
   useEffect(() => {
     const filtered_aois = aois.filter((aoi) => {

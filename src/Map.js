@@ -107,24 +107,12 @@ export default function Map() {
     layerSelectionDependencies,
   );
 
-  // const breadcrumbs = useBreadcrumbs(aois, viewport);
-  const { useFirst, useEvery, activeInfo, allTheThings } = useInfo(
-    initialInfo,
-    infoReducer,
-  );
-  useMapWithBreadcrumbs(viewport, aois, map, useEvery);
-
-  const selectRef = useRef();
-
-  const floodingRef = useRef();
+  const { useFirst, useEvery, useWhile, activeInfo, allTheThings, infoRefs } =
+    useInfo(initialInfo, infoReducer);
+  useMapWithBreadcrumbs(viewport, aois, map, useWhile);
   useFirst(() => layerGroup === LayerName.Flooding, "FIRST_FLOODING");
-
-  const compassRef = useRef();
   useFirst(() => viewport.pitch !== 0, "FIRST_3D");
   useFirst(() => viewport.bearing !== 0, "FIRST_3D");
-
-  const centerRef = useRef();
-  const lowerMiddleRef = useRef();
   useFirst(
     () => layerGroup === LayerName.Flooding,
     "FIRST_FLOODING_ZOOM_IN",
@@ -169,10 +157,10 @@ export default function Map() {
     <InfoContext.Provider
       value={{
         useFirst,
-        selectRef,
-        floodingRef,
-        lowerMiddleRef,
+        useEvery,
+        useWhile,
         selectedFeatures,
+        infoRefs,
       }}
     >
       <OpeningSplashScreen
@@ -188,14 +176,7 @@ export default function Map() {
       <Info
         activeInfo={activeInfo}
         allTheThings={allTheThings}
-        refs={{
-          COMPASS: compassRef,
-          SELECT: selectRef,
-          FLOOD: floodingRef,
-          FLOOD_ZOOM: centerRef,
-          HEX: centerRef,
-          HOVER: lowerMiddleRef,
-        }}
+        refs={infoRefs}
       />
       <div className="screen">
         <Legend legend_items={legends} />
@@ -218,19 +199,23 @@ export default function Map() {
         />
       </div>
       <div className="center-ref-container">
-        <div className="center-ref" ref={centerRef} />
+        {infoRefs && <div className="center-ref" ref={infoRefs.CENTER} />}
       </div>
       <div className="lower-middle-ref-container">
-        <div className="lower-middle-ref" ref={lowerMiddleRef} />
+        {infoRefs && (
+          <div className="lower-middle-ref" ref={infoRefs.LOWER_MIDDLE} />
+        )}
       </div>
-      <StatsPanel
-        selectedFeatures={selectedFeatures}
-        selectionType={selectionType}
-        layerGroup={layerGroup}
-        setLayerGroup={setLayerGroup}
-        flyToViewport={flyToViewport}
-        selectRef={selectRef}
-      />
+      {infoRefs && (
+        <StatsPanel
+          selectedFeatures={selectedFeatures}
+          selectionType={selectionType}
+          layerGroup={layerGroup}
+          setLayerGroup={setLayerGroup}
+          flyToViewport={flyToViewport}
+          selectRef={infoRefs.SELECT}
+        />
+      )}
       <BasemapManager
         style={style}
         setStyle={setStyle}
@@ -238,13 +223,15 @@ export default function Map() {
         setFloodGroup={setSubgroup}
         floodingOn={subgroupOn}
       />
-      <Compass
-        viewport={viewport}
-        setViewport={flyToViewport}
-        _ref={compassRef}
-        navigationControls={navigationControls}
-        setNavigationControls={setNavigationControls}
-      />
+      {infoRefs && (
+        <Compass
+          viewport={viewport}
+          setViewport={flyToViewport}
+          _ref={infoRefs.COMPASS}
+          navigationControls={navigationControls}
+          setNavigationControls={setNavigationControls}
+        />
+      )}
       {process.env.REACT_APP_USE_NEW_LAYER_SELECTION === "true" ? (
         <LayerSelection
           layerGroups={layerGroups}

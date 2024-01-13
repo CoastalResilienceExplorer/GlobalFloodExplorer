@@ -20,7 +20,7 @@
   cursor: pointer;
 }
 
-.filters-on > * {
+.coral > * {
   fill: coral;
 }
 
@@ -37,6 +37,10 @@
   align-content: center;
   align-items: center;
   transition: all 0.2s ease-in-out;
+}
+
+.controls-icon-container.coral {
+  border: 1px solid coral;
 }
 
 .controls-icon {

@@ -40,12 +40,12 @@
 }
 
 .tooltip.grey {
-  background-color: #d8d8d88c;
+  background-color: #595959c4;
   border: 5px solid #cecece;
   text-shadow: 0px 0px 5px black;
   position: relative;
   left: 50%;
-  font-size: 1em;
+  font-size: 1.2em;
   padding: 5px 15px;
 }
 

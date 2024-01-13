@@ -9,6 +9,7 @@ const initial_state = {
   FIRST_FLOODING_ZOOM_IN: start_state,
   FIRST_HEX: start_state,
   FIRST_HOVER: start_state,
+  FILTER_HOVER: start_state,
 };
 
 export default initial_state;

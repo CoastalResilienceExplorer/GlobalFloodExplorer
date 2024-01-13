@@ -30,13 +30,19 @@ export default function Info({ activeInfo, refs, allTheThings }) {
     },
     FIRST_HEX: {
       text: "Tilt the map with CTL + drag",
-      ref: refs.HEX,
+      ref: refs.CENTER,
       with_dot: false,
       style: "grey",
     },
     FIRST_HOVER: {
       text: "Zoom To",
-      ref: refs.HOVER,
+      ref: refs.LOWER_MIDDLE,
+      with_dot: false,
+      style: "grey",
+    },
+    FILTER_HOVER: {
+      text: "Zoom To",
+      ref: refs.LOWER_MIDDLE,
       with_dot: false,
       style: "grey",
     },

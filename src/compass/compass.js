@@ -1,5 +1,7 @@
 import "./compass.css";
 import * as React from "react";
+import { useState, useRef, useEffect } from "react";
+import { useInfoContext } from "hooks/useInfo";
 import { ReactComponent as CompassSVG } from "assets/compass.svg";
 import { ReactComponent as MapSVG } from "assets/Map_Icon.svg";
 import { ReactComponent as Plus } from "assets/Plus.svg";
@@ -8,33 +10,38 @@ import { ReactComponent as Controls } from "assets/Controls.svg";
 import Hover from "components/hover";
 import { useFilterContext } from "hooks/useFilters";
 import { Icon } from "@iconify/react";
+import { HOVER_TIMEOUT } from "hooks/useBreadcrumbs";
+import { default_mang_perc_change_filter } from "layers/filters";
 
 export default function Compass(props) {
+  const { useWhile } = useInfoContext();
+  const [filterIsHovering, setFilterIsHovering] = useState(false);
+  const filterIsHoveringRef = useRef();
+
   function adjustViewport(adjustment, transitionDuration = 500) {
     const newViewport = Object.assign(props.viewport, adjustment);
     props.setViewport(newViewport);
   }
 
+  useEffect(() => {
+    console.log(filterIsHovering);
+    filterIsHoveringRef.current = filterIsHovering;
+  }, [filterIsHovering]);
+
   const { filtersOn, setFiltersOn, activeFilters, activeFiltersRef } =
     useFilterContext();
 
-  function alignViewport() {
-    const viewport_base = {
-      latitude: props.viewport.latitude,
-      longitude: props.viewport.longitude,
-      zoom: props.viewport.zoom,
-      pitch: props.viewport.pitch,
-      bearing: props.viewport.bearing,
-      transitionDuration: 500,
-    };
-    let viewport_to;
-    if (props.viewport.bearing === 0) {
-      viewport_to = Object.assign(viewport_base, { pitch: 0 });
-    } else {
-      viewport_to = Object.assign(viewport_base, { bearing: 0 });
-    }
-    props.setViewport(viewport_to);
-  }
+  useWhile.on(
+    () => filterIsHovering && filtersOn,
+    "FILTER_HOVER",
+    undefined,
+    `Filtering to >${default_mang_perc_change_filter * -100}% Mangrove Loss`,
+    0,
+  );
+
+  useWhile.off(() => !filterIsHovering, "FILTER_HOVER", undefined, 1000);
+
+  useWhile.off(() => !filtersOn, "FILTER_HOVER", undefined, 0);
 
   const highlightCompass =
     props.viewport.pitch !== 0 || props.viewport.bearing !== 0;
@@ -42,24 +49,28 @@ export default function Compass(props) {
     <div className="controls-panel-container">
       <div className="controls-panel" ref={props._ref}>
         <div
-          className={`controls-icon-container`}
+          className={`controls-icon-container ${filtersOn ? "coral" : ""}`}
           onClick={() => setFiltersOn(!filtersOn)}
+          onMouseMove={() => setFilterIsHovering(true)}
+          onMouseLeave={() => setFilterIsHovering(false)}
         >
           <Hover text="Set Filters">
             <Icon
               icon="mdi:filter"
-              className={`controls-icon ${filtersOn ? "filters-on" : ""}`}
+              className={`controls-icon ${filtersOn ? "coral" : ""}`}
             />
           </Hover>
         </div>
         <div
-          className={`controls-icon-container`}
+          className={
+            "controls-icon-container " + (highlightCompass ? "coral" : "white")
+          }
           onClick={() => adjustViewport({ bearing: 0, pitch: 0 })}
         >
           <Hover text="Reorient">
             <CompassSVG
               fill={highlightCompass ? "coral" : "white"}
-              className="controls-icon compass"
+              className={"controls-icon compass"}
               style={{
                 transform: `
                   rotateX(${props.viewport.pitch}deg)

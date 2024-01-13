@@ -48,6 +48,14 @@ export default function reducer(state, action) {
           payload: action.payload,
         },
       };
+    case "FILTER_HOVER":
+      return {
+        ...state,
+        FILTER_HOVER: {
+          active: action.active,
+          payload: action.payload,
+        },
+      };
     default:
       return state;
   }
