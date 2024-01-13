@@ -1,10 +1,10 @@
-import { Icon } from "@iconify/react";
+import { ReactComponent as LinkSvg } from "assets/link-icon.svg";
 
 export const downloads = [
   {
     description: "CWON Study Units",
     url: "https://storage.googleapis.com/cwon-data/Downloads/UCSC_CWON_studyunits.gpkg",
-    icon: <Icon icon="material-symbols:download-sharp" />,
+    icon: <LinkSvg height="1em" width="1em" />,
     download: true,
   },
 ];

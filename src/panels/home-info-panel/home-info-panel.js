@@ -65,7 +65,6 @@ function LeftPanel({
         breadcrumbs={breadcrumbs}
         isTouch={isTouch}
       />
-      <SearchBar setBounds={setBounds} />
     </div>
   );
 }

@@ -18,6 +18,7 @@ interface SearchBarProps {
   onPlaceSelect?: (result: any) => void;
   setBounds: (bounds: Bounds) => void;
   updateHeight: UpdateHeightFunc;
+  hovered: boolean;
 }
 
 type Place = {
@@ -29,6 +30,7 @@ const SearchBar = ({
   onPlaceSelect,
   setBounds,
   updateHeight,
+  hovered,
 }: SearchBarProps) => {
   const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState("");
@@ -103,17 +105,14 @@ const SearchBar = ({
   };
 
   useEffect(() => {
-    updateHeight();
-  }, [updateHeight, results]);
-
-  const debouncedRunFetchPlaces = useDebounceCallback(runFetchPlaces, 500);
-
-  useEffect(() => {
-    debouncedRunFetchPlaces(query);
-  }, [debouncedRunFetchPlaces, query]);
+    if (hovered) {
+      updateHeight();
+    }
+  }, [updateHeight, results, hovered]);
 
   const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     setQuery(e.target.value);
+    runFetchPlaces(e.target.value);
   };
 
   const handleSelection = async (placeId: string) => {

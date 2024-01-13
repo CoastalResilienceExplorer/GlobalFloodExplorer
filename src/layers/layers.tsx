@@ -11,6 +11,7 @@ import {
   Blue_5Step_Pop,
 } from "./colormaps/colormaps";
 import { Layer, LayerGroup, LayerName } from "types/dataModel";
+import { Icon } from "@iconify/react";
 import { RP } from "./floodconf";
 
 let year = "2020";
@@ -273,28 +274,48 @@ const layerGroups: Record<LayerName, LayerGroup> = {
     name: LayerName.BenefitAEB,
     shortDescription:
       "The annual expected benefit (AEB) is the average annual benefit of mangroves over a 20-year period.",
-    IconComponent: ExampleSvg,
+    IconComponent: () => (
+      <Icon icon="ph:hand-coins" color="white" className="w-full h-full" />
+    ),
     layers: annual_benefits,
   },
   [LayerName.RiskReduction]: {
     name: LayerName.RiskReduction,
     shortDescription:
       "The ratio of the expected annual benefit (AEB)  mangroves to the annual expected benefit without.",
-    IconComponent: ExampleSvg,
+    IconComponent: () => (
+      <Icon
+        icon="lucide:git-compare"
+        color="white"
+        className="w-5/6 h-5/6 mx-auto"
+      />
+    ),
     layers: reduct_ratio,
   },
   [LayerName.Flooding]: {
     name: LayerName.Flooding,
     shortDescription:
       "The depth of flooding in the event of a 50-year storm surge at different years.",
-    IconComponent: ExampleSvg,
+    IconComponent: () => (
+      <Icon
+        icon="ri:flood-line"
+        color="white"
+        className="w-5/6 h-5/6 mx-auto"
+      />
+    ),
     layers: flooding,
   },
   [LayerName.Population]: {
     name: LayerName.Population,
     shortDescription:
       "The annual expected population protection is the average annual reduction in people exposed to flooding.",
-    IconComponent: ExampleSvg,
+    IconComponent: () => (
+      <Icon
+        icon="pepicons-pencil:people"
+        color="white"
+        className="w-full h-full -translate-y-1"
+      />
+    ),
     layers: Population,
   },
 };
