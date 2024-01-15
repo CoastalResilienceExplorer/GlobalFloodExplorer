@@ -54,19 +54,19 @@
   box-shadow: 0 0 0 2pt #d66e57;
 }
 
-.circle-selector.Light {
+.circle-selector.light {
   background-image: url("assets/light-img.png");
   background-position: center;
   background-size: 60px 60px;
 }
 
-.circle-selector.Dark {
+.circle-selector.dark {
   background-image: url("assets/dark-img.png");
   background-position: center;
   background-size: 60px 60px;
 }
 
-.circle-selector.Satellite {
+.circle-selector.satellite {
   background-image: url("assets/satellite-img.png");
   background-position: center;
   background-size: 60px 60px;
