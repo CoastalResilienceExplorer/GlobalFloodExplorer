@@ -31,7 +31,13 @@ const CircleSelector = ({
       className="circle-selector-container"
       onClick={() => setStyle(BasemapMap[thisStyle])}
     >
-      <div className="circle-selector-text">{thisStyle}</div>
+      <p
+        className={`font-sans font-bold uppercase circle-selector-text ${
+          selectedStyle === BasemapMap.light ? "text-open" : "text-white"
+        }`}
+      >
+        {thisStyle}
+      </p>
       <div
         className={
           "circle-selector" + ` ${thisStyle} ${selected ? "selected" : ""}`

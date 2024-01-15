@@ -29,20 +29,22 @@
   border-radius: 0px 10px 10px 0px;
   border: 2px solid rgb(68, 68, 68);
   margin: 0px;
-  max-width: 175px;
+  max-width: 185px;
   color: white;
 }
 
 .legend-layer-title {
-  font-size: 1.35em;
+  font-size: 1.1em;
   padding: 0 10px;
   padding-top: 5px;
+  @apply font-sans font-bold;
 }
 
 .legend-layer-subtitle {
   font-size: 0.8em;
   padding: 0 10px;
   margin-bottom: -10px;
+  @apply font-serif;
 }
 
 .open-close-legend-toggle-container {

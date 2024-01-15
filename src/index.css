@@ -4,6 +4,7 @@
 
 :root {
   --shoreline: #79abb7;
+  --shoreline-dark: #618993;
   --open: #21233a;
   --trench: #323340;
   --trench-light: #47485c;
@@ -29,33 +30,56 @@ code {
   /* Block Title */
   h1 {
     @apply font-sans text-5xl md:text-7xl font-normal uppercase font-bold;
-    font-family: "Montserrat";
     margin-block-start: 0;
     margin-block-end: 0;
   }
 
   /* Subtitle */
   h2 {
-    @apply font-sans text-4xl md:text-5xl italic font-normal;
-    font-family: "Sorts Mill Goudy";
+    @apply font-serif text-4xl md:text-5xl italic font-normal;
     margin-block-start: 0;
     margin-block-end: 0;
   }
 
   h3 {
-    @apply font-bold uppercase;
+    @apply font-sans text-xl md:text-xl font-normal uppercase font-bold;
+    margin-block-start: 0;
+    margin-block-end: 0;
+  }
+
+  h4 {
+    @apply font-sans text-sm md:text-base font-normal uppercase font-bold;
+    margin-block-start: 0;
+    margin-block-end: 0;
+  }
+
+  h5 {
+    @apply font-sans text-sm md:text-base font-normal font-bold;
+    margin-block-start: 0;
+    margin-block-end: 0;
+  }
+
+  p,
+  input {
+    @apply font-serif text-base font-normal;
+  }
+
+  li {
+    @apply font-sans text-base font-normal;
   }
 
   /* Large Body */
-  p.body-large {
-    @apply font-sans text-base md:text-xl font-normal;
-    font-family: "Sorts Mill Goudy";
+  .body-large {
+    @apply text-base md:text-xl;
+  }
+
+  .body {
+    @apply text-base md:text-lg;
   }
 
   /* Large Label */
   .label-large {
-    @apply font-sans text-sm md:text-base italic font-normal;
-    font-family: "Sorts Mill Goudy";
+    @apply font-serif text-sm md:text-base italic font-normal;
     transition: color 0.2s ease-in-out;
   }
 

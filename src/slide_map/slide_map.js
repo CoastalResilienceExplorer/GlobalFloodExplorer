@@ -25,7 +25,7 @@ export function SlideMap({
     mapLoaded: left_mapLoaded,
     style: left_style,
     setStyle: left_setStyle,
-  } = useMap(viewport, style, access_token);
+  } = useMap(viewport, access_token);
 
   const {
     map: right_map,
@@ -33,7 +33,7 @@ export function SlideMap({
     mapLoaded: right_mapLoaded,
     style: right_style,
     setStyle: right_setStyle,
-  } = useMap(viewport, style, access_token);
+  } = useMap(viewport, access_token);
 
   const {
     subgroup: left_subgroup,
@@ -88,7 +88,7 @@ export function SlideMap({
   useEffect(() => {
     left_setStyle(style);
     right_setStyle(style);
-  }, [style]);
+  }, [left_setStyle, right_setStyle, style]);
 
   return (
     <div id="slide-map-container">
@@ -108,7 +108,7 @@ export function SlideMap({
       >
         <div className="left">
           <FloodSelector
-            offset={-133}
+            offset={-86}
             floodGroup={left_subgroup}
             setFloodGroup={left_setSubgroup}
             floodingOn={true}
@@ -116,7 +116,7 @@ export function SlideMap({
         </div>
         <div id="compare-swiper-vertical"></div>
         <FloodSelector
-          offset={5}
+          offset={1}
           floodGroup={right_subgroup}
           setFloodGroup={right_setSubgroup}
           floodingOn={true}
