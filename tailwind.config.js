@@ -6,8 +6,12 @@ module.exports = {
   theme: {
     extend: {
       colors:{
-        shoreline: "#79ABB7",
+        shoreline: {
+          dark: "#618993",
+          DEFAULT: "#79ABB7",
+        },
         open: "#21233A",
+        coral: "coral",
         trench: {
           light: '#47485C',
           DEFAULT: "#323340"
