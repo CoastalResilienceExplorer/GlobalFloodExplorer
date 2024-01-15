@@ -22,7 +22,7 @@ export const SplashScreen = ({
 }) => {
   const [springProps, springPropsApi] = useSpring(() => ({
     opacity: showSplashScreen ? 1 : 0,
-    config: { duration: 250 },
+    config: { duration: 300 },
   }));
   const enterExplorer = async () => {
     ReactGA.event({
