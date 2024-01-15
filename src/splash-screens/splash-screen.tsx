@@ -1,6 +1,4 @@
-import * as React from "react";
 import ReactGA from "react-ga4";
-import "./splash-screen.css";
 
 // Researchers
 import UCSC from "../assets/UCSC_White_Logo.png";
@@ -38,7 +36,7 @@ export const SplashScreen = ({
   return (
     <animated.div
       style={springProps}
-      className="z-10 w-full h-full flex-col flex absolute bg-cover justify-between bg-[url('./assets/SplashBackground.jpg')]"
+      className="z-10 w-full h-full flex-col flex absolute bg-cover justify-between bg-open bg-[url('./assets/SplashBackground.jpg')]"
     >
       <header className="flex flex-row m-2 md:m-8 items-center">
         <img src={UCSC} alt="UCSC Logo" className="w-52 max-w-[32%]" />
