@@ -36,7 +36,7 @@ export const SplashScreen = ({
   return (
     <animated.div
       style={springProps}
-      className="z-10 w-full h-full flex-col flex absolute bg-cover justify-between bg-open bg-[url('./assets/SplashBackground.jpg')]"
+      className="z-10 w-full h-full flex-col flex absolute bg-cover justify-between bg-open bg-[url('./assets/SplashBackground_Mobile.jpg')] md:bg-[url('./assets/SplashBackground.jpg')]"
     >
       <header className="flex flex-row m-2 md:m-8 items-center">
         <img src={UCSC} alt="UCSC Logo" className="w-52 max-w-[32%]" />
@@ -52,11 +52,14 @@ export const SplashScreen = ({
         />
       </header>
       <main className="flex text-left">
-        <div className="mx-3 md:mx-[10%] md:max-w-[680px]">
+        <div
+          className="mx-3 md:mx-[10%] md:max-w-[680px]"
+          data-cy="splashscreen-body-title"
+        >
           <h2 className="text-white leading-none md:leading-tight">
             Coastal Resilience{" "}
           </h2>
-          <h1 className="text-white leading-10 mb-4 md:mb-8 -translate-x-1	">
+          <h1 className="text-white leading-10 mb-4 md:mb-8 -translate-x-1">
             Explorer
           </h1>
           <p className="body-large text-white mb-2">
@@ -92,7 +95,11 @@ export const SplashScreen = ({
               UCSC’s Coastal Resilience Lab&nbsp;–›
             </a>
           </p>
-          <button className="btn-large" onClick={enterExplorer}>
+          <button
+            className="btn-large"
+            onClick={enterExplorer}
+            data-cy="splashscreen-cta"
+          >
             Enter the Explorer
           </button>
         </div>
