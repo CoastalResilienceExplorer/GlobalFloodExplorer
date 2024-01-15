@@ -30,7 +30,7 @@ import infoReducer from "./info/infoReducer";
 import initialInfo from "./info/initialInfo";
 
 // Splash Screens
-import OpeningSplashScreen from "./splash-screens/splash-screen";
+import { SplashScreen } from "./splash-screens/splash-screen";
 import {
   DisclaimerScreen,
   NavigationControls,
@@ -46,88 +46,88 @@ const token =
   "pk.eyJ1IjoiY2xvd3JpZSIsImEiOiJja21wMHpnMnIwYzM5Mm90OWFqaTlyejhuIn0.TXE-FIaqF4K_K1OirvD0wQ";
 
 export default function Map() {
-  const [initialStates, useUpdatePermalink] = usePermalinks({
-    defaultViewport: init_viewport,
-    defaultLayer: init_layer,
-    defaultSubgroup: init_subgroup,
-  });
+  // const [initialStates, useUpdatePermalink] = usePermalinks({
+  //   defaultViewport: init_viewport,
+  //   defaultLayer: init_layer,
+  //   defaultSubgroup: init_subgroup,
+  // });
 
-  const {
-    map,
-    mapContainer,
-    mapLoaded,
-    viewport,
-    style,
-    setStyle,
-    flyToViewport,
-    flyToBounds,
-  } = useMap(
-    initialStates.viewport,
-    "mapbox://styles/mapbox/satellite-v9",
-    token,
-  );
+  // const {
+  //   map,
+  //   mapContainer,
+  //   mapLoaded,
+  //   viewport,
+  //   style,
+  //   setStyle,
+  //   flyToViewport,
+  //   flyToBounds,
+  // } = useMap(
+  //   initialStates.viewport,
+  //   "mapbox://styles/mapbox/satellite-v9",
+  //   token,
+  // );
 
-  const {
-    layerGroup,
-    layerSelectionDependencies,
-    subgroup,
-    subgroupOn,
-    setLayerGroup,
-    setSubgroup,
-  } = useLayers(
-    map,
-    mapLoaded,
-    initialStates.layer,
-    initialStates.subgroup,
-    style,
-    layersByGroup,
-    sources,
-    custom_layer_protos,
-  );
+  // const {
+  //   layerGroup,
+  //   layerSelectionDependencies,
+  //   subgroup,
+  //   subgroupOn,
+  //   setLayerGroup,
+  //   setSubgroup,
+  // } = useLayers(
+  //   map,
+  //   mapLoaded,
+  //   initialStates.layer,
+  //   initialStates.subgroup,
+  //   style,
+  //   layersByGroup,
+  //   sources,
+  //   custom_layer_protos,
+  // );
 
-  const { legends } = useLegends(
-    layerGroup,
-    subgroup,
-    mapLoaded,
-    layersByGroup,
-    custom_layer_protos,
-  );
+  // const { legends } = useLegends(
+  //   layerGroup,
+  //   subgroup,
+  //   mapLoaded,
+  //   layersByGroup,
+  //   custom_layer_protos,
+  // );
 
-  useUpdatePermalink({
-    viewport: viewport,
-    layerGroup: layerGroup,
-    subgroup: subgroup,
-  });
+  // useUpdatePermalink({
+  //   viewport: viewport,
+  //   layerGroup: layerGroup,
+  //   subgroup: subgroup,
+  // });
 
-  const { selectedFeatures, selectionType } = useSelection(
-    map,
-    mapLoaded,
-    mapContainer,
-    all_selectable_layers,
-    layerSelectionDependencies,
-  );
+  // const { selectedFeatures, selectionType } = useSelection(
+  //   map,
+  //   mapLoaded,
+  //   mapContainer,
+  //   all_selectable_layers,
+  //   layerSelectionDependencies,
+  // );
 
-  const { useFirst, useEvery, useWhile, activeInfo, allTheThings, infoRefs } =
-    useInfo(initialInfo, infoReducer);
-  useMapWithBreadcrumbs(viewport, aois, map, useWhile);
-  useFirst(() => layerGroup === LayerName.Flooding, "FIRST_FLOODING");
-  useFirst(() => viewport.pitch !== 0, "FIRST_3D");
-  useFirst(() => viewport.bearing !== 0, "FIRST_3D");
-  useFirst(
-    () => layerGroup === LayerName.Flooding,
-    "FIRST_FLOODING_ZOOM_IN",
-    () => viewport.zoom > 4,
-  );
-  useFirst(
-    () => layerGroup === LayerName.RiskReduction,
-    "FIRST_HEX",
-    () => viewport.zoom < 4,
-  );
+  // const { useFirst, useEvery, useWhile, activeInfo, allTheThings, infoRefs } =
+  //   useInfo(initialInfo, infoReducer);
+  // useMapWithBreadcrumbs(viewport, aois, map, useWhile);
+  // useFirst(() => layerGroup === LayerName.Flooding, "FIRST_FLOODING");
+  // useFirst(() => viewport.pitch !== 0, "FIRST_3D");
+  // useFirst(() => viewport.bearing !== 0, "FIRST_3D");
+  // useFirst(
+  //   () => layerGroup === LayerName.Flooding,
+  //   "FIRST_FLOODING_ZOOM_IN",
+  //   () => viewport.zoom > 4,
+  // );
+  // useFirst(
+  //   () => layerGroup === LayerName.RiskReduction,
+  //   "FIRST_HEX",
+  //   () => viewport.zoom < 4,
+  // );
 
   const [splashScreen, setSplashScreen] = useState(true);
   const [disclaimer, setDisclaimer] = useState(null);
-  const [navigationControls, setNavigationControls] = useState(null);
-  const isTouch = window.matchMedia("(pointer: coarse)").matches;
+  // const [navigationControls, setNavigationControls] = useState(null);
+  // const isTouch = window.matchMedia("(pointer: coarse)").matches;
 
   useEffect(() => {
     if (disclaimer) {
@@ -137,107 +137,108 @@ export default function Map() {
     }
   }, [disclaimer]);
 
-  useEffect(() => {
-    if (navigationControls) {
-      setTimeout(() => {
-        setNavigationControls(false);
-      }, 10000);
-    }
-  }, [navigationControls]);
+  // useEffect(() => {
+  //   if (navigationControls) {
+  //     setTimeout(() => {
+  //       setNavigationControls(false);
+  //     }, 10000);
+  //   }
+  // }, [navigationControls]);
 
   const setSplashScreen2 = (bool) => {
     setSplashScreen(bool);
     if (disclaimer === null) {
       setDisclaimer(true);
-      setNavigationControls(true);
+      // setNavigationControls(true);
     }
   };
 
   return (
-    <InfoContext.Provider
-      value={{
-        useFirst,
-        useEvery,
-        useWhile,
-        selectedFeatures,
-        infoRefs,
-      }}
-    >
-      <OpeningSplashScreen
-        showSplashScreen={splashScreen}
-        setSplashScreen={setSplashScreen2}
-      />
-      <DisclaimerScreen
-        show={disclaimer}
-        setShow={setDisclaimer}
-        isTouch={isTouch}
-      />
-      <NavigationControls show={navigationControls} isTouch={isTouch} />
-      <Info
-        activeInfo={activeInfo}
-        allTheThings={allTheThings}
-        refs={infoRefs}
-      />
-      <div className="screen">
-        <Legend legend_items={legends} />
-        {layerGroup === LayerName.Flooding && (
-          <SlideMap
-            initialStates={initialStates}
-            style={style}
-            viewport={viewport}
-            access_token={token}
-            other_map={map}
-          />
-        )}
-        <div
-          ref={mapContainer}
-          className="map-container"
-          style={{
-            visibility:
-              layerGroup !== LayerName.Flooding ? "visible" : "hidden",
-          }}
-        />
-      </div>
-      <div className="center-ref-container">
-        {infoRefs && <div className="center-ref" ref={infoRefs.CENTER} />}
-      </div>
-      <div className="lower-middle-ref-container">
-        {infoRefs && (
-          <div className="lower-middle-ref" ref={infoRefs.LOWER_MIDDLE} />
-        )}
-      </div>
-      {infoRefs && (
-        <StatsPanel
-          selectedFeatures={selectedFeatures}
-          selectionType={selectionType}
-          layerGroup={layerGroup}
-          setLayerGroup={setLayerGroup}
-          flyToViewport={flyToViewport}
-          selectRef={infoRefs.SELECT}
-        />
-      )}
-      <BasemapManager
-        style={style}
-        setStyle={setStyle}
-        floodGroup={subgroup}
-        setFloodGroup={setSubgroup}
-        floodingOn={subgroupOn}
-      />
-      {infoRefs && (
-        <Compass
-          viewport={viewport}
-          setViewport={flyToViewport}
-          _ref={infoRefs.COMPASS}
-          navigationControls={navigationControls}
-          setNavigationControls={setNavigationControls}
-        />
-      )}
-      <LayerSelection
-        layerGroups={layerGroups}
-        selectedLayer={layerGroup}
-        setSelectedLayer={setLayerGroup}
-        setBounds={flyToBounds}
-      />
-    </InfoContext.Provider>
+    // <InfoContext.Provider
+    //   value={{
+    //     useFirst,
+    //     useEvery,
+    //     useWhile,
+    //     selectedFeatures,
+    //     infoRefs,
+    //   }}
+    // >
+
+    <SplashScreen
+      showSplashScreen={splashScreen}
+      setSplashScreen={setSplashScreen2}
+    />
+    //  <DisclaimerScreen
+    //   show={disclaimer}
+    //   setShow={setDisclaimer}
+    //   isTouch={isTouch}
+    // />
+    // <NavigationControls show={navigationControls} isTouch={isTouch} />
+    // <Info
+    //   activeInfo={activeInfo}
+    //   allTheThings={allTheThings}
+    //   refs={infoRefs}
+    // />
+    // <div className="screen">
+    //   <Legend legend_items={legends} />
+    //   {layerGroup === LayerName.Flooding && (
+    //     <SlideMap
+    //       initialStates={initialStates}
+    //       style={style}
+    //       viewport={viewport}
+    //       access_token={token}
+    //       other_map={map}
+    //     />
+    //   )}
+    //   <div
+    //     ref={mapContainer}
+    //     className="map-container"
+    //     style={{
+    //       visibility:
+    //         layerGroup !== LayerName.Flooding ? "visible" : "hidden",
+    //     }}
+    //   />
+    // </div>
+    // <div className="center-ref-container">
+    //   {infoRefs && <div className="center-ref" ref={infoRefs.CENTER} />}
+    // </div>
+    // <div className="lower-middle-ref-container">
+    //   {infoRefs && (
+    //     <div className="lower-middle-ref" ref={infoRefs.LOWER_MIDDLE} />
+    //   )}
+    // </div>
+    // {infoRefs && (
+    //   <StatsPanel
+    //     selectedFeatures={selectedFeatures}
+    //     selectionType={selectionType}
+    //     layerGroup={layerGroup}
+    //     setLayerGroup={setLayerGroup}
+    //     flyToViewport={flyToViewport}
+    //     selectRef={infoRefs.SELECT}
+    //   />
+    // )}
+    // <BasemapManager
+    //   style={style}
+    //   setStyle={setStyle}
+    //   floodGroup={subgroup}
+    //   setFloodGroup={setSubgroup}
+    //   floodingOn={subgroupOn}
+    // />
+    // {infoRefs && (
+    //   <Compass
+    //     viewport={viewport}
+    //     setViewport={flyToViewport}
+    //     _ref={infoRefs.COMPASS}
+    //     navigationControls={navigationControls}
+    //     setNavigationControls={setNavigationControls}
+    //   />
+    // )}
+    // <LayerSelection
+    //   layerGroups={layerGroups}
+    //   selectedLayer={layerGroup}
+    //   setSelectedLayer={setLayerGroup}
+    //   setBounds={flyToBounds}
+    // />
+    // </InfoContext.Provider>
   );
 }

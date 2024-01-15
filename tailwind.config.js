@@ -14,6 +14,10 @@ module.exports = {
         }
       }
     },
+    fontFamily: {
+      sans: ['"Montserrat"', 'sans-serif'],
+      serif: ['"Sorts Mill Goudy"', 'sans-serif'],
+    },
   },
   plugins: []
 }
