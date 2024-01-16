@@ -6,6 +6,7 @@ import SelectedFeaturesPanel from "./selected-features-panel";
 import FlyToContext from "../FlyToContext";
 import { useInfoContext } from "hooks/useInfo";
 import countryMapping from "data/ISO_country_mapping";
+import { Icon } from "@iconify/react";
 
 function Title({ nStudyUnits, locations, selectionType }) {
   function countryNameOverride(country) {
@@ -176,6 +177,8 @@ function TopBanner({ selectedFeatures, selectionType }) {
 function OpenToggle({ isOpen, setIsOpen }) {
   const { useFirst, selectRef, selectedFeatures } = useInfoContext();
   const openTransform = {
+    width: "48px",
+    height: "49px",
     transform: "rotate(180deg)",
   };
 
@@ -188,11 +191,22 @@ function OpenToggle({ isOpen, setIsOpen }) {
     <div className="open-sidebar" ref={selectRef}>
       <div>
         <div>Metrics</div>
-        <div>
-          <OpenLogo
+        <div
+          className={
+            "open-toggle-container" +
+            (selectedFeatures.length !== 0 && !isOpen ? " coral" : "")
+          }
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          {/* <OpenLogo
             className="open-toggle"
             onClick={() => setIsOpen(!isOpen)}
             style={isOpen ? openTransform : {}}
+          /> */}
+          <Icon
+            icon="ri:arrow-left-s-line"
+            className="open-toggle"
+            style={isOpen ? openTransform : { width: "48px", height: "49px" }}
           />
         </div>
       </div>
@@ -207,7 +221,7 @@ export default function StatsPanel({
   setLayerGroup,
   flyToViewport,
 }) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   // return (
   //   <div className={"right-panel" + (isOpen ? " open" : "")}>

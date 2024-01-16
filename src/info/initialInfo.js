@@ -10,6 +10,7 @@ const initial_state = {
   FIRST_HEX: start_state,
   FIRST_HOVER: start_state,
   FILTER_HOVER: start_state,
+  FIRST_RRR: start_state,
 };
 
 export default initial_state;

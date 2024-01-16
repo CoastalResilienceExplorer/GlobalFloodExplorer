@@ -48,6 +48,26 @@ export function useInfo(initial_state, reducer) {
     }
   }
 
+  function useEventWithFunction(confirmIf, event, skipIf, f) {
+    /*
+      This can theoretically work with an EVERY hook,
+      but is difficult to implement due to race conditions in the dispatch.
+
+      For now, just implementing as a FIRST event.
+    */
+    if (
+      confirmIf() &&
+      (skipIf === undefined || !skipIf()) &&
+      state[event].active === null
+    ) {
+      f() &&
+        dispatch({
+          type: event,
+          active: false,
+        });
+    }
+  }
+
   function useEvery(confirmIf, event, skipIf, text, timeout = 1000) {
     if (
       confirmIf() &&
@@ -80,7 +100,6 @@ export function useInfo(initial_state, reducer) {
       (skipIf === undefined || !skipIf()) &&
       state[event].active === null
     ) {
-      console.log("on if");
       dispatch({
         type: event,
         active: true,
@@ -89,7 +108,6 @@ export function useInfo(initial_state, reducer) {
         },
       });
       if (timeout > 0) {
-        console.log(timeout);
         setTimeout(
           () =>
             dispatch({
@@ -129,6 +147,7 @@ export function useInfo(initial_state, reducer) {
 
   return {
     useFirst,
+    useEventWithFunction,
     useEvery,
     useWhile: {
       on: useWhile_On,

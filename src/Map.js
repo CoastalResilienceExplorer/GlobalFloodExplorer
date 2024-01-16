@@ -102,8 +102,15 @@ export default function Map() {
     layerSelectionDependencies,
   );
 
-  const { useFirst, useEvery, useWhile, activeInfo, allTheThings, infoRefs } =
-    useInfo(initialInfo, infoReducer);
+  const {
+    useFirst,
+    useEventWithFunction,
+    useEvery,
+    useWhile,
+    activeInfo,
+    allTheThings,
+    infoRefs,
+  } = useInfo(initialInfo, infoReducer);
   useMapWithBreadcrumbs(viewport, aois, map, useWhile);
   useFirst(() => layerGroup === LayerName.Flooding, "FIRST_FLOODING");
   useFirst(() => viewport.pitch !== 0, "FIRST_3D");
@@ -117,6 +124,24 @@ export default function Map() {
     () => layerGroup === LayerName.RiskReduction,
     "FIRST_HEX",
     () => viewport.zoom < 4,
+  );
+
+  useEventWithFunction(
+    () => layerGroup === LayerName.RiskReduction,
+    "FIRST_RRR",
+    undefined,
+    () => {
+      if (mapLoaded) {
+        map.flyToViewport(
+          Object.assign(viewport, {
+            pitch: 30,
+            transitionDuration: 1000,
+          }),
+        );
+        return true;
+      }
+      return false;
+    },
   );
 
   const [splashScreen, setSplashScreen] = useState(true);
