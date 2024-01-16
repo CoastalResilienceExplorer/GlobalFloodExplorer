@@ -111,8 +111,6 @@ export function useInfo(initial_state, reducer) {
       (skipIf === undefined || !skipIf()) &&
       state[event].active === true
     ) {
-      console.log("off if");
-      console.log(delay);
       setTimeout(
         () =>
           dispatch({
