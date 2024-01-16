@@ -13,46 +13,6 @@ type LayerSelectionProps = {
   setBounds: (bounds: Bounds) => void;
 };
 
-const LINKS = [
-  {
-    name: "Lab Website",
-    description: "Lab description to come",
-    url: "https://www.google.com",
-  },
-  {
-    name: "Publication",
-    description: "Menendez et al. 2020.",
-    url: "https://www.google.com",
-  },
-  {
-    name: "Downloads",
-    description: (
-      <>
-        {downloads.map((download) => (
-          <a
-            href={download.url}
-            target="_blank"
-            rel="noreferrer"
-            className="flex row items-center gap-2 hover:text-trench hover:stroke-trench hover:fill-trench"
-          >
-            {download.description} {download.icon}
-          </a>
-        ))}
-      </>
-    ),
-    IconComponent: () => (
-      <Icon
-        icon="material-symbols:download"
-        className="w-full h-full"
-        height="1.5em"
-        width="1.5em"
-        color="white"
-      />
-    ),
-    url: "https://www.google.com",
-  },
-];
-
 const ICON_CONTAINER_INITIAL_WIDTH = 55;
 const ICON_INITIAL_SIZE = 30;
 const ICON_HOVER_SIZE = 35;
@@ -111,19 +71,82 @@ export const LayerSelection: React.FC<LayerSelectionProps> = ({
           />
         </button>
       ))}
-      {LINKS.map((link, i) => (
-        <button
-          key={i}
-          className="bg-trench hover:bg-shoreline block text-left transition-[height]"
-        >
-          <MenuItem
-            iconSprings={iconSprings}
-            name={link.name}
-            description={link.description}
-            IconComponent={link.IconComponent}
-          />
-        </button>
-      ))}
+
+      <div className="bg-trench hover:bg-shoreline block text-left transition-[height]">
+        <MenuItem
+          iconSprings={iconSprings}
+          name="Links"
+          description={
+            <>
+              <p>
+                Learn more about{" "}
+                <a
+                  href="https://www.coastalresiliencelab.org/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="underline hover:text-coral hover:stroke-coral hover:fill-coral"
+                >
+                  UCSC’s Coastal Resilience Lab&nbsp;–›
+                </a>
+              </p>
+              <p>
+                Read{" "}
+                <a
+                  href="https://doi.org/10.1038/s41598-020-61136-6"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="underline hover:text-coral hover:stroke-coral hover:fill-coral"
+                >
+                  the report&nbsp;–›
+                </a>
+              </p>
+            </>
+          }
+        />
+      </div>
+      <div className="bg-trench hover:bg-shoreline block text-left transition-[height]">
+        <MenuItem
+          iconSprings={iconSprings}
+          name="Downloads"
+          description={
+            <p>
+              {downloads.map((download) => (
+                <a
+                  href={download.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex row items-center gap-2 hover:text-coral hover:stroke-coral hover:fill-coral"
+                >
+                  {download.description} {download.icon}
+                </a>
+              ))}
+            </p>
+          }
+          IconComponent={() => (
+            <Icon
+              icon="material-symbols:download"
+              className="w-full h-full -translate-y-1"
+              height="1.5em"
+              width="1.5em"
+              color="white"
+            />
+          )}
+        />
+      </div>
+      <div className="bg-trench hover:bg-shoreline block text-left transition-[height]">
+        <MenuItem
+          iconSprings={iconSprings}
+          name="Quick Explore"
+          description="Jump into the areas that provide the best demonstration of the findings. (Coming Soon)"
+          IconComponent={() => (
+            <Icon
+              icon="material-symbols:explore-outline"
+              color="white"
+              className="w-full h-full"
+            />
+          )}
+        />
+      </div>
       {typeof window.google !== "undefined" && (
         <div className="bg-trench hover:bg-shoreline block text-left transition-[height]">
           <MenuItem
