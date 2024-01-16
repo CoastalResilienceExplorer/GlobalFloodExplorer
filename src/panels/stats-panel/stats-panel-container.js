@@ -1,4 +1,3 @@
-import * as React from "react";
 import { useState } from "react";
 import "./stats-panel-container.css";
 import { ReactComponent as OpenLogo } from "assets/Opentab.svg";
@@ -6,6 +5,7 @@ import SelectedFeaturesPanel from "./selected-features-panel";
 import FlyToContext from "../FlyToContext";
 import { useInfoContext } from "hooks/useInfo";
 import countryMapping from "data/ISO_country_mapping";
+import { Icon } from "@iconify/react";
 
 function Title({ nStudyUnits, locations, selectionType }) {
   function countryNameOverride(country) {
@@ -175,8 +175,8 @@ function TopBanner({ selectedFeatures, selectionType }) {
 
 function OpenToggle({ isOpen, setIsOpen }) {
   const { useFirst, selectRef, selectedFeatures } = useInfoContext();
-  const openTransform = {
-    transform: "rotate(180deg)",
+  const rotateTransaform = {
+    transform: isOpen ? "rotate(90deg)" : "rotate(270deg)",
   };
 
   useFirst(
@@ -186,15 +186,17 @@ function OpenToggle({ isOpen, setIsOpen }) {
   );
   return (
     <div className="open-sidebar" ref={selectRef}>
-      <div>
-        <div>Metrics</div>
-        <div>
-          <OpenLogo
-            className="open-toggle"
-            onClick={() => setIsOpen(!isOpen)}
-            style={isOpen ? openTransform : {}}
-          />
-        </div>
+      <h5>Metrics</h5>
+      <div className="border-2 border-open bg-shoreline rounded-full mx-auto inline-block">
+        <Icon
+          icon="tabler:chevron-up"
+          className="open-toggle"
+          height={36}
+          width={36}
+          onClick={() => setIsOpen(!isOpen)}
+          style={rotateTransaform}
+          color="#21233A"
+        />
       </div>
     </div>
   );
@@ -209,38 +211,27 @@ export default function StatsPanel({
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
-  // return (
-  //   <div className={"right-panel" + (isOpen ? " open" : "")}>
-  //     <OpenToggle isOpen={isOpen} setIsOpen={setIsOpen} />
-  //     <div className="right-panel-content">
-  //       <div className="right-panel-outer-content">
-  //         <div className="right-panel-inner-content">
-  //           {JSON.stringify(selectedFeatures, null, 2)}
-  //         </div>
-  //       </div>
-  //     </div>
-  //   </div>
-  // );
-
   return (
-    <div className={"right-panel" + (isOpen ? " open" : "")}>
-      <OpenToggle isOpen={isOpen} setIsOpen={setIsOpen} />
+    <div
+      className={
+        "right-panel" + (selectedFeatures.length && isOpen ? " open" : "")
+      }
+    >
+      {selectedFeatures.length > 0 && (
+        <OpenToggle isOpen={isOpen} setIsOpen={setIsOpen} />
+      )}
       <div className="right-panel-content">
-        <div className="right-panel-outer-content">
-          <div className="right-panel-inner-content">
-            <TopBanner
-              selectedFeatures={selectedFeatures}
-              selectionType={selectionType}
-            />
-            <FlyToContext.Provider value={{ flyToViewport, setLayerGroup }}>
-              <SelectedFeaturesPanel
-                selectedFeatures={selectedFeatures}
-                layerGroup={layerGroup}
-                setLayerGroup={setLayerGroup}
-              />
-            </FlyToContext.Provider>
-          </div>
-        </div>
+        <TopBanner
+          selectedFeatures={selectedFeatures}
+          selectionType={selectionType}
+        />
+        <FlyToContext.Provider value={{ flyToViewport, setLayerGroup }}>
+          <SelectedFeaturesPanel
+            selectedFeatures={selectedFeatures}
+            layerGroup={layerGroup}
+            setLayerGroup={setLayerGroup}
+          />
+        </FlyToContext.Provider>
       </div>
     </div>
   );

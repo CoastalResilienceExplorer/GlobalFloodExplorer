@@ -127,48 +127,6 @@ function MapExplorerButton({ image, text, type = "x", region, group }) {
   );
 }
 
-function NoSelectedFeaturesPanel() {
-  return (
-    <div className="no-selected-features-panel">
-      <div className="no-selected-features-panel-text">
-        Quick Explorer
-        <div className="sub-text">
-          Select features to explore metrics, or use one of the zoom links below
-        </div>
-      </div>
-      <MapExplorerButton
-        image={FlyTo_Flooding}
-        text="Flooding"
-        type="flooding"
-        region="Zhanjiang"
-        group="Flooding"
-      />
-      <MapExplorerButton
-        image={FlyTo_Hex}
-        text="Risk Reduction Ratio"
-        type="hex"
-        region="Florida"
-        group="Risk Reduction Ratio"
-      />
-      <MapExplorerButton
-        image={FlyTo_AEB}
-        text="Benefit (AEB)"
-        type="aeb"
-        region="Florida"
-        layerKey="AEB"
-        group="Benefit (AEB)"
-      />
-      <MapExplorerButton
-        image={FlyTo_perHa}
-        text="Benefit per Hectare"
-        type="aeb-per-ha"
-        region="Zhanjiang"
-        group="Benefit per Hectare"
-      />
-    </div>
-  );
-}
-
 function getStat(
   metric,
   selectedFeatures,
@@ -230,54 +188,10 @@ function SelectedFeaturesPanel({
   const stock_risk_reduct_ratio =
     (stockNoMangroves - stockWithMangroves) / stockNoMangroves;
 
-  // const totalStock_10_WO = useMemo(
-  //   () => getStat("Ab_S_Wo10", selectedFeatures),
-  //   [selectedFeatures],
-  // );
-  // const totalStock_25_WO = useMemo(
-  //   () => getStat("Ab_S_Wo25", selectedFeatures),
-  //   [selectedFeatures],
-  // );
-  // const totalStock_50_WO = useMemo(
-  //   () => getStat("Ab_S_Wo50", selectedFeatures),
-  //   [selectedFeatures],
-  // );
-  // const totalStock_100_WO = useMemo(
-  //   () => getStat("Ab_S_Wo100", selectedFeatures),
-  //   [selectedFeatures],
-  // );
-  // const totalStock_10_W = useMemo(
-  //   () => getStat("Ab_S_W10", selectedFeatures),
-  //   [selectedFeatures],
-  // );
-  // const totalStock_25_W = useMemo(
-  //   () => getStat("Ab_S_W25", selectedFeatures),
-  //   [selectedFeatures],
-  // );
-  // const totalStock_50_W = useMemo(
-  //   () => getStat("Ab_S_W50", selectedFeatures),
-  //   [selectedFeatures],
-  // );
-  // const totalStock_100_W = useMemo(
-  //   () => getStat("Ab_S_W100", selectedFeatures),
-  //   [selectedFeatures],
-  // );
-
-  // const linechart_data = [
-  //   { name: "RP10", with: totalStock_10_W, without: totalStock_10_WO },
-  //   { name: "RP25", with: totalStock_25_W, without: totalStock_25_WO },
-  //   { name: "RP50", with: totalStock_50_W, without: totalStock_50_WO },
-  //   { name: "RP100", with: totalStock_100_W, without: totalStock_100_WO },
-  // ];
-
   const piechart_stock_data = [
     { name: "Residual", value: stockWithMangroves },
     { name: "Protected", value: stockNoMangroves - stockWithMangroves },
   ];
-
-  if (selectedFeatures.length === 0) {
-    return <NoSelectedFeaturesPanel />;
-  }
 
   return (
     <div onScroll={(e) => console.log(e)}>
