@@ -61,20 +61,6 @@ const layers: Record<LayerName, React.ReactNode> = {
       />
     </div>
   ),
-  // SHDI: (
-  //   <div className="layer-selection-image-container">
-  //     <Icon
-  //       icon="fluent:people-team-28-regular"
-  //       className="layer-selection-icon"
-  //     />
-  //     {/* <img src={Flood} className="layer-selection-icon" /> */}
-  //   </div>
-  // ),
-  // MangLoss: (
-  //   <div className="layer-selection-image-container">
-  //     <img src={Flood} className="layer-selection-icon" />
-  //   </div>
-  // ),
 };
 
 function LayerSelectionButtonContainer({

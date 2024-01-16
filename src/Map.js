@@ -124,7 +124,7 @@ export default function Map() {
     () => viewport.zoom < 4,
   );
 
-  const [splashScreen, setSplashScreen] = useState(false);
+  const [splashScreen, setSplashScreen] = useState(true);
   const [disclaimer, setDisclaimer] = useState(null);
   const [navigationControls, setNavigationControls] = useState(null);
   const isTouch = window.matchMedia("(pointer: coarse)").matches;
@@ -232,22 +232,12 @@ export default function Map() {
           setNavigationControls={setNavigationControls}
         />
       )}
-      {process.env.REACT_APP_USE_NEW_LAYER_SELECTION === "true" ? (
-        <LayerSelection
-          layerGroups={layerGroups}
-          selectedLayer={layerGroup}
-          setSelectedLayer={setLayerGroup}
-          setBounds={flyToBounds}
-        />
-      ) : (
-        <HomeInfoPanel
-          setSplashScreen={setSplashScreen2}
-          setViewport={flyToViewport}
-          selectedLayer={layerGroup}
-          setSelectedLayer={setLayerGroup}
-          isTouch={isTouch}
-        />
-      )}
+      <LayerSelection
+        layerGroups={layerGroups}
+        selectedLayer={layerGroup}
+        setSelectedLayer={setLayerGroup}
+        setBounds={flyToBounds}
+      />
     </InfoContext.Provider>
   );
 }
