@@ -1,6 +1,5 @@
 import * as React from "react";
 import "./disclaimer-screen.css";
-import "./splash-screen.css";
 import pan_logo from "assets/pan.png";
 import tilt_logo from "assets/tilt.png";
 import zoom_logo from "assets/zoom.png";
@@ -33,7 +32,7 @@ const AnimatedXIcon = ({
       width="30"
       height="30"
       viewBox="0 0 30 30"
-      data-test-id="disclaimer-close-button"
+      data-cy="disclaimer-close-button"
     >
       {/* Black circle */}
       <circle cx="15" cy="15" r="14.5" fill="black" />

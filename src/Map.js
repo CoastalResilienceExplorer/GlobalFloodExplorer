@@ -30,7 +30,7 @@ import infoReducer from "./info/infoReducer";
 import initialInfo from "./info/initialInfo";
 
 // Splash Screens
-import OpeningSplashScreen from "./splash-screens/splash-screen";
+import { SplashScreen } from "./splash-screens/splash-screen";
 import {
   DisclaimerScreen,
   NavigationControls,
@@ -163,7 +163,7 @@ export default function Map() {
         infoRefs,
       }}
     >
-      <OpeningSplashScreen
+      <SplashScreen
         showSplashScreen={splashScreen}
         setSplashScreen={setSplashScreen2}
       />

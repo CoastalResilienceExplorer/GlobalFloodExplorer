@@ -1,13 +1,10 @@
 describe("Map spec", () => {
   beforeEach(() => {
     cy.visit("/");
-    cy.get(".navigation-button")
-      .should("be.visible")
-      .contains("Explore")
+    cy.get(`[data-cy="splashscreen-cta"]`)
+      .contains("Enter the Explorer")
       .click();
-    cy.get('[data-test-id="disclaimer-close-button"]')
-      .should("be.visible")
-      .click();
+    cy.get(`[data-cy="disclaimer-close-button"]`).click();
   });
 
   it("renders various elements of the map page", () => {
