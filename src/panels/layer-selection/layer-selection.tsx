@@ -214,7 +214,7 @@ const MenuItem: React.FC<{
         onMouseLeave={handleCopyUnhover}
         className="w-96 py-2 text-white px-3"
       >
-        <h3 className="w-full">{name}</h3>
+        <h4 className="w-full">{name}</h4>
         {description && typeof description === "string" ? (
           <animated.p
             className="w-full overflow-hidden"

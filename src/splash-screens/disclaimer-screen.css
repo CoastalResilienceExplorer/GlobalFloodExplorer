@@ -1,23 +1,12 @@
 .disclaimer-container {
   position: absolute;
   top: 10%;
-  left: 20%;
-  right: 20%;
-  /* bottom: 20%; */
   max-height: 60%;
   z-index: 7;
-  /* background-color: #192e44; */
-  box-shadow: 0 0 0 2pt rgba(60, 132, 150, 0.3);
-  background-color: rgba(193, 241, 253, 0.9);
-  border: 5px solid rgba(60, 132, 150, 0.8);
-  border: 2px solid #395879;
-  /* opacity: 0.92; */
-  overflow-y: auto;
   border-radius: 45px;
-  padding: 35px;
   text-align: center;
   vertical-align: middle;
-  color: black;
+  @apply text-white border-4 bg-open p-8 pl-6 md:p-16 border-coral inset-x-[5%] md:inset-x-[20%];
 }
 
 .splash-screen-disclaimer {
@@ -78,8 +67,8 @@
 
 .disclaimer-close-button {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 15px;
+  right: 15px;
   cursor: pointer;
 }
 
@@ -167,33 +156,20 @@
   position: relative;
   left: -50%;
   color: black;
-  box-shadow: 0 0 0 2pt rgba(60, 132, 150, 0.3);
-  background-color: rgba(193, 241, 253, 0.9);
-  border: 5px solid rgba(60, 132, 150, 0.8);
   justify-content: center;
   align-content: center;
   flex-direction: row;
   border-radius: 80px;
   display: flex;
+  @apply text-white border-2 bg-open bg-opacity-75 border-coral px-6 pb-2;
 }
 
 .navigation-icon {
   padding: 15px;
   size: 40px 40px;
   text-align: center;
-  color: #95d3c3;
-}
-
-.navigation-icon.title {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-content: center;
-  text-align: left;
-  color: black;
-  padding-left: 30px;
-}
-
-.navigation-controls > :last-child {
-  padding-right: 30px;
+  align-items: center;
 }

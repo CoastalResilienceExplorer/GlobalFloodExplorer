@@ -18,9 +18,8 @@ import aois from "./data/viewports.json";
 //Panels
 import Legend from "./legends/legend";
 import StatsPanel from "./panels/stats-panel/stats-panel-container";
-import HomeInfoPanel from "./panels/home-info-panel/home-info-panel";
 import Compass from "./compass/compass";
-import BasemapManager from "./basemap_manager/BasemapManager";
+import { BasemapManager } from "./basemap_manager/BasemapManager";
 import { SlideMap } from "slide_map/slide_map";
 import { LayerSelection } from "./panels/layer-selection/layer-selection";
 
@@ -61,11 +60,7 @@ export default function Map() {
     setStyle,
     flyToViewport,
     flyToBounds,
-  } = useMap(
-    initialStates.viewport,
-    "mapbox://styles/mapbox/satellite-v9",
-    token,
-  );
+  } = useMap(initialStates.viewport, token);
 
   const {
     layerGroup,

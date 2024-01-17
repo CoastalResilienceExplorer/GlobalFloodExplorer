@@ -1,4 +1,3 @@
-import { ReactComponent as ExampleSvg } from "assets/Map_Icon.svg";
 import {
   Blue_5Step,
   Blue_5Step_0_1,
@@ -308,7 +307,7 @@ const layerGroups: Record<LayerName, LayerGroup> = {
   [LayerName.Population]: {
     name: LayerName.Population,
     shortDescription:
-      "The annual expected population protection is the average annual reduction in people exposed to flooding.",
+      "The annual expected population protected is the avg. annual reduction of people exposed to flooding.",
     IconComponent: () => (
       <Icon
         icon="pepicons-pencil:people"

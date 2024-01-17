@@ -15,15 +15,9 @@ function CircleSelector({ selectedFloodGroup, thisFloodgroup, setFloodGroup }) {
       className="circle-selector-container flooding"
       onClick={() => setFloodGroup(thisFloodgroup)}
     >
-      <div className="circle-selector-text flooding">
+      <p className="circle-selector-text text-white flooding font-sans font-bold">
         {styles[thisFloodgroup]}
-      </div>
-      <div
-        className={
-          "circle-selector flooding" +
-          ` ${thisFloodgroup} ${selected ? "selected" : ""}`
-        }
-      ></div>
+      </p>
     </div>
   );
 }
@@ -49,17 +43,11 @@ export function FloodSelector({
           }}
         >
           <div className="floodgroup-manager-inner-container">
-            <>
-              {/* <div className='basemap-options-header' ref={floodingRef}>Flooding</div> */}
-
-              {["flooding_1996", "flooding_2015"].map((f) => (
-                <CircleSelector
-                  selectedFloodGroup={floodGroup}
-                  thisFloodgroup={f}
-                  setFloodGroup={setFloodGroup}
-                />
-              ))}
-            </>
+            <CircleSelector
+              selectedFloodGroup={floodGroup}
+              thisFloodgroup={floodGroup}
+              setFloodGroup={setFloodGroup}
+            />
           </div>
         </div>
       ) : null}

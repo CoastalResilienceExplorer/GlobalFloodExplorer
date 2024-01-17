@@ -1,15 +1,29 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 
 import { getViewport } from "./utils/viewportUtils";
+import { BasemapMap, BasemapStyle } from "basemap_manager/BasemapManager";
 
-export function useMap(init_viewport, init_style, access_token) {
+export function useMap(init_viewport, access_token) {
   mapboxgl.accessToken = access_token;
   const mapContainer = useRef(null);
   const [map, setMap] = useState(null);
   const [mapLoaded, setMapLoaded] = useState(false);
   const [viewport, setViewport] = useState(init_viewport);
-  const [style, setStyle] = useState(init_style);
+
+  const initTheme = useMemo(() => {
+    if (window.matchMedia) {
+      if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+        return BasemapStyle.Dark;
+      } else {
+        return BasemapStyle.Light;
+      }
+    } else {
+      return BasemapStyle.Light;
+    }
+  }, []);
+
+  const [style, setStyle] = useState(BasemapMap[initTheme]);
 
   function flyToViewport(viewport) {
     const viewport_formatted = {
