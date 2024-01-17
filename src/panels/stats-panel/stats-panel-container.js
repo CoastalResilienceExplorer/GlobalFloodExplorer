@@ -50,74 +50,21 @@ function Title({ nStudyUnits, locations, selectionType }) {
   const [locationTooltipY, setLocationTooltipY] = useState(null);
 
   function formatLocationList(locations) {
-    let locationsFormatted;
-    if (locations.length === 1)
-      locationsFormatted = (
-        <div>
-          <p className="locations-formatted-text inline-title-text">
-            {locations_spaces[0]}
-          </p>
-        </div>
-      );
+    if (locations.length === 1) return locations_spaces[0];
     if (locations.length === 2)
-      locationsFormatted = (
-        <div>
-          <p className="locations-formatted-text inline-title-text">
-            {locations_spaces[0]}
-          </p>{" "}
-          and
-          <br />
-          <p className="locations-formatted-text inline-title-text">
-            {locations_spaces[1]}
-          </p>
-        </div>
-      );
+      return `${locations_spaces[0]} and ${locations_spaces[1]}`;
     if (locations.length === 3)
-      locationsFormatted = (
-        <div>
-          {locations_spaces
-            .slice(0, -1)
-            .map((i) => (
-              <>
-                <p className="locations-formatted-text inline-title-text">
-                  {i}
-                </p>
-                ,<br />
-              </>
-            ))
-            .reduce((prev, curr) => [prev, curr])}
-          and{" "}
-          <p className="locations-formatted-text inline-title-text">
-            {locations_spaces[locations_spaces.length - 1]}
-          </p>
-        </div>
-      );
+      return `${locations_spaces
+        .slice(0, -1)
+        .map((i) => `${i}, `)
+        .reduce((prev, curr) => [prev, curr])} and ${
+        locations_spaces[locations_spaces.length - 1]
+      }`;
     if (too_many_locations)
-      locationsFormatted = (
-        <div>
-          <p className="locations-formatted-text inline-title-text">
-            {locations_spaces[0]}
-          </p>
-          ,
-          <br />
-          <p className="locations-formatted-text inline-title-text">
-            {locations_spaces[1]}
-          </p>
-          <br />
-          and {n_locations - 2} others
-        </div>
-      );
-    // locations_spaces.slice(0, -1).join(', ') + ', and ' + (n_locations - 3) + ' others'
-    return (
-      <div className="location-list" onMouseOver={(e) => onHover(e)}>
-        {locationsFormatted}
-      </div>
-    );
+      return `${locations_spaces[0]}, ${locations_spaces[1]} and ${
+        n_locations - 2
+      } others`;
   }
-
-  const _nStudyUnits = (n) => {
-    return <p className="n-study-units-text inline-title-text">{n}</p>;
-  };
 
   function onHover(e) {
     if (too_many_locations) {
@@ -130,11 +77,13 @@ function Title({ nStudyUnits, locations, selectionType }) {
   return (
     <>
       <div className="stats-panel-title">
-        Showing{" "}
-        <b>
-          {selection_display} ({_nStudyUnits(nStudyUnits)})
-        </b>{" "}
-        Statistics for: {formatLocationList(locations_tmp)}
+        <p>Showing statistics for:</p>
+        <p className="body-x-large italic">
+          {selection_display} {nStudyUnits} in{" "}
+          <span className="whitespace-nowrap">
+            {formatLocationList(locations_tmp)}
+          </span>
+        </p>
       </div>
       {showLocationsTooltip && (
         <div
@@ -164,7 +113,7 @@ function TopBanner({ selectedFeatures, selectionType }) {
     <div className="top-banner-container">
       <Title
         nStudyUnits={selectedFeatures
-          .map((x) => (x.properties.point_count ? x.properties.point_count : 1))
+          .map((x) => x.id)
           .reduce((a, b) => a + b, 0)}
         selectionType={selectionType}
         locations={locations}

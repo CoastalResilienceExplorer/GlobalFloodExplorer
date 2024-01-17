@@ -18,10 +18,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-* {
-  font-family: "Open Sans", sans-serif;
-}
-
 code {
   font-family: "Open Sans", sans-serif;
 }
@@ -70,6 +66,10 @@ code {
   }
 
   /* Large Body */
+  .body-x-large {
+    @apply text-lg md:text-3xl;
+  }
+
   .body-large {
     @apply text-base md:text-xl;
   }

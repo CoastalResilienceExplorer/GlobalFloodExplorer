@@ -1,7 +1,7 @@
 .right-panel {
   position: absolute;
   left: 100%;
-  width: max(405px, calc(100vw - 65px));
+  width: min(405px, calc(100vw - 65px));
   top: 5px;
   bottom: 0;
   vertical-align: middle;
@@ -15,7 +15,7 @@
   font-size: 0.7rem;
   background: white;
   border-radius: 16px 0px 0px 16px;
-  border-width: 4px;
+  border-width: 6px 0 6px 6px;
   border-color: var(--open);
 }
 
@@ -69,9 +69,8 @@
 }
 
 .top-banner-container {
-  display: grid;
-  grid-template-columns: auto;
-  height: 100px;
+  position: relative;
+  background: var(--open);
 }
 
 .top-banner-container > * {
@@ -80,7 +79,7 @@
 
 .stats-panel-title {
   text-align: right;
-  color: rgb(32, 32, 32);
+  color: #fff;
 }
 
 .locations-formatted-text {

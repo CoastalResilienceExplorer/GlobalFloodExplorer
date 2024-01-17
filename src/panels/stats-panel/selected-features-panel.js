@@ -194,8 +194,7 @@ function SelectedFeaturesPanel({
   ];
 
   return (
-    <div onScroll={(e) => console.log(e)}>
-      {/* <MetricHeadlineContainer metric={AEB} title='Annual Expected Benefit' conRef={aebRef} /> */}
+    <div>
       <TemplateMetricContainer
         metric={AEB}
         icon={Flood}
@@ -271,16 +270,6 @@ function SelectedFeaturesPanel({
           scaleSize={85}
         />
       </TemplateMetricContainer>
-      {/* <TemplateMetricContainer
-        icon={StormIcon}
-        title="Expected Damages"
-        height={220}
-      >
-        <LineChart2 data={linechart_data} />
-      </TemplateMetricContainer> */}
-      {/* <TemplateMetricContainer icon={HEX} title='National Site Rank' height={150} contentModifier='start'>
-            <CountryLevelList countries={countries} highlightFIDs={fids} />
-        </TemplateMetricContainer> */}
     </div>
   );
 }
