@@ -26,7 +26,6 @@ export function useMap(init_viewport, access_token) {
   const [style, setStyle] = useState(BasemapMap[initTheme]);
 
   function flyToViewport(viewport) {
-    console.log(viewport);
     const viewport_formatted = {
       center: [viewport.longitude, viewport.latitude],
       zoom: viewport.zoom,
