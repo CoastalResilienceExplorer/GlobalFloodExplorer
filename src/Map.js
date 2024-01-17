@@ -13,7 +13,7 @@ import sources from "./layers/sources";
 import layerGroups, { layersByGroup } from "./layers/layers";
 import { protos as custom_layer_protos } from "./layers/protos/custom_protos";
 import { init_viewport, init_layer, init_subgroup } from "./data/startup_data";
-import aois from "./data/viewports.json";
+import { aois } from "./data/viewports";
 
 //Panels
 import Legend from "./legends/legend";
@@ -111,7 +111,7 @@ export default function Map() {
     allTheThings,
     infoRefs,
   } = useInfo(initialInfo, infoReducer);
-  useMapWithBreadcrumbs(viewport, aois, map, useWhile);
+  useMapWithBreadcrumbs(viewport, aois, map, setLayerGroup, useWhile);
   useFirst(() => layerGroup === LayerName.Flooding, "FIRST_FLOODING");
   useFirst(() => viewport.pitch !== 0, "FIRST_3D");
   useFirst(() => viewport.bearing !== 0, "FIRST_3D");

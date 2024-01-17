@@ -14,7 +14,7 @@ import FlyTo_AEB from "assets/Snapshot_AEB_out.png";
 import FlyTo_perHa from "assets/Snapshot_AEB_Zoom.png";
 import FlyTo_Flooding from "assets/Snapshot_Flooding.png";
 import FlyTo_Hex from "assets/Snapshot_Hex.png";
-import viewports from "data/viewports.json";
+import { aois as viewports } from "data/viewports";
 import FlyToContext from "../FlyToContext";
 
 // Metric Panel Icons

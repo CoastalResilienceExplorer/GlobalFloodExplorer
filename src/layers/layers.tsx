@@ -12,6 +12,7 @@ import {
 import { Layer, LayerGroup, LayerName } from "types/dataModel";
 import { Icon } from "@iconify/react";
 import { RP } from "./floodconf";
+import { BREADCRUMB_ICON_SIZE } from "hooks/useBreadcrumbs";
 
 let year = "2020";
 if (year === "2015") {
@@ -268,6 +269,10 @@ const MangroveLoss = [
   },
 ];
 
+const icon_style = {
+  width: `${BREADCRUMB_ICON_SIZE}px`,
+  height: `${BREADCRUMB_ICON_SIZE}px`,
+};
 const layerGroups: Record<LayerName, LayerGroup> = {
   [LayerName.BenefitAEB]: {
     name: LayerName.BenefitAEB,
@@ -276,6 +281,7 @@ const layerGroups: Record<LayerName, LayerGroup> = {
     IconComponent: () => (
       <Icon icon="ph:hand-coins" color="white" className="w-full h-full" />
     ),
+    IconComponentHTML: `<iconify-icon icon="ph:hand-coins" class="breadcrumbs-icon" width="${BREADCRUMB_ICON_SIZE}px" height="${BREADCRUMB_ICON_SIZE}px"></iconify-icon>`,
     layers: annual_benefits,
   },
   [LayerName.RiskReduction]: {
@@ -289,6 +295,7 @@ const layerGroups: Record<LayerName, LayerGroup> = {
         className="w-5/6 h-5/6 mx-auto"
       />
     ),
+    IconComponentHTML: `<iconify-icon icon="lucide:git-compare" class="breadcrumbs-icon" width="${BREADCRUMB_ICON_SIZE}px" height="${BREADCRUMB_ICON_SIZE}px"></iconify-icon>`,
     layers: reduct_ratio,
   },
   [LayerName.Flooding]: {
@@ -302,6 +309,7 @@ const layerGroups: Record<LayerName, LayerGroup> = {
         className="w-5/6 h-5/6 mx-auto"
       />
     ),
+    IconComponentHTML: `<iconify-icon icon="ri:flood-line" class="breadcrumbs-icon" width="${BREADCRUMB_ICON_SIZE}px" height="${BREADCRUMB_ICON_SIZE}px"></iconify-icon>`,
     layers: flooding,
   },
   [LayerName.Population]: {
@@ -315,6 +323,7 @@ const layerGroups: Record<LayerName, LayerGroup> = {
         className="w-full h-full -translate-y-1"
       />
     ),
+    IconComponentHTML: `<iconify-icon icon="pepicons-pencil:people" class="breadcrumbs-icon" width="${BREADCRUMB_ICON_SIZE}px" height="${BREADCRUMB_ICON_SIZE}px"></iconify-icon>`,
     layers: Population,
   },
 };
