@@ -83,7 +83,7 @@
   border: 1px solid coral;
   animation:
     flash-border-coral 2s infinite,
-    flash-border-coral2 2s 10;
+    /* flash-border-coral2 2s 10, */ flash-border-coral3 2s 10;
 }
 
 .open-toggle-container.coral > svg > path {
@@ -210,17 +210,17 @@
 
 @keyframes flash-border-coral {
   0% {
-    box-shadow: 0 0 0 1pt rgba(255, 127, 80, 0.3);
+    box-shadow: 0 0 0 1pt rgba(255, 127, 80, 0.5);
     /* background-color: rgba(226, 131, 21, 0.95); */
   }
 
   50% {
-    box-shadow: 0 0 0 2.2pt coral;
+    box-shadow: 0 0 0 2.5pt coral;
     /* background-color: rgba(226, 131, 21, 0.8); */
   }
 
   100% {
-    box-shadow: 0 0 0 1pt rgba(255, 127, 80, 0.3);
+    box-shadow: 0 0 0 1pt rgba(255, 127, 80, 0.5);
     /* background-color: rgba(226, 131, 21, 0.95); */
   }
 }
@@ -233,6 +233,18 @@
 
   100% {
     box-shadow: 0 0 0 10pt rgba(255, 127, 80, 0.5);
+    /* background-color: rgba(226, 131, 21, 0.8); */
+  }
+}
+
+@keyframes flash-border-coral3 {
+  0% {
+    box-shadow: 0 0 0 1pt rgba(255, 127, 80, 0.8);
+    /* background-color: rgba(226, 131, 21, 0.95); */
+  }
+
+  100% {
+    box-shadow: 0 0 0 20pt rgba(255, 127, 80, 0);
     /* background-color: rgba(226, 131, 21, 0.8); */
   }
 }
