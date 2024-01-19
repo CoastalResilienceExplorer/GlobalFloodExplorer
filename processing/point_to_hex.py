@@ -1,6 +1,5 @@
 import geopandas as gpd
 from shapely.geometry import Point, Polygon
-import matplotlib.pyplot as plt
 import argparse
 import math
 
@@ -51,7 +50,7 @@ def main():
     points_gdf = gpd.read_parquet(args.input)
 
     # Set hexagon size
-    hexagon_size = 0.02  # Adjust the size as needed
+    hexagon_size = 0.025  # Adjust the size as needed
 
     # Convert points to hexagons
     hexagons_gdf = convert_points_to_hexagons(points_gdf, hexagon_size)

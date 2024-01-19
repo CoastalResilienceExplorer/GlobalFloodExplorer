@@ -12,6 +12,7 @@ export default class DiscretePointProto {
     filter = 250000,
     legend_prefix = null,
     legend_suffix = null,
+    minzoom = 0,
   }) {
     this.id = id;
     this.source = source;
@@ -27,6 +28,7 @@ export default class DiscretePointProto {
     this.display_legend = display_legend;
     this.filter = filter;
     this.format = format;
+    this.minzoom = minzoom;
   }
 
   get MBLayer() {
@@ -64,7 +66,7 @@ export default class DiscretePointProto {
       layout: {
         "circle-sort-key": ["*", -1, this.colorValue],
       },
-      minzoom: 0,
+      minzoom: this.minzoom,
       maxzoom: 16,
       filter: this.filter,
     };

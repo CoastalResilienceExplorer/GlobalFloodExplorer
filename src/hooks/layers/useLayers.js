@@ -33,6 +33,7 @@ export function useLayers(
   const [subgroup, setSubgroup] = useState(init_subgroup);
   const [subgroupOn, setSubgroupOn] = useState(false);
   const layersRef = useRef([]);
+  const viewportLockTimeout = useRef();
 
   const {
     filtersOn,
@@ -55,12 +56,13 @@ export function useLayers(
   useEffect(() => {
     if (mapLoaded) {
       if (layerGroup === LayerName.RiskReduction) {
+        clearTimeout(viewportLockTimeout.current);
         map.setMaxPitch(75);
         map.dragRotate.enable();
       } else {
         map.setPitch(0, { duration: 2000 });
-        map.rotateTo(0, { duration: 2000 });
-        setTimeout(() => {
+        map.rotateTo(0, { animationDu: 2000 });
+        viewportLockTimeout.current = setTimeout(() => {
           map.setMaxPitch(0);
           map.dragRotate.disable();
         }, 2000);

@@ -3,7 +3,7 @@ import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-load
 import { useInfoContext } from "hooks/useInfo";
 import layerGroups from "layers/layers";
 
-export const HOVER_TIMEOUT = 1000;
+export const HOVER_TIMEOUT = 0;
 export const BREADCRUMB_ICON_SIZE = 30;
 const LEAVE_TIMEOUT = 1000;
 
@@ -79,7 +79,11 @@ function MarkerWithHook(aoi, map, setIsHovering, setPayload, setLayerGroup) {
     "click",
     (e) => {
       setLayerGroup(aoi.layerGroup);
-      map.flyToBounds(aoi.location_awareness.bbox);
+      if (Object.keys(aoi.location_awareness).includes("bbox")) {
+        map.flyToBounds(aoi.location_awareness.bbox);
+      } else {
+        map.flyToViewport(aoi.overview);
+      }
       e.stopImmediatePropagation();
     },
     false,

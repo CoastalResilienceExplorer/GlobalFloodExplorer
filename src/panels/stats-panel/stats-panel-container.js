@@ -41,7 +41,7 @@ function Title({ nStudyUnits, locations, selectionType }) {
     .map((l) => countryNameOverride(l));
 
   const selection_display =
-    selectionType === "countries" ? "Country" : "Study Unit";
+    selectionType === "country_bounds" ? "Country" : "Study Unit";
 
   const n_locations = locations.length;
   const too_many_locations = n_locations > 3;
@@ -223,21 +223,8 @@ export default function StatsPanel({
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
-  // return (
-  //   <div className={"right-panel" + (isOpen ? " open" : "")}>
-  //     <OpenToggle isOpen={isOpen} setIsOpen={setIsOpen} />
-  //     <div className="right-panel-content">
-  //       <div className="right-panel-outer-content">
-  //         <div className="right-panel-inner-content">
-  //           {JSON.stringify(selectedFeatures, null, 2)}
-  //         </div>
-  //       </div>
-  //     </div>
-  //   </div>
-  // );
-
   return (
-    <div className={"right-panel" + (isOpen ? " open" : "")}>
+    <div className={"right-panel" + (isOpen ? " open" : " closed")}>
       <OpenToggle isOpen={isOpen} setIsOpen={setIsOpen} />
       <div className="right-panel-content">
         <div className="right-panel-outer-content">

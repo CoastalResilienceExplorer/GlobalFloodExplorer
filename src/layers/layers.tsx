@@ -14,22 +14,27 @@ import { Icon } from "@iconify/react";
 import { RP } from "./floodconf";
 import { BREADCRUMB_ICON_SIZE } from "hooks/useBreadcrumbs";
 
-let year = "2020";
-if (year === "2015") {
-  year = "";
-} else {
-  year = `_${year}`;
-}
-export const ben_stock = ["to-number", ["get", `Ben_Stock${year}`]];
-const risk_stock = ["to-number", ["get", `Risk_Stock${year}`]];
-const ben_pop = ["to-number", ["get", `Ben_Pop${year}`]];
-const risk_pop = ["to-number", ["get", `Risk_Pop${year}`]];
+export const COUNTRY_TESELA_ZOOM_SWITCH = 5;
+export const FLOODING_MIN_ZOOM = 3;
+
+export const year = 2015;
+export const ben_stock = ["to-number", ["get", `Ben_Stock_${year}`]];
+const risk_stock = ["to-number", ["get", `Risk_Stock_${year}`]];
+const ben_pop = ["to-number", ["get", `Ben_Pop_${year}`]];
+const risk_pop = ["to-number", ["get", `Risk_Pop_${year}`]];
 const nomang_risk_stock = ["+", ben_stock, risk_stock];
+const risk_reduction_ratio = [
+  "case",
+  ["==", nomang_risk_stock, 0],
+  0,
+  ["-", 1, ["to-number", ["/", risk_stock, nomang_risk_stock]]],
+];
+
 export const mang_ha_perc_change = [
   "/",
   [
     "-",
-    ["to-number", ["get", `Mang_Ha`]],
+    ["to-number", ["get", `Mang_Ha${year}`]],
     ["to-number", ["get", `Mang_Ha_1996`]],
   ],
   ["to-number", ["get", `Mang_Ha_1996`]],
@@ -37,7 +42,7 @@ export const mang_ha_perc_change = [
 
 export const mang_ha_total_change = [
   "-",
-  ["to-number", ["get", `Mang_Ha`]],
+  ["to-number", ["get", `Mang_Ha${year}`]],
   ["to-number", ["get", `Mang_Ha_1996`]],
 ];
 
@@ -46,18 +51,19 @@ const ben_filter_value = 200000;
 const annual_benefits = [
   {
     id: "tessela_bounds",
-    source: "CWON_combined_teselas",
-    source_layer: "CWON_combined_teselas",
+    source: "UCSC_CWON_studyunits",
+    source_layer: "UCSC_CWON_studyunits",
     legend: SelectedTessela,
     layer_title: "Tessela",
     layer_type: "SIMPLE_OUTLINE",
-    selection_dependent_on: "CWON_combined_teselas_reppts",
+    selection_dependent_on: "UCSC_CWON_studyunits_reppts",
     filter: [">", ben_stock, ben_filter_value],
+    minzoom: COUNTRY_TESELA_ZOOM_SWITCH,
   },
   {
     id: "tessela_rps",
-    source: "CWON_combined_teselas_reppts",
-    source_layer: "CWON_combined_teselas_reppts",
+    source: "UCSC_CWON_studyunits_reppts",
+    source_layer: "UCSC_CWON_studyunits_reppts",
     colorValue: ben_stock,
     legend: Blue_5Step,
     layer_title: "Annual Expected Benefit",
@@ -66,33 +72,45 @@ const annual_benefits = [
     format: "$",
     is_selectable: true,
     filter: [">", ben_stock, ben_filter_value],
+    minzoom: COUNTRY_TESELA_ZOOM_SWITCH,
+  },
+  {
+    id: "country_bounds",
+    source: "UCSC_CWON_countrybounds",
+    source_layer: "UCSC_CWON_countrybounds",
+    colorValue: ben_stock,
+    legend: Blue_5Step,
+    layer_title: "Annual Expected Benefit",
+    display_legend: false,
+    layer_type: "FILL_WITH_OUTLINE",
+    legend_prefix: "$",
+    format: "$",
+    is_selectable: true,
+    opacity: 0.5,
+    maxzoom: COUNTRY_TESELA_ZOOM_SWITCH,
+    // filter: [">", ben_stock, ben_filter_value],
   },
 ];
 
 const reduct_ratio = [
   {
     id: "tessela_bounds",
-    source: "CWON_combined_teselas",
-    source_layer: "CWON_combined_teselas",
+    source: "UCSC_CWON_studyunits",
+    source_layer: "UCSC_CWON_studyunits",
     legend: SelectedTessela,
     layer_title: "Tessela",
     layer_type: "SIMPLE_OUTLINE",
-    selection_dependent_on: "CWON_combined_teselas_hexs",
+    selection_dependent_on: "UCSC_CWON_studyunits_hexs",
   },
   {
     id: "hex",
-    source: "CWON_combined_teselas_hexs",
-    source_layer: "CWON_combined_teselas_hexs",
+    source: "UCSC_CWON_studyunits_hexs",
+    source_layer: "UCSC_CWON_studyunits_hexs",
     legend: Blue_5Step_0_1,
-    colorValue: [
-      "case",
-      ["==", nomang_risk_stock, 0],
-      0,
-      ["-", 1, ["to-number", ["/", risk_stock, nomang_risk_stock]]],
-    ],
+    colorValue: risk_reduction_ratio,
     heightValue: nomang_risk_stock,
     baseValue: risk_stock,
-    scale: 0.5,
+    scale: 0.3,
     layer_title: "Risk Reduction",
     layer_type: "HEX_3D",
     hex_type: "REDUCTION",
@@ -100,16 +118,17 @@ const reduct_ratio = [
     format: "%",
     display_legend: true,
     is_selectable: true,
+    minzoom: COUNTRY_TESELA_ZOOM_SWITCH,
   },
   {
     id: "hex2",
-    source: "CWON_combined_teselas_hexs",
-    source_layer: "CWON_combined_teselas_hexs",
+    source: "UCSC_CWON_studyunits_hexs",
+    source_layer: "UCSC_CWON_studyunits_hexs",
     legend: Blue_5Step_0_1,
     colorValue: "white",
     heightValue: risk_stock,
     baseValue: 0,
-    scale: 0.5,
+    scale: 0.3,
     layer_title: "Tessela",
     layer_type: "HEX_3D",
     hex_type: "BASE",
@@ -117,6 +136,23 @@ const reduct_ratio = [
     format: "%",
     display_legend: false,
     is_selectable: true,
+    minzoom: COUNTRY_TESELA_ZOOM_SWITCH,
+  },
+  {
+    id: "country_bounds",
+    source: "UCSC_CWON_countrybounds",
+    source_layer: "UCSC_CWON_countrybounds",
+    colorValue: risk_reduction_ratio,
+    legend: Blue_5Step_0_1,
+    layer_title: "Annual Expected Benefit",
+    display_legend: false,
+    layer_type: "FILL_WITH_OUTLINE",
+    legend_prefix: "$",
+    format: "$",
+    is_selectable: true,
+    opacity: 0.5,
+    maxzoom: COUNTRY_TESELA_ZOOM_SWITCH,
+    // filter: [">", ben_stock, ben_filter_value],
   },
 ];
 
@@ -132,7 +168,7 @@ const flooding = [
     display_legend: false,
     subgroup: "flooding_2015",
     opacity: 1,
-    minzoom: 4,
+    minzoom: FLOODING_MIN_ZOOM,
     maxzoom: 18,
   },
   {
@@ -146,7 +182,7 @@ const flooding = [
     display_legend: false,
     subgroup: "flooding_1996",
     opacity: 1,
-    minzoom: 4,
+    minzoom: FLOODING_MIN_ZOOM,
     maxzoom: 18,
   },
   {
@@ -160,7 +196,7 @@ const flooding = [
     layer_type: "GEO_POINT",
     legend_suffix: "m",
     subgroup: "flooding_1996",
-    minzoom: 4,
+    minzoom: FLOODING_MIN_ZOOM,
   },
   {
     id: "flooding_2015",
@@ -172,31 +208,49 @@ const flooding = [
     layer_type: "GEO_POINT",
     legend_suffix: "m",
     subgroup: "flooding_2015",
-    minzoom: 4,
+    minzoom: FLOODING_MIN_ZOOM,
   },
 ];
 
 const Population = [
   {
     id: "tessela_bounds",
-    source: "CWON_tesela_bounds",
-    source_layer: "CWON_combined_teselas",
+    source: "UCSC_CWON_studyunits",
+    source_layer: "UCSC_CWON_studyunits",
     legend: SelectedTessela,
     layer_title: "Tessela",
     layer_type: "SIMPLE_OUTLINE",
-    selection_dependent_on: "CWON_combined_teselas_reppts",
+    selection_dependent_on: "UCSC_CWON_studyunits_reppts",
+    minzoom: COUNTRY_TESELA_ZOOM_SWITCH,
   },
   {
     id: "tessela_rps",
-    source: "CWON_combined_teselas_reppts",
-    source_layer: "CWON_combined_teselas_reppts",
-    colorValue: ["to-number", ["get", "Ben_Pop"]],
+    source: "UCSC_CWON_studyunits_reppts",
+    source_layer: "UCSC_CWON_studyunits_reppts",
+    colorValue: ben_pop,
     legend: Blue_5Step_Pop,
     layer_title: "Annual Population Benefit",
     layer_type: "DISCRETE_POINT",
     legend_prefix: "",
     // format: "$",
     is_selectable: true,
+    minzoom: COUNTRY_TESELA_ZOOM_SWITCH,
+  },
+  {
+    id: "country_bounds",
+    source: "UCSC_CWON_countrybounds",
+    source_layer: "UCSC_CWON_countrybounds",
+    colorValue: ben_pop,
+    legend: Blue_5Step_Pop,
+    layer_title: "Annual Expected Benefit",
+    display_legend: false,
+    layer_type: "FILL_WITH_OUTLINE",
+    legend_prefix: "$",
+    format: "$",
+    is_selectable: true,
+    opacity: 0.5,
+    maxzoom: COUNTRY_TESELA_ZOOM_SWITCH,
+    // filter: [">", ben_stock, ben_filter_value],
   },
 ];
 

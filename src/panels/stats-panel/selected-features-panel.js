@@ -31,6 +31,8 @@ import { ReactComponent as AEB_equation } from "assets/AEB_equation.svg";
 import { ReactComponent as AEBperHectare_equation } from "assets/AEBperHECTARE.svg";
 import { ReactComponent as RRR_equation } from "assets/RiskReductionRatio.svg";
 
+import { year } from "layers/layers";
+
 const sum = (acc, cur) => {
   return acc + cur;
 };
@@ -193,24 +195,18 @@ function SelectedFeaturesPanel({
   layerGroup,
   setLayerGroup,
 }) {
-  let year = 2020;
-  if (year === 2015) {
-    year = "";
-  } else {
-    year = `_${year}`;
-  }
   const stockNoMangroves = useMemo(
     () =>
-      getStat(`Ben_Stock${year}`, selectedFeatures) +
-      getStat(`Risk_Stock${year}`, selectedFeatures),
+      getStat(`Ben_Stock_${year}`, selectedFeatures) +
+      getStat(`Risk_Stock_${year}`, selectedFeatures),
     [selectedFeatures],
   );
   const stockWithMangroves = useMemo(
-    () => getStat(`Risk_Stock${year}`, selectedFeatures),
+    () => getStat(`Risk_Stock_${year}`, selectedFeatures),
     [selectedFeatures],
   );
   const AEB = useMemo(
-    () => getStat(`Ben_Stock${year}`, selectedFeatures),
+    () => getStat(`Ben_Stock_${year}`, selectedFeatures),
     [selectedFeatures],
   );
   const mangroves1996 = useMemo(
@@ -222,53 +218,13 @@ function SelectedFeaturesPanel({
     [selectedFeatures],
   );
   const mangroves2015 = useMemo(
-    () => getStat(`Mang_Ha`, selectedFeatures),
+    () => getStat(`Mang_Ha_${year}`, selectedFeatures),
     [selectedFeatures],
   );
 
-  const ben_per_ha = AEB / mangroves2010;
+  const ben_per_ha = AEB / mangroves2015;
   const stock_risk_reduct_ratio =
     (stockNoMangroves - stockWithMangroves) / stockNoMangroves;
-
-  // const totalStock_10_WO = useMemo(
-  //   () => getStat("Ab_S_Wo10", selectedFeatures),
-  //   [selectedFeatures],
-  // );
-  // const totalStock_25_WO = useMemo(
-  //   () => getStat("Ab_S_Wo25", selectedFeatures),
-  //   [selectedFeatures],
-  // );
-  // const totalStock_50_WO = useMemo(
-  //   () => getStat("Ab_S_Wo50", selectedFeatures),
-  //   [selectedFeatures],
-  // );
-  // const totalStock_100_WO = useMemo(
-  //   () => getStat("Ab_S_Wo100", selectedFeatures),
-  //   [selectedFeatures],
-  // );
-  // const totalStock_10_W = useMemo(
-  //   () => getStat("Ab_S_W10", selectedFeatures),
-  //   [selectedFeatures],
-  // );
-  // const totalStock_25_W = useMemo(
-  //   () => getStat("Ab_S_W25", selectedFeatures),
-  //   [selectedFeatures],
-  // );
-  // const totalStock_50_W = useMemo(
-  //   () => getStat("Ab_S_W50", selectedFeatures),
-  //   [selectedFeatures],
-  // );
-  // const totalStock_100_W = useMemo(
-  //   () => getStat("Ab_S_W100", selectedFeatures),
-  //   [selectedFeatures],
-  // );
-
-  // const linechart_data = [
-  //   { name: "RP10", with: totalStock_10_W, without: totalStock_10_WO },
-  //   { name: "RP25", with: totalStock_25_W, without: totalStock_25_WO },
-  //   { name: "RP50", with: totalStock_50_W, without: totalStock_50_WO },
-  //   { name: "RP100", with: totalStock_100_W, without: totalStock_100_WO },
-  // ];
 
   const piechart_stock_data = [
     { name: "Residual", value: stockWithMangroves },
@@ -281,7 +237,6 @@ function SelectedFeaturesPanel({
 
   return (
     <div onScroll={(e) => console.log(e)}>
-      {/* <MetricHeadlineContainer metric={AEB} title='Annual Expected Benefit' conRef={aebRef} /> */}
       <TemplateMetricContainer
         metric={AEB}
         icon={Flood}

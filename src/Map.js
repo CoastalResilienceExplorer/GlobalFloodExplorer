@@ -14,6 +14,7 @@ import layerGroups, { layersByGroup } from "./layers/layers";
 import { protos as custom_layer_protos } from "./layers/protos/custom_protos";
 import { init_viewport, init_layer, init_subgroup } from "./data/startup_data";
 import { aois } from "./data/viewports";
+import { COUNTRY_TESELA_ZOOM_SWITCH, FLOODING_MIN_ZOOM } from "./layers/layers";
 
 //Panels
 import Legend from "./legends/legend";
@@ -115,16 +116,42 @@ export default function Map() {
   useFirst(() => layerGroup === LayerName.Flooding, "FIRST_FLOODING");
   useFirst(() => viewport.pitch !== 0, "FIRST_3D");
   useFirst(() => viewport.bearing !== 0, "FIRST_3D");
-  useFirst(
-    () => layerGroup === LayerName.Flooding,
-    "FIRST_FLOODING_ZOOM_IN",
-    () => viewport.zoom > 4,
+
+  const [floodsShouldShow, setFloodsShouldShow] = useState(
+    layerGroup === LayerName.Flooding && viewport.zoom < FLOODING_MIN_ZOOM,
   );
+  useEffect(() => {
+    if (
+      layerGroup === LayerName.Flooding &&
+      viewport.zoom < FLOODING_MIN_ZOOM
+    ) {
+      setFloodsShouldShow(true);
+    } else {
+      setFloodsShouldShow(false);
+    }
+  }, [layerGroup, viewport]);
+
+  useWhile.on(
+    () => floodsShouldShow,
+    [floodsShouldShow],
+    "FIRST_FLOODING_ZOOM_IN",
+    undefined,
+    "",
+    0,
+  );
+
+  useWhile.off(
+    () => !floodsShouldShow,
+    [floodsShouldShow],
+    "FIRST_FLOODING_ZOOM_IN",
+    undefined,
+  );
+
   useWhile.on(
     () => layerGroup === LayerName.RiskReduction,
     [layerGroup],
     "FIRST_HEX",
-    () => viewport.zoom < 4,
+    undefined,
     "",
     0,
   );
@@ -133,7 +160,7 @@ export default function Map() {
     () => layerGroup !== LayerName.RiskReduction,
     [layerGroup],
     "FIRST_HEX",
-    () => viewport.zoom < 4,
+    undefined,
   );
 
   useEventWithFunction(
@@ -183,6 +210,14 @@ export default function Map() {
     }
   };
 
+  useEffect(() => {
+    if (!mapLoaded) return;
+    map.on("click", (e) => {
+      console.log(e);
+      console.log(viewport);
+    });
+  }, [mapLoaded]);
+
   return (
     <InfoContext.Provider
       value={{
@@ -202,7 +237,7 @@ export default function Map() {
         setShow={setDisclaimer}
         isTouch={isTouch}
       />
-      <NavigationControls show={navigationControls} isTouch={isTouch} />
+      {/* <NavigationControls show={navigationControls} isTouch={isTouch} /> */}
       <Info
         activeInfo={activeInfo}
         allTheThings={allTheThings}

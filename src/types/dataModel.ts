@@ -59,7 +59,7 @@ export type AOI = {
     transitionDuration?: number;
   };
   location_awareness: {
-    bbox: BoundingBox;
+    bbox?: BoundingBox;
     marker: LatLonArray;
     minzoom: number;
     maxzoom: number;

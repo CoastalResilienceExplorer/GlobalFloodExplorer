@@ -16,6 +16,7 @@ export default class HexLayerProto {
     filter = 250000,
     legend_prefix = null,
     legend_suffix = null,
+    minzoom = 5,
   }) {
     this.id = id;
     this.source = source;
@@ -37,6 +38,7 @@ export default class HexLayerProto {
     this.legend_suffix = legend_suffix;
     this.format = format;
     this.filter = filter;
+    this.minzoom = minzoom;
   }
 
   get Legend() {
@@ -72,32 +74,8 @@ export default class HexLayerProto {
           this.scale,
         ],
         "fill-extrusion-base": ["*", ["^", this.baseValue, 2 / 3], this.scale],
-        // ['*',
-        //     this.baseValue,
-        //     this.scale]],
       },
-
-      // {
-      //     // 'fill-extrusion-color': 'black',
-      //     // 'fill-extrusion-color': [].concat(this.color_header, formatted_legend),
-      //     'fill-extrusion-color': [ 'case',
-      //         ['boolean', ['feature-state', 'hover'], false], 'blue',
-      //             [].concat(this.color_header, ...this.legend.ColorRamp),
-      //         ],
-      //     // 'fill-extrusion-opacity': 0.9,
-      //     'fill-extrusion-height': ['+',
-      //         ['+',
-      //             ['*',
-      //                 this.height_value,
-      //                 this.scale],
-      //             ],
-      //         ['*',
-      //             this.base,
-      //             this.scale], this.offset],
-      //     'fill-extrusion-base': ['+', ['*',
-      //             this.base,
-      //             this.scale], this.offset],
-      // },
+      minzoom: this.minzoom,
       filter: this.filter,
     };
 
