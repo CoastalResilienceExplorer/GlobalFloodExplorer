@@ -4,7 +4,7 @@ import { useInfoContext } from "hooks/useInfo";
 import layerGroups from "layers/layers";
 
 export const HOVER_TIMEOUT = 1000;
-export const BREADCRUMB_ICON_SIZE = 40;
+export const BREADCRUMB_ICON_SIZE = 30;
 const LEAVE_TIMEOUT = 1000;
 
 export function useBreadcrumbs(aois, viewport) {
@@ -63,14 +63,11 @@ function MarkerWithHook(aoi, map, setIsHovering, setPayload, setLayerGroup) {
   const size = aoi.size;
   var el = document.createElement("div");
   // const src = `<img src="/images/important.svg" height="${size}px" width="${size}px" alt="My Happy SVG"/>`;
-  console.log(aoi);
-  console.log(aoi.layerGroup);
-  console.log(layerGroups);
-  console.log("Population" === aoi.layerGroup);
   const src = layerGroups[aoi.layerGroup].IconComponentHTML;
-  console.log(src);
-  console.log(src);
-  el.innerHTML = src;
+  const component = `
+    <div className='breadcrumbs-icon-container'>${src}</div>
+  `;
+  el.innerHTML = component;
   el.className = "marker";
 
   // create the marker
@@ -139,13 +136,20 @@ export function useMapWithBreadcrumbs(
 
   useWhile.on(
     () => isHovering,
+    [isHovering],
     "FIRST_HOVER",
     undefined,
     payloadRef.current,
     0,
   );
 
-  useWhile.off(() => !isHovering, "FIRST_HOVER", undefined, HOVER_TIMEOUT);
+  useWhile.off(
+    () => !isHovering,
+    [isHovering],
+    "FIRST_HOVER",
+    undefined,
+    HOVER_TIMEOUT,
+  );
 
   useEffect(() => {
     const filtered_aois_in = aois.filter((aoi) => {
@@ -165,7 +169,6 @@ export function useMapWithBreadcrumbs(
   }, [viewport]);
 
   useEffect(() => {
-    console.log(markers);
     markers.map(
       (m) => aoisToRemove.map((aoi) => aoi.id).includes(m.aoi_id) && m.remove(),
     );

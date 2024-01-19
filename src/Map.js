@@ -120,8 +120,18 @@ export default function Map() {
     "FIRST_FLOODING_ZOOM_IN",
     () => viewport.zoom > 4,
   );
-  useFirst(
+  useWhile.on(
     () => layerGroup === LayerName.RiskReduction,
+    [layerGroup],
+    "FIRST_HEX",
+    () => viewport.zoom < 4,
+    "",
+    0,
+  );
+
+  useWhile.off(
+    () => layerGroup !== LayerName.RiskReduction,
+    [layerGroup],
     "FIRST_HEX",
     () => viewport.zoom < 4,
   );
@@ -134,7 +144,7 @@ export default function Map() {
       if (mapLoaded) {
         map.flyToViewport(
           Object.assign(viewport, {
-            pitch: 30,
+            pitch: 45,
             transitionDuration: 1000,
           }),
         );
