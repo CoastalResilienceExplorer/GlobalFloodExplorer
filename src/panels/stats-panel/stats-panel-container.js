@@ -66,14 +66,6 @@ function Title({ nStudyUnits, locations, selectionType }) {
       } others`;
   }
 
-  function onHover(e) {
-    if (too_many_locations) {
-      setShowLocationsTooltip(true);
-      setLocationTooltipY(e.nativeEvent.offsetY);
-      setTimeout(() => setShowLocationsTooltip(false), 3500);
-    }
-  }
-
   return (
     <>
       <div className="stats-panel-title">
