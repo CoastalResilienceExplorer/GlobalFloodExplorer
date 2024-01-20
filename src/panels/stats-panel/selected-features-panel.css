@@ -52,19 +52,18 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  /* height: 120px; */
-  border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 .aeb-container-title {
   display: flex;
   width: 100%;
   height: 40px;
-  background-color: #7bccc4;
+  background-color: var(--shoreline);
+  transition: background-color 0.2s ease-in-out;
 }
 
-.aeb-container-title.clickable:hover > * {
-  background-color: #94e9e0;
+.aeb-container:hover > .aeb-container-title {
+  background-color: var(--shoreline-dark);
 }
 
 .aeb-container-title.clickable > * {
@@ -72,14 +71,14 @@
 }
 
 .aeb-container-title.selected {
-  background-color: #c76f85;
+  background-color: var(--red-tide) !important;
 }
 
 .aeb-content-container {
   display: flex;
   justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  /* height: 60%; */
   padding: 5px;
   padding-top: 16px;
   padding-bottom: 20px;
@@ -109,8 +108,10 @@
   font-size: 1.3em;
   color: white;
   text-align: left;
-  /* padding-top: 10px; */
-  /* padding-left: 30px; */
+}
+
+.aeb-container-metric-description {
+  margin-bottom: 8px;
 }
 
 .no-selected-features-panel {
@@ -204,6 +205,12 @@
   left: -12px;
   height: 70px;
   width: auto;
+}
+
+.layer-image-container {
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
 }
 
 .crl-logo-panel-fill {

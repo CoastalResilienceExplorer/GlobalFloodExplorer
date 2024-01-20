@@ -21,7 +21,6 @@
 
 .right-panel > * > * {
   pointer-events: auto;
-  cursor: pointer;
 }
 
 /* Moving the panel off the screen if collapsed */
@@ -56,6 +55,7 @@
   align-content: center;
   align-items: center;
   transition: all 0.2s ease-in-out;
+  cursor: pointer;
 }
 
 .open-toggle-container.coral {
@@ -74,7 +74,7 @@
   fill: white;
 }
 
-.open-toggle-container:hover {
+.open .open-toggle-container:hover {
   background-color: var(--shoreline);
   border-color: var(--shoreline);
 }

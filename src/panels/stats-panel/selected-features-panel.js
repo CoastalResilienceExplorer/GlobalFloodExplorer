@@ -31,34 +31,27 @@ import { ReactComponent as AEB_equation } from "assets/AEB_equation.svg";
 import { ReactComponent as AEBperHectare_equation } from "assets/AEBperHECTARE.svg";
 import { ReactComponent as RRR_equation } from "assets/RiskReductionRatio.svg";
 
-import { year } from "layers/layers";
+import layerGroups, { year } from "layers/layers";
+import { LayerName } from "types/dataModel";
+import { Icon } from "@iconify/react";
 
 const sum = (acc, cur) => {
   return acc + cur;
 };
 
-function MetricIcon({ image }) {
-  return (
-    <div className="layer-image-container">
-      <img src={image} className="layer-icon" alt="" />
-    </div>
-  );
-}
-
-function MetricContent({ children, height = 50, contentModifier }) {
+function MetricContent({ children, contentModifier }) {
   return (
     <div
       className={
         "aeb-content-container " + (contentModifier ? contentModifier : "")
       }
-      style={{ height: height + "px" }}
     >
       {children}
     </div>
   );
 }
 
-function MetricTitle({ title, icon, selected, setLayerGroup, clickable }) {
+function MetricTitle({ title, Icon, selected, setLayerGroup, clickable }) {
   return (
     <div
       className={
@@ -68,9 +61,11 @@ function MetricTitle({ title, icon, selected, setLayerGroup, clickable }) {
       }
       onClick={setLayerGroup ? () => setLayerGroup(title) : null}
     >
-      <MetricIcon image={icon} />
+      <div className="layer-image-container">
+        <Icon />
+      </div>
       <div className="aeb-title-text-container">
-        <div className="aeb-title-text">{title}</div>
+        <h4 className="text-white">{title}</h4>
       </div>
     </div>
   );
@@ -89,22 +84,23 @@ function TemplateMetricContainer({
   title,
   icon,
   children,
-  height,
   selected,
   setLayerGroup,
   contentModifier,
+  description = "Metric specific description to come here. Only shown when section is hovered.",
   clickable = false,
 }) {
   return (
-    <div className="aeb-container">
+    <div className="aeb-container text-left">
       <MetricTitle
-        icon={icon}
+        Icon={icon}
         title={title}
         selected={selected}
         setLayerGroup={setLayerGroup}
         clickable={clickable}
       />
-      <MetricContent height={height} contentModifier={contentModifier}>
+      <MetricContent contentModifier={contentModifier}>
+        <p className="aeb-container-metric-description">{description}</p>
         {children}
       </MetricContent>
     </div>
@@ -193,23 +189,46 @@ function SelectedFeaturesPanel({
     <div>
       <TemplateMetricContainer
         metric={AEB}
-        icon={Flood}
-        title="Flooding"
-        height={110}
+        icon={layerGroups[LayerName.Flooding].IconComponent}
+        title="Flooding Damage –›"
         selected={layerGroup === "Flooding"}
         setLayerGroup={setLayerGroup}
         clickable={true}
       >
-        <ColoredSVGChart
-          risk_reduction_ratio={stock_risk_reduct_ratio}
-          no_mang={stockNoMangroves}
-          with_mang={stockWithMangroves}
-        />
+        <>
+          <div>
+            <div>
+              <p>Damage w/ mangroves</p>
+              <p>${kFormatter(stockWithMangroves)}</p>
+            </div>
+            <div>
+              <p>Damage w/o mangroves</p>
+              <p>${kFormatter(stockNoMangroves)}</p>
+            </div>
+            <div>
+              <p>Damage reduction attributable:</p>
+              <p>${kFormatter(stockWithMangroves - stockNoMangroves)}</p>
+            </div>
+            <div>
+              <p>Damage reduction ratio:</p>
+              <p>{stock_risk_reduct_ratio.toFixed(2)}%</p>
+            </div>
+          </div>
+
+          <ColoredSVGChart
+            risk_reduction_ratio={stock_risk_reduct_ratio}
+            no_mang={stockNoMangroves}
+            with_mang={stockWithMangroves}
+          />
+          <SimpleMetric metric={AEB} suffix=" saved due to mangroves" />
+          <PieChart2 data={piechart_stock_data} type="STOCK" />
+        </>
       </TemplateMetricContainer>
+      {/* Just saving to reference while reworking this section
       <TemplateMetricContainer
         metric={AEB}
-        icon={aeb}
-        title="Benefit (AEB)"
+        icon={layerGroups[LayerName.BenefitAEB].IconComponent}
+        title="Benefit (AEB) –›"
         height={50}
         selected={layerGroup === "Benefit (AEB)"}
         setLayerGroup={setLayerGroup}
@@ -217,33 +236,11 @@ function SelectedFeaturesPanel({
       >
         <AEB_equation height={55} />
         <div>=</div>
-        <SimpleMetric metric={AEB} />
+        
       </TemplateMetricContainer>
       <TemplateMetricContainer
-        metric={ben_per_ha}
-        icon={aeb_ha}
-        title="Benefit per Hectare"
-        height={60}
-        selected={layerGroup === "Benefit per Hectare"}
-        setLayerGroup={setLayerGroup}
-        clickable={true}
-      >
-        {mangroves2010 === 0 ? (
-          <div className="aeb-content-container">
-            No mangroves in selected study unit. Benefits come from mangroves in
-            adjacent coastal areas.
-          </div>
-        ) : (
-          <>
-            <AEBperHectare_equation height={80} />
-            <div>=</div>
-            <SimpleMetric metric={ben_per_ha} suffix="/ha" />
-          </>
-        )}
-      </TemplateMetricContainer>
-      <TemplateMetricContainer
-        icon={HEX}
-        title="Risk Reduction Ratio"
+        icon={layerGroups[LayerName.RiskReduction].IconComponent}
+        title="Risk Reduction Ratio –›"
         selected={layerGroup === "Risk Reduction Ratio"}
         setLayerGroup={setLayerGroup}
         height={60}
@@ -251,11 +248,17 @@ function SelectedFeaturesPanel({
       >
         <RRR_equation height={80} />
         <div>=</div>
-        <PieChart2 data={piechart_stock_data} type="STOCK" />
-      </TemplateMetricContainer>
+        
+      </TemplateMetricContainer> */}
       <TemplateMetricContainer
-        icon={MangroveExtent}
-        title="Mangrove Change"
+        icon={() => (
+          <Icon
+            icon="icon-park-outline:leaves"
+            color="white"
+            className="w-5/6 h-5/6"
+          />
+        )}
+        title="Mangrove Change –›"
         height={80}
       >
         <ScaledSVGComparison
