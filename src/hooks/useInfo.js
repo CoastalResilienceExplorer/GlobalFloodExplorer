@@ -1,4 +1,11 @@
-import { createContext, useContext, useReducer, useState, useRef } from "react";
+import {
+  createContext,
+  useContext,
+  useReducer,
+  useState,
+  useRef,
+  useMemo,
+} from "react";
 
 export const InfoContext = createContext({});
 
@@ -48,6 +55,26 @@ export function useInfo(initial_state, reducer) {
     }
   }
 
+  function useEventWithFunction(confirmIf, event, skipIf, f) {
+    /*
+      This can theoretically work with an EVERY hook,
+      but is difficult to implement due to race conditions in the dispatch.
+
+      For now, just implementing as a FIRST event.
+    */
+    if (
+      confirmIf() &&
+      (skipIf === undefined || !skipIf()) &&
+      state[event].active === null
+    ) {
+      f() &&
+        dispatch({
+          type: event,
+          active: false,
+        });
+    }
+  }
+
   function useEvery(confirmIf, event, skipIf, text, timeout = 1000) {
     if (
       confirmIf() &&
@@ -74,61 +101,67 @@ export function useInfo(initial_state, reducer) {
     }
   }
 
-  function useWhile_On(f, event, skipIf, text, timeout = 3000) {
-    if (
-      f() &&
-      (skipIf === undefined || !skipIf()) &&
-      state[event].active === null
-    ) {
-      console.log("on if");
-      dispatch({
-        type: event,
-        active: true,
-        payload: {
-          text: text,
-        },
-      });
-      if (timeout > 0) {
-        console.log(timeout);
+  function useWhile_On(f, deps, event, skipIf, text, timeout = 3000) {
+    useMemo(() => {
+      if (
+        f() &&
+        (skipIf === undefined || !skipIf()) &&
+        state[event].active === null
+      ) {
+        console.log(deps);
+        console.log("on");
+        dispatch({
+          type: event,
+          active: true,
+          payload: {
+            text: text,
+          },
+        });
+        if (timeout > 0) {
+          console.log(timeout);
+          setTimeout(
+            () =>
+              dispatch({
+                type: event,
+                active: null,
+                payload: {
+                  text: text,
+                },
+              }),
+            timeout,
+          );
+        }
+      }
+    }, deps);
+  }
+
+  function useWhile_Off(f, deps, event, skipIf, delay = 0) {
+    useMemo(() => {
+      if (
+        f() &&
+        (skipIf === undefined || !skipIf()) &&
+        state[event].active === true
+      ) {
+        console.log(deps);
+        console.log("off");
         setTimeout(
           () =>
             dispatch({
               type: event,
               active: null,
               payload: {
-                text: text,
+                text: null,
               },
             }),
-          timeout,
+          delay,
         );
       }
-    }
-  }
-
-  function useWhile_Off(f, event, skipIf, delay) {
-    if (
-      f() &&
-      (skipIf === undefined || !skipIf()) &&
-      state[event].active === true
-    ) {
-      console.log("off if");
-      console.log(delay);
-      setTimeout(
-        () =>
-          dispatch({
-            type: event,
-            active: null,
-            payload: {
-              text: null,
-            },
-          }),
-        delay,
-      );
-    }
+    }, deps);
   }
 
   return {
     useFirst,
+    useEventWithFunction,
     useEvery,
     useWhile: {
       on: useWhile_On,

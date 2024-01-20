@@ -14,7 +14,7 @@ import FlyTo_AEB from "assets/Snapshot_AEB_out.png";
 import FlyTo_perHa from "assets/Snapshot_AEB_Zoom.png";
 import FlyTo_Flooding from "assets/Snapshot_Flooding.png";
 import FlyTo_Hex from "assets/Snapshot_Hex.png";
-import viewports from "data/viewports.json";
+import { aois as viewports } from "data/viewports";
 import FlyToContext from "../FlyToContext";
 
 // Metric Panel Icons
@@ -30,6 +30,8 @@ import { ReactComponent as MangroveIcon } from "assets/Mangrove.svg";
 import { ReactComponent as AEB_equation } from "assets/AEB_equation.svg";
 import { ReactComponent as AEBperHectare_equation } from "assets/AEBperHECTARE.svg";
 import { ReactComponent as RRR_equation } from "assets/RiskReductionRatio.svg";
+
+import { year } from "layers/layers";
 
 const sum = (acc, cur) => {
   return acc + cur;
@@ -151,24 +153,18 @@ function SelectedFeaturesPanel({
   layerGroup,
   setLayerGroup,
 }) {
-  let year = 2020;
-  if (year === 2015) {
-    year = "";
-  } else {
-    year = `_${year}`;
-  }
   const stockNoMangroves = useMemo(
     () =>
-      getStat(`Ben_Stock${year}`, selectedFeatures) +
-      getStat(`Risk_Stock${year}`, selectedFeatures),
+      getStat(`Ben_Stock_${year}`, selectedFeatures) +
+      getStat(`Risk_Stock_${year}`, selectedFeatures),
     [selectedFeatures],
   );
   const stockWithMangroves = useMemo(
-    () => getStat(`Risk_Stock${year}`, selectedFeatures),
+    () => getStat(`Risk_Stock_${year}`, selectedFeatures),
     [selectedFeatures],
   );
   const AEB = useMemo(
-    () => getStat(`Ben_Stock${year}`, selectedFeatures),
+    () => getStat(`Ben_Stock_${year}`, selectedFeatures),
     [selectedFeatures],
   );
   const mangroves1996 = useMemo(
@@ -180,11 +176,11 @@ function SelectedFeaturesPanel({
     [selectedFeatures],
   );
   const mangroves2015 = useMemo(
-    () => getStat(`Mang_Ha`, selectedFeatures),
+    () => getStat(`Mang_Ha_${year}`, selectedFeatures),
     [selectedFeatures],
   );
 
-  const ben_per_ha = AEB / mangroves2010;
+  const ben_per_ha = AEB / mangroves2015;
   const stock_risk_reduct_ratio =
     (stockNoMangroves - stockWithMangroves) / stockNoMangroves;
 

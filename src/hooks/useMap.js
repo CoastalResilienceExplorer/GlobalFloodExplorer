@@ -64,7 +64,7 @@ export function useMap(init_viewport, access_token) {
       map.flyToViewport = flyToViewport;
       map.flyToBounds = flyToBounds;
 
-      map.on("move", () => {
+      map.on("moveend", () => {
         setViewport(getViewport(map));
       });
 

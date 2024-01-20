@@ -56,6 +56,14 @@ export default function reducer(state, action) {
           payload: action.payload,
         },
       };
+    case "FIRST_RRR":
+      return {
+        ...state,
+        FIRST_RRR: {
+          active: action.active,
+          payload: action.payload,
+        },
+      };
     default:
       return state;
   }

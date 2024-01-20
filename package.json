@@ -32,13 +32,13 @@
     "web-vitals": "^2.1.3"
   },
   "devDependencies": {
-    "@tanstack/eslint-plugin-query": "^5.0.5",
-    "@types/google.maps": "^3.54.10",
     "@iconify/react": "^4.1.1",
+    "@tanstack/eslint-plugin-query": "^5.0.5",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
     "@types/cypress": "^1.1.3",
+    "@types/google.maps": "^3.54.10",
     "@types/jest": "^29.5.3",
     "@types/node": "^20.5.0",
     "@types/react": "^18.2.27",

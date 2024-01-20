@@ -1,8 +1,10 @@
 import { useRef, useEffect, useState } from "react";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import { useInfoContext } from "hooks/useInfo";
+import layerGroups from "layers/layers";
 
-export const HOVER_TIMEOUT = 1000;
+export const HOVER_TIMEOUT = 0;
+export const BREADCRUMB_ICON_SIZE = 30;
 const LEAVE_TIMEOUT = 1000;
 
 export function useBreadcrumbs(aois, viewport) {
@@ -57,11 +59,15 @@ export function useBreadcrumbs(aois, viewport) {
   return breadcrumbs;
 }
 
-function MarkerWithHook(aoi, map, setIsHovering, setPayload) {
+function MarkerWithHook(aoi, map, setIsHovering, setPayload, setLayerGroup) {
   const size = aoi.size;
   var el = document.createElement("div");
-  const src = `<img src="/images/important.svg" height="${size}px" width="${size}px" alt="My Happy SVG"/>`;
-  el.innerHTML = src;
+  // const src = `<img src="/images/important.svg" height="${size}px" width="${size}px" alt="My Happy SVG"/>`;
+  const src = layerGroups[aoi.layerGroup].IconComponentHTML;
+  const component = `
+    <div className='breadcrumbs-icon-container'>${src}</div>
+  `;
+  el.innerHTML = component;
   el.className = "marker";
 
   // create the marker
@@ -72,7 +78,12 @@ function MarkerWithHook(aoi, map, setIsHovering, setPayload) {
   el.addEventListener(
     "click",
     (e) => {
-      map.flyToBounds(aoi.location_awareness.bbox);
+      setLayerGroup(aoi.layerGroup);
+      if (Object.keys(aoi.location_awareness).includes("bbox")) {
+        map.flyToBounds(aoi.location_awareness.bbox);
+      } else {
+        map.flyToViewport(aoi.overview);
+      }
       e.stopImmediatePropagation();
     },
     false,
@@ -101,8 +112,16 @@ function MarkerWithHook(aoi, map, setIsHovering, setPayload) {
   return m;
 }
 
-export function useMapWithBreadcrumbs(viewport, aois, map, useWhile) {
+export function useMapWithBreadcrumbs(
+  viewport,
+  aois,
+  map,
+  setLayerGroup,
+  useWhile,
+) {
   const [aoisToPlace, setAoisToPlace] = useState([]);
+  const [aoisToRemove, setAoisToRemove] = useState([]);
+  const [aoisActive, setAoisActive] = useState([]);
   const [markers, setMarkers] = useState([]);
   const [isHovering, setIsHovering] = useState(false);
   const [payload, setPayload] = useState(false);
@@ -121,31 +140,61 @@ export function useMapWithBreadcrumbs(viewport, aois, map, useWhile) {
 
   useWhile.on(
     () => isHovering,
+    [isHovering],
     "FIRST_HOVER",
     undefined,
     payloadRef.current,
     0,
   );
 
-  useWhile.off(() => !isHovering, "FIRST_HOVER", undefined, HOVER_TIMEOUT);
+  useWhile.off(
+    () => !isHovering,
+    [isHovering],
+    "FIRST_HOVER",
+    undefined,
+    HOVER_TIMEOUT,
+  );
 
   useEffect(() => {
-    const filtered_aois = aois.filter((aoi) => {
+    const filtered_aois_in = aois.filter((aoi) => {
       return (
         viewport.zoom >= aoi.location_awareness.minzoom &&
         viewport.zoom <= aoi.location_awareness.maxzoom
       );
     });
-    setAoisToPlace(filtered_aois);
+    const filtered_aois_out = aois.filter((aoi) => {
+      return (
+        viewport.zoom <= aoi.location_awareness.minzoom ||
+        viewport.zoom >= aoi.location_awareness.maxzoom
+      );
+    });
+    setAoisToPlace(filtered_aois_in);
+    setAoisToRemove(filtered_aois_out);
   }, [viewport]);
 
   useEffect(() => {
-    if (aoisToPlace.length === 0) return;
-    markers.map((m) => m.remove());
-    // create DOM element for the marker
-    const _markers = aoisToPlace.map((aoi) =>
-      MarkerWithHook(aoi, map, setIsHovering, setPayload),
+    markers.map(
+      (m) => aoisToRemove.map((aoi) => aoi.id).includes(m.aoi_id) && m.remove(),
     );
-    setMarkers(_markers);
-  }, [aoisToPlace]);
+    const new_markers1 = markers.filter(
+      (m) => !aoisToRemove.map((aoi) => aoi.id).includes(m.aoi_id),
+    );
+    const marker_ids = markers.map((m) => m.aoi_id);
+    const new_markers2 = aoisToPlace
+      .filter((aoi) => !marker_ids.includes(aoi.id))
+      .map((aoi) =>
+        MarkerWithHook(aoi, map, setIsHovering, setPayload, setLayerGroup),
+      );
+    setMarkers([...new_markers1, ...new_markers2]);
+  }, [aoisToRemove, aoisToPlace]);
+
+  // useEffect(() => {
+  //   if (aoisToPlace.length === 0) return;
+  //   // create DOM element for the marker
+  //   const marker_ids = markers.map(m => m.aoi_id)
+  //   const new_markers = aoisToPlace
+  //     .filter((aoi) => !(marker_ids.includes(aoi.id)))
+  //     .map((aoi) => MarkerWithHook(aoi, map, setIsHovering, setPayload, setLayerGroup));
+  //   setMarkers([...markers, ...new_markers]);
+  // }, [aoisToPlace]);
 }

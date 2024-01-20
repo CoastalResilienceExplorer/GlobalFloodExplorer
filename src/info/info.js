@@ -30,7 +30,7 @@ export default function Info({ activeInfo, refs, allTheThings }) {
     },
     FIRST_HEX: {
       text: "Tilt the map with CTL + drag",
-      ref: refs.CENTER,
+      ref: refs.LOWER_MIDDLE,
       with_dot: false,
       style: "grey",
     },

@@ -33,15 +33,22 @@ export default function Compass(props) {
 
   useWhile.on(
     () => filterIsHovering && filtersOn,
+    [filterIsHovering, filtersOn],
     "FILTER_HOVER",
     undefined,
     `Filtering to >${default_mang_perc_change_filter * -100}% Mangrove Loss`,
     0,
   );
 
-  useWhile.off(() => !filterIsHovering, "FILTER_HOVER", undefined, 1000);
+  useWhile.off(
+    () => !filterIsHovering,
+    [filterIsHovering],
+    "FILTER_HOVER",
+    undefined,
+    1000,
+  );
 
-  useWhile.off(() => !filtersOn, "FILTER_HOVER", undefined, 0);
+  useWhile.off(() => !filtersOn, [filtersOn], "FILTER_HOVER", undefined, 0);
 
   const highlightCompass =
     props.viewport.pitch !== 0 || props.viewport.bearing !== 0;

@@ -41,7 +41,33 @@ export type LayerGroup = {
   name: LayerName;
   shortDescription: string;
   IconComponent: React.FC<React.SVGProps<SVGSVGElement>>;
+  IconComponentHTML?: string;
   layers: Layer[];
+};
+
+type LatLonArray = [number, number];
+type BoundingBox = [LatLonArray, LatLonArray];
+
+export type AOI = {
+  id: string;
+  overview: {
+    latitude: number;
+    longitude: number;
+    bearing: number;
+    pitch: number;
+    zoom: number;
+    transitionDuration?: number;
+  };
+  location_awareness: {
+    bbox?: BoundingBox;
+    marker: LatLonArray;
+    minzoom: number;
+    maxzoom: number;
+  };
+  parent?: string;
+  size?: number;
+  description?: string;
+  layerGroup?: LayerName;
 };
 
 export type Filter = [string, any, any];

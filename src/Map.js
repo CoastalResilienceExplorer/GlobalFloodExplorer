@@ -13,7 +13,8 @@ import sources from "./layers/sources";
 import layerGroups, { layersByGroup } from "./layers/layers";
 import { protos as custom_layer_protos } from "./layers/protos/custom_protos";
 import { init_viewport, init_layer, init_subgroup } from "./data/startup_data";
-import aois from "./data/viewports.json";
+import { aois } from "./data/viewports";
+import { COUNTRY_TESELA_ZOOM_SWITCH, FLOODING_MIN_ZOOM } from "./layers/layers";
 
 //Panels
 import Legend from "./legends/legend";
@@ -102,21 +103,82 @@ export default function Map() {
     layerSelectionDependencies,
   );
 
-  const { useFirst, useEvery, useWhile, activeInfo, allTheThings, infoRefs } =
-    useInfo(initialInfo, infoReducer);
-  useMapWithBreadcrumbs(viewport, aois, map, useWhile);
+  const {
+    useFirst,
+    useEventWithFunction,
+    useEvery,
+    useWhile,
+    activeInfo,
+    allTheThings,
+    infoRefs,
+  } = useInfo(initialInfo, infoReducer);
+  useMapWithBreadcrumbs(viewport, aois, map, setLayerGroup, useWhile);
   useFirst(() => layerGroup === LayerName.Flooding, "FIRST_FLOODING");
   useFirst(() => viewport.pitch !== 0, "FIRST_3D");
   useFirst(() => viewport.bearing !== 0, "FIRST_3D");
-  useFirst(
-    () => layerGroup === LayerName.Flooding,
-    "FIRST_FLOODING_ZOOM_IN",
-    () => viewport.zoom > 4,
+
+  const [floodsShouldShow, setFloodsShouldShow] = useState(
+    layerGroup === LayerName.Flooding && viewport.zoom < FLOODING_MIN_ZOOM,
   );
-  useFirst(
+  useEffect(() => {
+    if (
+      layerGroup === LayerName.Flooding &&
+      viewport.zoom < FLOODING_MIN_ZOOM
+    ) {
+      setFloodsShouldShow(true);
+    } else {
+      setFloodsShouldShow(false);
+    }
+  }, [layerGroup, viewport]);
+
+  useWhile.on(
+    () => floodsShouldShow,
+    [floodsShouldShow],
+    "FIRST_FLOODING_ZOOM_IN",
+    undefined,
+    "",
+    0,
+  );
+
+  useWhile.off(
+    () => !floodsShouldShow,
+    [floodsShouldShow],
+    "FIRST_FLOODING_ZOOM_IN",
+    undefined,
+  );
+
+  useWhile.on(
     () => layerGroup === LayerName.RiskReduction,
+    [layerGroup],
     "FIRST_HEX",
-    () => viewport.zoom < 4,
+    undefined,
+    "",
+    0,
+  );
+
+  useWhile.off(
+    () => layerGroup !== LayerName.RiskReduction,
+    [layerGroup],
+    "FIRST_HEX",
+    undefined,
+  );
+
+  useEventWithFunction(
+    () => layerGroup === LayerName.RiskReduction,
+    "FIRST_RRR",
+    undefined,
+    () => {
+      if (mapLoaded) {
+        map.flyToViewport(
+          Object.assign(viewport, {
+            pitch: 45,
+            transitionDuration: 1000,
+          }),
+        );
+        return true;
+      }
+      return false;
+    },
   );
 
   const [splashScreen, setSplashScreen] = useState(true);
@@ -148,6 +210,14 @@ export default function Map() {
     }
   };
 
+  useEffect(() => {
+    if (!mapLoaded) return;
+    map.on("click", (e) => {
+      console.log(e);
+      console.log(viewport);
+    });
+  }, [mapLoaded]);
+
   return (
     <InfoContext.Provider
       value={{
@@ -167,7 +237,7 @@ export default function Map() {
         setShow={setDisclaimer}
         isTouch={isTouch}
       />
-      <NavigationControls show={navigationControls} isTouch={isTouch} />
+      {/* <NavigationControls show={navigationControls} isTouch={isTouch} /> */}
       <Info
         activeInfo={activeInfo}
         allTheThings={allTheThings}

@@ -40,7 +40,7 @@ function Title({ nStudyUnits, locations, selectionType }) {
     .map((l) => countryNameOverride(l));
 
   const selection_display =
-    selectionType === "countries" ? "Country" : "Study Unit";
+    selectionType === "country_bounds" ? "Country" : "Study Unit";
 
   const n_locations = locations.length;
   const too_many_locations = n_locations > 3;
@@ -116,8 +116,10 @@ function TopBanner({ selectedFeatures, selectionType }) {
 
 function OpenToggle({ isOpen, setIsOpen }) {
   const { useFirst, selectRef, selectedFeatures } = useInfoContext();
-  const rotateTransaform = {
-    transform: isOpen ? "rotate(90deg)" : "rotate(270deg)",
+  const openTransform = {
+    width: "48px",
+    height: "49px",
+    transform: "rotate(180deg)",
   };
 
   useFirst(
@@ -127,17 +129,26 @@ function OpenToggle({ isOpen, setIsOpen }) {
   );
   return (
     <div className="open-sidebar" ref={selectRef}>
-      <h5>Metrics</h5>
-      <div className="border-2 border-open bg-shoreline rounded-full mx-auto inline-block">
-        <Icon
-          icon="tabler:chevron-up"
-          className="open-toggle"
-          height={36}
-          width={36}
+      <div>
+        <div>Metrics</div>
+        <div
+          className={
+            "open-toggle-container" +
+            (selectedFeatures.length !== 0 && !isOpen ? " coral" : "")
+          }
           onClick={() => setIsOpen(!isOpen)}
-          style={rotateTransaform}
-          color="#21233A"
-        />
+        >
+          {/* <OpenLogo
+            className="open-toggle"
+            onClick={() => setIsOpen(!isOpen)}
+            style={isOpen ? openTransform : {}}
+          /> */}
+          <Icon
+            icon="ri:arrow-left-s-line"
+            className="open-toggle"
+            style={isOpen ? openTransform : { width: "48px", height: "49px" }}
+          />
+        </div>
       </div>
     </div>
   );
