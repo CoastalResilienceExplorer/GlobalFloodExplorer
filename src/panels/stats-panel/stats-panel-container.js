@@ -129,26 +129,19 @@ function OpenToggle({ isOpen, setIsOpen }) {
   );
   return (
     <div className="open-sidebar" ref={selectRef}>
-      <div>
-        <div>Metrics</div>
-        <div
-          className={
-            "open-toggle-container" +
-            (selectedFeatures.length !== 0 && !isOpen ? " coral" : "")
-          }
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          {/* <OpenLogo
-            className="open-toggle"
-            onClick={() => setIsOpen(!isOpen)}
-            style={isOpen ? openTransform : {}}
-          /> */}
-          <Icon
-            icon="ri:arrow-left-s-line"
-            className="open-toggle"
-            style={isOpen ? openTransform : { width: "48px", height: "49px" }}
-          />
-        </div>
+      <h5 className="z-10">Metrics&nbsp;&nbsp;</h5>
+      <div
+        className={
+          "open-toggle-container" +
+          (selectedFeatures.length !== 0 && !isOpen ? " coral" : "")
+        }
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        <Icon
+          icon="ri:arrow-left-s-line"
+          className="open-toggle"
+          style={isOpen ? openTransform : { width: "48px", height: "49px" }}
+        />
       </div>
     </div>
   );

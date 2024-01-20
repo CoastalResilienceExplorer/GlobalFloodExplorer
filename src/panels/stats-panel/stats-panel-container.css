@@ -15,7 +15,7 @@
   font-size: 0.7rem;
   background: white;
   border-radius: 16px 0px 0px 16px;
-  border-width: 6px 0 6px 6px;
+  border-width: 6px;
   border-color: var(--open);
 }
 
@@ -33,32 +33,20 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  right: 101%;
+  right: 102%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   pointer-events: none;
   color: white;
-  text-shadow:
-    0px 0px 1px black,
-    0px 0px 5px black;
-}
-
-.open-toggle {
-  display: inline-block;
-  margin: auto;
-  text-align: center;
-  border-radius: 1em;
-  cursor: pointer;
-  pointer-events: all;
-  transition: all 0.25s;
+  text-shadow: 0px 0px 8px black;
 }
 
 .open-toggle-container {
   width: 40px;
   height: 40px;
-  margin: 3px;
+  margin: 6px 3px 3px 3px;
   background-color: var(--open);
   border-radius: 50%;
   border: 0.5px solid white;
@@ -80,6 +68,10 @@
 
 .open-toggle-container.coral > svg > path {
   fill: coral;
+}
+
+.open-toggle-container.coral:hover > svg > path {
+  fill: white;
 }
 
 .open-toggle-container:hover {
@@ -198,7 +190,7 @@
   }
 
   50% {
-    transform: translateX(-10px);
+    transform: translateX(-8px);
   }
 
   100% {
