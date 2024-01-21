@@ -60,6 +60,9 @@
   height: 40px;
   background-color: var(--shoreline);
   transition: background-color 0.2s ease-in-out;
+  border-top-right-radius: 6px;
+  border-top-left-radius: 6px;
+  z-index: 1;
 }
 
 .aeb-container:hover > .aeb-container-title {

@@ -110,6 +110,7 @@ function TopBanner({ selectedFeatures, selectionType }) {
         selectionType={selectionType}
         locations={locations}
       />
+      <div className="absolute m-0 h-3 bg-open w-full" />
     </div>
   );
 }

@@ -186,33 +186,29 @@ function SelectedFeaturesPanel({
   ];
 
   return (
-    <div>
+    <>
       <TemplateMetricContainer
         metric={AEB}
         icon={layerGroups[LayerName.Flooding].IconComponent}
+        description="The Annual Expected Benefit (AEB) is the expected annual damage reduction due to mangroves based on predicted damages from flooding."
         title="Flooding Damage –›"
         selected={layerGroup === "Flooding"}
         setLayerGroup={setLayerGroup}
         clickable={true}
       >
         <>
-          <div>
-            <div>
-              <p>Damage w/ mangroves</p>
-              <p>${kFormatter(stockWithMangroves)}</p>
-            </div>
-            <div>
-              <p>Damage w/o mangroves</p>
-              <p>${kFormatter(stockNoMangroves)}</p>
-            </div>
-            <div>
-              <p>Damage reduction attributable:</p>
-              <p>${kFormatter(stockWithMangroves - stockNoMangroves)}</p>
-            </div>
-            <div>
-              <p>Damage reduction ratio:</p>
-              <p>{stock_risk_reduct_ratio.toFixed(2)}%</p>
-            </div>
+          <div className="flex align-center flex-wrap w-full">
+            <p className="w-3/5 italic text-right">Damage w/o Mangroves:</p>
+            <p className="ml-2 lining-nums">${kFormatter(stockNoMangroves)}</p>
+            <p className="w-3/5 italic text-right">- Damage w/ Mangroves:</p>
+            <p className="ml-2 lining-nums">
+              ${kFormatter(stockWithMangroves)}
+            </p>
+            <div className="w-3/5 -translate-x-3 mx-auto pr-4 self-center	 border-solid border-t-[1px] border-trench" />
+            <p className="w-3/5 italic text-right">Total Damage Reduction:</p>
+            <p className="ml-2 lining-nums">
+              ${kFormatter(stockWithMangroves - stockNoMangroves)}
+            </p>
           </div>
 
           <ColoredSVGChart
@@ -220,7 +216,6 @@ function SelectedFeaturesPanel({
             no_mang={stockNoMangroves}
             with_mang={stockWithMangroves}
           />
-          <SimpleMetric metric={AEB} suffix=" saved due to mangroves" />
           <PieChart2 data={piechart_stock_data} type="STOCK" />
         </>
       </TemplateMetricContainer>
@@ -269,7 +264,7 @@ function SelectedFeaturesPanel({
           scaleSize={85}
         />
       </TemplateMetricContainer>
-    </div>
+    </>
   );
 }
 
