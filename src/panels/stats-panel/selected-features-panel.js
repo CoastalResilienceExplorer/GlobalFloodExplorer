@@ -204,19 +204,20 @@ function SelectedFeaturesPanel({
             <p className="ml-2 lining-nums">
               ${kFormatter(stockWithMangroves)}
             </p>
-            <div className="w-3/5 -translate-x-3 mx-auto pr-4 self-center	 border-solid border-t-[1px] border-trench" />
+            <div className="w-3/5 my-1 -translate-x-2 mx-auto pr-4 self-center	 border-solid border-t-[1px] border-trench" />
             <p className="w-3/5 italic text-right">Total Damage Reduction:</p>
             <p className="ml-2 lining-nums">
               ${kFormatter(stockWithMangroves - stockNoMangroves)}
             </p>
           </div>
-
-          <ColoredSVGChart
-            risk_reduction_ratio={stock_risk_reduct_ratio}
-            no_mang={stockNoMangroves}
-            with_mang={stockWithMangroves}
-          />
-          <PieChart2 data={piechart_stock_data} type="STOCK" />
+          <div className="flex row w-full pt-8 justify-start">
+            <ColoredSVGChart
+              risk_reduction_ratio={stock_risk_reduct_ratio}
+              no_mang={stockNoMangroves}
+              with_mang={stockWithMangroves}
+            />
+            {/* <PieChart2 data={piechart_stock_data} type="STOCK" /> */}
+          </div>
         </>
       </TemplateMetricContainer>
       {/* Just saving to reference while reworking this section

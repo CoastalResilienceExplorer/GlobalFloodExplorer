@@ -3,7 +3,15 @@ import "./Charts.css";
 import { ReactComponent as FloodingWith_Text } from "assets/Flooding_With.svg";
 import { ReactComponent as FloodingWithout_Text } from "assets/Flooding_Without.svg";
 import { kFormatter } from "hooks/utils/formattingUtils";
-import { Bar, BarChart, Cell, Tooltip, XAxis, YAxis } from "recharts";
+import {
+  Bar,
+  BarChart,
+  Cell,
+  ReferenceArea,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 export const ColoredSVGChart = ({
   risk_reduction_ratio,
@@ -16,29 +24,67 @@ export const ColoredSVGChart = ({
 }) => {
   return (
     <BarChart
-      width={370}
-      height={150}
-      layout="vertical"
+      width={350}
+      height={250}
       data={[
-        { name: "Damage with mangroves", dollars: with_mang },
-        { name: "Damage without mangroves", dollars: no_mang },
+        { name: "Damage w/o mangroves", dollars: no_mang },
+        { name: "Damage w/ mangroves", dollars: with_mang },
       ]}
-      margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
     >
-      <Tooltip
-        formatter={(value) => [
-          `$${kFormatter(value)} of flooding damage`,
-          null,
-        ]}
+      <XAxis dataKey="name" />
+      <YAxis
+        type="number"
+        tickFormatter={(value) => `$${kFormatter(value, "$", 0)}`}
       />
-      <XAxis type="number" hide />
-      <YAxis type="category" dataKey="name" />
-      <Bar dataKey="dollars" layout="vertical">
-        <Cell fill={"var(--shoreline)"} />
+      <Bar dataKey="dollars">
         <Cell fill={"var(--red-tide)"} />
+        <Cell fill={"var(--shoreline)"} />
       </Bar>
+      <ReferenceArea
+        x1="Damage w/ mangroves"
+        x2="Damage w/ mangroves"
+        y1={no_mang}
+        y2={with_mang}
+        shape={<CustomReference riskReductionRatio={risk_reduction_ratio} />}
+      />
     </BarChart>
   );
 };
 
 export default ColoredSVGChart;
+
+const CustomReference = (props: any) => {
+  console.log(props);
+  return (
+    <>
+      <svg
+        width="100"
+        height={props.height}
+        viewBox="0 0 100 115"
+        x={props.x + 130}
+        y={props.y}
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        preserveAspectRatio="none"
+      >
+        <path d="M0 1H8" stroke="black" />
+        <path d="M0 53H8" stroke="black" />
+        <path d="M8 114L8 1" stroke="black" />
+        <path d="M0 114H8" stroke="black" />
+      </svg>
+      <svg
+        width="100"
+        height="60"
+        viewBox="0 0 100 60"
+        x={props.x + 25}
+        y={props.y}
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <text x={12} y={props.height / 2} fill="#666">
+          {kFormatter(props.riskReductionRatio, "%")}% reduction
+        </text>
+      </svg>
+    </>
+  );
+};
