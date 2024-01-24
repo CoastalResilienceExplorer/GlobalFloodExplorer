@@ -73,15 +73,15 @@ const CustomReference = (props: any) => {
         <path d="M0 114H8" stroke="black" />
       </svg>
       <svg
-        width="100"
-        height="60"
-        viewBox="0 0 100 60"
-        x={props.x + 25}
+        width={100}
+        height={props.height * 0.6}
+        viewBox={`0 0 100 ${props.height * 0.6}`}
+        x={props.x + 35}
         y={props.y}
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <text x={12} y={props.height / 2} fill="#666">
+        <text y={props.height / 2} fill="#666">
           {kFormatter(props.riskReductionRatio, "%")}% reduction
         </text>
       </svg>
