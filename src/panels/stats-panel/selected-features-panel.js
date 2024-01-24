@@ -97,7 +97,6 @@ function TemplateMetricContainer({
         title={title}
         selected={selected}
         setLayerGroup={setLayerGroup}
-        clickable={clickable}
       />
       <MetricContent contentModifier={contentModifier}>
         <p className="aeb-container-metric-description">{description}</p>
@@ -191,7 +190,7 @@ function SelectedFeaturesPanel({
         metric={AEB}
         icon={layerGroups[LayerName.Flooding].IconComponent}
         description="The Annual Expected Benefit (AEB) is the expected annual damage reduction due to mangroves based on predicted damages from flooding."
-        title="Flooding Damage –›"
+        title="Flooding Damage"
         selected={layerGroup === "Flooding"}
         setLayerGroup={setLayerGroup}
         clickable={true}
@@ -254,7 +253,7 @@ function SelectedFeaturesPanel({
             className="w-5/6 h-5/6"
           />
         )}
-        title="Mangrove Change –›"
+        title="Mangrove Change"
         height={80}
       >
         <ScaledSVGComparison

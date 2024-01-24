@@ -4,14 +4,11 @@
 }
 
 .risk-reduction-donut-chart-container {
-  /* width: 100px; */
   display: flex;
   justify-content: center;
-  /* padding: 20px; */
 }
 
 .risk-reduction-donut-chart-container > svg {
-  /* width: 100px; */
   display: inline-block;
   margin: auto;
 }
@@ -63,10 +60,6 @@
   border-top-right-radius: 6px;
   border-top-left-radius: 6px;
   z-index: 1;
-}
-
-.aeb-container:hover > .aeb-container-title {
-  background-color: var(--shoreline-dark);
 }
 
 .aeb-container-title.clickable > * {
@@ -147,7 +140,6 @@
 }
 
 .fly-to-icon {
-  /* padding: 10px; */
   display: flex;
   height: 15%;
   flex-direction: column;

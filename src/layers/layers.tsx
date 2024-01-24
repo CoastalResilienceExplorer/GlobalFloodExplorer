@@ -1,7 +1,6 @@
 import {
   Blue_5Step,
   Blue_5Step_0_1,
-  Red_10Step_0_1,
   Red_10Step_negative1_positive1,
   SelectedTessela,
   FloodMaps_Bathy,

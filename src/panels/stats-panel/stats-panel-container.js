@@ -6,6 +6,7 @@ import FlyToContext from "../FlyToContext";
 import { useInfoContext } from "hooks/useInfo";
 import countryMapping from "data/ISO_country_mapping";
 import { Icon } from "@iconify/react";
+import { year as initialYear } from "layers/layers";
 
 function Title({ nStudyUnits, locations, selectionType }) {
   function countryNameOverride(country) {
@@ -94,10 +95,20 @@ function Title({ nStudyUnits, locations, selectionType }) {
   );
 }
 
-function TopBanner({ selectedFeatures, selectionType }) {
+function TopBanner({
+  selectedFeatures,
+  selectionType,
+  selectedYear,
+  setSelectedYear,
+}) {
   const locations = [
     ...new Set(selectedFeatures.map((x) => countryMapping[x.properties.ISO3])),
   ];
+
+  const updateYear = (e) => {
+    setSelectedYear(e.target.value);
+  };
+
   if (selectedFeatures.length === 0) {
     return <></>;
   }
@@ -110,7 +121,19 @@ function TopBanner({ selectedFeatures, selectionType }) {
         selectionType={selectionType}
         locations={locations}
       />
-      <div className="absolute !m-0 h-3 bg-open w-full" />
+      <p className="text-right text-white mb-2">
+        Currently viewing data for{"  "}
+        <select
+          value={selectedYear}
+          onChange={updateYear}
+          className="text-open ml-1 lining-nums rounded"
+        >
+          <option value="1996">1996</option>
+          <option value="2010">2010</option>
+          <option value="2015">2015</option>
+        </select>
+      </p>
+      <div className="absolute !m-0 h-1 bg-open w-full" />
     </div>
   );
 }
@@ -156,6 +179,7 @@ export default function StatsPanel({
   flyToViewport,
 }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedYear, setSelectedYear] = useState(initialYear);
 
   return (
     <div
@@ -170,14 +194,20 @@ export default function StatsPanel({
         <TopBanner
           selectedFeatures={selectedFeatures}
           selectionType={selectionType}
+          selectedYear={selectedYear}
+          setSelectedYear={setSelectedYear}
         />
-        <FlyToContext.Provider value={{ flyToViewport, setLayerGroup }}>
-          <SelectedFeaturesPanel
-            selectedFeatures={selectedFeatures}
-            layerGroup={layerGroup}
-            setLayerGroup={setLayerGroup}
-          />
-        </FlyToContext.Provider>
+        <div className="overflow-scroll">
+          <FlyToContext.Provider value={{ flyToViewport, setLayerGroup }}>
+            <SelectedFeaturesPanel
+              selectedFeatures={selectedFeatures}
+              layerGroup={layerGroup}
+              setLayerGroup={setLayerGroup}
+              selectedYear={selectedYear}
+              setSelectedYear={setSelectedYear}
+            />
+          </FlyToContext.Provider>
+        </div>
       </div>
     </div>
   );
