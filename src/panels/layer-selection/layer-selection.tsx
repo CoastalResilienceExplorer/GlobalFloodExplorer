@@ -11,7 +11,12 @@ import { ReactComponent as LinkSvg } from "assets/link-icon.svg";
 import downloads from "data/downloads";
 import SearchBar, { Bounds } from "panels/home-info-panel/search-bar";
 import { Icon } from "@iconify/react";
-import { useLayerBounceContext, LayerSelectionFrom } from "layers/layer-bounce";
+import {
+  useLayerBounceContext,
+  LayerSelectionFrom,
+  LAYER_BOUNCE_FLASH_TIMEOUT,
+  LAYER_BOUNCE_OPEN_TIMEOUT,
+} from "layers/layer-bounce";
 import "panels/layer-selection/layer-selection.css";
 
 type LayerSelectionProps = {
@@ -59,6 +64,18 @@ export const LayerSelection: React.FC<LayerSelectionProps> = ({
     containerApi.start({ width: ICON_CONTAINER_INITIAL_WIDTH });
     iconApi.start({ width: ICON_INITIAL_SIZE, height: ICON_INITIAL_SIZE });
   };
+
+  useEffect(() => {
+    if (layerGroupSelectedFrom === LayerSelectionFrom.breadcrumb) {
+      handleIconHover();
+      setTimeout(() => {
+        handleIconUnhover();
+      }, LAYER_BOUNCE_OPEN_TIMEOUT); //This is the length of time to open the panel
+      setTimeout(() => {
+        setLayerGroupSelectedFrom(LayerSelectionFrom.reset);
+      }, LAYER_BOUNCE_FLASH_TIMEOUT); //This should correspond to whatever the CSS animation time is, or it will be cut short
+    }
+  }, [layerGroupSelectedFrom]);
 
   return (
     <animated.div

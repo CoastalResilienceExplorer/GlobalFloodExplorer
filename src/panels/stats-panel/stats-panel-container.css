@@ -81,6 +81,7 @@
 
 .right-panel-content {
   overflow-y: scroll;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
 }

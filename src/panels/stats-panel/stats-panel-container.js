@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./stats-panel-container.css";
 import { ReactComponent as OpenLogo } from "assets/Opentab.svg";
 import SelectedFeaturesPanel from "./selected-features-panel";
@@ -46,6 +46,7 @@ function Title({ nStudyUnits, locations, selectionType }) {
   const n_locations = locations.length;
   const too_many_locations = n_locations > 3;
   const locations_tmp = locations_spaces.slice(0, 3);
+  console.log(locations_tmp);
 
   const [showLocationsTooltip, setShowLocationsTooltip] = useState(false);
   const [locationTooltipY, setLocationTooltipY] = useState(null);
@@ -72,9 +73,14 @@ function Title({ nStudyUnits, locations, selectionType }) {
       <div className="stats-panel-title">
         <p>Showing statistics for:</p>
         <p className="body-x-large italic">
-          {selection_display} {nStudyUnits} in{" "}
+          {selection_display === "Study Unit"
+            ? nStudyUnits +
+              (nStudyUnits > 1 ? " Study Units in" : " Study Unit in")
+            : ""}{" "}
+          {/* {n_locations} {n_locations > 1 ?
+          (selection_display === "Study Unit" ? "Study Units in": ""){" "} */}
           <span className="whitespace-nowrap">
-            {formatLocationList(locations_tmp)}
+            {formatLocationList(locations_spaces)}
           </span>
         </p>
       </div>
@@ -118,9 +124,7 @@ function TopBanner({
   return (
     <div className="top-banner-container">
       <Title
-        nStudyUnits={selectedFeatures
-          .map((x) => x.id)
-          .reduce((a, b) => a + b, 0)}
+        nStudyUnits={selectedFeatures.length}
         selectionType={selectionType}
         locations={locations}
       />
@@ -188,6 +192,13 @@ export default function StatsPanel({
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedYear, setSelectedYear] = useState(initialYear);
+
+  // Remove this to auto-open the stats panel after the first selection
+  useEffect(() => {
+    if (!selectedFeatures.length) {
+      setIsOpen(false);
+    }
+  }, [selectedFeatures]);
 
   return (
     <div

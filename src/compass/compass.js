@@ -75,7 +75,7 @@ export default function Compass(props) {
           onMouseLeave={() => setFilterIsHovering(false)}
         >
           <Hover
-            text="Set Filters"
+            text="Set Filter"
             extraClasses={" " + ReversedBasemapMap[props.style]}
           >
             <Icon
