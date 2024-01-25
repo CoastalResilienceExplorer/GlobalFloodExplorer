@@ -54,7 +54,6 @@ export const ColoredSVGChart = ({
 export default ColoredSVGChart;
 
 const CustomReference = (props: any) => {
-  console.log(props);
   return (
     <>
       <svg

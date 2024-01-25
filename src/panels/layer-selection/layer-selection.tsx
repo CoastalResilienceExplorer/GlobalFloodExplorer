@@ -1,10 +1,18 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useSpring, animated, SpringValue } from "@react-spring/web";
 import { LayerGroup, LayerName } from "types/dataModel";
 import { ReactComponent as LinkSvg } from "assets/link-icon.svg";
 import downloads from "data/downloads";
 import SearchBar, { Bounds } from "panels/home-info-panel/search-bar";
 import { Icon } from "@iconify/react";
+import { useLayerBounceContext, LayerSelectionFrom } from "layers/layer-bounce";
+import "panels/layer-selection/layer-selection.css";
 
 type LayerSelectionProps = {
   layerGroups: Record<LayerName, LayerGroup>;
@@ -23,6 +31,8 @@ export const LayerSelection: React.FC<LayerSelectionProps> = ({
   setSelectedLayer,
   setBounds,
 }) => {
+  const { layerGroupSelectedFrom, setLayerGroupSelectedFrom } =
+    useLayerBounceContext();
   const layerSelectionContainer = useRef<HTMLDivElement>(null);
   const activeLayerButton = useRef<HTMLButtonElement>(null);
   const [containerSprings, containerApi] = useSpring(() => ({
@@ -31,6 +41,10 @@ export const LayerSelection: React.FC<LayerSelectionProps> = ({
   const [iconSprings, iconApi] = useSpring(() => ({
     from: { width: ICON_INITIAL_SIZE, height: ICON_INITIAL_SIZE },
   }));
+
+  useEffect(() => {
+    console.log(layerGroupSelectedFrom);
+  }, [layerGroupSelectedFrom]);
 
   useEffect(() => {
     containerApi.start({ width: ICON_CONTAINER_INITIAL_WIDTH });
@@ -58,9 +72,14 @@ export const LayerSelection: React.FC<LayerSelectionProps> = ({
         <button
           key={index}
           className={`hover:bg-shoreline block text-left transition-[height] ${
-            layerGroup.name === selectedLayer && "bg-shoreline"
+            layerGroup.name === selectedLayer && "bg-shoreline selected"
+          } ${
+            layerGroupSelectedFrom === LayerSelectionFrom.breadcrumb && "bounce"
           }`}
-          onClick={() => setSelectedLayer(layerGroup.name)}
+          onClick={() => {
+            setSelectedLayer(layerGroup.name);
+            setLayerGroupSelectedFrom(LayerSelectionFrom.layerSelectionPanel);
+          }}
           ref={layerGroup.name === selectedLayer ? activeLayerButton : null}
         >
           <MenuItem

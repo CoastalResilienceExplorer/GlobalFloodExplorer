@@ -33,7 +33,7 @@ export const mang_ha_perc_change = [
   "/",
   [
     "-",
-    ["to-number", ["get", `Mang_Ha${year}`]],
+    ["to-number", ["get", `Mang_Ha_${year}`]],
     ["to-number", ["get", `Mang_Ha_1996`]],
   ],
   ["to-number", ["get", `Mang_Ha_1996`]],
@@ -41,7 +41,7 @@ export const mang_ha_perc_change = [
 
 export const mang_ha_total_change = [
   "-",
-  ["to-number", ["get", `Mang_Ha${year}`]],
+  ["to-number", ["get", `Mang_Ha_${year}`]],
   ["to-number", ["get", `Mang_Ha_1996`]],
 ];
 

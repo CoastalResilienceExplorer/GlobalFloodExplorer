@@ -1,6 +1,5 @@
 export default function getLayers(layer_lookup, key, args, protos, filters) {
   const layers = layer_lookup[key];
-  console.log(layers);
 
   if (!layers || !layers[0])
     return {
@@ -12,6 +11,7 @@ export default function getLayers(layer_lookup, key, args, protos, filters) {
     .filter((l) => l.selection_dependent_on)
     .map((l) => [l.selection_dependent_on, l.source_layer]);
   const subgroups = layers.filter((l) => l.is_subgroup);
+  console.log(filters);
   const layersWithProtos = layers.map((l) => {
     const filters_to_add = Object.assign({}, { filter: filters[l.id] });
     // if (Object.keys(filters).includes(l.id)) {

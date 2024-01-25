@@ -190,3 +190,17 @@
   font-size: 1.2em;
   font-style: italic;
 }
+
+.bounce {
+  animation: bounce-open 2s infinite;
+}
+
+@keyframes bounce-open {
+  0% {
+    color: white;
+  }
+
+  100% {
+    color: white;
+  }
+}

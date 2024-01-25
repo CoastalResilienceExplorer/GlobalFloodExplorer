@@ -112,6 +112,9 @@ function TopBanner({
   if (selectedFeatures.length === 0) {
     return <></>;
   }
+  console.log(selectedYear);
+  console.log(initialYear);
+  console.log(selectedYear == initialYear);
   return (
     <div className="top-banner-container">
       <Title
@@ -121,18 +124,23 @@ function TopBanner({
         selectionType={selectionType}
         locations={locations}
       />
-      <p className="text-right text-white mb-2">
+      <p className="text-right text-white mb-2 px-2">
         Currently viewing data for{"  "}
         <select
           value={selectedYear}
           onChange={updateYear}
           className="text-open ml-1 lining-nums rounded"
         >
-          <option value="1996">1996</option>
-          <option value="2010">2010</option>
-          <option value="2015">2015</option>
+          <option value={1996}>1996</option>
+          <option value={2010}>2010</option>
+          <option value={2015}>2015</option>
         </select>
       </p>
+      {selectedYear != initialYear && (
+        <i className="text-right text-white mb-2">
+          Data in the map shows 2015 values.
+        </i>
+      )}
       <div className="absolute !m-0 h-1 bg-open w-full" />
     </div>
   );

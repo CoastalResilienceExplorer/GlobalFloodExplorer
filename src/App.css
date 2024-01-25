@@ -9,6 +9,7 @@ body {
 .map-container {
   height: 100vh;
   grid-area: map;
+  cursor: all-scroll !important;
 }
 
 #slide-map-container {

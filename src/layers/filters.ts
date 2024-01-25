@@ -9,10 +9,6 @@ const default_filter = [
   ["<", mang_ha_total_change, default_mang_total_change_filter],
 ];
 const all_features = ["<", mang_ha_total_change, 10000000];
-// export const filters: Record<string, Filter> = {
-//   tessela_bounds: default_filter,
-//   tessela_rps: default_filter,
-// };
 
 export const filters = {
   tessela_bounds: default_filter,
@@ -24,6 +20,6 @@ export const filters = {
 export const no_filters = {
   tessela_bounds: all_features,
   tessela_rps: all_features,
-  hex: default_filter,
-  hex2: default_filter,
+  hex: all_features,
+  hex2: all_features,
 };
