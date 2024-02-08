@@ -43,7 +43,6 @@ export function useLayers(
   } = useFilterContext();
 
   const layers_and_legends = useMemo(() => {
-    console.log(filters);
     return getLayers(
       all_layers,
       layerGroup,

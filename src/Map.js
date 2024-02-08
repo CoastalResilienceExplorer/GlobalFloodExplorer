@@ -61,6 +61,7 @@ export default function Map() {
     setStyle,
     flyToViewport,
     flyToBounds,
+    sourceLoaded,
   } = useMap(initialStates.viewport, token);
 
   const {
@@ -303,6 +304,7 @@ export default function Map() {
         selectedLayer={layerGroup}
         setSelectedLayer={setLayerGroup}
         setBounds={flyToBounds}
+        sourceLoaded={sourceLoaded}
       />
     </InfoContext.Provider>
   );
