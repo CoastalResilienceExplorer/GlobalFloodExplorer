@@ -21,7 +21,7 @@ describe("Map spec", () => {
     cy.get(".layer-selection").should("be.visible");
 
     // Check that the metrics are rendered
-    cy.get('[data-test-id="open-metrics-button"]').should("be.visible");
+    cy.get('[data-test-id="open-toggle"]').should("be.visible");
   });
 
   it("selects country", () => {
