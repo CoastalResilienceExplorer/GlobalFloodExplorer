@@ -66,6 +66,15 @@
     bounce-open 1s 1;
 }
 
+.open-sidebar-text.disabled {
+  opacity: 0.3;
+}
+
+.open-toggle-container.disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
 .open-toggle-container.coral > svg > path {
   fill: coral;
 }

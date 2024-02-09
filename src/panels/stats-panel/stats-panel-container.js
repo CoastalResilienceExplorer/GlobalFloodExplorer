@@ -7,6 +7,7 @@ import { useInfoContext } from "hooks/useInfo";
 import countryMapping from "data/ISO_country_mapping";
 import { Icon } from "@iconify/react";
 import { year as initialYear } from "layers/layers";
+import { Tooltip } from "@mui/material";
 
 function Title({ nStudyUnits, locations, selectionType }) {
   function countryNameOverride(country) {
@@ -163,22 +164,45 @@ function OpenToggle({ isOpen, setIsOpen }) {
     "FIRST_SELECT",
     () => !!isOpen,
   );
+
+  const button = (
+    <div
+      className={
+        "open-toggle-container" +
+        (selectedFeatures.length !== 0 && !isOpen ? " coral" : "") +
+        (selectedFeatures.length === 0 ? " disabled" : "")
+      }
+      onClick={() => {
+        selectedFeatures.length > 0 && setIsOpen(!isOpen);
+      }}
+    >
+      <Icon
+        icon="ri:arrow-left-s-line"
+        className="open-toggle"
+        style={isOpen ? openTransform : { width: "48px", height: "49px" }}
+      />
+    </div>
+  );
+
+  const tooltip_description = "Select features to view metrics";
+
   return (
     <div className="open-sidebar" ref={selectRef}>
-      <h5 className="z-10">Metrics&nbsp;&nbsp;</h5>
-      <div
+      <h5
         className={
-          "open-toggle-container" +
-          (selectedFeatures.length !== 0 && !isOpen ? " coral" : "")
+          "z-10 open-sidebar-text" +
+          (selectedFeatures.length === 0 ? " disabled" : "")
         }
-        onClick={() => setIsOpen(!isOpen)}
       >
-        <Icon
-          icon="ri:arrow-left-s-line"
-          className="open-toggle"
-          style={isOpen ? openTransform : { width: "48px", height: "49px" }}
-        />
-      </div>
+        Metrics&nbsp;&nbsp;
+      </h5>
+      {selectedFeatures.length === 0 ? (
+        <Tooltip title={tooltip_description} placement="bottom-start">
+          {button}
+        </Tooltip>
+      ) : (
+        button
+      )}
     </div>
   );
 }
@@ -206,9 +230,10 @@ export default function StatsPanel({
         "right-panel" + (selectedFeatures.length && isOpen ? " open" : "")
       }
     >
-      {selectedFeatures.length > 0 && (
+      <OpenToggle isOpen={isOpen} setIsOpen={setIsOpen} />
+      {/* {selectedFeatures.length > 0 && (
         <OpenToggle isOpen={isOpen} setIsOpen={setIsOpen} />
-      )}
+      )} */}
       <div className="right-panel-content">
         <TopBanner
           selectedFeatures={selectedFeatures}
