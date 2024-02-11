@@ -1,16 +1,12 @@
-import { useDebounceCallback } from "@react-hook/debounce";
 import React, {
   useState,
   useEffect,
   useRef,
   KeyboardEventHandler,
-  useMemo,
   useCallback,
 } from "react";
 import "./search-bar.css";
 import { UpdateHeightFunc } from "panels/layer-selection/layer-selection";
-
-const google = window.google;
 
 export type Bounds = [[number, number], [number, number]];
 
@@ -26,6 +22,29 @@ type Place = {
   description: string;
 };
 
+const useLoadGoogleService = <T,>(initialize: () => T) => {
+  const ref = useRef<T | null>(null);
+  const counter = useRef(0);
+
+  // Every 500ms, check if the google object is available. If it is, initialize the service and clear the interval.
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (window.google) {
+        ref.current = initialize();
+        clearInterval(interval);
+      } else {
+        counter.current += 1;
+        if (counter.current > 20) {
+          clearInterval(interval);
+        }
+      }
+    }, 500);
+    return () => clearInterval(interval);
+  }, [initialize]);
+
+  return ref.current;
+};
+
 const SearchBar = ({
   onPlaceSelect,
   setBounds,
@@ -38,17 +57,14 @@ const SearchBar = ({
   const [highlightedIndex, setHighlightedIndex] = useState(0);
   const searchInputRef = useRef(null);
 
-  const AutocompleteService = useMemo(
-    () => (google ? new google.maps.places.AutocompleteService() : null),
-    [],
+  const AutocompleteService = useLoadGoogleService(
+    () => new window.google.maps.places.AutocompleteService(),
   );
-  const sessionToken = useMemo(
-    () => (google ? new google.maps.places.AutocompleteSessionToken() : null),
-    [],
+  const sessionToken = useLoadGoogleService(
+    () => new window.google.maps.places.AutocompleteSessionToken(),
   );
-  const Geocoder = useMemo(
-    () => (google ? new google.maps.Geocoder() : null),
-    [],
+  const Geocoder = useLoadGoogleService(
+    () => new window.google.maps.Geocoder(),
   );
 
   const fetchPlace = useCallback(
@@ -64,7 +80,10 @@ const SearchBar = ({
     (query: string) => {
       return new Promise<google.maps.places.AutocompletePrediction[] | null>(
         (resolve, reject) => {
-          if (!AutocompleteService) return;
+          if (!AutocompleteService) {
+            console.error("AutocompleteService not available");
+            return;
+          }
           AutocompleteService.getPlacePredictions(
             {
               input: query,
@@ -173,27 +192,30 @@ const SearchBar = ({
         onKeyDown={handleKeyDown}
         placeholder="Search for a place..."
       />
-
-      <ul className="search-results-container">
-        {results?.length
-          ? results.map((result, index) => (
-              <li
-                key={result.place_id}
-                className={`search-result ${
-                  index === highlightedIndex && "highlighted"
-                }`}
-              >
-                <button onClick={() => handleSelection(result.place_id)}>
-                  {result?.description}
-                </button>
-              </li>
-            ))
-          : null}
-        {loading && <li className="search-result">Loading...</li>}
-        {query.length > 2 && !loading && !results?.length && (
-          <li className="search-result">No results found</li>
-        )}
-      </ul>
+      {!!AutocompleteService ? (
+        <ul className="search-results-container">
+          {results?.length
+            ? results.map((result, index) => (
+                <li
+                  key={result.place_id}
+                  className={`search-result ${
+                    index === highlightedIndex && "highlighted"
+                  }`}
+                >
+                  <button onClick={() => handleSelection(result.place_id)}>
+                    {result?.description}
+                  </button>
+                </li>
+              ))
+            : null}
+          {loading && <li className="search-result">Loading...</li>}
+          {query.length > 2 && !loading && !results?.length && (
+            <li className="search-result">No results found</li>
+          )}
+        </ul>
+      ) : (
+        <p className="pt-2">The search feature is temporary unavailable.</p>
+      )}
     </div>
   );
 };
