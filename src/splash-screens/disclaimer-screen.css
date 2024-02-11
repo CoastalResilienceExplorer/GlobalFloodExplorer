@@ -48,17 +48,13 @@
 
 .browser-disclaimer-container {
   display: flex;
-  align-items: flex-end;
-}
-
-.browser-disclaimer-container > * {
-  padding: 2px;
-  font-size: 12px;
+  align-items: center;
 }
 
 .browser-icon {
-  width: 15px;
-  height: 15px;
+  width: 24px;
+  height: 24px;
+  padding-left: 4px;
 }
 
 .browser-icon > img {
