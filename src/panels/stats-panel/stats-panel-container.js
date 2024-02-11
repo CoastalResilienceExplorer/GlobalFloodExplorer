@@ -185,6 +185,7 @@ function OpenToggle({ isOpen, setIsOpen, disabled }) {
       >
         <h5 className="z-10">Metrics&nbsp;&nbsp;</h5>
         <button
+          data-test-id="open-metrics-button"
           className={
             "open-toggle-container" + (!disabled && !isOpen ? " coral" : "")
           }
