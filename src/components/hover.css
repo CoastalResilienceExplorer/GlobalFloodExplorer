@@ -11,3 +11,7 @@
 .hover-left .hover {
   transform: translateX(-50%);
 }
+
+.hover.light {
+  color: black;
+}

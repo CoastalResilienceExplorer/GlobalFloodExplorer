@@ -1,78 +1,12 @@
-import React from "react";
-import {
-  PieChart,
-  Legend,
-  Pie,
-  Sector,
-  Cell,
-  ResponsiveContainer,
-} from "recharts";
+import { PieChart, Pie, Cell } from "recharts";
 import "./Charts.css";
-import { kFormatter } from "hooks/utils/formattingUtils";
 
 const COLORS1 = ["#7bccc4", "rgba(0,0,0,0)"];
 const COLORS2 = ["rgba(0,0,0,0)", "#C76F85"];
 const STROKES1 = ["#FFFFFF", "rgba(0,0,0,0)"];
 const STROKES2 = ["rgba(0,0,0,0)", "#FFFFFF"];
-const RADIAN = Math.PI / 180;
 
-const GRAPH_TYPE = {
-  STOCK: {
-    title: "Building Stock Protected",
-    description: " building stock risk reduction",
-    valueFormatter: (data) =>
-      (
-        (data.filter((d) => d.name === "Protected")[0].value /
-          data.map((d) => d.value).reduce((a, b) => a + b, 0)) *
-        100
-      ).toFixed(1) + "%",
-  },
-  PEOPLE: {
-    title: "People Protected",
-    description: " fewer people flooded annually",
-    valueFormatter: (data) =>
-      kFormatter(data.filter((d) => d.name === "Protected")[0].value),
-  },
-};
-
-const renderCustomizedLabel = ({
-  cx,
-  cy,
-  midAngle,
-  innerRadius,
-  outerRadius,
-  percent,
-  index,
-}) => {
-  const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-  const x = cx + radius * Math.cos(-midAngle * RADIAN);
-  const y = cy + radius * Math.sin(-midAngle * RADIAN);
-
-  return (
-    <text
-      x={x}
-      y={y}
-      fill="black"
-      textAnchor={x > cx ? "start" : "end"}
-      dominantBaseline="central"
-      fontSize="1.5em"
-    >
-      {`${(percent * 100).toFixed(0)}%`}
-    </text>
-  );
-};
-
-function RenderActiveShape({ center, nombre }) {
-  return (
-    <g>
-      <text x={center} y={center} dy={8} textAnchor="middle">
-        {nombre}
-      </text>
-    </g>
-  );
-}
-
-export default function Example({ data, type }) {
+const CustomPieChart = ({ data, type }) => {
   const percReduction = (
     data.filter((d) => d.name === "Protected")[0].value /
     data.map((d) => d.value).reduce((a, b) => a + b, 0)
@@ -86,9 +20,7 @@ export default function Example({ data, type }) {
         cy="45%"
         innerRadius={35}
         outerRadius={60}
-        // label={renderCustomizedLabel}
-        // labelLine={false}
-        paddingAngle={5}
+        paddingAngle={3}
         stroke="none"
         dataKey="value"
       >
@@ -104,11 +36,11 @@ export default function Example({ data, type }) {
         data={data}
         cx="50%"
         cy="45%"
-        innerRadius={30}
-        outerRadius={50}
+        innerRadius={35}
+        outerRadius={55}
         labelLine={false}
         stroke="none"
-        paddingAngle={5}
+        paddingAngle={3}
         dataKey="value"
       >
         {data.map((entry, index) => (
@@ -130,4 +62,6 @@ export default function Example({ data, type }) {
       {/* <Legend align='center' height={10} /> */}
     </PieChart>
   );
-}
+};
+
+export default CustomPieChart;

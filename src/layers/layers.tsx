@@ -1,7 +1,6 @@
 import {
   Blue_5Step,
   Blue_5Step_0_1,
-  Red_10Step_0_1,
   Red_10Step_negative1_positive1,
   SelectedTessela,
   FloodMaps_Bathy,
@@ -34,7 +33,7 @@ export const mang_ha_perc_change = [
   "/",
   [
     "-",
-    ["to-number", ["get", `Mang_Ha${year}`]],
+    ["to-number", ["get", `Mang_Ha_${year}`]],
     ["to-number", ["get", `Mang_Ha_1996`]],
   ],
   ["to-number", ["get", `Mang_Ha_1996`]],
@@ -42,7 +41,7 @@ export const mang_ha_perc_change = [
 
 export const mang_ha_total_change = [
   "-",
-  ["to-number", ["get", `Mang_Ha${year}`]],
+  ["to-number", ["get", `Mang_Ha_${year}`]],
   ["to-number", ["get", `Mang_Ha_1996`]],
 ];
 
@@ -66,7 +65,7 @@ const annual_benefits = [
     source_layer: "UCSC_CWON_studyunits_reppts",
     colorValue: ben_stock,
     legend: Blue_5Step,
-    layer_title: "Annual Expected Benefit",
+    layer_title: `Annual Expected Benefit ${year}`,
     layer_type: "DISCRETE_POINT",
     legend_prefix: "$",
     format: "$",
@@ -111,7 +110,7 @@ const reduct_ratio = [
     heightValue: nomang_risk_stock,
     baseValue: risk_stock,
     scale: 0.3,
-    layer_title: "Risk Reduction",
+    layer_title: `Risk Reduction ${year}`,
     layer_type: "HEX_3D",
     hex_type: "REDUCTION",
     legend_suffix: "%",
@@ -191,7 +190,7 @@ const flooding = [
     source_layer: `with_1996_TC_Tr_${RP}`,
     legend: FloodMaps_Bathy,
     colorValue: ["to-number", ["get", "value"]],
-    layer_title: `Without Mangroves, RP${parseInt(RP)}`,
+    layer_title: `Expected Flooding, 1 in ${parseInt(RP)} year storm`,
     display_legend: true,
     layer_type: "GEO_POINT",
     legend_suffix: "m",
@@ -229,7 +228,7 @@ const Population = [
     source_layer: "UCSC_CWON_studyunits_reppts",
     colorValue: ben_pop,
     legend: Blue_5Step_Pop,
-    layer_title: "Annual Population Benefit",
+    layer_title: `Annual Population Benefit ${year}`,
     layer_type: "DISCRETE_POINT",
     legend_prefix: "",
     // format: "$",

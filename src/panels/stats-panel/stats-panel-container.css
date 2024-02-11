@@ -1,45 +1,49 @@
 .right-panel {
   position: absolute;
-  right: max(-400px, calc(-1 * (100vw - 70px)));
-  top: 5px;
+  left: 100%;
+  width: min(405px, calc(100vw - 65px));
+  top: 64px;
+  bottom: 0;
   vertical-align: middle;
   display: grid;
   color: rgb(32, 32, 32);
-  /* Left-most column has compass and toggle button */
-  grid-template-columns: 50px min(400px, calc(100vw - 70px));
-  /* Holder for main panel area */
-  grid-template-rows: calc(100vh - 10px);
-  /* Naming left-most column "x" and main panel area holder "content" */
-  grid-template-areas: "x content";
-  gap: 5px;
   transition: transform 1s;
-  /* font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif; */
   font-weight: normal;
   font-style: normal;
   z-index: 5;
   pointer-events: none;
   font-size: 0.7rem;
+  background: white;
+  border-radius: 16px 0px 0px 16px;
+  border-width: 6px;
+  border-color: var(--open);
 }
 
 .right-panel > * > * {
   pointer-events: auto;
-  cursor: pointer;
 }
 
+/* Moving the panel off the screen if collapsed */
 .right-panel.open {
   transform: translateX(max(-405px, calc(-1 * (100vw - 65px))));
 }
 
 .open-sidebar {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 102%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   pointer-events: none;
+}
+
+.open-sidebar h5,
+svg {
   color: white;
-  text-shadow:
-    0px 0px 10px black,
-    0px 0px 5px black;
+  text-shadow: 0px 0px 8px black;
 }
 
 .open-toggle-container {
@@ -69,48 +73,20 @@
   fill: coral;
 }
 
-.open-toggle-container:hover {
+.open-toggle-container.coral:hover > svg > path {
+  fill: white;
+}
+
+.open .open-toggle-container:hover {
   background-color: var(--shoreline);
   border-color: var(--shoreline);
 }
 
-/* Setting a grid for 
-1. scenario selection 
-2. blurb/description 
-3. "metric" icons 
-4. Instructions/Selected features pane
-5. Layer selection panel */
-
 .right-panel-content {
-  background-color: rgba(60, 132, 150, 0.8);
-  /* background-color: #d66e57; */
-  border-radius: 12em 2em 0em 1em;
-  /* overflow-y: auto; */
-  display: flex;
-  /* overflow: visible; */
-  /* overflow: scroll; */
-
-  /* display: grid; */
-  /* grid-template-rows: 50px 100px 80px 325px auto; */
-}
-
-.right-panel-outer-content {
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-  /* background-color: black; */
-}
-
-.right-panel-inner-content {
-  /* height: 99%; */
-  width: 95%;
-  background-color: white;
-  border-radius: 10.5em 1.5em 0em 0.5em;
-  overflow-x: visible;
   overflow-y: scroll;
-  margin: 5px;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .right-panel-inner-content::-webkit-scrollbar {
@@ -118,28 +94,22 @@
 }
 
 .top-banner-container {
-  display: grid;
-  grid-template-columns: auto;
-  height: 100px;
+  position: relative;
+  background: var(--open);
 }
 
 .coral > * {
   fill: coral;
 }
 
-.top-banner-container > * {
-  margin: 10px;
+.top-banner-container > .stats-panel-title {
+  margin: 10px 10px 6px 10px;
 }
 
 .stats-panel-title {
   text-align: right;
-  color: rgb(32, 32, 32);
+  color: #fff;
 }
-
-/* .n-study-units-text {
-    /* font-size: 1.5em; */
-/* font-weight: bold;
-} */
 
 .locations-formatted-text {
   font-size: 1.8em;
@@ -224,7 +194,7 @@
   }
 
   50% {
-    transform: translateX(-10px);
+    transform: translateX(-8px);
   }
 
   100% {

@@ -35,16 +35,11 @@ export default class FillWithOutlineProto {
     this.opacity = opacity;
     this.minzoom = minzoom;
     this.maxzoom = maxzoom;
-    console.log(id, subgroup);
-    console.log(id, floodGroup, subgroup);
-    console.log(subgroup !== undefined);
-    console.log(subgroup !== undefined && subgroup === floodGroup);
     this.visible =
       (subgroup !== undefined && subgroup === floodGroup) ||
       subgroup === undefined
         ? "visible"
         : "none";
-    console.log(id, this.visible);
   }
 
   get MBLayer() {

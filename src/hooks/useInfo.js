@@ -108,8 +108,6 @@ export function useInfo(initial_state, reducer) {
         (skipIf === undefined || !skipIf()) &&
         state[event].active === null
       ) {
-        console.log(deps);
-        console.log("on");
         dispatch({
           type: event,
           active: true,
@@ -118,7 +116,6 @@ export function useInfo(initial_state, reducer) {
           },
         });
         if (timeout > 0) {
-          console.log(timeout);
           setTimeout(
             () =>
               dispatch({
@@ -142,8 +139,6 @@ export function useInfo(initial_state, reducer) {
         (skipIf === undefined || !skipIf()) &&
         state[event].active === true
       ) {
-        console.log(deps);
-        console.log("off");
         setTimeout(
           () =>
             dispatch({

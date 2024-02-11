@@ -75,6 +75,11 @@ export function SlideMap({
       left_setSubgroup("flooding_1996");
       right_setSubgroup("flooding_2015");
     }, 500);
+    document
+      .getElementById("compare-swiper-vertical")
+      .addEventListener("mousewheel", function (event) {
+        event.preventDefault();
+      });
     // only run on mount
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

@@ -12,6 +12,19 @@ import { useFilterContext } from "hooks/useFilters";
 import { Icon } from "@iconify/react";
 import { HOVER_TIMEOUT } from "hooks/useBreadcrumbs";
 import { default_mang_perc_change_filter } from "layers/filters";
+import { BasemapMap } from "basemap_manager/BasemapManager";
+
+function reverseObject(obj) {
+  const reversedObject = {};
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      reversedObject[obj[key]] = key;
+    }
+  }
+  return reversedObject;
+}
+
+const ReversedBasemapMap = reverseObject(BasemapMap);
 
 export default function Compass(props) {
   const { useWhile } = useInfoContext();
@@ -61,7 +74,10 @@ export default function Compass(props) {
           onMouseMove={() => setFilterIsHovering(true)}
           onMouseLeave={() => setFilterIsHovering(false)}
         >
-          <Hover text="Set Filters">
+          <Hover
+            text="Set Filter"
+            extraClasses={" " + ReversedBasemapMap[props.style]}
+          >
             <Icon
               icon="mdi:filter"
               className={`controls-icon ${filtersOn ? "coral" : ""}`}
@@ -74,7 +90,10 @@ export default function Compass(props) {
           }
           onClick={() => adjustViewport({ bearing: 0, pitch: 0 })}
         >
-          <Hover text="Reorient">
+          <Hover
+            text="Reorient"
+            extraClasses={" " + ReversedBasemapMap[props.style]}
+          >
             <CompassSVG
               fill={highlightCompass ? "coral" : "white"}
               className={"controls-icon compass"}
@@ -91,7 +110,10 @@ export default function Compass(props) {
           className="controls-icon-container"
           onClick={() => adjustViewport({ zoom: props.viewport.zoom + 1 })}
         >
-          <Hover text="Zoom In">
+          <Hover
+            text="Zoom In"
+            extraClasses={" " + ReversedBasemapMap[props.style]}
+          >
             <div className="controls-icon">
               <Plus fill="white" />
             </div>
@@ -101,7 +123,10 @@ export default function Compass(props) {
           className="controls-icon-container"
           onClick={() => adjustViewport({ zoom: props.viewport.zoom - 1 })}
         >
-          <Hover text="Zoom Out">
+          <Hover
+            text="Zoom Out"
+            extraClasses={" " + ReversedBasemapMap[props.style]}
+          >
             <div className="controls-icon">
               <Minus fill="white" />
             </div>
