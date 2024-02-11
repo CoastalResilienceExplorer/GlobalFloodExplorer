@@ -92,6 +92,11 @@ code {
   p.label-large a:hover {
     @apply text-coral;
   }
+
+  .label {
+    @apply font-serif text-xs md:text-sm font-normal;
+    transition: color 0.2s ease-in-out;
+  }
 }
 
 @layer components {
