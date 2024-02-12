@@ -164,6 +164,7 @@ function OpenToggle({ isOpen, setIsOpen, disabled }) {
   );
 
   const onHover = () => {
+    if (!disabled) return;
     setShowTooltip(true);
   };
 
@@ -201,7 +202,7 @@ function OpenToggle({ isOpen, setIsOpen, disabled }) {
       </div>
       <div
         className={
-          "absolute bg-white w-32 top-[100%]  px-2 py-1 rounded transition duration-300 " +
+          "absolute bg-white w-32 top-[100%]  px-2 py-1 rounded transition delay-300 duration-300 " +
           (showTooltip ? "right-0 opacity-100" : "left-[110%] opacity-0")
         }
       >
