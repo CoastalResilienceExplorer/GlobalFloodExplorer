@@ -3,6 +3,7 @@ import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-load
 
 import { getViewport } from "./utils/viewportUtils";
 import { BasemapMap, BasemapStyle } from "basemap_manager/BasemapManager";
+import sources from "layers/sources";
 
 export function useMap(init_viewport, access_token) {
   mapboxgl.accessToken = access_token;
@@ -10,6 +11,9 @@ export function useMap(init_viewport, access_token) {
   const [map, setMap] = useState(null);
   const [mapLoaded, setMapLoaded] = useState(false);
   const [viewport, setViewport] = useState(init_viewport);
+  const [sourcesPending, setSourcesPending] = useState({});
+  const sourcesPendingRef = useRef({});
+  const [sourceLoaded, setSourceLoaded] = useState(false);
 
   const initTheme = useMemo(() => {
     if (window.matchMedia) {
@@ -57,6 +61,21 @@ export function useMap(init_viewport, access_token) {
   }, []);
 
   useEffect(() => {
+    sourcesPendingRef.current = {
+      ...sourcesPendingRef.current,
+      ...sourcesPending,
+    };
+    console.log(sourcesPendingRef.current);
+
+    const allSourcesLoaded =
+      Object.values(sourcesPendingRef.current).filter((x) => !x).length === 0;
+    setSourceLoaded(allSourcesLoaded);
+    if (allSourcesLoaded) {
+      sourcesPendingRef.current = {};
+    }
+  }, [sourcesPending]);
+
+  useEffect(() => {
     if (!map) return;
     map.on("load", () => {
       map.getCanvas().style.cursor = "pointer";
@@ -70,6 +89,18 @@ export function useMap(init_viewport, access_token) {
 
       setMapLoaded(true);
     });
+    map.on("sourcedata", (e) => {
+      console.log(e);
+      const id = e.source.id;
+      if (!id) return;
+      const state = e.isSourceLoaded;
+      const newState = Object();
+      newState[id] = state;
+      setSourcesPending({
+        ...sourcesPending,
+        ...newState,
+      });
+    });
   }, [map]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return {
@@ -82,5 +113,6 @@ export function useMap(init_viewport, access_token) {
     setViewport,
     flyToViewport,
     flyToBounds,
+    sourceLoaded,
   };
 }

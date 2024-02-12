@@ -24,6 +24,7 @@ type LayerSelectionProps = {
   selectedLayer: LayerName;
   setSelectedLayer: (layer: LayerName) => void;
   setBounds: (bounds: Bounds) => void;
+  sourceLoaded: boolean;
 };
 
 const ICON_CONTAINER_INITIAL_WIDTH = 55;
@@ -35,6 +36,7 @@ export const LayerSelection: React.FC<LayerSelectionProps> = ({
   selectedLayer,
   setSelectedLayer,
   setBounds,
+  sourceLoaded,
 }) => {
   const { layerGroupSelectedFrom, setLayerGroupSelectedFrom } =
     useLayerBounceContext();
@@ -47,9 +49,9 @@ export const LayerSelection: React.FC<LayerSelectionProps> = ({
     from: { width: ICON_INITIAL_SIZE, height: ICON_INITIAL_SIZE },
   }));
 
-  useEffect(() => {
-    console.log(layerGroupSelectedFrom);
-  }, [layerGroupSelectedFrom]);
+  // useEffect(() => {
+  //   console.log(sourceLoaded);
+  // }, [sourceLoaded]);
 
   useEffect(() => {
     containerApi.start({ width: ICON_CONTAINER_INITIAL_WIDTH });
@@ -206,6 +208,15 @@ export const LayerSelection: React.FC<LayerSelectionProps> = ({
             )}
           />
         </div>
+      )}
+      {!sourceLoaded && (
+        <Icon
+          icon="line-md:loading-twotone-loop"
+          color="white"
+          width="2em"
+          height="2em"
+          className="w-full"
+        />
       )}
     </animated.div>
   );

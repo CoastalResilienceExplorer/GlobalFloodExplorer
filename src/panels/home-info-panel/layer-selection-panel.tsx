@@ -221,10 +221,12 @@ function LayerSelectionPanel({
   selectedLayer,
   setSelectedLayer,
   isTouch,
+  sourceLoaded,
 }: {
   selectedLayer: LayerName;
   setSelectedLayer: (layer: LayerName) => void;
   isTouch: boolean;
+  sourceLoaded: boolean;
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -235,6 +237,8 @@ function LayerSelectionPanel({
   const [childSprings, childApi] = useSpring(() => ({
     from: { x: 0 },
   }));
+
+  console.log(sourceLoaded);
 
   useEffect(() => {
     if (isOpen) {
