@@ -85,24 +85,6 @@ function TemplateMetricContainer({
   );
 }
 
-function MapExplorerButton({ image, text, type = "x", region, group }) {
-  const { flyToViewport, setLayerGroup } = useContext(FlyToContext);
-
-  return (
-    <div className={`fly-to-icon ${type}`}>
-      <img
-        src={image}
-        alt=""
-        onClick={() => {
-          flyToViewport(viewports.filter((x) => x.id === region)[0].overview);
-          setLayerGroup(group);
-        }}
-      />
-      <div className="fly-to-icon-text">{text}</div>
-    </div>
-  );
-}
-
 function getStat(
   metric,
   selectedFeatures,
