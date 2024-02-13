@@ -119,9 +119,7 @@ function TopBanner({
   if (selectedFeatures.length === 0) {
     return <></>;
   }
-  console.log(selectedYear);
-  console.log(initialYear);
-  console.log(selectedYear == initialYear);
+
   return (
     <div className="top-banner-container">
       <Title
@@ -151,8 +149,9 @@ function TopBanner({
   );
 }
 
-function OpenToggle({ isOpen, setIsOpen }) {
-  const { useFirst, selectRef, selectedFeatures } = useInfoContext();
+function OpenToggle({ isOpen, setIsOpen, disabled }) {
+  const { useFirst, selectRef } = useInfoContext();
+  const [showTooltip, setShowTooltip] = useState(false);
   const openTransform = {
     width: "48px",
     height: "49px",
@@ -160,49 +159,56 @@ function OpenToggle({ isOpen, setIsOpen }) {
   };
 
   useFirst(
-    () => selectedFeatures.length !== 0,
+    () => !disabled,
     "FIRST_SELECT",
     () => !!isOpen,
   );
 
-  const button = (
-    <div
-      className={
-        "open-toggle-container" +
-        (selectedFeatures.length !== 0 && !isOpen ? " coral" : "") +
-        (selectedFeatures.length === 0 ? " disabled" : "")
-      }
-      onClick={() => {
-        selectedFeatures.length > 0 && setIsOpen(!isOpen);
-      }}
-    >
-      <Icon
-        icon="ri:arrow-left-s-line"
-        className="open-toggle"
-        style={isOpen ? openTransform : { width: "48px", height: "49px" }}
-      />
-    </div>
-  );
+  const onHover = () => {
+    if (!disabled) return;
+    setShowTooltip(true);
+  };
 
-  const tooltip_description = "Select features to view metrics";
+  const onUnhover = () => {
+    setShowTooltip(false);
+  };
 
   return (
-    <div className="open-sidebar" ref={selectRef}>
-      <h5
+    <div
+      className="open-sidebar"
+      ref={selectRef}
+      onMouseEnter={onHover}
+      onMouseLeave={onUnhover}
+    >
+      <div
         className={
-          "z-10 open-sidebar-text" +
-          (selectedFeatures.length === 0 ? " disabled" : "")
+          "flex flex-col items-center	" + (disabled ? " opacity-50" : "")
         }
       >
-        Metrics&nbsp;&nbsp;
-      </h5>
-      {selectedFeatures.length === 0 ? (
-        <Tooltip title={tooltip_description} placement="bottom-start">
-          {button}
-        </Tooltip>
-      ) : (
-        button
-      )}
+        <h5 className="z-10">Metrics&nbsp;&nbsp;</h5>
+        <button
+          data-test-id="open-metrics-button"
+          className={
+            "open-toggle-container" + (!disabled && !isOpen ? " coral" : "")
+          }
+          onClick={() => setIsOpen(!isOpen)}
+          disabled={disabled}
+        >
+          <Icon
+            icon="ri:arrow-left-s-line"
+            className="open-toggle"
+            style={isOpen ? openTransform : { width: "48px", height: "49px" }}
+          />
+        </button>
+      </div>
+      <div
+        className={
+          "absolute bg-white w-32 top-[100%]  px-2 py-1 rounded transition delay-300 duration-300 " +
+          (showTooltip ? "right-0 opacity-100" : "left-[110%] opacity-0")
+        }
+      >
+        <p className="label italic">Select a study unit to view metrics</p>
+      </div>
     </div>
   );
 }
@@ -230,10 +236,9 @@ export default function StatsPanel({
         "right-panel" + (selectedFeatures.length && isOpen ? " open" : "")
       }
     >
-      <OpenToggle isOpen={isOpen} setIsOpen={setIsOpen} />
-      {/* {selectedFeatures.length > 0 && (
+      {selectedFeatures.length > 0 && (
         <OpenToggle isOpen={isOpen} setIsOpen={setIsOpen} />
-      )} */}
+      )}
       <div className="right-panel-content">
         <TopBanner
           selectedFeatures={selectedFeatures}

@@ -71,8 +71,11 @@ export const DisclaimerScreen = ({
     if (show) setShowClose(true);
   }, [show]);
 
-  const isChrome = React.useMemo(
-    () => navigator.userAgent.indexOf("Chrome") > -1,
+  // Essentially, we're protecting ourselves from Microsoft Edge and Firefox
+  const isSafeBroswer = React.useMemo(
+    () =>
+      navigator.userAgent.indexOf("Chrome") > -1 ||
+      navigator.userAgent.indexOf("Safari") > -1,
     [],
   );
   return (
@@ -96,14 +99,14 @@ export const DisclaimerScreen = ({
             knowledge of mangroves for coastal flood protection. It is based off
             a global model, and may contain issues when viewed at local scales.
           </p>
-          {!isChrome && (
+          {!isSafeBroswer && (
             <>
               <br />
               <div className="browser-disclaimer-container-parent">
                 <div className="browser-disclaimer-container">
-                  <div className="browser-disclaimer-text">
+                  <p className="browser-disclaimer-text">
                     We recommend Chrome.
-                  </div>
+                  </p>
                   <div className="browser-icon">
                     <img src={chrome_icon} alt="" />
                   </div>
