@@ -64,12 +64,13 @@ export function useMap(init_viewport, access_token) {
       map.flyToViewport = flyToViewport;
       map.flyToBounds = flyToBounds;
 
-      map.on("moveend", () => {
+      map.on("move", () => {
         setViewport(getViewport(map));
       });
 
       setMapLoaded(true);
     });
+    map.on("click", () => console.log(map));
   }, [map]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return {
