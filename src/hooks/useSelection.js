@@ -20,6 +20,7 @@ export function useSelection(
   }, [selectionType]);
 
   function setFeatureState_withDependencies(f, state) {
+    console.log(f);
     map.setFeatureState(
       {
         source: f.layer.source,
@@ -32,7 +33,7 @@ export function useSelection(
       if (lsd[0] === f.layer["source-layer"]) {
         map.setFeatureState(
           {
-            source: f.layer.source,
+            source: lsd[1],
             sourceLayer: lsd[1],
             id: f.id,
           },
@@ -132,7 +133,7 @@ export function useSelection(
         const current_ids = featuresRef.current.map((feat) => feat.id);
         const features = map
           .queryRenderedFeatures(bbox, {
-            layers: ["countries", "tessela_rps"],
+            layers: ["tessela_rps"],
           })
           .filter((f) => !current_ids.includes(f.id));
         if (features.length >= 1000) {

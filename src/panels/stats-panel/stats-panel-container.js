@@ -1,10 +1,12 @@
-import * as React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./stats-panel-container.css";
 import { ReactComponent as OpenLogo } from "assets/Opentab.svg";
 import SelectedFeaturesPanel from "./selected-features-panel";
 import FlyToContext from "../FlyToContext";
 import { useInfoContext } from "hooks/useInfo";
+import countryMapping from "data/ISO_country_mapping";
+import { Icon } from "@iconify/react";
+import { year as initialYear } from "layers/layers";
 
 function Title({ nStudyUnits, locations, selectionType }) {
   function countryNameOverride(country) {
@@ -39,103 +41,48 @@ function Title({ nStudyUnits, locations, selectionType }) {
     .map((l) => countryNameOverride(l));
 
   const selection_display =
-    selectionType === "countries" ? "Country" : "Study Unit";
+    selectionType === "country_bounds" ? "Country" : "Study Unit";
 
   const n_locations = locations.length;
   const too_many_locations = n_locations > 3;
   const locations_tmp = locations_spaces.slice(0, 3);
+  console.log(locations_tmp);
 
   const [showLocationsTooltip, setShowLocationsTooltip] = useState(false);
   const [locationTooltipY, setLocationTooltipY] = useState(null);
 
-  // console.log(selectionType)
-
   function formatLocationList(locations) {
-    let locationsFormatted;
-    if (locations.length === 1)
-      locationsFormatted = (
-        <div>
-          <p className="locations-formatted-text inline-title-text">
-            {locations_spaces[0]}
-          </p>
-        </div>
-      );
+    if (locations.length === 1) return locations_spaces[0];
     if (locations.length === 2)
-      locationsFormatted = (
-        <div>
-          <p className="locations-formatted-text inline-title-text">
-            {locations_spaces[0]}
-          </p>{" "}
-          and
-          <br />
-          <p className="locations-formatted-text inline-title-text">
-            {locations_spaces[1]}
-          </p>
-        </div>
-      );
+      return `${locations_spaces[0]} and ${locations_spaces[1]}`;
     if (locations.length === 3)
-      locationsFormatted = (
-        <div>
-          {locations_spaces
-            .slice(0, -1)
-            .map((i) => (
-              <>
-                <p className="locations-formatted-text inline-title-text">
-                  {i}
-                </p>
-                ,<br />
-              </>
-            ))
-            .reduce((prev, curr) => [prev, curr])}
-          and{" "}
-          <p className="locations-formatted-text inline-title-text">
-            {locations_spaces[locations_spaces.length - 1]}
-          </p>
-        </div>
-      );
+      return `${locations_spaces
+        .slice(0, -1)
+        .map((i) => `${i}, `)
+        .reduce((prev, curr) => [prev, curr])} and ${
+        locations_spaces[locations_spaces.length - 1]
+      }`;
     if (too_many_locations)
-      locationsFormatted = (
-        <div>
-          <p className="locations-formatted-text inline-title-text">
-            {locations_spaces[0]}
-          </p>
-          ,
-          <br />
-          <p className="locations-formatted-text inline-title-text">
-            {locations_spaces[1]}
-          </p>
-          <br />
-          and {n_locations - 2} others
-        </div>
-      );
-    // locations_spaces.slice(0, -1).join(', ') + ', and ' + (n_locations - 3) + ' others'
-    return (
-      <div className="location-list" onMouseOver={(e) => onHover(e)}>
-        {locationsFormatted}
-      </div>
-    );
-  }
-
-  const _nStudyUnits = (n) => {
-    return <p className="n-study-units-text inline-title-text">{n}</p>;
-  };
-
-  function onHover(e) {
-    if (too_many_locations) {
-      setShowLocationsTooltip(true);
-      setLocationTooltipY(e.nativeEvent.offsetY);
-      setTimeout(() => setShowLocationsTooltip(false), 3500);
-    }
+      return `${locations_spaces[0]}, ${locations_spaces[1]} and ${
+        n_locations - 2
+      } others`;
   }
 
   return (
     <>
       <div className="stats-panel-title">
-        Showing{" "}
-        <b>
-          {selection_display} ({_nStudyUnits(nStudyUnits)})
-        </b>{" "}
-        Statistics for: {formatLocationList(locations_tmp)}
+        <p>Showing statistics for:</p>
+        <p className="body-x-large italic">
+          {selection_display === "Study Unit"
+            ? nStudyUnits +
+              (nStudyUnits > 1 ? " Study Units in" : " Study Unit in")
+            : ""}{" "}
+          {/* {n_locations} {n_locations > 1 ?
+          (selection_display === "Study Unit" ? "Study Units in": ""){" "} */}
+          <span className="whitespace-nowrap">
+            {formatLocationList(locations_spaces)}
+          </span>
+        </p>
       </div>
       {showLocationsTooltip && (
         <div
@@ -154,50 +101,112 @@ function Title({ nStudyUnits, locations, selectionType }) {
   );
 }
 
-function TopBanner({ selectedFeatures, selectionType }) {
+function TopBanner({
+  selectedFeatures,
+  selectionType,
+  selectedYear,
+  setSelectedYear,
+}) {
   const locations = [
-    ...new Set(
-      selectedFeatures.map((x) => x.properties.COUNTRY.split(",")).flat(),
-    ),
+    ...new Set(selectedFeatures.map((x) => countryMapping[x.properties.ISO3])),
   ];
+
+  const updateYear = (e) => {
+    setSelectedYear(e.target.value);
+  };
+
   if (selectedFeatures.length === 0) {
     return <></>;
   }
+
   return (
     <div className="top-banner-container">
       <Title
-        nStudyUnits={selectedFeatures
-          .map((x) => (x.properties.point_count ? x.properties.point_count : 1))
-          .reduce((a, b) => a + b, 0)}
+        nStudyUnits={selectedFeatures.length}
         selectionType={selectionType}
         locations={locations}
       />
+      <p className="text-right text-white mb-2 px-2">
+        Currently viewing data for{"  "}
+        <select
+          value={selectedYear}
+          onChange={updateYear}
+          className="text-open ml-1 lining-nums rounded"
+        >
+          <option value={1996}>1996</option>
+          <option value={2010}>2010</option>
+          <option value={2015}>2015</option>
+        </select>
+      </p>
+      {selectedYear != initialYear && (
+        <i className="text-right text-white mb-2">
+          Data in the map shows 2015 values.
+        </i>
+      )}
+      <div className="absolute !m-0 h-1 bg-open w-full" />
     </div>
   );
 }
 
-function OpenToggle({ isOpen, setIsOpen }) {
-  const { useFirst, selectRef, selectedFeatures } = useInfoContext();
+function OpenToggle({ isOpen, setIsOpen, disabled }) {
+  const { useFirst, selectRef } = useInfoContext();
+  const [showTooltip, setShowTooltip] = useState(false);
   const openTransform = {
+    width: "48px",
+    height: "49px",
     transform: "rotate(180deg)",
   };
 
   useFirst(
-    () => selectedFeatures.length !== 0,
+    () => !disabled,
     "FIRST_SELECT",
     () => !!isOpen,
   );
+
+  const onHover = () => {
+    if (!disabled) return;
+    setShowTooltip(true);
+  };
+
+  const onUnhover = () => {
+    setShowTooltip(false);
+  };
+
   return (
-    <div className="open-sidebar" ref={selectRef}>
-      <div>
-        <div>Metrics</div>
-        <div>
-          <OpenLogo
+    <div
+      className="open-sidebar"
+      ref={selectRef}
+      onMouseEnter={onHover}
+      onMouseLeave={onUnhover}
+    >
+      <div
+        className={
+          "flex flex-col items-center	" + (disabled ? " opacity-50" : "")
+        }
+      >
+        <h5 className="z-10">Metrics&nbsp;&nbsp;</h5>
+        <button
+          data-test-id="open-metrics-button"
+          className={
+            "open-toggle-container" + (!disabled && !isOpen ? " coral" : "")
+          }
+          onClick={() => setIsOpen(!isOpen)}
+          disabled={disabled}
+        >
+          <Icon
+            icon="ri:arrow-left-s-line"
             className="open-toggle"
-            onClick={() => setIsOpen(!isOpen)}
-            style={isOpen ? openTransform : {}}
+            style={isOpen ? openTransform : { width: "48px", height: "49px" }}
           />
-        </div>
+        </button>
+      </div>
+      <div
+        className={
+          "absolute bg-white w-32 top-[100%]  px-2 py-1 rounded transition delay-300 duration-300 " +
+          (showTooltip ? "right-0 opacity-100" : "left-[110%] opacity-0")
+        }
+      >
+        <p className="label italic">Select a study unit to view metrics</p>
       </div>
     </div>
   );
@@ -211,25 +220,43 @@ export default function StatsPanel({
   flyToViewport,
 }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedYear, setSelectedYear] = useState(initialYear);
+
+  // Remove this to auto-open the stats panel after the first selection
+  useEffect(() => {
+    if (!selectedFeatures.length) {
+      setIsOpen(false);
+    }
+  }, [selectedFeatures]);
 
   return (
-    <div className={"right-panel" + (isOpen ? " open" : "")}>
-      <OpenToggle isOpen={isOpen} setIsOpen={setIsOpen} />
+    <div
+      className={
+        "right-panel" + (selectedFeatures.length && isOpen ? " open" : "")
+      }
+    >
+      <OpenToggle
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        disabled={selectedFeatures.length < 1}
+      />
       <div className="right-panel-content">
-        <div className="right-panel-outer-content">
-          <div className="right-panel-inner-content">
-            <TopBanner
+        <TopBanner
+          selectedFeatures={selectedFeatures}
+          selectionType={selectionType}
+          selectedYear={selectedYear}
+          setSelectedYear={setSelectedYear}
+        />
+        <div className="overflow-scroll">
+          <FlyToContext.Provider value={{ flyToViewport, setLayerGroup }}>
+            <SelectedFeaturesPanel
               selectedFeatures={selectedFeatures}
-              selectionType={selectionType}
+              layerGroup={layerGroup}
+              setLayerGroup={setLayerGroup}
+              selectedYear={selectedYear}
+              setSelectedYear={setSelectedYear}
             />
-            <FlyToContext.Provider value={{ flyToViewport, setLayerGroup }}>
-              <SelectedFeaturesPanel
-                selectedFeatures={selectedFeatures}
-                layerGroup={layerGroup}
-                setLayerGroup={setLayerGroup}
-              />
-            </FlyToContext.Provider>
-          </div>
+          </FlyToContext.Provider>
         </div>
       </div>
     </div>

@@ -51,6 +51,7 @@ export default function HexLegend({ legend }) {
           .map((h) => (
             <polygon
               class="hex"
+              key={h}
               fill={h[0]}
               stroke="white"
               points={`${h[1][0][0]},${h[1][0][1]} 
@@ -63,10 +64,9 @@ export default function HexLegend({ legend }) {
           ))}
         {placements.map((p, i) => (
           <text
-            class="hex-text"
-            fill="black"
-            // fill={p[0]}
-            fontSize="1.2em"
+            className="font-sans"
+            fill="white"
+            fontSize="1em"
             x={p[1][0] + xOffs}
             y={p[1][1] + yOffs}
           >

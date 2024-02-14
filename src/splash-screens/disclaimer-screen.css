@@ -1,23 +1,21 @@
 .disclaimer-container {
   position: absolute;
   top: 10%;
-  left: 20%;
-  right: 20%;
-  /* bottom: 20%; */
   max-height: 60%;
   z-index: 7;
-  /* background-color: #192e44; */
-  box-shadow: 0 0 0 2pt rgba(60, 132, 150, 0.3);
-  background-color: rgba(193, 241, 253, 0.9);
-  border: 5px solid rgba(60, 132, 150, 0.8);
-  border: 2px solid #395879;
-  /* opacity: 0.92; */
-  overflow-y: auto;
   border-radius: 45px;
-  padding: 35px;
   text-align: center;
   vertical-align: middle;
-  color: black;
+  @apply text-white border-4 bg-open p-8 pl-6 md:p-16 border-coral inset-x-[5%] md:inset-x-[20%];
+}
+
+.splash-screen-disclaimer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
 .splash-screen-fade {
@@ -69,8 +67,8 @@
 
 .disclaimer-close-button {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 15px;
+  right: 15px;
   cursor: pointer;
 }
 
@@ -78,4 +76,100 @@
   width: 30px;
   height: 30px;
   cursor: pointer;
+}
+
+.navigation-buttons-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  @media (min-width: 768px) {
+    flex-direction: row;
+  }
+}
+
+.navigation-button.gotomap:hover {
+  background-color: rgb(160, 217, 213);
+}
+
+.navigation-button.minor:hover {
+  background-color: rgb(160, 217, 213);
+}
+
+.navigation-button {
+  border: 1px solid white;
+  text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.8);
+  /* text-shadow: 0px 0px 4px black; */
+  border-radius: 100px;
+  font-size: 1.1em;
+}
+
+.navigation-button.gotomap {
+  background-color: rgb(95, 148, 144);
+  border: 4px solid white;
+  padding: 10px 20px;
+  font-size: 1.4em;
+  width: 100%;
+  margin: 2px;
+  color: white;
+  cursor: pointer;
+  @media (min-width: 768px) {
+    margin: 8px;
+  }
+}
+
+.centered-button-container {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+}
+
+.centered-button-container > .navigation-button.gotomap {
+  position: relative;
+  left: -50%;
+  top: -50%;
+  font-size: 2.4em;
+}
+
+.navigation-button.minor {
+  background-color: rgb(130, 206, 198);
+  padding: 6px 30px;
+  margin: 4px;
+  color: white;
+  @media (min-width: 768px) {
+    margin: 8px;
+  }
+}
+
+.navigation-button > a {
+  color: white;
+  text-decoration: none;
+}
+
+.navigation-controls-parent {
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  z-index: 10;
+}
+
+.navigation-controls {
+  position: relative;
+  left: -50%;
+  color: black;
+  justify-content: center;
+  align-content: center;
+  flex-direction: row;
+  border-radius: 80px;
+  display: flex;
+  @apply text-white border-2 bg-open bg-opacity-75 border-coral px-6 pb-2;
+}
+
+.navigation-icon {
+  padding: 15px;
+  size: 40px 40px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

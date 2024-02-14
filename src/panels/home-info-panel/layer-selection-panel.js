@@ -52,7 +52,7 @@ function LayerSelectionButtonContainer({
               "layer-selection-button-text" + (isSelected ? " selected" : "")
             }
           >
-            {id.toUpperCase()}
+            {id}
           </div>
         )}
       </div>
@@ -62,16 +62,14 @@ function LayerSelectionButtonContainer({
 }
 
 function OpenCloseToggle({ isOpen, setIsOpen }) {
-  const openTransform = {
-    transform: "rotate(180deg)",
-  };
+  const transform = isOpen ? "rotate(270deg)" : "rotate(90deg)";
 
   return (
     <div className="open-close-toggle-container">
       <OpenCloseToggleIcon
         className={"open-close-toggle" + (!isOpen ? " collapsed" : "")}
         onClick={() => setIsOpen(!isOpen)}
-        style={isOpen ? openTransform : {}}
+        style={{ transform }}
       />
     </div>
   );
@@ -142,7 +140,7 @@ function TouchLayerSelectionPanel({ selectedLayer, setSelectedLayer }) {
 
   return (
     <div
-      className="layer-selection-container mobile"
+      className="layer-selection layer-selection-container mobile"
       onTouchStart={(e) => {
         setSwipeStartX(e.touches[0].clientX);
         setSwipeStartY(e.touches[0].clientY);
@@ -213,10 +211,10 @@ function LayerSelectionPanel({
         ))}
       </div>
       <OpenCloseToggle isOpen={isOpen} setIsOpen={setIsOpen} />
-      <CurrentlyViewingTitle
+      {/* <CurrentlyViewingTitle
         selectedLayer={selectedLayer}
         breadcrumbs={breadcrumbs}
-      />
+      /> */}
     </div>
   );
 }

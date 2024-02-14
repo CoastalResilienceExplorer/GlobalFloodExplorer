@@ -1,9 +1,6 @@
 import * as React from "react";
 import "./disclaimer-screen.css";
-import "./splash-screen.css";
-import pan_logo from "assets/pan.png";
-import tilt_logo from "assets/tilt.png";
-import zoom_logo from "assets/zoom.png";
+import { Icon } from "@iconify/react";
 
 import chrome_icon from "assets/ChromeIcon.png";
 import FadeInOut from "components/fade-in-out";
@@ -33,7 +30,7 @@ const AnimatedXIcon = ({
       width="30"
       height="30"
       viewBox="0 0 30 30"
-      data-test-id="disclaimer-close-button"
+      data-cy="disclaimer-close-button"
     >
       {/* Black circle */}
       <circle cx="15" cy="15" r="14.5" fill="black" />
@@ -61,15 +58,13 @@ const AnimatedXIcon = ({
   );
 };
 
-export function DisclaimerScreen({
+export const DisclaimerScreen = ({
   show,
   setShow,
-  isTouch,
 }: {
   show: boolean;
   setShow: React.Dispatch<React.SetStateAction<boolean>>;
-  isTouch: boolean;
-}) {
+}) => {
   const [showClose, setShowClose] = React.useState(false);
 
   React.useEffect(() => {
@@ -95,38 +90,40 @@ export function DisclaimerScreen({
           >
             {showClose && <AnimatedXIcon animationDuration={5000} />}
           </div>
-          <div className="disclaimer-title">Disclaimer:</div>
-          <div className="disclaimer-body">
+          <h3 className="text-left mb-2">Disclaimer:</h3>
+          <p className="body text-left">
             This map was created by the Coastal Resilience Lab to advance the
             knowledge of mangroves for coastal flood protection. It is based off
             a global model, and may contain issues when viewed at local scales.
-          </div>
-          <br />
+          </p>
           {!isChrome && (
-            <div className="browser-disclaimer-container-parent">
-              <div className="browser-disclaimer-container">
-                <div className="browser-disclaimer-text">
-                  We recommend Chrome.
-                </div>
-                <div className="browser-icon">
-                  <img src={chrome_icon} alt="" />
+            <>
+              <br />
+              <div className="browser-disclaimer-container-parent">
+                <div className="browser-disclaimer-container">
+                  <div className="browser-disclaimer-text">
+                    We recommend Chrome.
+                  </div>
+                  <div className="browser-icon">
+                    <img src={chrome_icon} alt="" />
+                  </div>
                 </div>
               </div>
-            </div>
+            </>
           )}
         </div>
       </div>
     </FadeInOut>
   );
-}
+};
 
-export function NavigationControls({
+export const NavigationControls = ({
   show,
   isTouch,
 }: {
   show: boolean;
   isTouch: boolean;
-}) {
+}) => {
   return !isTouch ? (
     <FadeInOut
       show={show}
@@ -135,30 +132,28 @@ export function NavigationControls({
     >
       <div className="navigation-controls-parent">
         <div className="navigation-controls">
-          <div className="navigation-icon title">
-            <p>
-              navigation
-              <br />
-              controls
-            </p>
+          <div className="navigation-icon">
+            <h5 className="mb-1">Pan</h5>
+            <Icon
+              icon="mdi:mouse-left-click-outline"
+              color="white"
+              width={42}
+            />
           </div>
           <div className="navigation-icon">
-            pan
-            <br />
-            <img src={pan_logo} alt="" />
+            <h5 className="mb-1">Zoom</h5>
+            <Icon icon="iconoir:mouse-scroll-wheel" color="white" width={42} />
           </div>
           <div className="navigation-icon">
-            tilt
-            <br />
-            <img src={tilt_logo} alt="" />
-          </div>
-          <div className="navigation-icon">
-            zoom
-            <br />
-            <img src={zoom_logo} alt="" />
+            <h5 className="mb-1">Tilt</h5>
+            <Icon
+              icon="mdi:mouse-right-click-outline"
+              color="white"
+              width={42}
+            />
           </div>
         </div>
       </div>
     </FadeInOut>
   ) : null;
-}
+};

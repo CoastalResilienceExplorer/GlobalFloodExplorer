@@ -3,25 +3,29 @@ import { useSlideMap } from "hooks/useSlideMap";
 import { useLayers } from "hooks/layers/useLayers";
 
 import sources from "layers/sources";
-import layers from "layers/layers";
+import { layersByGroup } from "layers/layers";
 import { protos as custom_layer_protos } from "layers/protos/custom_protos";
 import { useEffect } from "react";
 
 import "./flood_selector.css";
 import { FloodSelector } from "./flood_selector";
 
-export function SlideMap({ initialStates, style, access_token, other_map }) {
+import { filters } from "layers/filters";
+
+export function SlideMap({
+  initialStates,
+  style,
+  viewport,
+  access_token,
+  other_map,
+}) {
   const {
     map: left_map,
     mapContainer: left_mapContainer,
     mapLoaded: left_mapLoaded,
     style: left_style,
     setStyle: left_setStyle,
-  } = useMap(
-    initialStates.viewport,
-    "mapbox://styles/mapbox/satellite-v9",
-    access_token,
-  );
+  } = useMap(viewport, access_token);
 
   const {
     map: right_map,
@@ -29,11 +33,7 @@ export function SlideMap({ initialStates, style, access_token, other_map }) {
     mapLoaded: right_mapLoaded,
     style: right_style,
     setStyle: right_setStyle,
-  } = useMap(
-    initialStates.viewport,
-    "mapbox://styles/mapbox/satellite-v9",
-    access_token,
-  );
+  } = useMap(viewport, access_token);
 
   const {
     subgroup: left_subgroup,
@@ -45,9 +45,10 @@ export function SlideMap({ initialStates, style, access_token, other_map }) {
     initialStates.layer,
     initialStates.subgroup,
     left_style,
-    layers,
+    layersByGroup,
     sources,
     custom_layer_protos,
+    filters,
   );
 
   const {
@@ -60,9 +61,10 @@ export function SlideMap({ initialStates, style, access_token, other_map }) {
     initialStates.layer,
     initialStates.subgroup,
     right_style,
-    layers,
+    layersByGroup,
     sources,
     custom_layer_protos,
+    filters,
   );
 
   useEffect(() => {
@@ -70,9 +72,14 @@ export function SlideMap({ initialStates, style, access_token, other_map }) {
     right_setLayerGroup("Flooding");
     // Wait for initialization
     setTimeout(() => {
-      left_setSubgroup("flooding_1996");
+      left_setSubgroup("flooding_nomang");
       right_setSubgroup("flooding_2015");
     }, 500);
+    document
+      .getElementById("compare-swiper-vertical")
+      .addEventListener("mousewheel", function (event) {
+        event.preventDefault();
+      });
     // only run on mount
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -86,7 +93,7 @@ export function SlideMap({ initialStates, style, access_token, other_map }) {
   useEffect(() => {
     left_setStyle(style);
     right_setStyle(style);
-  }, [style]);
+  }, [left_setStyle, right_setStyle, style]);
 
   return (
     <div id="slide-map-container">
@@ -106,7 +113,7 @@ export function SlideMap({ initialStates, style, access_token, other_map }) {
       >
         <div className="left">
           <FloodSelector
-            offset={-133}
+            offset={-86}
             floodGroup={left_subgroup}
             setFloodGroup={left_setSubgroup}
             floodingOn={true}
@@ -114,7 +121,7 @@ export function SlideMap({ initialStates, style, access_token, other_map }) {
         </div>
         <div id="compare-swiper-vertical"></div>
         <FloodSelector
-          offset={5}
+          offset={1}
           floodGroup={right_subgroup}
           setFloodGroup={right_setSubgroup}
           floodingOn={true}

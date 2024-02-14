@@ -1,8 +1,10 @@
 import React from "react";
 import "./home-info-panel.css";
-import { ReactComponent as NavigationIcon } from "assets/navigation-icon.svg";
 import { ReactComponent as HomeIcon } from "assets/home-icon.svg";
+
 import LayerSelectionPanel from "./layer-selection-panel";
+import SearchBar from "panels/home-info-panel/search-bar";
+import downloads from "data/downloads";
 
 function HomeButton(props) {
   return (
@@ -10,41 +12,38 @@ function HomeButton(props) {
       className="home-info-button-container"
       onClick={() => props.setSplashScreen(true)}
     >
+      <div className="home-info-text">Home</div>
       <HomeIcon className="home-info-button" />
-      <div className="home-info-text">home</div>
-      {/* </div> */}
     </div>
   );
 }
 
-// function DownloadReportButton() {
+function DownloadReportButton({ url, Icon, download }) {
+  return (
+    <div className="home-info-button-container">
+      {download ? (
+        <a href={url} download={`./${url.split("/").at(-1)}`}>
+          {Icon}
+        </a>
+      ) : (
+        <a href={url} target="_blank" rel="noreferrer">
+          {Icon}
+        </a>
+      )}
+    </div>
+  );
+}
 
-//     return <div className='home-info-button-container' >
-//         <a href={`${host}/download-report`}
-//             download='download-test.txt'>
-//             <DownloadReport className='home-info-button' style={{
-//         width: '50px',
-//         height: '50px'
-//     }}/>
-//             {/* <div className='home-info-text'>download</div> */}
-//         </a>
-//     </div>
-//     {/* <div className='download-button'>
-//         <a href={`${host}/download-report`}
-//             download='download-test.txt'>
-//             <DownloadReport />
-//         </a>
-//     </div> */}
-// }
-
-function HomePanel(props) {
+export function HomePanel(props) {
   return (
     <div className="home-container">
       <HomeButton setSplashScreen={props.setSplashScreen} />
       {/* <hr className='horiz-break' /> */}
       {/* <NavigationButton setNavigationScreenStatus={props.setNavigationScreenStatus} /> */}
-      {/* <hr className='horiz-break' />
-        <DownloadReportButton /> */}
+      <hr className="horiz-break" />
+      {downloads.map((d) => (
+        <DownloadReportButton url={d.url} Icon={d.icon} download={d.download} />
+      ))}
     </div>
   );
 }
@@ -54,19 +53,18 @@ function LeftPanel({
   setSplashScreen,
   selectedLayer,
   setSelectedLayer,
+  setBounds,
   isTouch,
 }) {
   return (
     <div className="left-pane">
+      <HomePanel setSplashScreen={setSplashScreen} />
       <LayerSelectionPanel
         selectedLayer={selectedLayer}
         setSelectedLayer={setSelectedLayer}
         breadcrumbs={breadcrumbs}
         isTouch={isTouch}
       />
-      <div className="homeinfo-breadcrumbs-panel-layout" onClick={() => {}}>
-        <HomePanel setSplashScreen={setSplashScreen} />
-      </div>
     </div>
   );
 }

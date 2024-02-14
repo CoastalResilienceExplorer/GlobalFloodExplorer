@@ -9,9 +9,10 @@ export default class DiscretePointProto {
     layer_title,
     layer_type,
     display_legend = true,
-    filter_value = 250000,
+    filter = 250000,
     legend_prefix = null,
     legend_suffix = null,
+    minzoom = 0,
   }) {
     this.id = id;
     this.source = source;
@@ -25,11 +26,13 @@ export default class DiscretePointProto {
     this.layer_type = layer_type;
     this.color_header = legend.colorHeader(colorValue);
     this.display_legend = display_legend;
-    this.filter_value = filter_value;
+    this.filter = filter;
     this.format = format;
+    this.minzoom = minzoom;
   }
 
   get MBLayer() {
+    console.log(this.filter);
     const layer_proto = {
       id: this.id,
       key: this.id,
@@ -64,8 +67,9 @@ export default class DiscretePointProto {
       layout: {
         "circle-sort-key": ["*", -1, this.colorValue],
       },
-      minzoom: 0,
+      minzoom: this.minzoom,
       maxzoom: 16,
+      filter: this.filter,
     };
 
     return layer_proto;
