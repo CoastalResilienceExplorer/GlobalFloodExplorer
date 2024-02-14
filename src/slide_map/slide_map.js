@@ -72,7 +72,7 @@ export function SlideMap({
     right_setLayerGroup("Flooding");
     // Wait for initialization
     setTimeout(() => {
-      left_setSubgroup("flooding_1996");
+      left_setSubgroup("flooding_nomang");
       right_setSubgroup("flooding_2015");
     }, 500);
     document

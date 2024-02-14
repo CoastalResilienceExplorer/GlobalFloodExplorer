@@ -60,8 +60,8 @@ export function useLayers(
         map.setMaxPitch(75);
         map.dragRotate.enable();
       } else {
-        map.setPitch(0, { duration: 2000 });
-        map.rotateTo(0, { animationDu: 2000 });
+        map.setPitch(0);
+        map.rotateTo(0, { animationDuration: 2000 });
         viewportLockTimeout.current = setTimeout(() => {
           map.setMaxPitch(0);
           map.dragRotate.disable();

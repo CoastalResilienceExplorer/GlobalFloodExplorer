@@ -23,6 +23,17 @@ const flooding_2015_pt = {
   maxzoom: 14,
 };
 
+const flooding_nomang_pt = {
+  id: "flooding_nomang_pt",
+  type: "vector",
+  format: "mvt",
+  tiles: [
+    `${PMSERVER_URL}/cwon_data_chunked/Without_TC_Tr_${RP}/{z}/{x}/{y}.mvt`,
+  ],
+  minzoom: 0,
+  maxzoom: 14,
+};
+
 const mangroves_1996 = {
   id: "mangroves_1996",
   type: "vector",
@@ -90,6 +101,7 @@ const sources = [
   ["mangroves_2015", mangroves_2015],
   ["mangroves_1996", mangroves_1996],
   ["flooding_2015_pt", flooding_2015_pt],
+  ["flooding_nomang_pt", flooding_nomang_pt],
   ["UCSC_CWON_studyunits", CWON_tesela_bounds],
   ["UCSC_CWON_studyunits_reppts", CWON_tesela_reppts],
   ["UCSC_CWON_studyunits_hexs", CWON_tesela_hexs],

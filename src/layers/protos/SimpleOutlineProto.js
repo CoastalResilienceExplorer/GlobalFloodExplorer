@@ -7,6 +7,8 @@ export default class SimpleOutlineProto {
     layer_title,
     display_legend = false,
     filter = [],
+    minzoom = 0,
+    maxzoom = 16,
   }) {
     this.id = id;
     this.source = source;
@@ -16,6 +18,8 @@ export default class SimpleOutlineProto {
     this.layer_title = layer_title;
     this.display_legend = display_legend;
     this.filter = filter;
+    this.minzoom = minzoom;
+    this.maxzoom = maxzoom;
   }
 
   get MBLayer() {
@@ -47,8 +51,8 @@ export default class SimpleOutlineProto {
           this.strokes.opacity,
         ],
       },
-      minzoom: 0,
-      maxzoom: 16,
+      minzoom: this.minzoom,
+      maxzoom: this.maxzoom,
       filter: this.filter,
     };
 
