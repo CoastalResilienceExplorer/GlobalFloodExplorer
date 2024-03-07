@@ -40,11 +40,11 @@ export const SplashScreen = ({
     >
       <header className="flex flex-row m-2 md:m-8 items-center">
         <img src={UCSC} alt="UCSC Logo" className="w-52 max-w-[32%]" />
-        <img
+        {/* <img
           src={TNC}
           alt="TNC Logo"
           className="w-60 max-w-[32%]	ml-2 md:ml-4"
-        />
+        /> */}
         <img
           src={IHCant}
           alt="IH Logo"

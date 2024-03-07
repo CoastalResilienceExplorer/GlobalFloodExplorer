@@ -8,7 +8,7 @@ function CircleSelector({ selectedFloodGroup, thisFloodgroup, setFloodGroup }) {
     None: "None",
     flooding_1996: "1996",
     flooding_2015: "2015",
-    flooding_nomang: "W/O",
+    flooding_nomang: "No Mangroves",
   };
 
   return (
