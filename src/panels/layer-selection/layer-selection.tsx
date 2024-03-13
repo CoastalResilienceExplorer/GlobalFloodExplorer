@@ -18,6 +18,7 @@ import {
   LAYER_BOUNCE_OPEN_TIMEOUT,
 } from "layers/layer-bounce";
 import "panels/layer-selection/layer-selection.css";
+import QuickExplore from "panels/quick-explore";
 
 type LayerSelectionProps = {
   layerGroups: Record<LayerName, LayerGroup>;
@@ -48,22 +49,18 @@ export const LayerSelection: React.FC<LayerSelectionProps> = ({
   }));
 
   useEffect(() => {
-    console.log(layerGroupSelectedFrom);
-  }, [layerGroupSelectedFrom]);
-
-  useEffect(() => {
     containerApi.start({ width: ICON_CONTAINER_INITIAL_WIDTH });
   }, [containerApi]);
 
-  const handleIconHover = () => {
+  const handleIconHover = useCallback(() => {
     containerApi.start({ width: activeLayerButton.current?.scrollWidth });
     iconApi.start({ width: ICON_HOVER_SIZE, height: ICON_HOVER_SIZE });
-  };
+  }, [containerApi, iconApi]);
 
-  const handleIconUnhover = () => {
+  const handleIconUnhover = useCallback(() => {
     containerApi.start({ width: ICON_CONTAINER_INITIAL_WIDTH });
     iconApi.start({ width: ICON_INITIAL_SIZE, height: ICON_INITIAL_SIZE });
-  };
+  }, [containerApi, iconApi]);
 
   useEffect(() => {
     if (layerGroupSelectedFrom === LayerSelectionFrom.breadcrumb) {
@@ -75,7 +72,12 @@ export const LayerSelection: React.FC<LayerSelectionProps> = ({
         setLayerGroupSelectedFrom(LayerSelectionFrom.reset);
       }, LAYER_BOUNCE_FLASH_TIMEOUT); //This should correspond to whatever the CSS animation time is, or it will be cut short
     }
-  }, [layerGroupSelectedFrom]);
+  }, [
+    handleIconHover,
+    handleIconUnhover,
+    layerGroupSelectedFrom,
+    setLayerGroupSelectedFrom,
+  ]);
 
   return (
     <animated.div
@@ -173,7 +175,7 @@ export const LayerSelection: React.FC<LayerSelectionProps> = ({
         <MenuItem
           iconSprings={iconSprings}
           name="Quick Explore"
-          description="Jump into the areas that provide the best demonstration of the findings. (Coming Soon)"
+          description={() => <QuickExplore />}
           IconComponent={() => (
             <Icon
               icon="material-symbols:explore-outline"

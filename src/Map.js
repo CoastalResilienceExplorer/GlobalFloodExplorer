@@ -36,6 +36,7 @@ import {
   NavigationControls,
 } from "./splash-screens/disclaimer-screen";
 import { LayerName } from "types/dataModel";
+import FlyToContext from "panels/FlyToContext";
 
 const all_selectable_layers = Object.values(layersByGroup)
   .flat()
@@ -298,12 +299,14 @@ export default function Map() {
           setNavigationControls={setNavigationControls}
         />
       )}
-      <LayerSelection
-        layerGroups={layerGroups}
-        selectedLayer={layerGroup}
-        setSelectedLayer={setLayerGroup}
-        setBounds={flyToBounds}
-      />
+      <FlyToContext.Provider value={{ flyToViewport, setLayerGroup }}>
+        <LayerSelection
+          layerGroups={layerGroups}
+          selectedLayer={layerGroup}
+          setSelectedLayer={setLayerGroup}
+          setBounds={flyToBounds}
+        />
+      </FlyToContext.Provider>
     </InfoContext.Provider>
   );
 }
