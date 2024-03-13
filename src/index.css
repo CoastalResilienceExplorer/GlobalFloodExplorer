@@ -85,6 +85,19 @@ code {
     @apply text-base md:text-lg;
   }
 
+  .label {
+    @apply font-serif text-xs md:text-sm italic font-normal;
+    transition: color 0.2s ease-in-out;
+  }
+
+  .label a {
+    @apply underline;
+  }
+
+  p.label a:hover {
+    @apply text-coral;
+  }
+
   /* Large Label */
   .label-large {
     @apply font-serif text-sm md:text-base italic font-normal;
