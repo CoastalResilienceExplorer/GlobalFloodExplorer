@@ -175,7 +175,7 @@ export const LayerSelection: React.FC<LayerSelectionProps> = ({
         <MenuItem
           iconSprings={iconSprings}
           name="Quick Explore"
-          description={(updateHeight, hovered) => <QuickExplore />}
+          description={() => <QuickExplore />}
           IconComponent={() => (
             <Icon
               icon="material-symbols:explore-outline"

@@ -21,7 +21,10 @@ const ExplorerButton = ({
   }, [flyToContext, region, group]);
 
   return (
-    <button onClick={onClick} className="basis-1/2 my-2 hover:text-coral">
+    <button
+      onClick={onClick}
+      className="basis-1/2 my-2 hover:text-coral hover:drop-shadow"
+    >
       <h6 className="transition">{text}</h6>
       <p className="label italic">({region})</p>
     </button>
