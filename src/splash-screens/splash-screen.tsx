@@ -1,13 +1,12 @@
 import ReactGA from "react-ga4";
 
 // Researchers
-import UCSC from "../assets/UCSC_White_Logo.png";
-import IHCant from "../assets/ih_logo.png";
+import UCSC from "../assets/CCCR-UCSC.png";
+import IHCant from "../assets/IHCantabria.png";
 
 // Other Sponsors
-import IKI from "../assets/IKI_Climate.jpg";
-import AXA from "../assets/AXA_Research_Fund.jpg";
-import WB from "../assets/world-bank-logo.jpg";
+import AXA from "../assets/AXA_Research_Fund.png";
+import WB from "../assets/The_World_Bank.png";
 import TNC from "../assets/Nature_Conservancy_Logo_Color.jpg";
 import { useSpring, animated } from "@react-spring/web";
 
@@ -40,17 +39,19 @@ export const SplashScreen = ({
       style={springProps}
       className="z-10 w-full h-full flex-col flex absolute bg-cover justify-between bg-open bg-[url('./assets/SplashBackground_Mobile.jpg')] md:bg-[url('./assets/SplashBackground.jpg')]"
     >
-      <header className="flex flex-row m-2 md:m-8 items-center">
-        <img src={UCSC} alt="UCSC Logo" className="w-64 mt-7 max-w-[45%]" />
-        <img
-          src={IHCant}
-          alt="IH Logo"
-          className="w-64 max-w-[45%]	ml-4 md:ml-8"
-        />
+      <header className="flex  px-2 md:px-8 py-1 pr-12 md:pr-24 scale-y-[-1] mr-auto bg-[length:100%_100%] bg-[url('./assets/SplashFooterBackground.png')]">
+        <div className="flex flex-row items-center scale-y-[-1]">
+          <img src={UCSC} alt="UCSC Logo" className="w-48 mt-5 max-w-[45%]" />
+          <img
+            src={IHCant}
+            alt="IH Logo"
+            className="w-48 max-w-[45%]	ml-4 md:ml-8"
+          />
+        </div>
       </header>
       <main className="flex text-left">
         <div
-          className="mx-3 md:mx-[10%] md:max-w-[680px]"
+          className="mx-3 md:mx-[10%] md:max-w-[630px]"
           data-cy="splashscreen-body-title"
         >
           <h2 className="text-white leading-none md:leading-tight">
@@ -60,18 +61,16 @@ export const SplashScreen = ({
             Explorer
           </h1>
           <p className="body-large text-white mb-2">
-            Increasing coastal hazards due to climate change require innovative
-            solutions that leverage natural infrastructure like reefs and
-            mangroves.
+            Climate change, coastal development and habitat loss all increase
+            coastal risk to people and property.
           </p>
           <p className="body-large text-white mb-6">
-            Explore the shorelines providing the most greatest benefits to
-            humans and those at greatest risk in our rapidly changing climate.
+            Explore the coastlines at the greatest risk and where nature-based
+            solutions provide the greatest benefits.
           </p>
           <p className="label-large text-white mb-4">
-            Based on the findings of: Menéndez, P., Losada, I.J., Torres-Ortega,
-            S. et al. The Global Flood Protection Benefits of Mangroves. Sci Rep
-            10, 4404 (2020).{" "}
+            Source to be Cited: Menéndez, Losada, Torres-Ortega, Narayan & Beck.
+            The Global Flood Protection Benefits of Mangroves. 2020.{" "}
             <a
               className="label-large text-white"
               href="https://doi.org/10.1038/s41598-020-61136-6"
@@ -82,14 +81,14 @@ export const SplashScreen = ({
             </a>
           </p>
           <p className="label-large text-white mb-8">
-            Learn more about{" "}
+            Learn more about the{" "}
             <a
               className="label-large text-white"
               href="https://www.coastalresiliencelab.org/"
               target="_blank"
               rel="noreferrer"
             >
-              UCSC’s Coastal Resilience Lab&nbsp;–›
+              UCSC Center for Coastal Climate Resilience&nbsp;–›
             </a>
           </p>
           <button
@@ -109,22 +108,17 @@ export const SplashScreen = ({
           <img
             src={WB}
             alt="The World Bank Logo"
-            className="max-h-8	max-w-[22%] md:max-w-[25%] mx-1 md:mx-4"
+            className="max-h-7	pt-0.25 max-w-[30%] md:max-w-[30%] mx-1 md:mx-4"
           />
           <img
             src={AXA}
             alt="AXA Research Fund Logo"
-            className="max-h-8	max-w-[22%] md:max-w-[25%] mx-1 md:mx-4"
-          />
-          <img
-            src={IKI}
-            alt="International Climate Initiative Logo"
-            className="max-h-8 max-w-[22%] md:max-w-[25%] mx-1 md:mx-4"
+            className="max-h-8	max-w-[33%] md:max-w-[33%] mx-1 md:mx-4"
           />
           <img
             src={TNC}
             alt="TNC Logo"
-            className="max-h-8 max-w-[22%] md:max-w-[25%] mx-1 md:mx-4"
+            className="max-h-8 max-w-[33%] md:max-w-[33%] mx-1 md:mx-4"
           />
         </div>
       </footer>

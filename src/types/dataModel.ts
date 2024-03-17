@@ -4,10 +4,10 @@ import {
 } from "layers/colormaps/colormaps";
 
 export enum LayerName {
-  BenefitAEB = "Benefit (EAB)",
+  BenefitAEB = "Benefit (Economic)",
   RiskReduction = "Risk Reduction Ratio",
   Flooding = "Flooding",
-  Population = "Population",
+  Population = "Benefit (Social)",
 }
 
 export type Layer = {

@@ -117,25 +117,35 @@ export const LayerSelection: React.FC<LayerSelectionProps> = ({
           description={
             <>
               <p>
-                Learn more about{" "}
+                Learn more about the{" "}
                 <a
                   href="https://www.coastalresiliencelab.org/"
                   target="_blank"
                   rel="noreferrer"
                   className="underline hover:text-coral hover:stroke-coral hover:fill-coral"
                 >
-                  UCSC’s Coastal Resilience Lab&nbsp;–›
+                  Center for Coastal Climate Resilience Lab&nbsp;–›
                 </a>
               </p>
               <p>
-                Read{" "}
+                Read the{" "}
                 <a
                   href="https://doi.org/10.1038/s41598-020-61136-6"
                   target="_blank"
                   rel="noreferrer"
                   className="underline hover:text-coral hover:stroke-coral hover:fill-coral"
                 >
-                  the report&nbsp;–›
+                  scientific paper
+                </a>{" "}
+                or the latest{" "}
+                {/* TODO: Update this link to the World Bank report when published */}
+                <a
+                  href="https://doi.org/10.1038/s41598-020-61136-6"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="underline hover:text-coral hover:stroke-coral hover:fill-coral"
+                >
+                  World Bank report&nbsp;–›
                 </a>
               </p>
             </>
@@ -145,7 +155,7 @@ export const LayerSelection: React.FC<LayerSelectionProps> = ({
       <div className="bg-trench hover:bg-shoreline block text-left transition-[height]">
         <MenuItem
           iconSprings={iconSprings}
-          name="Downloads"
+          name="Data Downloads"
           description={
             <p>
               {downloads.map((download) => (

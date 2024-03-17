@@ -343,7 +343,7 @@ const layerGroups: Record<LayerName, LayerGroup> = {
   [LayerName.BenefitAEB]: {
     name: LayerName.BenefitAEB,
     shortDescription:
-      "The annual expected benefit (AEB) is the average annual benefit of mangroves over a 20-year period.",
+      "Annual Expected Benefit (AEB) is the flood risk reduced by mangroves annually in a location (in $).",
     IconComponent: () => (
       <Icon icon="ph:hand-coins" color="white" className="w-full h-full" />
     ),
@@ -353,7 +353,7 @@ const layerGroups: Record<LayerName, LayerGroup> = {
   [LayerName.RiskReduction]: {
     name: LayerName.RiskReduction,
     shortDescription:
-      "The ratio of the expected annual benefit (AEB)  mangroves to the annual expected benefit without.",
+      "The % of current annual flood risk reduced by mangroves.",
     IconComponent: () => (
       <Icon
         icon="lucide:git-compare"
@@ -367,7 +367,7 @@ const layerGroups: Record<LayerName, LayerGroup> = {
   [LayerName.Flooding]: {
     name: LayerName.Flooding,
     shortDescription:
-      "The depth of flooding in the event of a 50-year storm surge at different years.",
+      "Flood Depth (m) with and without mangroves for 1 in 50 year storm event.",
     IconComponent: () => (
       <Icon
         icon="ri:flood-line"
@@ -381,7 +381,7 @@ const layerGroups: Record<LayerName, LayerGroup> = {
   [LayerName.Population]: {
     name: LayerName.Population,
     shortDescription:
-      "The annual expected population protected is the avg. annual reduction of people exposed to flooding.",
+      "Annual Expected Benefit (AEB) is the flood risk reduced by mangroves annually in a location (in avoided damages to people).",
     IconComponent: () => (
       <Icon
         icon="pepicons-pencil:people"
