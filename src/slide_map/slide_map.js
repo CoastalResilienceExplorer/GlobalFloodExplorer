@@ -14,7 +14,7 @@ import { filters } from "layers/filters";
 
 export function SlideMap({
   initialStates,
-  style,
+  theme,
   viewport,
   access_token,
   other_map,
@@ -23,17 +23,13 @@ export function SlideMap({
     map: left_map,
     mapContainer: left_mapContainer,
     mapLoaded: left_mapLoaded,
-    style: left_style,
-    setStyle: left_setStyle,
-  } = useMap(viewport, access_token);
+  } = useMap(viewport, access_token, theme);
 
   const {
     map: right_map,
     mapContainer: right_mapContainer,
     mapLoaded: right_mapLoaded,
-    style: right_style,
-    setStyle: right_setStyle,
-  } = useMap(viewport, access_token);
+  } = useMap(viewport, access_token, theme);
 
   const {
     subgroup: left_subgroup,
@@ -44,7 +40,7 @@ export function SlideMap({
     left_mapLoaded,
     initialStates.layer,
     initialStates.subgroup,
-    left_style,
+    theme,
     layersByGroup,
     sources,
     custom_layer_protos,
@@ -60,7 +56,7 @@ export function SlideMap({
     right_mapLoaded,
     initialStates.layer,
     initialStates.subgroup,
-    right_style,
+    theme,
     layersByGroup,
     sources,
     custom_layer_protos,
@@ -90,23 +86,18 @@ export function SlideMap({
     other_map,
   );
 
-  useEffect(() => {
-    left_setStyle(style);
-    right_setStyle(style);
-  }, [left_setStyle, right_setStyle, style]);
-
   return (
     <div id="slide-map-container">
       <div
         ref={left_mapContainer}
         className="map"
         style={{ clipPath: leftClip }}
-      ></div>
+      />
       <div
         ref={right_mapContainer}
         className="map"
         style={{ clipPath: rightClip }}
-      ></div>
+      />
       <div
         className="mapboxgl-compare"
         style={{ transform: `translate(${slideTransformPx}px, 0px)` }}
@@ -119,7 +110,7 @@ export function SlideMap({
             floodingOn={true}
           />
         </div>
-        <div id="compare-swiper-vertical"></div>
+        <div id="compare-swiper-vertical" />
         <FloodSelector
           offset={1}
           floodGroup={right_subgroup}

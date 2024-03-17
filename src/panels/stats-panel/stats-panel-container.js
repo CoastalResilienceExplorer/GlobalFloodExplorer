@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import "./stats-panel-container.css";
-import { ReactComponent as OpenLogo } from "assets/Opentab.svg";
 import SelectedFeaturesPanel from "./selected-features-panel";
 import FlyToContext from "../FlyToContext";
 import { useInfoContext } from "hooks/useInfo";
