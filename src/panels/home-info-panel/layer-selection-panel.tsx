@@ -6,7 +6,6 @@ import aeb_ha from "assets/AEB_ha_square.png";
 import aeb from "assets/AEB_square.png";
 import HEX from "assets/HEX_square.png";
 import Flood from "assets/Flood_square.png";
-import { Icon } from "@iconify/react";
 
 import { ReactComponent as OpenCloseToggleIcon } from "assets/OpenCloseToggle2.svg";
 

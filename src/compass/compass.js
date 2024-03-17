@@ -1,16 +1,12 @@
 import "./compass.css";
-import * as React from "react";
 import { useState, useRef, useEffect } from "react";
 import { useInfoContext } from "hooks/useInfo";
 import { ReactComponent as CompassSVG } from "assets/compass.svg";
-import { ReactComponent as MapSVG } from "assets/Map_Icon.svg";
 import { ReactComponent as Plus } from "assets/Plus.svg";
 import { ReactComponent as Minus } from "assets/Minus.svg";
-import { ReactComponent as Controls } from "assets/Controls.svg";
 import Hover from "components/hover";
 import { useFilterContext } from "hooks/useFilters";
 import { Icon } from "@iconify/react";
-import { HOVER_TIMEOUT } from "hooks/useBreadcrumbs";
 import { default_mang_perc_change_filter } from "layers/filters";
 import { BasemapMap } from "basemap_manager/BasemapManager";
 
@@ -37,12 +33,10 @@ export default function Compass(props) {
   }
 
   useEffect(() => {
-    console.log(filterIsHovering);
     filterIsHoveringRef.current = filterIsHovering;
   }, [filterIsHovering]);
 
-  const { filtersOn, setFiltersOn, activeFilters, activeFiltersRef } =
-    useFilterContext();
+  const { filtersOn, setFiltersOn } = useFilterContext();
 
   useWhile.on(
     () => filterIsHovering && filtersOn,

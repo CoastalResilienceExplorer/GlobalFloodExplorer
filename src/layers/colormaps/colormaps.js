@@ -36,7 +36,6 @@ export class DiscreteColorSizeScale extends MapboxPaintManager {
   }
 
   get SizeRamp() {
-    // console.log(this.sizeRamp.breaks.slice(1))
     return this.constructMapboxExpression(this.sizeRamp);
   }
 

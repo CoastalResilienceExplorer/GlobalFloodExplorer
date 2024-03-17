@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./layer-selection-panel.css";
 import aeb_ha from "assets/AEB_ha_square.png";
 import aeb from "assets/AEB_square.png";
@@ -10,22 +10,22 @@ import { ReactComponent as OpenCloseToggleIcon } from "assets/OpenCloseToggle2.s
 const layers = {
   "Benefit (AEB)": (
     <div className="layer-selection-image-container">
-      <img src={aeb} className="layer-selection-icon" />
+      <img src={aeb} className="layer-selection-icon" alt="" />
     </div>
   ),
   "Benefit per Hectare": (
     <div className="layer-selection-image-container">
-      <img src={aeb_ha} className="layer-selection-icon" />
+      <img src={aeb_ha} className="layer-selection-icon" alt="" />
     </div>
   ),
   "Risk Reduction Ratio": (
     <div className="layer-selection-image-container">
-      <img src={HEX} className="layer-selection-icon" />
+      <img src={HEX} className="layer-selection-icon" alt="" />
     </div>
   ),
   Flooding: (
     <div className="layer-selection-image-container">
-      <img src={Flood} className="layer-selection-icon" />
+      <img src={Flood} className="layer-selection-icon" alt="" />
     </div>
   ),
 };
@@ -75,43 +75,12 @@ function OpenCloseToggle({ isOpen, setIsOpen }) {
   );
 }
 
-function CurrentlyViewingTitle({ selectedLayer, breadcrumbs }) {
-  const layer_display_text_mapping = {
-    "Benefit per Hectare": "Annual Expected Benefits per Hectare Mangroves",
-    "Benefit (AEB)": "Annual Expected Benefits",
-    "Risk Reduction Ratio": "Risk Reduction Ratio",
-    Flooding: "Flooding",
-  };
-
-  return (
-    <div className="currently-viewing-text-container">
-      <div>
-        Currently Viewing: <br></br>
-        <div className="currently-viewing-text-layer">
-          {layer_display_text_mapping[selectedLayer]}
-        </div>
-        {/* <br></br>
-            {breadcrumbs[0] && 'in '}
-            <div className='currently-viewing-text-location'>
-                {breadcrumbs[0] && breadcrumbs[0]}
-            </div> */}
-      </div>
-    </div>
-  );
-}
-
 function TouchLayerSelectionPanel({ selectedLayer, setSelectedLayer }) {
   const isOpen = false;
   const [swipeStartX, setSwipeStartX] = useState(null);
   const [swipeStartY, setSwipeStartY] = useState(null);
   const [swipeCurrentX, setSwipeCurrentX] = useState(null);
   const [swipeCurrentY, setSwipeCurrentY] = useState(null);
-
-  useEffect(() => {
-    console.log("X", swipeStartX, swipeCurrentX);
-    console.log("Y", swipeStartY, swipeCurrentY);
-    console.log(Math.abs(swipeCurrentY - swipeStartY));
-  }, [swipeCurrentX]);
 
   function swipeType() {
     if (Math.abs(swipeCurrentX - swipeStartX) < 50) return null;
@@ -123,10 +92,8 @@ function TouchLayerSelectionPanel({ selectedLayer, setSelectedLayer }) {
   function changeSelectedLayer() {
     const l = Object.keys(layers);
     const currentIndex = l.indexOf(selectedLayer);
-    console.log(swipeType());
     if (swipeType() === "RIGHT") {
       const nextIndex = (currentIndex + 1) % l.length;
-      console.log(nextIndex);
       setSelectedLayer(l[nextIndex]);
     }
     if (swipeType() === "LEFT") {
@@ -134,7 +101,6 @@ function TouchLayerSelectionPanel({ selectedLayer, setSelectedLayer }) {
       nextIndex < 0
         ? setSelectedLayer(l[l.length + nextIndex])
         : setSelectedLayer(l[nextIndex]);
-      console.log(nextIndex);
     }
   }
 
@@ -169,18 +135,11 @@ function TouchLayerSelectionPanel({ selectedLayer, setSelectedLayer }) {
           isOpen={isOpen}
         />
       </div>
-      {/* <OpenCloseToggle isOpen={isOpen} setIsOpen={setIsOpen} /> */}
-      {/* <CurrentlyViewingTitle selectedLayer={selectedLayer} breadcrumbs={breadcrumbs} /> */}
     </div>
   );
 }
 
-function LayerSelectionPanel({
-  selectedLayer,
-  setSelectedLayer,
-  breadcrumbs,
-  isTouch,
-}) {
+function LayerSelectionPanel({ selectedLayer, setSelectedLayer, isTouch }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const getLayersToDisplay = () => {
@@ -211,10 +170,6 @@ function LayerSelectionPanel({
         ))}
       </div>
       <OpenCloseToggle isOpen={isOpen} setIsOpen={setIsOpen} />
-      {/* <CurrentlyViewingTitle
-        selectedLayer={selectedLayer}
-        breadcrumbs={breadcrumbs}
-      /> */}
     </div>
   );
 }

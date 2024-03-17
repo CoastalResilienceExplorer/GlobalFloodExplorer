@@ -1,4 +1,4 @@
-import React, { useMemo, useContext } from "react";
+import { useMemo } from "react";
 import { kFormatter } from "hooks/utils/formattingUtils";
 import "./selected-features-panel.css";
 import "./stats-panel-container.css";
@@ -7,20 +7,9 @@ import "./stats-panel-container.css";
 import LineChart2 from "./charts/LineChart2";
 import PieChart2 from "./charts/PieChart2";
 import ColoredSVGChart from "./charts/ColoredSVGChart";
-import ScaledSVGComparison from "./charts/ScaledSVGComparison";
 
-import { aois as viewports } from "data/viewports";
-import FlyToContext from "../FlyToContext";
-
-// In-Panel Icons
-import { ReactComponent as MangroveIcon } from "assets/Mangrove.svg";
-import { ReactComponent as AEB_equation } from "assets/AEB_equation.svg";
-import { ReactComponent as AEBperHectare_equation } from "assets/AEBperHECTARE.svg";
-import { ReactComponent as RRR_equation } from "assets/RiskReductionRatio.svg";
-
-import layerGroups, { year } from "layers/layers";
+import layerGroups from "layers/layers";
 import { LayerName } from "types/dataModel";
-import { Icon } from "@iconify/react";
 
 const sum = (acc, cur) => {
   return acc + cur;
@@ -54,15 +43,6 @@ function MetricTitle({ title, Icon, selected, setLayerGroup, clickable }) {
       <div className="aeb-title-text-container">
         <h4 className="text-white">{title}</h4>
       </div>
-    </div>
-  );
-}
-
-function SimpleMetric({ metric, suffix, formatter = "$" }) {
-  return (
-    <div className="aeb-number-text">
-      ${kFormatter(metric, formatter)}
-      {suffix ? suffix : null}
     </div>
   );
 }
@@ -130,10 +110,6 @@ function SelectedFeaturesPanel({
     () => getStat(`Risk_Pop_${selectedYear}`, selectedFeatures),
     [selectedFeatures, selectedYear],
   );
-  const AEB = useMemo(
-    () => getStat(`Ben_Stock_${selectedYear}`, selectedFeatures),
-    [selectedFeatures, selectedYear],
-  );
   const mangroves1996 = useMemo(
     () => getStat(`Mang_Ha_1996`, selectedFeatures),
     [selectedFeatures],
@@ -160,7 +136,6 @@ function SelectedFeaturesPanel({
     [selectedFeatures],
   );
 
-  const ben_per_ha = AEB / mangroves2015;
   const stock_risk_reduct_ratio =
     (stockNoMangroves - stockWithMangroves) / stockNoMangroves;
 

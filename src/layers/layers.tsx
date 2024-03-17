@@ -1,11 +1,9 @@
 import {
   Blue_5Step,
   Blue_5Step_0_1,
-  Red_10Step_negative1_positive1,
   SelectedTessela,
   FloodMaps_Bathy,
   Green,
-  Red,
   Blue_5Step_Pop,
 } from "./colormaps/colormaps";
 import { Layer, LayerGroup, LayerName } from "types/dataModel";
@@ -20,7 +18,6 @@ export const year = 2015;
 export const ben_stock = ["to-number", ["get", `Ben_Stock_${year}`]];
 const risk_stock = ["to-number", ["get", `Risk_Stock_${year}`]];
 const ben_pop = ["to-number", ["get", `Ben_Pop_${year}`]];
-const risk_pop = ["to-number", ["get", `Risk_Pop_${year}`]];
 const nomang_risk_stock = ["+", ben_stock, risk_stock];
 const risk_reduction_ratio = [
   "case",
@@ -244,101 +241,11 @@ const Population = [
     layer_title: `Annual Population Benefit ${year}`,
     layer_type: "DISCRETE_POINT",
     legend_prefix: "",
-    // format: "$",
     is_selectable: true,
     minzoom: COUNTRY_TESELA_ZOOM_SWITCH,
   },
-  // {
-  //   id: "country_bounds",
-  //   source: "UCSC_CWON_countrybounds",
-  //   source_layer: "UCSC_CWON_countrybounds",
-  //   colorValue: ben_pop,
-  //   legend: Blue_5Step_Pop,
-  //   layer_title: "Annual Expected Benefit",
-  //   display_legend: false,
-  //   layer_type: "FILL_WITH_OUTLINE",
-  //   legend_prefix: "$",
-  //   format: "$",
-  //   is_selectable: true,
-  //   opacity: 0.5,
-  //   maxzoom: COUNTRY_TESELA_ZOOM_SWITCH,
-  //   // filter: [">", ben_stock, ben_filter_value],
-  // },
 ];
 
-const MangroveLoss = [
-  {
-    id: "tessela_bounds",
-    source: "CWON_combined_teselas",
-    source_layer: "CWON_combined_teselas",
-    legend: SelectedTessela,
-    layer_title: "Tessela",
-    layer_type: "SIMPLE_OUTLINE",
-    selection_dependent_on: "CWON_combined_teselas_reppts",
-  },
-  {
-    id: "tessela_rps",
-    source: "CWON_combined_teselas_reppts",
-    source_layer: "CWON_combined_teselas_reppts",
-    colorValue: [
-      "/",
-      [
-        "-",
-        ["to-number", ["get", "Mang_Ha_2020"]],
-        ["to-number", ["get", "Mang_Ha_1996"]],
-      ],
-      ["+", ["to-number", ["get", "Mang_Ha_1996"]], 1], //Divide by zero
-    ],
-    legend: Red_10Step_negative1_positive1,
-    layer_title: "Annual Expected Benefit",
-    layer_type: "DISCRETE_POINT",
-    legend_prefix: "",
-    format: "%",
-    is_selectable: true,
-  },
-  {
-    id: "flooding_2015",
-    source: "flooding_2015_pt",
-    source_layer: "with_2015_TC_Tr_100",
-    legend: FloodMaps_Bathy,
-    colorValue: ["to-number", ["get", "value"]],
-    layer_title: "Without Mangroves, RP50",
-    layer_type: "GEO_POINT",
-    legend_suffix: "m",
-    minzoom: 4,
-  },
-  {
-    id: "mangroves_1996",
-    source: "mangroves_1996",
-    source_layer: "GMW_1996_v3_Areas",
-    layer_title: "Mangroves 1996",
-    colorValue: ["to-number", ["get", "PXLVAL"]],
-    legend: Green,
-    layer_type: "FILL_WITH_OUTLINE",
-    display_legend: false,
-    opacity: 1.0,
-    minzoom: 4,
-    maxzoom: 18,
-  },
-  {
-    id: "mangroves_2015",
-    source: "mangroves_2015",
-    source_layer: "cf23fc24843b11eeb772b580fc9aa31f",
-    layer_title: "Mangroves 2015",
-    colorValue: ["to-number", ["get", "PXLVAL"]],
-    legend: Red,
-    layer_type: "FILL_WITH_OUTLINE",
-    display_legend: false,
-    opacity: 0.5,
-    minzoom: 4,
-    maxzoom: 18,
-  },
-];
-
-const icon_style = {
-  width: `${BREADCRUMB_ICON_SIZE}px`,
-  height: `${BREADCRUMB_ICON_SIZE}px`,
-};
 const layerGroups: Record<LayerName, LayerGroup> = {
   [LayerName.BenefitAEB]: {
     name: LayerName.BenefitAEB,

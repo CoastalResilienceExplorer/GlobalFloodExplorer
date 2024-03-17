@@ -32,7 +32,6 @@ export default class DiscretePointProto {
   }
 
   get MBLayer() {
-    console.log(this.filter);
     const layer_proto = {
       id: this.id,
       key: this.id,

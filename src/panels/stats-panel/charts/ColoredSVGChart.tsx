@@ -1,17 +1,6 @@
-import { useEffect, useRef, useState } from "react";
 import "./Charts.css";
-import { ReactComponent as FloodingWith_Text } from "assets/Flooding_With.svg";
-import { ReactComponent as FloodingWithout_Text } from "assets/Flooding_Without.svg";
 import { kFormatter } from "hooks/utils/formattingUtils";
-import {
-  Bar,
-  BarChart,
-  Cell,
-  ReferenceArea,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
+import { Bar, BarChart, Cell, ReferenceArea, XAxis, YAxis } from "recharts";
 
 export const ColoredSVGChart = ({
   risk_reduction_ratio,

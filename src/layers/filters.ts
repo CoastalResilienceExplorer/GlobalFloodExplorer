@@ -1,5 +1,4 @@
 import { mang_ha_perc_change, mang_ha_total_change } from "./layers";
-import { Filter } from "types/dataModel";
 
 export const default_mang_perc_change_filter = -0.15;
 export const default_mang_total_change_filter = -100;
