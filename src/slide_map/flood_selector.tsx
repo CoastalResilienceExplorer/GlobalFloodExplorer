@@ -1,14 +1,28 @@
 import { useInfoContext } from "hooks/useInfo";
 import "./flood_selector.css";
 
-function CircleSelector({ selectedFloodGroup, thisFloodgroup, setFloodGroup }) {
-  const styles = {
-    None: "None",
-    flooding_1996: "1996",
-    flooding_2015: "2015",
-    flooding_nomang: "W/O",
-  };
+type CircleSelectorKeys =
+  | "None"
+  | "flooding_1996"
+  | "flooding_2015"
+  | "flooding_nomang";
 
+type CircleSelectorStyles = Record<CircleSelectorKeys, string>;
+
+const styles: CircleSelectorStyles = {
+  None: "None",
+  flooding_1996: "1996",
+  flooding_2015: "2015",
+  flooding_nomang: "W/O",
+};
+
+const CircleSelector = ({
+  thisFloodgroup,
+  setFloodGroup,
+}: {
+  thisFloodgroup: CircleSelectorKeys;
+  setFloodGroup: (floodGroup: CircleSelectorKeys) => void;
+}) => {
   return (
     <div
       className="circle-selector-container flooding"
@@ -19,17 +33,24 @@ function CircleSelector({ selectedFloodGroup, thisFloodgroup, setFloodGroup }) {
       </p>
     </div>
   );
-}
+};
 
-export function FloodSelector({
+export const FloodSelector = ({
   floodGroup,
   setFloodGroup,
   floodingOn,
-  offset,
-}) {
+  position,
+}: {
+  floodGroup: CircleSelectorKeys;
+  setFloodGroup: (floodGroup: CircleSelectorKeys) => void;
+  floodingOn: boolean;
+  position: "left" | "right";
+}) => {
+  // @ts-ignore not ready to type InfoContext yet
   const { useFirst } = useInfoContext();
   useFirst(() => !!floodingOn, "FIRST_FLOODING");
 
+  const offset = position === "left" ? "right" : "left";
   return (
     <>
       {floodingOn ? (
@@ -38,12 +59,11 @@ export function FloodSelector({
           style={{
             position: "absolute",
             bottom: "20px",
-            left: `${offset}px`,
+            [offset]: "1px",
           }}
         >
           <div className="floodgroup-manager-inner-container">
             <CircleSelector
-              selectedFloodGroup={floodGroup}
               thisFloodgroup={floodGroup}
               setFloodGroup={setFloodGroup}
             />
@@ -52,4 +72,4 @@ export function FloodSelector({
       ) : null}
     </>
   );
-}
+};
