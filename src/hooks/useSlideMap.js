@@ -36,7 +36,8 @@ export function useSlideMap(left_map, right_map, other_map) {
     const map = document.querySelector("#slide-map-container");
     const mouseListener = (e) => setMouseLocation(e.clientX);
 
-    el.addEventListener("mousedown", () => {
+    el.addEventListener("mousedown", (event) => {
+      event.preventDefault();
       map.addEventListener("mousemove", mouseListener, true);
     });
     map.addEventListener("mouseup", () => {

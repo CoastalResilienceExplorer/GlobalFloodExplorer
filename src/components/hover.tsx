@@ -42,7 +42,7 @@ const Hover: React.FC<HoverProps> = ({
       onMouseLeave={() => setShow(false)}
     >
       {children}
-      <div className={"hover" + (show ? " show" : "") + extraClasses}>
+      <div className={"hover" + (show ? " show" : "") + " " + extraClasses}>
         {show ? text : ""}
       </div>
     </div>

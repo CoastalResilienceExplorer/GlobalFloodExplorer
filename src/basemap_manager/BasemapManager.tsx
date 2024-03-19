@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./BasemapManager.css";
 
 const base_url = "mapbox://styles/mapbox/";
@@ -16,50 +16,48 @@ export const BasemapMap: Record<BasemapStyle, string> = {
 };
 
 const CircleSelector = ({
-  selectedStyle,
-  thisStyle,
-  setStyle,
+  selectedTheme,
+  thisTheme,
+  setTheme,
 }: {
-  selectedStyle: string;
-  thisStyle: BasemapStyle;
-  setStyle: (style: string) => void;
+  selectedTheme: string;
+  thisTheme: BasemapStyle;
+  setTheme: (style: string) => void;
 }) => {
-  const selected = BasemapMap[thisStyle] === selectedStyle;
+  const selected = BasemapMap[thisTheme] === selectedTheme;
 
   return (
     <div
       className="circle-selector-container"
-      onClick={() => setStyle(BasemapMap[thisStyle])}
+      onClick={() => setTheme(BasemapMap[thisTheme])}
     >
       <p
         className={`font-sans font-bold uppercase circle-selector-text ${
-          selectedStyle === BasemapMap.light ? "text-open" : "text-white"
+          selectedTheme === BasemapMap.light ? "text-open" : "text-white"
         }`}
       >
-        {thisStyle}
+        {thisTheme}
       </p>
       <div
-        className={
-          "circle-selector" + ` ${thisStyle} ${selected ? "selected" : ""}`
-        }
-      ></div>
+        className={`circle-selector ${thisTheme} ${selected ? "selected" : ""}`}
+      />
     </div>
   );
 };
 
 export const BasemapManager = ({
-  style,
-  setStyle,
+  theme,
+  setTheme,
 }: {
-  style: string;
-  setStyle: (style: string) => void;
+  theme: string;
+  setTheme: (style: string) => void;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div
       className={
-        "basemap-manager-container" + (style.includes("light") ? " light" : "")
+        "basemap-manager-container" + (theme.includes("light") ? " light" : "")
       }
       onMouseEnter={() => setIsOpen(true)}
       onMouseLeave={() => setIsOpen(false)}
@@ -67,14 +65,14 @@ export const BasemapManager = ({
       <div className="basemap-manager-inner-container">
         <div className={"circle-selector-outer-container"}>
           {[BasemapStyle.Satellite, BasemapStyle.Light, BasemapStyle.Dark].map(
-            (s) => {
-              if (isOpen || BasemapMap[s] === style) {
+            (t) => {
+              if (isOpen || BasemapMap[t] === theme) {
                 return (
                   <CircleSelector
-                    key={s}
-                    selectedStyle={style}
-                    setStyle={setStyle}
-                    thisStyle={s}
+                    key={t}
+                    selectedTheme={theme}
+                    setTheme={setTheme}
+                    thisTheme={t}
                   />
                 );
               } else {

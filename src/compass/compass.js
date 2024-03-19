@@ -27,7 +27,7 @@ export default function Compass(props) {
   const [filterIsHovering, setFilterIsHovering] = useState(false);
   const filterIsHoveringRef = useRef();
 
-  function adjustViewport(adjustment, transitionDuration = 500) {
+  function adjustViewport(adjustment) {
     const newViewport = Object.assign(props.viewport, adjustment);
     props.setViewport(newViewport);
   }
@@ -70,7 +70,7 @@ export default function Compass(props) {
         >
           <Hover
             text="Set Filter"
-            extraClasses={" " + ReversedBasemapMap[props.style]}
+            extraClasses={ReversedBasemapMap[props.theme]}
           >
             <Icon
               icon="mdi:filter"
@@ -84,10 +84,7 @@ export default function Compass(props) {
           }
           onClick={() => adjustViewport({ bearing: 0, pitch: 0 })}
         >
-          <Hover
-            text="Reorient"
-            extraClasses={" " + ReversedBasemapMap[props.style]}
-          >
+          <Hover text="Reorient" extraClasses={ReversedBasemapMap[props.theme]}>
             <CompassSVG
               fill={highlightCompass ? "coral" : "white"}
               className={"controls-icon compass"}
@@ -104,10 +101,7 @@ export default function Compass(props) {
           className="controls-icon-container"
           onClick={() => adjustViewport({ zoom: props.viewport.zoom + 1 })}
         >
-          <Hover
-            text="Zoom In"
-            extraClasses={" " + ReversedBasemapMap[props.style]}
-          >
+          <Hover text="Zoom In" extraClasses={ReversedBasemapMap[props.theme]}>
             <div className="controls-icon">
               <Plus fill="white" />
             </div>
@@ -117,10 +111,7 @@ export default function Compass(props) {
           className="controls-icon-container"
           onClick={() => adjustViewport({ zoom: props.viewport.zoom - 1 })}
         >
-          <Hover
-            text="Zoom Out"
-            extraClasses={" " + ReversedBasemapMap[props.style]}
-          >
+          <Hover text="Zoom Out" extraClasses={ReversedBasemapMap[props.theme]}>
             <div className="controls-icon">
               <Minus fill="white" />
             </div>

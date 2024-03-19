@@ -21,7 +21,7 @@ import { FLOODING_MIN_ZOOM } from "./layers/layers";
 import Legend from "./legends/legend";
 import StatsPanel from "./panels/stats-panel/stats-panel-container";
 import Compass from "./compass/compass";
-import { BasemapManager } from "./basemap_manager/BasemapManager";
+import { BasemapManager, BasemapMap } from "./basemap_manager/BasemapManager";
 import { SlideMap } from "slide_map/slide_map";
 import { LayerSelection } from "./panels/layer-selection/layer-selection";
 
@@ -35,6 +35,7 @@ import { SplashScreen } from "./splash-screens/splash-screen";
 import { DisclaimerScreen } from "./splash-screens/disclaimer-screen";
 import { LayerName } from "types/dataModel";
 import FlyToContext from "panels/FlyToContext";
+import { initTheme } from "layers/theme";
 
 const all_selectable_layers = Object.values(layersByGroup)
   .flat()
@@ -51,16 +52,9 @@ export default function Map() {
     defaultSubgroup: init_subgroup,
   });
 
-  const {
-    map,
-    mapContainer,
-    mapLoaded,
-    viewport,
-    style,
-    setStyle,
-    flyToViewport,
-    flyToBounds,
-  } = useMap(initialStates.viewport, token);
+  const [theme, setTheme] = useState(BasemapMap[initTheme]);
+  const { map, mapContainer, mapLoaded, viewport, flyToViewport, flyToBounds } =
+    useMap(initialStates.viewport, token, theme);
 
   const {
     layerGroup,
@@ -74,7 +68,7 @@ export default function Map() {
     mapLoaded,
     initialStates.layer,
     initialStates.subgroup,
-    style,
+    theme,
     layersByGroup,
     sources,
     custom_layer_protos,
@@ -238,10 +232,10 @@ export default function Map() {
         {layerGroup === LayerName.Flooding && (
           <SlideMap
             initialStates={initialStates}
-            style={style}
+            theme={theme}
             viewport={viewport}
-            access_token={token}
-            other_map={map}
+            accessToken={token}
+            otherMap={map}
           />
         )}
         <div
@@ -272,8 +266,8 @@ export default function Map() {
         />
       )}
       <BasemapManager
-        style={style}
-        setStyle={setStyle}
+        theme={theme}
+        setTheme={setTheme}
         floodGroup={subgroup}
         setFloodGroup={setSubgroup}
         floodingOn={subgroupOn}
@@ -281,7 +275,7 @@ export default function Map() {
       {infoRefs && (
         <Compass
           viewport={viewport}
-          style={style}
+          theme={theme}
           setViewport={flyToViewport}
           _ref={infoRefs.COMPASS}
           navigationControls={navigationControls}
