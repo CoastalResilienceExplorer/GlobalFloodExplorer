@@ -92,9 +92,8 @@ export const DisclaimerScreen = ({
           </div>
           <h3 className="text-left mb-2">Disclaimer:</h3>
           <p className="body text-left">
-            This map was created by the Coastal Resilience Lab to advance the
-            knowledge of mangroves for coastal flood protection. It is based off
-            a global model, and may contain issues when viewed at local scales.
+            The results are based on global models. They can inform local
+            decisions but caution is urged.
           </p>
           {!isChrome && (
             <>

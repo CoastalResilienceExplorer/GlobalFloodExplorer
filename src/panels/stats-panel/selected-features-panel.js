@@ -205,21 +205,20 @@ function SelectedFeaturesPanel({
   ];
 
   const mangrove_disclaimer_text =
-    "This analysis accounts for increasing wealth at the coast," +
-    " which is why benefits may increase even as mangroves are increasingly threatened.";
+    "This analysis accounts changes in mangroves, population and coastal wealth over time. Flood risk benefits from mangroves grow signficantly with increases in coasal population and wealth.";
 
   return (
     <>
       <TemplateMetricContainer
         icon={layerGroups[LayerName.BenefitAEB].IconComponent}
-        description="Annual Expected Benefit (AEB) is the expected annual damage reduction due to mangroves based on predicted damages from flooding."
+        description="Annual Expected Benefit (AEB) is amount that mangroves are expected to reduce flood damage each year."
         title="Economic Benefit"
       >
         <>
           <div className="flex align-center flex-wrap w-full">
-            <p className="w-3/5 italic text-right">Damage w/o Mangroves:</p>
+            <p className="w-3/5 italic text-right">Damages w/o Mangroves:</p>
             <p className="ml-2 lining-nums">${kFormatter(stockNoMangroves)}</p>
-            <p className="w-3/5 italic text-right">- Damage w/ Mangroves:</p>
+            <p className="w-3/5 italic text-right">- Damages w/ Mangroves:</p>
             <p className="ml-2 lining-nums">
               ${kFormatter(stockWithMangroves)}
             </p>
@@ -242,8 +241,8 @@ function SelectedFeaturesPanel({
 
       <TemplateMetricContainer
         icon={layerGroups[LayerName.Population].IconComponent}
-        description="Change in economic benefit and mangrove extent from 1996 to 2015."
-        title="Changing Benefits"
+        description="Changes in mangrove extent and their economic benefits from 1996-2015."
+        title="Changing Mangroves & Benefits"
         height={50}
       >
         <>
@@ -258,15 +257,19 @@ function SelectedFeaturesPanel({
 
       <TemplateMetricContainer
         icon={layerGroups[LayerName.Population].IconComponent}
-        description="Population Benefit is the expected annual reduction in people exposed to flooding provide by mangroves."
+        description="Population Benefit is number of people that mangroves protect from flooding each year."
         title="Population Benefit"
         height={50}
       >
         <>
           <div className="flex align-center flex-wrap">
-            <p className="w-4/5 italic text-center">Exposure w/o Mangroves:</p>
+            <p className="w-4/5 italic text-center">
+              People flooded w/o Mangroves:
+            </p>
             <p className="ml-2 lining-nums">{kFormatter(popNoMangroves)}</p>
-            <p className="w-4/5 italic text-center">- Exposure w/ Mangroves:</p>
+            <p className="w-4/5 italic text-center">
+              - People flooded w/ Mangroves:
+            </p>
             <p className="ml-2 lining-nums">{kFormatter(popWithMangroves)}</p>
             <div className="w-4/5 my-1 -translate-x-2 mx-auto pr-4 self-center	 border-solid border-t-[1px] border-trench" />
             <p className="w-3/5 italic text-right">Total Protection:</p>

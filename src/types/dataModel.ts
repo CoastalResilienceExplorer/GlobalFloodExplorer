@@ -8,7 +8,7 @@ export enum LayerName {
   BenefitAEB = "Benefit (EAB)",
   RiskReduction = "Risk Reduction Ratio",
   Flooding = "Flooding",
-  Population = "Population",
+  Population = "Benefit (Social)",
 }
 
 export type Layer = {
