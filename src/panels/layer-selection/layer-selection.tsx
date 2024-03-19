@@ -118,7 +118,7 @@ export const LayerSelection: React.FC<LayerSelectionProps> = ({
                   rel="noreferrer"
                   className="underline hover:text-coral hover:stroke-coral hover:fill-coral"
                 >
-                  Center for Coastal Climate Resilience Lab&nbsp;–›
+                  Center for Coastal Climate Resilience&nbsp;–›
                 </a>
               </p>
               <p>

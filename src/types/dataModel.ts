@@ -5,7 +5,7 @@ import {
 
 export enum LayerName {
   CurrentRisk = "Current Risk",
-  BenefitAEB = "Benefit (AEB)",
+  BenefitAEB = "Benefit (Economic)",
   RiskReduction = "Risk Reduction Ratio",
   Flooding = "Flooding",
   Population = "Benefit (Social)",
