@@ -1,1 +1,1 @@
-export const RP = "100";
+export const RP = "050";
