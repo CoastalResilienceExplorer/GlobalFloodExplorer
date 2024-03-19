@@ -234,8 +234,8 @@ export default function Map() {
             initialStates={initialStates}
             theme={theme}
             viewport={viewport}
-            access_token={token}
-            other_map={map}
+            accessToken={token}
+            otherMap={map}
           />
         )}
         <div
