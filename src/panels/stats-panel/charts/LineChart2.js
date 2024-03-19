@@ -8,7 +8,6 @@ import {
   Tooltip,
   XAxis,
   YAxis,
-  Text,
 } from "recharts";
 import { kFormatter } from "hooks/utils/formattingUtils";
 import "./Charts.css";

@@ -20,7 +20,6 @@ export function useSelection(
   }, [selectionType]);
 
   function setFeatureState_withDependencies(f, state) {
-    console.log(f);
     map.setFeatureState(
       {
         source: f.layer.source,
@@ -132,14 +131,11 @@ export function useSelection(
 
         const current_ids = featuresRef.current.map((feat) => feat.id);
         const features = map
-          .queryRenderedFeatures(bbox, {
-            layers: ["tessela_rps"],
-          })
+          .queryRenderedFeatures(bbox, { layers: ["tessela_rps"] })
           .filter((f) => !current_ids.includes(f.id));
         if (features.length >= 1000) {
           return window.alert("Select a smaller number of features");
         }
-        // setSelectedFeatures(features)
         setSelectedFeatures([
           ...new Set([...featuresRef.current, ...features]),
         ]);
@@ -170,7 +166,6 @@ export function useSelection(
         [e.point.x - 5, e.point.y - 5],
         [e.point.x + 5, e.point.y + 5],
       ];
-      console.log(map.queryRenderedFeatures(bbox));
       var features = map
         .queryRenderedFeatures(bbox)
         .filter((x) => all_selectable_layers.includes(x.layer.id));

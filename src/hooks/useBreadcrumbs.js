@@ -5,7 +5,6 @@ import { useLayerBounceContext, LayerSelectionFrom } from "layers/layer-bounce";
 
 export const HOVER_TIMEOUT = 0;
 export const BREADCRUMB_ICON_SIZE = 30;
-const LEAVE_TIMEOUT = 1000;
 
 export function useBreadcrumbs(aois, viewport) {
   const [breadcrumbs, setBreadcrumbs] = useState([]);
@@ -67,9 +66,7 @@ function MarkerWithHook(
   setLayerGroup,
   setLayerGroupSelectedFrom,
 ) {
-  const size = aoi.size;
   var el = document.createElement("div");
-  // const src = `<img src="/images/important.svg" height="${size}px" width="${size}px" alt="My Happy SVG"/>`;
   const src = layerGroups[aoi.layerGroup].IconComponentHTML;
   const component = `
     <div className='breadcrumbs-icon-container'>${src}</div>
@@ -99,7 +96,6 @@ function MarkerWithHook(
   el.addEventListener(
     "mouseover",
     (e) => {
-      console.log("hovering");
       if (aoi.description) {
         setPayload(aoi.description);
       } else {
@@ -129,7 +125,6 @@ export function useMapWithBreadcrumbs(
 ) {
   const [aoisToPlace, setAoisToPlace] = useState([]);
   const [aoisToRemove, setAoisToRemove] = useState([]);
-  const [aoisActive, setAoisActive] = useState([]);
   const [markers, setMarkers] = useState([]);
   const [isHovering, setIsHovering] = useState(false);
   const [payload, setPayload] = useState(false);

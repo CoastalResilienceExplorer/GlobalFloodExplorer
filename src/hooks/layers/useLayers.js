@@ -35,15 +35,9 @@ export function useLayers(
   const layersRef = useRef([]);
   const viewportLockTimeout = useRef();
 
-  const {
-    filtersOn,
-    setFiltersOn,
-    activeFilters: filters,
-    activeFiltersRef,
-  } = useFilterContext();
+  const { filtersOn, activeFilters: filters } = useFilterContext();
 
   const layers_and_legends = useMemo(() => {
-    console.log(filters);
     return getLayers(
       all_layers,
       layerGroup,
@@ -109,7 +103,6 @@ export function useLayers(
       addSourcesAndSupps();
       addLayers(layers);
     });
-    console.log(map);
   }, [style]);
 
   useEffect(() => {

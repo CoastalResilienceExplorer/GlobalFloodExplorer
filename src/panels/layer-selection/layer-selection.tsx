@@ -1,10 +1,4 @@
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useSpring, animated, SpringValue } from "@react-spring/web";
 import { LayerGroup, LayerName } from "types/dataModel";
 import { ReactComponent as LinkSvg } from "assets/link-icon.svg";

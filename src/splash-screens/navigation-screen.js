@@ -1,5 +1,3 @@
-import * as React from "react";
-import { useState } from "react";
 import "./navigation-screen.css";
 import { ReactComponent as CloseButton } from "../assets/close-button.svg";
 

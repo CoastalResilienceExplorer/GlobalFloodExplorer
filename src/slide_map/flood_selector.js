@@ -2,8 +2,6 @@ import { useInfoContext } from "hooks/useInfo";
 import "./flood_selector.css";
 
 function CircleSelector({ selectedFloodGroup, thisFloodgroup, setFloodGroup }) {
-  const selected = selectedFloodGroup === thisFloodgroup;
-
   const styles = {
     None: "None",
     flooding_1996: "1996",

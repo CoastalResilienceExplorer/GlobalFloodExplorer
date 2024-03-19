@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback, useMemo } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 
 import { getViewport } from "./utils/viewportUtils";
@@ -70,7 +70,9 @@ export function useMap(init_viewport, access_token) {
 
       setMapLoaded(true);
     });
-    map.on("click", () => console.log(map));
+    if (process.env.NODE_ENV === "development") {
+      map.on("click", () => console.log(map));
+    }
   }, [map]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return {

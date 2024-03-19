@@ -45,11 +45,9 @@ function Title({ nStudyUnits, locations, selectionType }) {
 
   const n_locations = locations.length;
   const too_many_locations = n_locations > 3;
-  const locations_tmp = locations_spaces.slice(0, 3);
-  console.log(locations_tmp);
 
-  const [showLocationsTooltip, setShowLocationsTooltip] = useState(false);
-  const [locationTooltipY, setLocationTooltipY] = useState(null);
+  const showLocationsTooltip = false;
+  const locationTooltipY = null;
 
   function formatLocationList(locations) {
     if (locations.length === 1) return locations_spaces[0];

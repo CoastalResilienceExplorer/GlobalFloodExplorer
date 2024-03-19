@@ -1,10 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
+// Custom Hooks
 import { useMap } from "hooks/useMap";
 import { useLayers } from "hooks/layers/useLayers";
 import { useLegends } from "hooks/useLegends";
 import { useSelection } from "hooks/useSelection";
-import { useBreadcrumbs, useMapWithBreadcrumbs } from "hooks/useBreadcrumbs";
+import { useMapWithBreadcrumbs } from "hooks/useBreadcrumbs";
 import { InfoContext, useInfo } from "hooks/useInfo";
 import { usePermalinks } from "hooks/usePermalinks";
 
@@ -14,9 +15,9 @@ import layerGroups, { layersByGroup } from "./layers/layers";
 import { protos as custom_layer_protos } from "./layers/protos/custom_protos";
 import { init_viewport, init_layer, init_subgroup } from "./data/startup_data";
 import { aois } from "./data/viewports";
-import { COUNTRY_TESELA_ZOOM_SWITCH, FLOODING_MIN_ZOOM } from "./layers/layers";
+import { FLOODING_MIN_ZOOM } from "./layers/layers";
 
-//Panels
+// Panels
 import Legend from "./legends/legend";
 import StatsPanel from "./panels/stats-panel/stats-panel-container";
 import Compass from "./compass/compass";
@@ -24,17 +25,14 @@ import { BasemapManager } from "./basemap_manager/BasemapManager";
 import { SlideMap } from "slide_map/slide_map";
 import { LayerSelection } from "./panels/layer-selection/layer-selection";
 
-//Info
+// Info
 import Info from "./info/info";
 import infoReducer from "./info/infoReducer";
 import initialInfo from "./info/initialInfo";
 
 // Splash Screens
 import { SplashScreen } from "./splash-screens/splash-screen";
-import {
-  DisclaimerScreen,
-  NavigationControls,
-} from "./splash-screens/disclaimer-screen";
+import { DisclaimerScreen } from "./splash-screens/disclaimer-screen";
 import { LayerName } from "types/dataModel";
 import FlyToContext from "panels/FlyToContext";
 
@@ -211,14 +209,6 @@ export default function Map() {
     }
   };
 
-  useEffect(() => {
-    if (!mapLoaded) return;
-    map.on("click", (e) => {
-      console.log(e);
-      console.log(viewport);
-    });
-  }, [mapLoaded]);
-
   return (
     <InfoContext.Provider
       value={{
@@ -238,7 +228,6 @@ export default function Map() {
         setShow={setDisclaimer}
         isTouch={isTouch}
       />
-      {/* <NavigationControls show={navigationControls} isTouch={isTouch} /> */}
       <Info
         activeInfo={activeInfo}
         allTheThings={allTheThings}

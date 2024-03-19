@@ -1,7 +1,6 @@
 import "./breadcrumbs.css";
 
 function BreadcrumbItem({ b, map }) {
-  console.log(b);
   return (
     <span
       className="breadcrumb"

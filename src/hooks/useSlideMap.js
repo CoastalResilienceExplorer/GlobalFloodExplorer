@@ -1,7 +1,4 @@
-import mapboxgl from "mapbox-gl";
-import * as mapboxCompare from "mapbox-gl-compare";
 import { useEffect, useState, useRef } from "react";
-import { getViewport } from "./utils/viewportUtils";
 import { syncMaps } from "./utils/syncMaps";
 
 export function useSlideMap(left_map, right_map, other_map) {
