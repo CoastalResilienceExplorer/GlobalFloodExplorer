@@ -12,8 +12,8 @@ type CircleSelectorStyles = Record<CircleSelectorKeys, string>;
 const styles: CircleSelectorStyles = {
   None: "None",
   flooding_1996: "1996",
-  flooding_2015: "2015",
-  flooding_nomang: "W/O",
+  flooding_2015: "With Mangroves",
+  flooding_nomang: "Without Mangroves",
 };
 
 const CircleSelector = ({
