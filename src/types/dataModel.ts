@@ -4,6 +4,7 @@ import {
 } from "layers/colormaps/colormaps";
 
 export enum LayerName {
+  CurrentRisk = "Current Risk",
   BenefitAEB = "Benefit (EAB)",
   RiskReduction = "Risk Reduction Ratio",
   Flooding = "Flooding",

@@ -47,6 +47,50 @@ export const mang_ha_total_change = [
 
 const ben_filter_value = 200000;
 
+const current_risk = [
+  {
+    id: "tessela_bounds",
+    source: "UCSC_CWON_studyunits",
+    source_layer: "UCSC_CWON_studyunits",
+    legend: SelectedTessela,
+    layer_title: "Tessela",
+    layer_type: "SIMPLE_OUTLINE",
+    selection_dependent_on: "UCSC_CWON_studyunits_reppts",
+    filter: [">", ben_stock, ben_filter_value],
+    minzoom: COUNTRY_TESELA_ZOOM_SWITCH,
+  },
+  {
+    id: "tessela_rps",
+    source: "UCSC_CWON_studyunits_reppts",
+    source_layer: "UCSC_CWON_studyunits_reppts",
+    colorValue: risk_stock,
+    legend: Blue_5Step,
+    layer_title: `Annual Expected Risk ${year}`,
+    layer_type: "DISCRETE_POINT",
+    legend_prefix: "$",
+    format: "$",
+    is_selectable: true,
+    filter: [">", ben_stock, ben_filter_value],
+    minzoom: COUNTRY_TESELA_ZOOM_SWITCH,
+  },
+  // {
+  //   id: "country_bounds",
+  //   source: "UCSC_CWON_countrybounds",
+  //   source_layer: "UCSC_CWON_countrybounds",
+  //   colorValue: ben_stock,
+  //   legend: Blue_5Step,
+  //   layer_title: "Annual Expected Benefit",
+  //   display_legend: false,
+  //   layer_type: "FILL_WITH_OUTLINE",
+  //   legend_prefix: "$",
+  //   format: "$",
+  //   is_selectable: true,
+  //   opacity: 0.5,
+  //   maxzoom: COUNTRY_TESELA_ZOOM_SWITCH,
+  //   // filter: [">", ben_stock, ben_filter_value],
+  // },
+];
+
 const annual_benefits = [
   {
     id: "tessela_bounds",
@@ -340,6 +384,16 @@ const icon_style = {
   height: `${BREADCRUMB_ICON_SIZE}px`,
 };
 const layerGroups: Record<LayerName, LayerGroup> = {
+  [LayerName.CurrentRisk]: {
+    name: LayerName.CurrentRisk,
+    shortDescription:
+      "The current annual risk from flooding at the coast, including existing benefits from mangroves.",
+    IconComponent: () => (
+      <Icon icon="mdi:hazard-lights" color="white" className="w-full h-full" />
+    ),
+    IconComponentHTML: `<iconify-icon icon="mdi:hazard-lights" class="breadcrumbs-icon" width="${BREADCRUMB_ICON_SIZE}px" height="${BREADCRUMB_ICON_SIZE}px"></iconify-icon>`,
+    layers: current_risk,
+  },
   [LayerName.BenefitAEB]: {
     name: LayerName.BenefitAEB,
     shortDescription:

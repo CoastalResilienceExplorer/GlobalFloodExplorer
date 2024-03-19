@@ -1,7 +1,10 @@
 # This script is run with GDAL 3.7.1
 # It converts layers in a FileGDB into efficiently compressed GeoTiffs
-IN_GDB=../data/CWON/Global_Flood_Maps_Visualization.gdb
-OUTPUT_DIR=../data/CWON/as_tiff
+IN_GDB=../data/Global_Flood_Maps_WithoutMang_tr50.gdb
+OUTPUT_DIR=../data/CWON/nomang/as_tiff
+
+gdalinfo -json $IN_GDB
+exit 1
 
 layers=$(gdalinfo -json $IN_GDB | jq .metadata.SUBDATASETS | jq 'with_entries(if (.key|test("NAME")) then ( {key: .key, value: .value } ) else empty end )' | jq 'to_entries[].value')
 for layer in $layers
