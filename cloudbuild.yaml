@@ -8,6 +8,11 @@ steps:
         "$_USE_SITE_GATING",
         "$_SITE_GATING_MATCH"
       ]
+    secretEnv: ['SENTRY_AUTH_TOKEN']
+  availableSecrets:
+    secretManager:
+    - versionName: projects/637459797988/secrets/SENTRY_AUTH_TOKEN
+      env: 'SENTRY_AUTH_TOKEN'
 substitutions:
   _USE_SITE_GATING: 'false'
   _SITE_GATING_MATCH: 'null'
