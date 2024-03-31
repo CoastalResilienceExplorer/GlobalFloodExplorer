@@ -15,6 +15,7 @@ Sentry.init({
       blockAllMedia: false,
     }),
   ],
+  enabled: process.env.NODE_ENV === "production",
   // Performance Monitoring
   tracesSampleRate: 1.0, //  Capture 100% of the transactions
   // Session Replay
