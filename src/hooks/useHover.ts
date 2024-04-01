@@ -115,17 +115,13 @@ export function useHover(
       }, 10);
     } else {
       if (popover.current) {
-        setTimeout(() => {
-          if (popover.current) {
-            popover.current.className = baseStyles + "!opacity-0";
-          }
-        }, 500);
+        popover.current.className = baseStyles + "!opacity-0";
         setTimeout(() => {
           if (popover.current) {
             popover.current.remove();
             popover.current = null;
           }
-        }, 1000);
+        }, 500);
       }
     }
   }, [
