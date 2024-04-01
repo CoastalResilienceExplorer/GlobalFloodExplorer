@@ -1,16 +1,16 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 
 import { getViewport } from "./utils/viewportUtils";
 
 export function useMap(init_viewport, access_token, theme) {
   mapboxgl.accessToken = access_token;
-  const mapContainer = useRef(null);
-  const [map, setMap] = useState(null);
-  const [mapLoaded, setMapLoaded] = useState(false);
   const [viewport, setViewport] = useState(init_viewport);
+  const mapContainer = useRef(null);
+  const map = useRef(null);
+  const [mapLoaded, setMapLoaded] = useState(false);
 
-  function flyToViewport(viewport) {
+  const flyToViewport = useCallback((viewport) => {
     const viewport_formatted = {
       center: [viewport.longitude, viewport.latitude],
       zoom: viewport.zoom,
@@ -18,50 +18,49 @@ export function useMap(init_viewport, access_token, theme) {
       pitch: viewport.pitch,
       transitionDuration: viewport.transitionDuration,
     };
-    map.flyTo(viewport_formatted);
-  }
+    map.current?.flyTo(viewport_formatted);
+  }, []);
 
-  function flyToBounds(bounds) {
-    map.fitBounds(bounds);
-  }
-
-  useEffect(() => {
-    if (map) return; // initialize map only once
-    if (!mapContainer.current) return;
-    setMap(
-      new mapboxgl.Map({
-        container: mapContainer.current,
-        style: theme,
-        center: [viewport.longitude, viewport.latitude],
-        bearing: viewport.bearing,
-        pitch: viewport.pitch,
-        zoom: viewport.zoom,
-        boxZoom: false,
-      }),
-    );
+  const flyToBounds = useCallback((bounds) => {
+    map.current?.fitBounds(bounds);
   }, []);
 
   useEffect(() => {
-    if (!map) return;
-    map.on("load", () => {
-      map.getCanvas().style.cursor = "pointer";
-      map.setRenderWorldCopies(true);
-      map.flyToViewport = flyToViewport;
-      map.flyToBounds = flyToBounds;
-
-      map.on("move", () => {
-        setViewport(getViewport(map));
-      });
-
-      setMapLoaded(true);
+    map.current = new mapboxgl.Map({
+      container: mapContainer.current,
+      style: theme,
+      center: [viewport.longitude, viewport.latitude],
+      bearing: viewport.bearing,
+      pitch: viewport.pitch,
+      zoom: viewport.zoom,
+      boxZoom: false,
     });
-    if (process.env.NODE_ENV === "development") {
-      map.on("click", () => console.log(map));
+
+    // set map.current event listeners
+    map.current.on("load", () => {
+      setMapLoaded(true);
+      map.current.setRenderWorldCopies(true);
+      map.current.on("move", () => {
+        setViewport(getViewport(map.current));
+      });
+    });
+
+    // set custom map.current methods
+    map.current.flyToViewport = flyToViewport;
+    map.current.flyToBounds = flyToBounds;
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- don't need to reinitialize for viewport updates
+  }, []);
+
+  // update custom map.current methods
+  useEffect(() => {
+    if (map.current) {
+      map.current.flyToViewport = flyToViewport;
+      map.current.flyToBounds = flyToBounds;
     }
-  }, [map]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [flyToBounds, flyToViewport]);
 
   return {
-    map,
+    map: map.current,
     mapContainer,
     mapLoaded,
     viewport,

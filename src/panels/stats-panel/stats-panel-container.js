@@ -7,7 +7,7 @@ import countryMapping from "data/ISO_country_mapping";
 import { Icon } from "@iconify/react";
 import { year as initialYear } from "layers/layers";
 
-function Title({ nStudyUnits, locations, selectionType }) {
+function Title({ studyUnitId, nStudyUnits, locations, selectionType }) {
   function countryNameOverride(country) {
     let return_country;
     switch (country) {
@@ -71,11 +71,8 @@ function Title({ nStudyUnits, locations, selectionType }) {
         <p>Showing statistics for:</p>
         <p className="body-x-large italic">
           {selection_display === "Study Unit"
-            ? nStudyUnits +
-              (nStudyUnits > 1 ? " Study Units in" : " Study Unit in")
+            ? studyUnitId + " Study Unit in"
             : ""}{" "}
-          {/* {n_locations} {n_locations > 1 ?
-          (selection_display === "Study Unit" ? "Study Units in": ""){" "} */}
           <span className="whitespace-nowrap">
             {formatLocationList(locations_spaces)}
           </span>
@@ -119,6 +116,7 @@ function TopBanner({
   return (
     <div className="top-banner-container">
       <Title
+        studyUnitId={selectedFeatures[0].id}
         nStudyUnits={selectedFeatures.length}
         selectionType={selectionType}
         locations={locations}

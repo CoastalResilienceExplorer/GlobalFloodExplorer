@@ -8,6 +8,7 @@ import { useSelection } from "hooks/useSelection";
 import { useMapWithBreadcrumbs } from "hooks/useBreadcrumbs";
 import { InfoContext, useInfo } from "hooks/useInfo";
 import { usePermalinks } from "hooks/usePermalinks";
+import { useHover } from "hooks/useHover";
 
 // Data
 import sources from "./layers/sources";
@@ -52,9 +53,9 @@ export default function Map() {
     defaultSubgroup: init_subgroup,
   });
 
-  const [theme, setTheme] = useState(BasemapMap[initTheme]);
+  const [theme, setTheme] = useState(initTheme);
   const { map, mapContainer, mapLoaded, viewport, flyToViewport, flyToBounds } =
-    useMap(initialStates.viewport, token, theme);
+    useMap(initialStates.viewport, token, BasemapMap[theme]);
 
   const {
     layerGroup,
@@ -68,7 +69,7 @@ export default function Map() {
     mapLoaded,
     initialStates.layer,
     initialStates.subgroup,
-    theme,
+    BasemapMap[theme],
     layersByGroup,
     sources,
     custom_layer_protos,
@@ -95,6 +96,8 @@ export default function Map() {
     all_selectable_layers,
     layerSelectionDependencies,
   );
+
+  useHover(map, layerGroup, theme);
 
   const {
     useFirst,
@@ -232,7 +235,7 @@ export default function Map() {
         {layerGroup === LayerName.Flooding && (
           <SlideMap
             initialStates={initialStates}
-            theme={theme}
+            theme={BasemapMap[theme]}
             viewport={viewport}
             accessToken={token}
             otherMap={map}

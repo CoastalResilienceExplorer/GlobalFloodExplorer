@@ -154,6 +154,7 @@ export const LayerSelection: React.FC<LayerSelectionProps> = ({
             <p>
               {downloads.map((download) => (
                 <a
+                  key={download.url}
                   href={download.url}
                   target="_blank"
                   rel="noreferrer"

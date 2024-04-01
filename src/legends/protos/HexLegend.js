@@ -48,10 +48,10 @@ export default function HexLegend({ legend }) {
       <svg width={300} height={300} className="discrete-point-legend">
         {placements
           .map((p) => [p[0], pt_to_hex(p[1][0], p[1][1], rad)])
-          .map((h) => (
+          .map((h, i) => (
             <polygon
-              class="hex"
-              key={h}
+              className="hex"
+              key={h + i}
               fill={h[0]}
               stroke="white"
               points={`${h[1][0][0]},${h[1][0][1]} 
