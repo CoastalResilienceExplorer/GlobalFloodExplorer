@@ -240,7 +240,7 @@ const layerGroups: Record<LayerName, LayerGroup> = {
     IconComponentHTML: `<iconify-icon icon="mdi:hazard-lights" class="breadcrumbs-icon" width="${BREADCRUMB_ICON_SIZE}px" height="${BREADCRUMB_ICON_SIZE}px"></iconify-icon>`,
     layers: current_risk,
     metricKey: `Risk_Stock_${year}`,
-    units: "in damange per year",
+    units: "in damage per year",
   },
   [LayerName.BenefitAEB]: {
     name: LayerName.BenefitAEB,
@@ -296,7 +296,7 @@ const layerGroups: Record<LayerName, LayerGroup> = {
     IconComponentHTML: `<iconify-icon icon="pepicons-pencil:people" class="breadcrumbs-icon" width="${BREADCRUMB_ICON_SIZE}px" height="${BREADCRUMB_ICON_SIZE}px"></iconify-icon>`,
     layers: Population,
     metricKey: `Ben_Pop_${year}`,
-    units: "in damage reduced per year",
+    units: "in reduced exposure per year",
   },
 };
 

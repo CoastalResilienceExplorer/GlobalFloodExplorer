@@ -107,7 +107,9 @@ export function useHover(
             ]
               ? `<p class="lining-nums text-${
                   colors.textColor
-                }">${selectedLayer}:  $${kFormatter(
+                }">${selectedLayer}:  ${
+                  selectedLayer === LayerName.Population ? "" : "$"
+                }${kFormatter(
                   hoveredTessela.properties[
                     layerGroups[selectedLayer]?.metricKey as string
                   ],

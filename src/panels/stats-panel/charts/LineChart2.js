@@ -19,7 +19,7 @@ const CustomTooltip = ({ active, payload, label }) => {
       <div className="custom-tooltip-linechart">
         <p className="desc lining-nums">
           <div>{`Economic Benefit:`}</div>
-          <div>{`$${kFormatter(payload[0].payload.stock)}`}</div>
+          <div>{`$${kFormatter(payload[0].payload.benefit)}`}</div>
         </p>
         <p className="desc lining-nums">
           <div>{`Mangroves:`}</div>
