@@ -25,6 +25,8 @@ const ICON_CONTAINER_INITIAL_WIDTH = 55;
 const ICON_INITIAL_SIZE = 30;
 const ICON_HOVER_SIZE = 35;
 
+const USE_SEARCH_BAR = false;
+
 export const LayerSelection: React.FC<LayerSelectionProps> = ({
   layerGroups,
   selectedLayer,
@@ -175,20 +177,22 @@ export const LayerSelection: React.FC<LayerSelectionProps> = ({
           )}
         />
       </div>
-      <div className="bg-trench hover:bg-shoreline block text-left transition-[height]">
-        <MenuItem
-          iconSprings={iconSprings}
-          name="Quick Explore"
-          description={() => <QuickExplore />}
-          IconComponent={() => (
-            <Icon
-              icon="material-symbols:explore-outline"
-              color="white"
-              className="w-full h-full"
-            />
-          )}
-        />
-      </div>
+      {USE_SEARCH_BAR && (
+        <div className="bg-trench hover:bg-shoreline block text-left transition-[height]">
+          <MenuItem
+            iconSprings={iconSprings}
+            name="Quick Explore"
+            description={() => <QuickExplore />}
+            IconComponent={() => (
+              <Icon
+                icon="material-symbols:explore-outline"
+                color="white"
+                className="w-full h-full"
+              />
+            )}
+          />
+        </div>
+      )}
       {typeof window.google !== "undefined" && (
         <div className="bg-trench hover:bg-shoreline block text-left transition-[height]">
           <MenuItem
