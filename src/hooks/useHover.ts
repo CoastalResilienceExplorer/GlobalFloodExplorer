@@ -37,6 +37,24 @@ const ThemeMap: Record<BasemapStyle, ColorDefintion> = {
   },
 };
 
+function updatePaintProperties(
+  map: mapboxgl.Map,
+  style: any, //Object
+  layer: string,
+  feature_state: string,
+) {
+  Object.keys(style).map((k) => {
+    const v = style[k];
+    const current = map.getPaintProperty(layer, k);
+    map.setPaintProperty(layer, k, [
+      "case",
+      ["boolean", ["feature-state", feature_state], false],
+      v,
+      current,
+    ]);
+  });
+}
+
 export function useHover(
   map: mapboxgl.Map,
   selectedLayer: LayerName,
@@ -136,9 +154,11 @@ export function useHover(
   useEffect(() => {
     map?.on("mouseenter", "tessela_rps", (e: mapboxgl.MapLayerMouseEvent) => {
       onHover(e);
+      map.getCanvas().style.cursor = "pointer";
     });
     map?.on("mouseleave", "tessela_rps", () => {
       onHoverEnd();
+      map.getCanvas().style.cursor = "grab";
     });
   }, [map, onHover, onHoverEnd]);
 }
