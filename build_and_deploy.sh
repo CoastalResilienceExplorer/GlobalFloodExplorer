@@ -22,15 +22,18 @@ steps:
 - name: "gcr.io/cloud-builders/docker"
   id: 'build-image'
   args: [
-        "build",
-        "--build-arg",
-        "REACT_APP_USE_SITE_GATING=${_USE_SITE_GATING}",
-        "--build-arg",
-        "REACT_APP_SITE_GATING_MATCH=${_SITE_GATING_MATCH}",
-        "-t",
-        "$IMAGE",
-        "."
-      ]
+    "build",
+    "--build-arg",
+    "REACT_APP_USE_SITE_GATING=${_USE_SITE_GATING}",
+    "--build-arg",
+    "REACT_APP_SITE_GATING_MATCH=${_SITE_GATING_MATCH}",
+    "--build-arg",
+    "SENTRY_AUTH_TOKEN=\$$SENTRY_AUTH_TOKEN",
+    "-t",
+    "$IMAGE",
+    "."
+  ]
+  secretEnv: ['SENTRY_AUTH_TOKEN']
 - name: 'gcr.io/cloud-builders/docker'
   id: 'push-image'
   args: ['push', '$IMAGE']
@@ -46,7 +49,10 @@ steps:
       '--timeout', '3600'
    ]
   waitFor: ['push-image']
-  # waitFor: ['test', 'push-image']
+availableSecrets:
+  secretManager:
+  - versionName: projects/220082085305/secrets/SENTRY_AUTH_TOKEN/versions/latest
+    env: 'SENTRY_AUTH_TOKEN'
 """ > /tmp/cloudbuild.yaml
 
 gcloud builds submit --config /tmp/cloudbuild.yaml
