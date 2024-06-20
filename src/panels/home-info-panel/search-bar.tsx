@@ -9,8 +9,6 @@ import React, {
 import "./search-bar.css";
 import { UpdateHeightFunc } from "panels/layer-selection/layer-selection";
 
-const google = window.google;
-
 export type Bounds = [[number, number], [number, number]];
 
 interface SearchBarProps {
@@ -36,18 +34,37 @@ const SearchBar = ({
   const [results, setResults] = useState<Place[] | null>(null);
   const [highlightedIndex, setHighlightedIndex] = useState(0);
   const searchInputRef = useRef(null);
+  const [google, setGoogle] = useState(window.google);
+
+  useEffect(() => {
+    if (!google) {
+      const checkGoogle = () => {
+        if (window.google && !google) {
+          setGoogle(window.google);
+        }
+      };
+
+      const timeout1 = setTimeout(checkGoogle, 5000);
+      const timeout2 = setTimeout(checkGoogle, 10000);
+
+      return () => {
+        clearTimeout(timeout1);
+        clearTimeout(timeout2);
+      };
+    }
+  }, [google]);
 
   const AutocompleteService = useMemo(
     () => (google ? new google.maps.places.AutocompleteService() : null),
-    [],
+    [google],
   );
   const sessionToken = useMemo(
     () => (google ? new google.maps.places.AutocompleteSessionToken() : null),
-    [],
+    [google],
   );
   const Geocoder = useMemo(
     () => (google ? new google.maps.Geocoder() : null),
-    [],
+    [google],
   );
 
   const fetchPlace = useCallback(
@@ -88,7 +105,12 @@ const SearchBar = ({
         },
       );
     },
-    [AutocompleteService, sessionToken],
+    [
+      AutocompleteService,
+      google?.maps?.places.PlacesServiceStatus.OK,
+      google?.maps?.places.PlacesServiceStatus.ZERO_RESULTS,
+      sessionToken,
+    ],
   );
 
   const runFetchPlaces = async (currentQuery: string) => {
