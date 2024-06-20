@@ -145,16 +145,16 @@ function SelectedFeaturesPanel({
   ];
 
   const linechart_data = [
-    { name: 1996, stock: stock1996, mangroves: mangroves1996 },
-    { name: 2010, stock: stock2010, mangroves: mangroves2010 },
-    { name: 2015, stock: stock2015, mangroves: mangroves2015 },
+    { name: 1996, benefit: stock1996, mangroves: mangroves1996 },
+    { name: 2010, benefit: stock2010, mangroves: mangroves2010 },
+    { name: 2015, benefit: stock2015, mangroves: mangroves2015 },
   ];
 
   const domain_gap = 0.01;
 
   const linechart_keys = [
     {
-      id: "stock",
+      id: "benefit",
       fill: "#7bccc4",
       axisOrientation: "left",
       tickFormatter: (tick) => {

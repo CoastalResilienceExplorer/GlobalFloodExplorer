@@ -70,22 +70,6 @@ const current_risk = [
     filter: [">", ben_stock, ben_filter_value],
     minzoom: COUNTRY_TESELA_ZOOM_SWITCH,
   },
-  // {
-  //   id: "country_bounds",
-  //   source: "UCSC_CWON_countrybounds",
-  //   source_layer: "UCSC_CWON_countrybounds",
-  //   colorValue: ben_stock,
-  //   legend: Blue_5Step,
-  //   layer_title: "Annual Expected Benefit",
-  //   display_legend: false,
-  //   layer_type: "FILL_WITH_OUTLINE",
-  //   legend_prefix: "$",
-  //   format: "$",
-  //   is_selectable: true,
-  //   opacity: 0.5,
-  //   maxzoom: COUNTRY_TESELA_ZOOM_SWITCH,
-  //   // filter: [">", ben_stock, ben_filter_value],
-  // },
 ];
 
 const annual_benefits = [
@@ -114,22 +98,6 @@ const annual_benefits = [
     filter: [">", ben_stock, ben_filter_value],
     minzoom: COUNTRY_TESELA_ZOOM_SWITCH,
   },
-  // {
-  //   id: "country_bounds",
-  //   source: "UCSC_CWON_countrybounds",
-  //   source_layer: "UCSC_CWON_countrybounds",
-  //   colorValue: ben_stock,
-  //   legend: Blue_5Step,
-  //   layer_title: "Annual Expected Benefit",
-  //   display_legend: false,
-  //   layer_type: "FILL_WITH_OUTLINE",
-  //   legend_prefix: "$",
-  //   format: "$",
-  //   is_selectable: true,
-  //   opacity: 0.5,
-  //   maxzoom: COUNTRY_TESELA_ZOOM_SWITCH,
-  //   // filter: [">", ben_stock, ben_filter_value],
-  // },
 ];
 
 const reduct_ratio = [
@@ -178,22 +146,6 @@ const reduct_ratio = [
     is_selectable: true,
     minzoom: COUNTRY_TESELA_ZOOM_SWITCH,
   },
-  // {
-  //   id: "country_bounds",
-  //   source: "UCSC_CWON_countrybounds",
-  //   source_layer: "UCSC_CWON_countrybounds",
-  //   colorValue: risk_reduction_ratio,
-  //   legend: Blue_5Step_0_1,
-  //   layer_title: "Annual Expected Benefit",
-  //   display_legend: false,
-  //   layer_type: "FILL_WITH_OUTLINE",
-  //   legend_prefix: "$",
-  //   format: "$",
-  //   is_selectable: true,
-  //   opacity: 0.5,
-  //   maxzoom: COUNTRY_TESELA_ZOOM_SWITCH,
-  //   // filter: [">", ben_stock, ben_filter_value],
-  // },
 ];
 
 const flooding = [
@@ -225,19 +177,6 @@ const flooding = [
     minzoom: FLOODING_MIN_ZOOM,
     maxzoom: 18,
   },
-  // {
-  //   id: "flooding_1996",
-  //   source: "flooding_1996_pt",
-  //   source_layer: `with_1996_TC_Tr_${RP}`,
-  //   legend: FloodMaps_Bathy,
-  //   colorValue: ["to-number", ["get", "value"]],
-  //   layer_title: `Expected Flooding, 1 in ${parseInt(RP)} year storm`,
-  //   display_legend: true,
-  //   layer_type: "GEO_POINT",
-  //   legend_suffix: "m",
-  //   subgroup: "flooding_1996",
-  //   minzoom: FLOODING_MIN_ZOOM,
-  // },
   {
     id: "flooding_nomang",
     source: "flooding_nomang_pt",
@@ -300,6 +239,8 @@ const layerGroups: Record<LayerName, LayerGroup> = {
     ),
     IconComponentHTML: `<iconify-icon icon="mdi:hazard-lights" class="breadcrumbs-icon" width="${BREADCRUMB_ICON_SIZE}px" height="${BREADCRUMB_ICON_SIZE}px"></iconify-icon>`,
     layers: current_risk,
+    metricKey: `Risk_Stock_${year}`,
+    units: "in damage per year",
   },
   [LayerName.BenefitAEB]: {
     name: LayerName.BenefitAEB,
@@ -310,6 +251,8 @@ const layerGroups: Record<LayerName, LayerGroup> = {
     ),
     IconComponentHTML: `<iconify-icon icon="ph:hand-coins" class="breadcrumbs-icon" width="${BREADCRUMB_ICON_SIZE}px" height="${BREADCRUMB_ICON_SIZE}px"></iconify-icon>`,
     layers: annual_benefits,
+    metricKey: `Ben_Stock_${year}`,
+    units: "in damage reduced per year",
   },
   [LayerName.RiskReduction]: {
     name: LayerName.RiskReduction,
@@ -352,6 +295,8 @@ const layerGroups: Record<LayerName, LayerGroup> = {
     ),
     IconComponentHTML: `<iconify-icon icon="pepicons-pencil:people" class="breadcrumbs-icon" width="${BREADCRUMB_ICON_SIZE}px" height="${BREADCRUMB_ICON_SIZE}px"></iconify-icon>`,
     layers: Population,
+    metricKey: `Ben_Pop_${year}`,
+    units: "in reduced exposure per year",
   },
 };
 

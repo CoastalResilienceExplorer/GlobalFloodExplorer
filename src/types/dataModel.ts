@@ -44,6 +44,8 @@ export type LayerGroup = {
   IconComponent: React.FC<React.SVGProps<SVGSVGElement>>;
   IconComponentHTML?: string;
   layers: Layer[];
+  metricKey?: string;
+  units?: string;
 };
 
 type LatLonArray = [number, number];

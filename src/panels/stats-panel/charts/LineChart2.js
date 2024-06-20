@@ -19,7 +19,7 @@ const CustomTooltip = ({ active, payload, label }) => {
       <div className="custom-tooltip-linechart">
         <p className="desc lining-nums">
           <div>{`Economic Benefit:`}</div>
-          <div>{`$${kFormatter(payload[0].payload.stock)}`}</div>
+          <div>{`$${kFormatter(payload[0].payload.benefit)}`}</div>
         </p>
         <p className="desc lining-nums">
           <div>{`Mangroves:`}</div>
@@ -50,6 +50,7 @@ export default function Example({ data, keys }) {
         <XAxis dataKey="name" dy={5} />
         {keys.map((k) => (
           <YAxis
+            key={k.id}
             yAxisId={k.id}
             orientation={k.axisOrientation}
             tickFormatter={k.tickFormatter}
@@ -60,6 +61,7 @@ export default function Example({ data, keys }) {
         <Legend align="right" height={10} />
         {keys.map((k) => (
           <Line
+            key={k.id}
             yAxisId={k.id}
             type="monotone"
             dataKey={k.id}

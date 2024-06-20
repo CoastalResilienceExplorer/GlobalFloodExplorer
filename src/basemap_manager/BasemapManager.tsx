@@ -24,16 +24,16 @@ const CircleSelector = ({
   thisTheme: BasemapStyle;
   setTheme: (style: string) => void;
 }) => {
-  const selected = BasemapMap[thisTheme] === selectedTheme;
+  const selected = thisTheme === selectedTheme;
 
   return (
     <div
       className="circle-selector-container"
-      onClick={() => setTheme(BasemapMap[thisTheme])}
+      onClick={() => setTheme(thisTheme)}
     >
       <p
         className={`font-sans font-bold uppercase circle-selector-text ${
-          selectedTheme === BasemapMap.light ? "text-open" : "text-white"
+          selectedTheme === BasemapStyle.Light ? "text-open" : "text-white"
         }`}
       >
         {thisTheme}
@@ -66,7 +66,7 @@ export const BasemapManager = ({
         <div className={"circle-selector-outer-container"}>
           {[BasemapStyle.Satellite, BasemapStyle.Light, BasemapStyle.Dark].map(
             (t) => {
-              if (isOpen || BasemapMap[t] === theme) {
+              if (isOpen || t === theme) {
                 return (
                   <CircleSelector
                     key={t}
