@@ -37,24 +37,6 @@ const ThemeMap: Record<BasemapStyle, ColorDefintion> = {
   },
 };
 
-function updatePaintProperties(
-  map: mapboxgl.Map,
-  style: any, //Object
-  layer: string,
-  feature_state: string,
-) {
-  Object.keys(style).map((k) => {
-    const v = style[k];
-    const current = map.getPaintProperty(layer, k);
-    map.setPaintProperty(layer, k, [
-      "case",
-      ["boolean", ["feature-state", feature_state], false],
-      v,
-      current,
-    ]);
-  });
-}
-
 export function useHover(
   map: mapboxgl.Map,
   selectedLayer: LayerName,
@@ -67,24 +49,34 @@ export function useHover(
 
   const onHover = useCallback(
     (e: mapboxgl.MapLayerMouseEvent) => {
-      hoverTimer.current = setTimeout(() => {
-        if (e.features?.[0]?.id && e.features[0].id !== hoveredTessela?.id) {
-          setHoveredTessela({
-            ...e.features[0],
-            lngLat: e.lngLat,
-          });
-        }
-      }, 500);
+      if (
+        e.features?.[0]?.properties?.[
+          layerGroups[selectedLayer]?.metricKey as string
+        ]
+      ) {
+        map.getCanvas().style.cursor = "pointer";
+        hoverTimer.current = setTimeout(() => {
+          if (e.features?.[0]?.id && e.features[0].id !== hoveredTessela?.id) {
+            setHoveredTessela({
+              ...e.features[0],
+              lngLat: e.lngLat,
+            });
+          }
+        }, 100);
+      }
     },
-    [hoveredTessela?.id],
+    [hoveredTessela?.id, map, selectedLayer],
   );
 
   const onHoverEnd = useCallback(() => {
-    setHoveredTessela(null);
-    if (hoverTimer.current) {
-      clearTimeout(hoverTimer.current);
-    }
-  }, []);
+    map.getCanvas().style.cursor = "grab";
+    setTimeout(() => {
+      setHoveredTessela(null);
+      if (hoverTimer.current) {
+        clearTimeout(hoverTimer.current);
+      }
+    }, 50);
+  }, [map]);
 
   useEffect(() => {
     if (hoveredTessela) {
@@ -156,11 +148,9 @@ export function useHover(
   useEffect(() => {
     map?.on("mouseenter", "tessela_rps", (e: mapboxgl.MapLayerMouseEvent) => {
       onHover(e);
-      map.getCanvas().style.cursor = "pointer";
     });
     map?.on("mouseleave", "tessela_rps", () => {
       onHoverEnd();
-      map.getCanvas().style.cursor = "grab";
     });
   }, [map, onHover, onHoverEnd]);
 }
