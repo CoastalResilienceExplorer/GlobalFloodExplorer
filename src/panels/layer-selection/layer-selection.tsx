@@ -25,8 +25,6 @@ const ICON_CONTAINER_INITIAL_WIDTH = 55;
 const ICON_INITIAL_SIZE = 30;
 const ICON_HOVER_SIZE = 35;
 
-const USE_SEARCH_BAR = false;
-
 export const LayerSelection: React.FC<LayerSelectionProps> = ({
   layerGroups,
   selectedLayer,
@@ -75,6 +73,10 @@ export const LayerSelection: React.FC<LayerSelectionProps> = ({
     setLayerGroupSelectedFrom,
   ]);
 
+  const selectedLayerValid = Object.values(layerGroups).some(
+    (layerGroup) => layerGroup.name === selectedLayer,
+  );
+
   return (
     <animated.div
       className="layer-selection absolute z-[02] top-0 left-0 bg-open overflow-hidden rounded-br-lg"
@@ -95,7 +97,12 @@ export const LayerSelection: React.FC<LayerSelectionProps> = ({
             setSelectedLayer(layerGroup.name);
             setLayerGroupSelectedFrom(LayerSelectionFrom.layerSelectionPanel);
           }}
-          ref={layerGroup.name === selectedLayer ? activeLayerButton : null}
+          ref={
+            layerGroup.name === selectedLayer ||
+            (!selectedLayerValid && index === 0)
+              ? activeLayerButton
+              : null
+          }
         >
           <MenuItem
             iconSprings={iconSprings}
@@ -178,22 +185,23 @@ export const LayerSelection: React.FC<LayerSelectionProps> = ({
           )}
         />
       </div>
-      {USE_SEARCH_BAR && (
-        <div className="bg-trench hover:bg-shoreline block text-left transition-[height]">
-          <MenuItem
-            iconSprings={iconSprings}
-            name="Quick Explore"
-            description={() => <QuickExplore />}
-            IconComponent={() => (
-              <Icon
-                icon="material-symbols:explore-outline"
-                color="white"
-                className="w-full h-full"
-              />
-            )}
-          />
-        </div>
-      )}
+      <div className="bg-trench hover:bg-shoreline block text-left transition-[height]">
+        <MenuItem
+          iconSprings={iconSprings}
+          name="Quick Explore"
+          description={() => <QuickExplore />}
+          IconComponent={() => (
+            <Icon
+              icon="material-symbols:explore-outline"
+              color="white"
+              className="w-full h-full"
+              height="1.3em"
+              width="1.3em"
+              style={{ transform: "scale(0.9)" }}
+            />
+          )}
+        />
+      </div>
       {typeof window.google !== "undefined" && (
         <div className="bg-trench hover:bg-shoreline block text-left transition-[height]">
           <MenuItem
@@ -213,6 +221,7 @@ export const LayerSelection: React.FC<LayerSelectionProps> = ({
                 height="1.5em"
                 color="white"
                 className="w-full h-full"
+                style={{ transform: "scale(0.9)" }}
               />
             )}
           />

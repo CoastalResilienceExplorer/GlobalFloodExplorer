@@ -149,7 +149,10 @@ function OpenToggle({ isOpen, setIsOpen, disabled }) {
   const openTransform = {
     width: "48px",
     height: "49px",
-    transform: "rotate(180deg)",
+    transform: isOpen
+      ? "rotate(180deg) translateX(-1px)"
+      : "rotate(0deg) translateX(-1px)",
+    transition: "transform 0.2s ease",
   };
 
   useFirst(
@@ -191,7 +194,7 @@ function OpenToggle({ isOpen, setIsOpen, disabled }) {
           <Icon
             icon="ri:arrow-left-s-line"
             className="open-toggle"
-            style={isOpen ? openTransform : { width: "48px", height: "49px" }}
+            style={openTransform}
           />
         </button>
       </div>

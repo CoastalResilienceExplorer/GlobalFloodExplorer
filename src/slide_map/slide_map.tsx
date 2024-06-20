@@ -9,6 +9,7 @@ import { useEffect } from "react";
 
 import "./flood_selector.css";
 import { FloodSelector } from "./flood_selector";
+import { Viewport } from "types/map";
 
 export const SlideMap = ({
   initialStates,
@@ -19,11 +20,7 @@ export const SlideMap = ({
 }: {
   initialStates: { layer: string; subgroup: string };
   theme: string;
-  viewport: {
-    latitude: number;
-    longitude: number;
-    zoom: number;
-  };
+  viewport: Viewport;
   accessToken: string;
   otherMap: "left" | "right";
 }) => {
