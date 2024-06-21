@@ -31,20 +31,11 @@
 
 .custom-tooltip-linechart {
   background: white;
-  border-radius: 2em;
+  border-radius: 1em;
   padding: 0.1em 1em;
   opacity: 0.8;
   border: 1px solid black;
   text-align: left;
-}
-
-.custom-tooltip-linechart > .label {
-  font-weight: bold;
-}
-
-.custom-tooltip-linechart > .desc {
-  display: flex;
-  justify-content: space-between;
 }
 
 .bar-chart-container {
