@@ -116,73 +116,45 @@ export const LayerSelection: React.FC<LayerSelectionProps> = ({
       <div className="bg-trench hover:bg-shoreline block text-left transition-[height]">
         <MenuItem
           iconSprings={iconSprings}
-          name="Links"
+          name="Links & Data"
           description={
             <>
               <p>
-                Learn more about the{" "}
                 <a
                   href="https://www.coastalresiliencelab.org/"
                   target="_blank"
                   rel="noreferrer"
-                  className="underline hover:text-coral hover:stroke-coral hover:fill-coral"
+                  className="hover:text-coral hover:stroke-coral hover:fill-coral"
                 >
-                  Center for Coastal Climate Resilience&nbsp;–›
+                  Discover the Center for Coastal Climate Resilience&nbsp;–›
                 </a>
               </p>
               <p>
-                Read the{" "}
                 <a
                   href="https://doi.org/10.1038/s41598-020-61136-6"
                   target="_blank"
                   rel="noreferrer"
-                  className="underline hover:text-coral hover:stroke-coral hover:fill-coral"
+                  className="hover:text-coral hover:stroke-coral hover:fill-coral"
                 >
-                  scientific paper
-                </a>{" "}
-                or the latest{" "}
-                {/* TODO: Update this link to the World Bank report when published */}
-                <a
-                  href="https://doi.org/10.1038/s41598-020-61136-6"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="underline hover:text-coral hover:stroke-coral hover:fill-coral"
-                >
-                  World Bank report&nbsp;–›
+                  Read the scientific paper&nbsp;–›
                 </a>
+              </p>
+              <p>
+                {downloads.map((download) => (
+                  <a
+                    key={download.url}
+                    href={download.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex row items-center gap-2 hover:text-coral hover:stroke-coral hover:fill-coral"
+                  >
+                    {download.description}
+                    {download.icon}
+                  </a>
+                ))}
               </p>
             </>
           }
-        />
-      </div>
-      <div className="bg-trench hover:bg-shoreline block text-left transition-[height]">
-        <MenuItem
-          iconSprings={iconSprings}
-          name="Data Downloads"
-          description={
-            <p>
-              {downloads.map((download) => (
-                <a
-                  key={download.url}
-                  href={download.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex row items-center gap-2 hover:text-coral hover:stroke-coral hover:fill-coral"
-                >
-                  {download.description} {download.icon}
-                </a>
-              ))}
-            </p>
-          }
-          IconComponent={() => (
-            <Icon
-              icon="material-symbols:download"
-              className="w-full h-full -translate-y-1"
-              height="1.5em"
-              width="1.5em"
-              color="white"
-            />
-          )}
         />
       </div>
       <div className="bg-trench hover:bg-shoreline block text-left transition-[height]">
@@ -291,7 +263,7 @@ const MenuItem: React.FC<{
       <div
         onMouseEnter={handleCopyHover}
         onMouseLeave={handleCopyUnhover}
-        className="w-96 py-2 text-white px-3"
+        className="w-[25rem] py-2 text-white px-3"
       >
         <h4 className="w-full">{name}</h4>
         {description && typeof description === "string" ? (
