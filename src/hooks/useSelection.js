@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 
 export function useSelection(
@@ -12,6 +12,7 @@ export function useSelection(
   const featuresRef = useRef([]);
   const [selectionType, setSelectionType] = useState(null);
   const layerSelectionDependenciesRef = useRef([]);
+  const renderFeatures = useRef(() => {});
 
   useEffect(() => {
     setSelectedFeatures(
@@ -146,6 +147,15 @@ export function useSelection(
   }, [mapContainer, mapLoaded]);
 
   useEffect(() => {
+    renderFeatures.current = () => {
+      selectedFeatures.forEach((f) => {
+        setFeatureState_withDependencies(f, true);
+      });
+      featuresRef.current = selectedFeatures;
+    };
+  }, [selectedFeatures]);
+
+  useEffect(() => {
     if (!mapLoaded) return;
     featuresRef.current.forEach((f) => {
       if (!selectedFeatures.includes(f)) {
@@ -160,46 +170,49 @@ export function useSelection(
     featuresRef.current = selectedFeatures;
   }, [selectedFeatures]);
 
-  function onClick(e) {
-    function getQueryableFeatures(e) {
-      var bbox = [
-        [e.point.x - 5, e.point.y - 5],
-        [e.point.x + 5, e.point.y + 5],
-      ];
-      var features = map
-        .queryRenderedFeatures(bbox)
-        .filter((x) => all_selectable_layers.includes(x.layer.id));
-      return features;
-    }
+  const onClick = useCallback(
+    (e) => {
+      function getQueryableFeatures(e) {
+        var bbox = [
+          [e.point.x - 5, e.point.y - 5],
+          [e.point.x + 5, e.point.y + 5],
+        ];
+        var features = map
+          .queryRenderedFeatures(bbox)
+          .filter((x) => all_selectable_layers.includes(x.layer.id));
+        return features;
+      }
 
-    const features = getQueryableFeatures(e);
-    const is_shift = e.originalEvent.shiftKey;
+      const features = getQueryableFeatures(e);
+      const is_shift = e.originalEvent.shiftKey;
 
-    // Features were clicked, figure out what to do
-    if (features.length !== 0) {
-      const f = features[0];
-      const current_ids = featuresRef.current.map((feat) => feat.id);
+      // Features were clicked, figure out what to do
+      if (features.length !== 0) {
+        const f = features[0];
+        const current_ids = featuresRef.current.map((feat) => feat.id);
 
-      // Set the first feature and dependencies to selected
-      // setFeatureState_withDependencies(features[0], true)
-      // Decide on adding new features to selected features buffer, or replacing the buffer
-      if (is_shift) {
-        if (current_ids.includes(f.id)) {
-          setSelectedFeatures([
-            ...new Set([
-              ...featuresRef.current.filter((feat) => feat.id != f.id),
-            ]),
-          ]);
-        } else {
-          setSelectedFeatures([...new Set([...featuresRef.current, f])]);
-        }
-      } else setSelectedFeatures([features[0]]);
-      setSelectionType(f.layer.id);
-    } else {
-      setSelectedFeatures([]);
-      setSelectionType(null);
-    }
-  }
+        // Set the first feature and dependencies to selected
+        // setFeatureState_withDependencies(features[0], true)
+        // Decide on adding new features to selected features buffer, or replacing the buffer
+        if (is_shift) {
+          if (current_ids.includes(f.id)) {
+            setSelectedFeatures([
+              ...new Set([
+                ...featuresRef.current.filter((feat) => feat.id != f.id),
+              ]),
+            ]);
+          } else {
+            setSelectedFeatures([...new Set([...featuresRef.current, f])]);
+          }
+        } else setSelectedFeatures([features[0]]);
+        setSelectionType(f.layer.id);
+      } else {
+        setSelectedFeatures([]);
+        setSelectionType(null);
+      }
+    },
+    [map, all_selectable_layers],
+  );
 
   useEffect(() => {
     layerSelectionDependenciesRef.current = layerSelectionDependencies;
@@ -210,7 +223,16 @@ export function useSelection(
     map.on("click", (e) => {
       onClick(e);
     });
-  }, [mapLoaded]);
+  }, [map, mapLoaded, onClick]);
+
+  useEffect(() => {
+    if (!mapLoaded) return;
+    map.on("styledata", () => {
+      setTimeout(() => {
+        renderFeatures.current();
+      }, 1);
+    });
+  }, [map, mapLoaded]);
 
   return { selectedFeatures, selectionType };
 }
