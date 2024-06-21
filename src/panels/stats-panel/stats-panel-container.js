@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import "./stats-panel-container.css";
 import SelectedFeaturesPanel from "./selected-features-panel";
 import FlyToContext from "../FlyToContext";
@@ -7,7 +7,7 @@ import countryMapping from "data/ISO_country_mapping";
 import { Icon } from "@iconify/react";
 import { year as initialYear } from "layers/layers";
 
-function Title({ studyUnitId, nStudyUnits, locations, selectionType }) {
+function Title({ studyUnitIds, locations, selectionType }) {
   function countryNameOverride(country) {
     let return_country;
     switch (country) {
@@ -24,7 +24,7 @@ function Title({ studyUnitId, nStudyUnits, locations, selectionType }) {
     return return_country;
   }
 
-  const locations_spaces = locations
+  const countries = locations
     .map((l) =>
       l
         // insert a space before all caps
@@ -39,43 +39,40 @@ function Title({ studyUnitId, nStudyUnits, locations, selectionType }) {
     // Convert to display names with manual override where necessary
     .map((l) => countryNameOverride(l));
 
-  const selection_display =
-    selectionType === "country_bounds" ? "Country" : "Study Unit";
-
-  const n_locations = locations.length;
-  const too_many_locations = n_locations > 3;
-
   const showLocationsTooltip = false;
   const locationTooltipY = null;
 
-  function formatLocationList(locations) {
-    if (locations.length === 1) return locations_spaces[0];
-    if (locations.length === 2)
-      return `${locations_spaces[0]} and ${locations_spaces[1]}`;
-    if (locations.length === 3)
-      return `${locations_spaces
-        .slice(0, -1)
-        .map((i) => `${i}, `)
-        .reduce((prev, curr) => [prev, curr])} and ${
-        locations_spaces[locations_spaces.length - 1]
-      }`;
-    if (too_many_locations)
-      return `${locations_spaces[0]}, ${locations_spaces[1]} and ${
-        n_locations - 2
-      } others`;
-  }
+  const formattedCountryList = useMemo(() => {
+    if (countries.length === 1) return countries[0];
+    if (countries.length === 2) return `${countries[0]} and ${countries[1]}`;
+    return `${countries[0]}, ${countries[1]} and ${countries.length - 2} other${
+      countries.length - 2 > 1 ? "s" : ""
+    }`;
+  }, [countries]);
+
+  const formattedLocationList = useMemo(() => {
+    if (studyUnitIds.length === 1)
+      return `Study Unit ${studyUnitIds[0]} in ${formattedCountryList}`;
+    if (studyUnitIds.length === 2)
+      return `Study Units ${studyUnitIds[0]} and ${studyUnitIds[1]} in ${formattedCountryList}`;
+    if (studyUnitIds.length === 3)
+      return `Study Units ${studyUnitIds[0]}, ${studyUnitIds[1]} and ${studyUnitIds[2]} in ${formattedCountryList}`;
+    if (studyUnitIds.length > 3)
+      return `Study Units ${studyUnitIds[0]}, ${studyUnitIds[1]} and ${
+        studyUnitIds.length - 2
+      } others in ${formattedCountryList}`;
+  }, [studyUnitIds, formattedCountryList]);
 
   return (
     <>
       <div className="stats-panel-title">
         <p>Showing statistics for:</p>
-        <p className="body-x-large italic">
-          {selection_display === "Study Unit"
-            ? studyUnitId + " Study Unit in"
-            : ""}{" "}
-          <span className="whitespace-nowrap">
-            {formatLocationList(locations_spaces)}
-          </span>
+        <p
+          className={`${
+            studyUnitIds.length > 1 ? "body" : "body-large"
+          } italic whitespace-nowrap overflow-hidden text-ellipsis`}
+        >
+          {formattedLocationList}
         </p>
       </div>
       {showLocationsTooltip && (
@@ -83,10 +80,10 @@ function Title({ studyUnitId, nStudyUnits, locations, selectionType }) {
           className="stats-panel-locations-tooltip"
           style={{ right: 20, top: locationTooltipY + 50 }}
         >
-          {locations_spaces.map((l) => (
+          {countries.map((l) => (
             <>
               <div>{l}</div>
-              <br></br>
+              <br />
             </>
           ))}
         </div>
@@ -116,7 +113,7 @@ function TopBanner({
   return (
     <div className="top-banner-container">
       <Title
-        studyUnitId={selectedFeatures[0].id}
+        studyUnitIds={selectedFeatures.map((f) => f.id)}
         nStudyUnits={selectedFeatures.length}
         selectionType={selectionType}
         locations={locations}
@@ -149,7 +146,10 @@ function OpenToggle({ isOpen, setIsOpen, disabled }) {
   const openTransform = {
     width: "48px",
     height: "49px",
-    transform: "rotate(180deg)",
+    transform: isOpen
+      ? "rotate(180deg) translateX(-1px)"
+      : "rotate(0deg) translateX(-1px)",
+    transition: "transform 0.2s ease",
   };
 
   useFirst(
@@ -191,7 +191,7 @@ function OpenToggle({ isOpen, setIsOpen, disabled }) {
           <Icon
             icon="ri:arrow-left-s-line"
             className="open-toggle"
-            style={isOpen ? openTransform : { width: "48px", height: "49px" }}
+            style={openTransform}
           />
         </button>
       </div>

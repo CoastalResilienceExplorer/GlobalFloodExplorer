@@ -25,8 +25,6 @@ const ICON_CONTAINER_INITIAL_WIDTH = 55;
 const ICON_INITIAL_SIZE = 30;
 const ICON_HOVER_SIZE = 35;
 
-const USE_SEARCH_BAR = false;
-
 export const LayerSelection: React.FC<LayerSelectionProps> = ({
   layerGroups,
   selectedLayer,
@@ -75,6 +73,10 @@ export const LayerSelection: React.FC<LayerSelectionProps> = ({
     setLayerGroupSelectedFrom,
   ]);
 
+  const selectedLayerValid = Object.values(layerGroups).some(
+    (layerGroup) => layerGroup.name === selectedLayer,
+  );
+
   return (
     <animated.div
       className="layer-selection absolute z-[02] top-0 left-0 bg-open overflow-hidden rounded-br-lg"
@@ -95,7 +97,12 @@ export const LayerSelection: React.FC<LayerSelectionProps> = ({
             setSelectedLayer(layerGroup.name);
             setLayerGroupSelectedFrom(LayerSelectionFrom.layerSelectionPanel);
           }}
-          ref={layerGroup.name === selectedLayer ? activeLayerButton : null}
+          ref={
+            layerGroup.name === selectedLayer ||
+            (!selectedLayerValid && index === 0)
+              ? activeLayerButton
+              : null
+          }
         >
           <MenuItem
             iconSprings={iconSprings}
@@ -109,40 +116,42 @@ export const LayerSelection: React.FC<LayerSelectionProps> = ({
       <div className="bg-trench hover:bg-shoreline block text-left transition-[height]">
         <MenuItem
           iconSprings={iconSprings}
-          name="Links"
+          name="Links & Data"
           description={
             <>
               <p>
-                Learn more about the{" "}
                 <a
                   href="https://www.coastalresiliencelab.org/"
                   target="_blank"
                   rel="noreferrer"
-                  className="underline hover:text-coral hover:stroke-coral hover:fill-coral"
+                  className="hover:text-coral hover:stroke-coral hover:fill-coral"
                 >
-                  Center for Coastal Climate Resilience&nbsp;–›
+                  Discover the Center for Coastal Climate Resilience&nbsp;–›
                 </a>
               </p>
               <p>
-                Read the{" "}
                 <a
                   href="https://doi.org/10.1038/s41598-020-61136-6"
                   target="_blank"
                   rel="noreferrer"
-                  className="underline hover:text-coral hover:stroke-coral hover:fill-coral"
+                  className="hover:text-coral hover:stroke-coral hover:fill-coral"
                 >
-                  scientific paper
-                </a>{" "}
-                or the latest{" "}
-                {/* TODO: Update this link to the World Bank report when published */}
-                <a
-                  href="https://doi.org/10.1038/s41598-020-61136-6"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="underline hover:text-coral hover:stroke-coral hover:fill-coral"
-                >
-                  World Bank report&nbsp;–›
+                  Read the scientific paper&nbsp;–›
                 </a>
+              </p>
+              <p>
+                {downloads.map((download) => (
+                  <a
+                    key={download.url}
+                    href={download.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex row items-center gap-2 hover:text-coral hover:stroke-coral hover:fill-coral"
+                  >
+                    {download.description}
+                    {download.icon}
+                  </a>
+                ))}
               </p>
             </>
           }
@@ -151,49 +160,20 @@ export const LayerSelection: React.FC<LayerSelectionProps> = ({
       <div className="bg-trench hover:bg-shoreline block text-left transition-[height]">
         <MenuItem
           iconSprings={iconSprings}
-          name="Data Downloads"
-          description={
-            <p>
-              {downloads.map((download) => (
-                <a
-                  key={download.url}
-                  href={download.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex row items-center gap-2 hover:text-coral hover:stroke-coral hover:fill-coral"
-                >
-                  {download.description} {download.icon}
-                </a>
-              ))}
-            </p>
-          }
+          name="Quick Explore"
+          description={() => <QuickExplore />}
           IconComponent={() => (
             <Icon
-              icon="material-symbols:download"
-              className="w-full h-full -translate-y-1"
-              height="1.5em"
-              width="1.5em"
+              icon="material-symbols:explore-outline"
               color="white"
+              className="w-full h-full"
+              height="1.3em"
+              width="1.3em"
+              style={{ transform: "scale(0.9)" }}
             />
           )}
         />
       </div>
-      {USE_SEARCH_BAR && (
-        <div className="bg-trench hover:bg-shoreline block text-left transition-[height]">
-          <MenuItem
-            iconSprings={iconSprings}
-            name="Quick Explore"
-            description={() => <QuickExplore />}
-            IconComponent={() => (
-              <Icon
-                icon="material-symbols:explore-outline"
-                color="white"
-                className="w-full h-full"
-              />
-            )}
-          />
-        </div>
-      )}
       {typeof window.google !== "undefined" && (
         <div className="bg-trench hover:bg-shoreline block text-left transition-[height]">
           <MenuItem
@@ -213,6 +193,7 @@ export const LayerSelection: React.FC<LayerSelectionProps> = ({
                 height="1.5em"
                 color="white"
                 className="w-full h-full"
+                style={{ transform: "scale(0.9)" }}
               />
             )}
           />
@@ -282,7 +263,7 @@ const MenuItem: React.FC<{
       <div
         onMouseEnter={handleCopyHover}
         onMouseLeave={handleCopyUnhover}
-        className="w-96 py-2 text-white px-3"
+        className="w-[25rem] py-2 text-white px-3"
       >
         <h4 className="w-full">{name}</h4>
         {description && typeof description === "string" ? (

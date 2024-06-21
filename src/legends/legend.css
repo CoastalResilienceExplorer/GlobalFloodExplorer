@@ -33,6 +33,9 @@
   color: white;
 }
 
+.legend-item.wide {
+  max-width: 215px;
+}
 .legend-layer-title {
   font-size: 1.1em;
   padding: 0 10px;
@@ -41,7 +44,7 @@
 }
 
 .legend-layer-subtitle {
-  font-size: 1em;
+  font-size: 0.9em;
   padding: 0 10px;
   margin-bottom: -10px;
   @apply font-serif;

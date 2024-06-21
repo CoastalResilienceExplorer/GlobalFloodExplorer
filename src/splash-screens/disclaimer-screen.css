@@ -48,7 +48,7 @@
 
 .browser-disclaimer-container {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
 }
 
 .browser-disclaimer-container > * {

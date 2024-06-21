@@ -1,24 +1,36 @@
 import { useCallback, useContext } from "react";
 import FlyToContext from "./FlyToContext";
 import { aois } from "data/viewports";
+import { LayerName } from "types/dataModel";
+import { LayerSelectionFrom, useLayerBounceContext } from "layers/layer-bounce";
+import { Viewport } from "types/map";
 
 export type Bounds = [[number, number], [number, number]];
 
 const ExplorerButton = ({
   text,
   region,
-  group,
+  layerName,
 }: {
   text: string;
   region: string;
-  group: string;
+  layerName: LayerName;
 }) => {
   const flyToContext = useContext(FlyToContext);
+  const { setLayerGroupSelectedFrom } = useLayerBounceContext();
 
   const onClick = useCallback(() => {
-    flyToContext.flyToViewport(aois.find((x) => x.id === region)?.overview);
-    flyToContext.setLayerGroup(group);
-  }, [flyToContext, region, group]);
+    // Need to give Flooding sub-maps time to initialize
+    const flyToTimeout = layerName === LayerName.Flooding ? 1000 : 250;
+    flyToContext?.setLayerGroup?.(layerName);
+    setLayerGroupSelectedFrom(LayerSelectionFrom.layerSelectionPanel);
+
+    setTimeout(() => {
+      flyToContext?.flyToViewport?.({
+        ...(aois.find((x) => x.id === region)?.overview as Viewport),
+      });
+    }, flyToTimeout);
+  }, [flyToContext, layerName, setLayerGroupSelectedFrom, region]);
 
   return (
     <button
@@ -39,18 +51,22 @@ const QuickExplore = () => {
         <ExplorerButton
           text="Benefit (AEB)"
           region="Florida"
-          group="Benefit (AEB)"
+          layerName={LayerName.BenefitAEB}
         />
         <ExplorerButton
           text="Risk Reduction Ratio"
           region="Florida"
-          group="Risk Reduction Ratio"
+          layerName={LayerName.RiskReduction}
         />
-        <ExplorerButton text="Flooding" region="Vietnam" group="Flooding" />
         <ExplorerButton
-          text="Benefit per Hectare"
+          text="Flooding"
+          region="Vietnam"
+          layerName={LayerName.Flooding}
+        />
+        <ExplorerButton
+          text="Benefit (Social)"
           region="Yucatan"
-          group="Benefit per Hectare"
+          layerName={LayerName.Population}
         />
       </div>
     </div>
