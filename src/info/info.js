@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import "./info.css";
 
-export default function Info({ activeInfo, refs }) {
+export default function Info({ activeInfo, refs, allTheThings }) {
   const dotRef = useRef();
   const infoToText = {
     FIRST_3D: {
@@ -30,7 +30,19 @@ export default function Info({ activeInfo, refs }) {
     },
     FIRST_HEX: {
       text: "Tilt the map with CTL + drag",
-      ref: refs.HEX,
+      ref: refs.LOWER_MIDDLE,
+      with_dot: false,
+      style: "grey",
+    },
+    FIRST_HOVER: {
+      text: "Zoom To",
+      ref: refs.LOWER_MIDDLE,
+      with_dot: false,
+      style: "grey",
+    },
+    FILTER_HOVER: {
+      text: "Zoom To",
+      ref: refs.LOWER_MIDDLE,
       with_dot: false,
       style: "grey",
     },
@@ -66,7 +78,11 @@ export default function Info({ activeInfo, refs }) {
                     "tooltip" + (infoToText[i].style == "grey" ? " grey" : "")
                   }
                 >
-                  {infoToText[i].text}
+                  {allTheThings &&
+                  allTheThings[i].payload &&
+                  allTheThings[i].payload.text
+                    ? allTheThings[i].payload.text
+                    : infoToText[i].text}
                 </div>
                 {infoToText[i].with_dot && (
                   <div className="tooltip-dot" ref={dotRef} />

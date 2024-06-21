@@ -1,22 +1,21 @@
 # This script is run with GDAL 3.7.1
 # It converts layers in a FileGDB into efficiently compressed GeoTiffs
-IN_GDB=../data/CWON/Global_Flood_Maps_Visualization.gdb
-OUTPUT_DIR=../data/CWON/as_tiff
+IN_DIR=/Users/chlowrie/Downloads/OPC_tifs/
+OUTPUT_DIR=/Users/chlowrie/Downloads/OPC_tifs/minified/
 
-layers=$(gdalinfo -json $IN_GDB | jq .metadata.SUBDATASETS | jq 'with_entries(if (.key|test("NAME")) then ( {key: .key, value: .value } ) else empty end )' | jq 'to_entries[].value')
-for layer in $layers
+layers=$(ls $IN_DIR*.tif)
+echo $layers
+for layer in `ls $IN_DIR*.tif`
 do
-    IFS=':' read -ra ADDR <<< "$layer"
-    layer_name=$(echo ${ADDR[2]} | sed 's/"//')
+    echo $layer
+    IFS='/' read -ra ADDR <<< "$layer"
+    layer_name=$(echo ${ADDR[${#ADDR[@]}-1]} | sed 's/"//') 
     echo $layer_name
     gdal_translate \
         -ot Int16 \
         -of COG \
         -scale 0 8 0 32767 \
-        OpenFileGDB:${IN_GDB}:${layer_name} ${OUTPUT_DIR}/${layer_name}.tiff \
-        -co NUM_THREADS=ALL_CPUS \
-        -co RESAMPLING=AVERAGE \
-        -co COMPRESS=DEFLATE -co PREDICTOR=2 -co BIGTIFF=YES -co SPARSE_OK=TRUE
-    gdal_edit.py ${OUTPUT_DIR}/${layer_name}.tiff -scale $(bc -l <<< "8/32767.0")
+        ${IN_DIR}${layer_name} ${OUTPUT_DIR}${layer_name} \
+        -co NUM_THREADS=ALL_CPUS
+    gdal_edit.py ${OUTPUT_DIR}${layer_name} -scale $(bc -l <<< "8/32767.0")
 done
-

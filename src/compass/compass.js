@@ -1,101 +1,109 @@
 import "./compass.css";
-import * as React from "react";
+import { useState, useRef, useEffect } from "react";
+import { useInfoContext } from "hooks/useInfo";
 import { ReactComponent as CompassSVG } from "assets/compass.svg";
-import { ReactComponent as MapSVG } from "assets/Map_Icon.svg";
 import { ReactComponent as Plus } from "assets/Plus.svg";
 import { ReactComponent as Minus } from "assets/Minus.svg";
-import { ReactComponent as Controls } from "assets/Controls.svg";
 import Hover from "components/hover";
+import { useFilterContext } from "hooks/useFilters";
+import { Icon } from "@iconify/react";
+import { default_mang_perc_change_filter } from "layers/filters";
+import { BasemapMap } from "basemap_manager/BasemapManager";
+
+function reverseObject(obj) {
+  const reversedObject = {};
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      reversedObject[obj[key]] = key;
+    }
+  }
+  return reversedObject;
+}
+
+const ReversedBasemapMap = reverseObject(BasemapMap);
 
 export default function Compass(props) {
-  function adjustViewport(adjustment, transitionDuration = 500) {
+  const { useWhile } = useInfoContext();
+  const [filterIsHovering, setFilterIsHovering] = useState(false);
+  const filterIsHoveringRef = useRef();
+
+  function adjustViewport(adjustment) {
     const newViewport = Object.assign(props.viewport, adjustment);
     props.setViewport(newViewport);
   }
 
-  function alignViewport() {
-    const viewport_base = {
-      latitude: props.viewport.latitude,
-      longitude: props.viewport.longitude,
-      zoom: props.viewport.zoom,
-      pitch: props.viewport.pitch,
-      bearing: props.viewport.bearing,
-      transitionDuration: 500,
-    };
-    let viewport_to;
-    if (props.viewport.bearing === 0) {
-      viewport_to = Object.assign(viewport_base, { pitch: 0 });
-    } else {
-      viewport_to = Object.assign(viewport_base, { bearing: 0 });
-    }
-    props.setViewport(viewport_to);
-  }
+  useEffect(() => {
+    filterIsHoveringRef.current = filterIsHovering;
+  }, [filterIsHovering]);
 
+  const { filtersOn, setFiltersOn } = useFilterContext();
+
+  useWhile.on(
+    () => filterIsHovering && filtersOn,
+    [filterIsHovering, filtersOn],
+    "FILTER_HOVER",
+    undefined,
+    `Filtering to >${default_mang_perc_change_filter * -100}% Mangrove Loss`,
+    0,
+  );
+
+  useWhile.off(
+    () => !filterIsHovering,
+    [filterIsHovering],
+    "FILTER_HOVER",
+    undefined,
+    1000,
+  );
+
+  useWhile.off(() => !filtersOn, [filtersOn], "FILTER_HOVER", undefined, 0);
+
+  const highlightCompass =
+    props.viewport.pitch !== 0 || props.viewport.bearing !== 0;
   return (
     <div className="controls-panel-container">
-      <div className="controls-panel-title">Controls</div>
       <div className="controls-panel" ref={props._ref}>
-        <div className="controls-icon-container" onClick={alignViewport}>
-          <Hover text="2D">
-            <div
-              className="controls-icon"
-              onClick={() => adjustViewport({ pitch: 0 })}
-            >
-              2D
-            </div>
+        <div
+          className={`controls-icon-container ${filtersOn ? "coral" : ""}`}
+          onClick={() => setFiltersOn(!filtersOn)}
+          onMouseMove={() => setFilterIsHovering(true)}
+          onMouseLeave={() => setFilterIsHovering(false)}
+        >
+          <Hover
+            text="Set Filter"
+            extraClasses={ReversedBasemapMap[props.theme]}
+          >
+            <Icon
+              icon="mdi:filter"
+              className={`controls-icon ${filtersOn ? "coral" : ""}`}
+            />
           </Hover>
         </div>
         <div
-          className="controls-icon-container"
-          onClick={() => adjustViewport({ bearing: 0 })}
+          className={
+            "controls-icon-container " + (highlightCompass ? "coral" : "white")
+          }
+          onClick={() => adjustViewport({ bearing: 0, pitch: 0 })}
         >
-          <Hover text="Reorient">
+          <Hover text="Reorient" extraClasses={ReversedBasemapMap[props.theme]}>
             <CompassSVG
-              className="controls-icon compass"
+              fill={highlightCompass ? "coral" : "white"}
+              className={"controls-icon compass"}
               style={{
                 transform: `
-                    rotateX(${props.viewport.pitch}deg)
-                    rotateZ(${-props.viewport.bearing}deg)  
-                    `,
+                  rotateX(${props.viewport.pitch}deg)
+                  rotateZ(${-props.viewport.bearing}deg)  
+                `,
               }}
-            ></CompassSVG>
-          </Hover>
-        </div>
-        <div
-          className="controls-icon-container"
-          onClick={() =>
-            adjustViewport({
-              latitude: 0,
-              longitude: 0,
-              zoom: 1.8,
-              pitch: 0,
-              bearing: 0,
-            })
-          }
-        >
-          <div className="controls-icon zoom-full">
-            <Hover text="Zoom Full">
-              <MapSVG />
-            </Hover>
-          </div>
-        </div>
-        <div
-          className="controls-icon-container"
-          onClick={() => props.setNavigationControls(!props.naviationControls)}
-        >
-          <Hover text="Controls">
-            <div className="controls-icon">
-              <Controls />
-            </div>
+            />
           </Hover>
         </div>
         <div
           className="controls-icon-container"
           onClick={() => adjustViewport({ zoom: props.viewport.zoom + 1 })}
         >
-          <Hover text="Zoom In">
+          <Hover text="Zoom In" extraClasses={ReversedBasemapMap[props.theme]}>
             <div className="controls-icon">
-              <Plus />
+              <Plus fill="white" />
             </div>
           </Hover>
         </div>
@@ -103,9 +111,9 @@ export default function Compass(props) {
           className="controls-icon-container"
           onClick={() => adjustViewport({ zoom: props.viewport.zoom - 1 })}
         >
-          <Hover text="Zoom Out">
+          <Hover text="Zoom Out" extraClasses={ReversedBasemapMap[props.theme]}>
             <div className="controls-icon">
-              <Minus />
+              <Minus fill="white" />
             </div>
           </Hover>
         </div>

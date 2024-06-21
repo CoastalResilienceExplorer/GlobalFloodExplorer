@@ -4,7 +4,8 @@ import getLayers from "./getLayer";
 // Data
 import sky from "./sky";
 // PROTOS
-import { all_protos } from "./protos/all_protos";
+import { LayerName } from "types/dataModel";
+import { useFilterContext } from "hooks/useFilters";
 
 export function useLayers(
   map,
@@ -32,15 +33,36 @@ export function useLayers(
   const [subgroup, setSubgroup] = useState(init_subgroup);
   const [subgroupOn, setSubgroupOn] = useState(false);
   const layersRef = useRef([]);
+  const viewportLockTimeout = useRef();
+
+  const { filtersOn, activeFilters: filters } = useFilterContext();
 
   const layers_and_legends = useMemo(() => {
     return getLayers(
       all_layers,
       layerGroup,
       { floodGroup: subgroup },
-      custom_protos || all_protos,
+      custom_protos,
+      filters,
     );
-  }, [layerGroup, subgroup]);
+  }, [layerGroup, subgroup, filters, filtersOn]);
+
+  useEffect(() => {
+    if (mapLoaded) {
+      if (layerGroup === LayerName.RiskReduction) {
+        clearTimeout(viewportLockTimeout.current);
+        map.setMaxPitch(75);
+        map.dragRotate.enable();
+      } else {
+        map.setPitch(0);
+        map.rotateTo(0, { animationDuration: 2000 });
+        viewportLockTimeout.current = setTimeout(() => {
+          map.setMaxPitch(0);
+          map.dragRotate.disable();
+        }, 2000);
+      }
+    }
+  }, [layerGroup, mapLoaded]);
 
   const layers = useMemo(() => layers_and_legends.layers, [layers_and_legends]);
   const layerSelectionDependencies = useMemo(
@@ -74,10 +96,6 @@ export function useLayers(
   }
 
   useEffect(() => {
-    console.log(layerGroup, subgroup);
-  }, [subgroup]);
-
-  useEffect(() => {
     if (!mapLoaded) return;
     map.setStyle(style);
     map.on("style.load", () => {
@@ -85,7 +103,6 @@ export function useLayers(
       addSourcesAndSupps();
       addLayers(layers);
     });
-    console.log(map);
   }, [style]);
 
   useEffect(() => {

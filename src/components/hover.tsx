@@ -4,17 +4,19 @@ import "./hover.css";
 interface HoverProps {
   children: ReactNode;
   text: string;
+  extraClasses: string;
   timeout?: number;
   additionalClasses?: string;
-  animationDuration?: number
+  animationDuration?: number;
 }
 
 const Hover: React.FC<HoverProps> = ({
   children,
   text,
+  extraClasses = "",
   timeout = 5000,
   additionalClasses = "",
-  animationDuration = 500
+  animationDuration = 500,
 }) => {
   const [show, setShow] = useState(false);
   const classlist = useRef(additionalClasses);
@@ -40,7 +42,9 @@ const Hover: React.FC<HoverProps> = ({
       onMouseLeave={() => setShow(false)}
     >
       {children}
-      <div className={'hover' + (show ? " show" : "")}>{show ? text : ""}</div>
+      <div className={"hover" + (show ? " show" : "") + " " + extraClasses}>
+        {show ? text : ""}
+      </div>
     </div>
   );
 };

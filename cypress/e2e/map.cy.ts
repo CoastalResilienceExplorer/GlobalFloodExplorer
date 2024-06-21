@@ -1,13 +1,10 @@
 describe("Map spec", () => {
   beforeEach(() => {
     cy.visit("/");
-    cy.get(".navigation-button")
-      .should("be.visible")
-      .contains("Explore")
+    cy.get(`[data-cy="splashscreen-cta"]`)
+      .contains("Enter the Explorer")
       .click();
-    cy.get('[data-test-id="disclaimer-close-button"]')
-      .should("be.visible")
-      .click();
+    cy.get(`[data-cy="disclaimer-close-button"]`).click();
   });
 
   it("renders various elements of the map page", () => {
@@ -21,7 +18,7 @@ describe("Map spec", () => {
     cy.get(".basemap-manager-container").should("be.visible");
 
     // Check that the layer manager is rendered
-    cy.get(".layer-selection-container").should("be.visible");
+    cy.get(".layer-selection").should("be.visible");
 
     // Check that the metrics are rendered
     cy.get('[data-test-id="open-metrics-button"]').should("be.visible");

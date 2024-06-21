@@ -1,3 +1,5 @@
+import { LayerName } from "types/dataModel";
+
 export const init_viewport = {
   longitude: 2.8,
   latitude: 14.2,
@@ -7,5 +9,5 @@ export const init_viewport = {
   transitionDuration: 500,
 };
 
-export const init_layer = "Benefit (AEB)";
+export const init_layer = LayerName.BenefitAEB;
 export const init_subgroup = "flooding_2015";

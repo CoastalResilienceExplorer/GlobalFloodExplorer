@@ -18,7 +18,8 @@
       "minzoom": 4,
       "maxzoom": 6
     },
-    "parent": "Caribbean"
+    "parent": "Caribbean",
+    "size": 50
   },
   {
     "id": "Yucatan",
@@ -39,7 +40,8 @@
       "minzoom": 4,
       "maxzoom": 6
     },
-    "parent": "Caribbean"
+    "parent": "Caribbean",
+    "size": 40
   },
   {
     "id": "Caribbean",
@@ -59,7 +61,8 @@
       "marker": [-75, 25],
       "minzoom": 0,
       "maxzoom": 4
-    }
+    },
+    "size": 40
   },
   {
     "id": "Indian Ocean",

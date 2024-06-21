@@ -1,9 +1,17 @@
 .hover.show {
-    position: absolute;
-    bottom: -25px;
-    left: -5px;
-    width: 100px;
-    background-color: rgba(193, 241, 253, 0.7);
-    border: 1px solid rgba(60, 132, 150, 0.8);
-    border-radius: 10px;
+  position: absolute;
+  bottom: -30px;
+  left: -5px;
+  width: 100px;
+  background-color: rgba(193, 241, 253, 0.7);
+  border: 1px solid rgba(60, 132, 150, 0.8);
+  border-radius: 10px;
+}
+
+.hover-left .hover {
+  transform: translateX(-50%);
+}
+
+.hover.light {
+  color: black;
 }

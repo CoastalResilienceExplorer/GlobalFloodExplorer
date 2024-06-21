@@ -1,0 +1,37 @@
+.bounce.selected {
+  animation:
+    flash-background 2s 3,
+    flash-border 2s 3;
+
+  box-sizing: border-box;
+}
+
+@keyframes flash-background {
+  0% {
+    background-color: var(--coral);
+  }
+
+  100% {
+    background-color: var(--shoreline);
+  }
+}
+
+@keyframes flash-border {
+  0% {
+    outline: 1pt solid rgba(255, 127, 80, 0.8);
+  }
+
+  100% {
+    outline: 20pt solid rgba(255, 127, 80, 0);
+  }
+}
+
+/* @keyframes flash-border {
+    0% {
+        box-shadow: 0 0 0 1pt rgba(255, 127, 80, 0.8);
+    }
+
+    100% {
+        box-shadow: 0 0 0 20pt rgba(255, 127, 80, 0);
+    }
+} */

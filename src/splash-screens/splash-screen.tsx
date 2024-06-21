@@ -1,227 +1,127 @@
-import * as React from "react";
 import ReactGA from "react-ga4";
-import "./splash-screen.css";
 
 // Researchers
-import UCSC from "../assets/UCSC_White_Logo.png";
-import TNC from "../assets/TNC logo_grayscale.png";
-import IHCant from "../assets/ih_logo.png";
-import CRL_Logo from "../assets/Coastal Resilience Lab Logo.png";
+import UCSC from "../assets/CCCR-UCSC.png";
+import IHCant from "../assets/IHCantabria.png";
 
 // Other Sponsors
-import IKI from "../assets/IKI_Climate.jpg";
-import AXA from "../assets/AXA_Research_Fund.jpg";
-import WB from "../assets/world-bank-logo.jpg";
+import AXA from "../assets/AXA_Research_Fund.png";
+import WB from "../assets/The_World_Bank.png";
+import TNC from "../assets/Nature_Conservancy_Logo_Color.jpg";
+import { useSpring, animated } from "@react-spring/web";
 
-// Links
-const paper = "https://www.nature.com/articles/s41598-020-61136-6?sf231926366";
-const lab = "https://www.coastalresiliencelab.org/";
-
-const title = "Coastal Resilience";
-const subtitle = "Explorer";
-
-const body =
-  "Increasing coastal hazards due to climate change require innovative solutions that leverage natural infrastructure like reefs and mangroves.";
-
-const citation =
-  "Menéndez, P., Losada, I.J., Torres-Ortega, S. et al. The Global Flood Protection Benefits of Mangroves. Sci Rep 10, 4404 (2020).";
-const doi = (
-  <a href="https://doi.org/10.1038/s41598-020-61136-6">
-    https://doi.org/10.1038/s41598-020-61136-6
-  </a>
-);
-
-function CreditIcon({
-  image,
-  type = "partner",
+export const SplashScreen = ({
+  showSplashScreen,
+  setSplashScreen,
 }: {
-  image: string;
-  type?: "partner" | "sponsor" | "lab";
-}) {
-  return <img src={image} className={`credit-icon ${type}`} />;
-}
+  showSplashScreen: boolean;
+  setSplashScreen: (show: boolean) => void;
+}) => {
+  const [springProps, springPropsApi] = useSpring(() => ({
+    opacity: showSplashScreen ? 1 : 0,
+    config: { duration: 300 },
+  }));
 
-type NavigationButtonProps = {
-  text: string;
-  link?: string;
-  setSplashScreen?: React.Dispatch<React.SetStateAction<boolean>>;
-  type?: "minor" | "gotomap";
+  const enterExplorer = async () => {
+    ReactGA.event({
+      category: "Splash Screen",
+      action: "Enter Explorer",
+    });
+    springPropsApi.start({ opacity: 0 })[0].then(() => {
+      setSplashScreen(false);
+    });
+  };
+
+  if (!showSplashScreen) return null;
+
+  return (
+    <animated.div
+      style={springProps}
+      className="z-10 w-full h-full overflow-scroll flex-col flex absolute bg-cover justify-between bg-open bg-[url('./assets/SplashBackground_Mobile.jpg')] md:bg-[url('./assets/SplashBackground.jpg')]"
+    >
+      <header className="flex  px-2 md:px-8 py-1 pr-12 md:pr-24 scale-y-[-1] mr-auto bg-[length:100%_100%] bg-[url('./assets/SplashFooterBackground.png')]">
+        <div className="flex flex-row items-center scale-y-[-1]">
+          <img src={UCSC} alt="UCSC Logo" className="w-48 mt-5 max-w-[45%]" />
+          <img
+            src={IHCant}
+            alt="IH Logo"
+            className="w-48 max-w-[45%]	ml-4 md:ml-8"
+          />
+        </div>
+      </header>
+      <main className="flex text-left">
+        <div
+          className="mx-3 my-4 md:mx-[10%] md:max-w-[630px]"
+          data-cy="splashscreen-body-title"
+        >
+          <h2 className="text-white leading-none md:leading-tight">
+            Coastal Resilience{" "}
+          </h2>
+          <h1 className="text-white leading-10 mb-4 md:mb-8 -translate-x-1">
+            Explorer
+          </h1>
+          <p className="body-large text-white mb-2">
+            Climate change, coastal development and habitat loss all increase
+            coastal risk to people and property.
+          </p>
+          <p className="body-large text-white mb-6">
+            Explore the coastlines at the greatest risk and where nature-based
+            solutions provide the greatest benefits.
+          </p>
+          <p className="label-large text-white mb-4">
+            Source to be Cited: Menéndez, Losada, Torres-Ortega, Narayan & Beck.
+            The Global Flood Protection Benefits of Mangroves. 2020.{" "}
+            <a
+              className="label-large text-white"
+              href="https://doi.org/10.1038/s41598-020-61136-6"
+              target="_blank"
+              rel="noreferrer"
+            >
+              https://doi.org/10.1038/s41598-020-61136-6&nbsp;–›
+            </a>
+          </p>
+          <p className="label-large text-white mb-8">
+            Learn more about the{" "}
+            <a
+              className="label-large text-white"
+              href="https://www.coastalresiliencelab.org/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              UCSC Center for Coastal Climate Resilience&nbsp;–›
+            </a>
+          </p>
+          <button
+            className="btn-large"
+            onClick={enterExplorer}
+            data-cy="splashscreen-cta"
+          >
+            Enter the Explorer
+          </button>
+        </div>
+      </main>
+      <footer className="flex flex-col px-2 md:px-8 py-1 pr-12 md:pr-24 mr-auto bg-[length:100%_100%] bg-[url('./assets/SplashFooterBackground.png')]">
+        <p className="label text-left mx-1 mb-2 md:mx-4">
+          This project is made possible by the support of our sponsors:
+        </p>
+        <div className="flex">
+          <img
+            src={WB}
+            alt="The World Bank Logo"
+            className="max-h-7	pt-0.25 max-w-[30%] md:max-w-[30%] mx-1 md:mx-4"
+          />
+          <img
+            src={AXA}
+            alt="AXA Research Fund Logo"
+            className="max-h-8	max-w-[33%] md:max-w-[33%] mx-1 md:mx-4"
+          />
+          <img
+            src={TNC}
+            alt="TNC Logo"
+            className="max-h-8 max-w-[33%] md:max-w-[33%] mx-1 md:mx-4"
+          />
+        </div>
+      </footer>
+    </animated.div>
+  );
 };
-
-function NavigationButton({
-  text,
-  link,
-  setSplashScreen,
-  type = "minor",
-}: NavigationButtonProps) {
-  if (type === "gotomap") {
-    return (
-      <div
-        className={`navigation-button ${type}`}
-        onClick={() => {
-          ReactGA.event({
-            category: "Opening Splash Screen",
-            action: "Got to Map",
-          });
-          setSplashScreen?.(false);
-        }}
-      >
-        {text}
-      </div>
-    );
-  }
-
-  return (
-    <div className={`navigation-button ${type}`}>
-      <a
-        href={link}
-        onClick={(e) => e.stopPropagation()}
-        target="_blank"
-        rel="noreferrer"
-      >
-        {text}
-      </a>
-    </div>
-  );
-}
-
-function Desktop({
-  showSplashScreen,
-  setSplashScreen,
-}: {
-  showSplashScreen: boolean;
-  setSplashScreen: React.Dispatch<React.SetStateAction<boolean>>;
-}) {
-  return (
-    <>
-      {showSplashScreen ? (
-        <>
-          <div className="splash-screen">
-            <div className="splash-screen-toplevel-vertical-divide">
-              <div className="splash-screen-toplevel-half left">
-                <div className="partners-panel">
-                  <CreditIcon image={UCSC}></CreditIcon>
-                  <CreditIcon image={TNC}></CreditIcon>
-                  <CreditIcon image={IHCant}></CreditIcon>
-                </div>
-                <div className="body-panel">
-                  <CreditIcon image={CRL_Logo} type="lab"></CreditIcon>
-                  <div className="splashscreen-body-text-container">
-                    <div className="splashscreen-body-title">
-                      {title}
-                      <div className="emph">{subtitle}</div>
-                    </div>
-                    <div className="splashscreen-body-main">
-                      {body}
-                      <div className="sub">
-                        {citation} {doi}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="navigation-buttons-container">
-                    <NavigationButton text="Lab Website" link={lab} />
-                    <NavigationButton text="Learn More" link={paper} />
-                  </div>
-                </div>
-                <div className="sponsors-panel">
-                  <CreditIcon image={WB} type="sponsor"></CreditIcon>
-                  <CreditIcon image={AXA} type="sponsor"></CreditIcon>
-                  <CreditIcon image={IKI} type="sponsor"></CreditIcon>
-                </div>
-              </div>
-              <div className="splash-screen-toplevel-half right" />
-              <div className="centered-button-container">
-                <NavigationButton
-                  text="Explore"
-                  type="gotomap"
-                  setSplashScreen={setSplashScreen}
-                />
-              </div>
-            </div>
-          </div>
-        </>
-      ) : null}
-    </>
-  );
-}
-
-function Mobile({
-  showSplashScreen,
-  setSplashScreen,
-}: {
-  showSplashScreen: boolean;
-  setSplashScreen: React.Dispatch<React.SetStateAction<boolean>>;
-}) {
-  return (
-    <>
-      {showSplashScreen ? (
-        <>
-          <div className="splash-screen">
-            <div className="splash-screen-toplevel-vertical-divide">
-              <div className="splash-screen-toplevel-half left mobile">
-                <div className="partners-panel">
-                  <CreditIcon image={UCSC}></CreditIcon>
-                  <CreditIcon image={TNC}></CreditIcon>
-                  <CreditIcon image={IHCant}></CreditIcon>
-                </div>
-                <div className="body-panel">
-                  <CreditIcon image={CRL_Logo} type="lab"></CreditIcon>
-                  <div className="splashscreen-body-text-container">
-                    <div className="splashscreen-body-title">
-                      {title}
-                      <div className="emph">{subtitle}</div>
-                    </div>
-                    <div className="splashscreen-body-main">
-                      {body}
-                      <div className="sub">
-                        {citation} {doi}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="navigation-buttons-container">
-                    <NavigationButton
-                      text="Explore"
-                      type="gotomap"
-                      setSplashScreen={setSplashScreen}
-                    />
-                    <NavigationButton text="Lab Website" link={lab} />
-                    <NavigationButton text="Learn More" link={paper} />
-                  </div>
-                </div>
-                <div className="sponsors-panel">
-                  <CreditIcon image={WB} type="sponsor"></CreditIcon>
-                  <CreditIcon image={AXA} type="sponsor"></CreditIcon>
-                  <CreditIcon image={IKI} type="sponsor"></CreditIcon>
-                </div>
-              </div>
-            </div>
-          </div>
-        </>
-      ) : null}
-    </>
-  );
-}
-
-export default function SplashScreen({
-  showSplashScreen,
-  setSplashScreen,
-}: {
-  showSplashScreen: boolean;
-  setSplashScreen: React.Dispatch<React.SetStateAction<boolean>>;
-}) {
-  const { innerWidth } = window;
-  if (innerWidth < 1100) {
-    return (
-      <Mobile
-        showSplashScreen={showSplashScreen}
-        setSplashScreen={setSplashScreen}
-      />
-    );
-  }
-  return (
-    <Desktop
-      showSplashScreen={showSplashScreen}
-      setSplashScreen={setSplashScreen}
-    />
-  );
-}

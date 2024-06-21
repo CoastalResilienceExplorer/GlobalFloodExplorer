@@ -1,4 +1,4 @@
-import React, { useMemo, useContext } from "react";
+import { useMemo } from "react";
 import { kFormatter } from "hooks/utils/formattingUtils";
 import "./selected-features-panel.css";
 import "./stats-panel-container.css";
@@ -7,56 +7,27 @@ import "./stats-panel-container.css";
 import LineChart2 from "./charts/LineChart2";
 import PieChart2 from "./charts/PieChart2";
 import ColoredSVGChart from "./charts/ColoredSVGChart";
-import ScaledSVGComparison from "./charts/ScaledSVGComparison";
 
-// Zoom To Icons
-import FlyTo_AEB from "assets/Snapshot_AEB_out.png";
-import FlyTo_perHa from "assets/Snapshot_AEB_Zoom.png";
-import FlyTo_Flooding from "assets/Snapshot_Flooding.png";
-import FlyTo_Hex from "assets/Snapshot_Hex.png";
-import viewports from "data/viewports.json";
-import FlyToContext from "../FlyToContext";
-
-// Metric Panel Icons
-import aeb_ha from "assets/AEB_ha_square.png";
-import aeb from "assets/AEB_square.png";
-import HEX from "assets/HEX_square.png";
-import Flood from "assets/Flood_square.png";
-import MangroveExtent from "assets/Mangrove_Extent.png";
-import StormIcon from "assets/Storm_Icon.png";
-
-// In-Panel Icons
-import { ReactComponent as MangroveIcon } from "assets/Mangrove.svg";
-import { ReactComponent as AEB_equation } from "assets/AEB_equation.svg";
-import { ReactComponent as AEBperHectare_equation } from "assets/AEBperHECTARE.svg";
-import { ReactComponent as RRR_equation } from "assets/RiskReductionRatio.svg";
+import layerGroups from "layers/layers";
+import { LayerName } from "types/dataModel";
 
 const sum = (acc, cur) => {
   return acc + cur;
 };
 
-function MetricIcon({ image }) {
-  return (
-    <div className="layer-image-container">
-      <img src={image} className="layer-icon" alt="" />
-    </div>
-  );
-}
-
-function MetricContent({ children, height = 50, contentModifier }) {
+function MetricContent({ children, contentModifier }) {
   return (
     <div
       className={
         "aeb-content-container " + (contentModifier ? contentModifier : "")
       }
-      style={{ height: height + "px" }}
     >
       {children}
     </div>
   );
 }
 
-function MetricTitle({ title, icon, selected, setLayerGroup, clickable }) {
+function MetricTitle({ title, Icon, selected, setLayerGroup, clickable }) {
   return (
     <div
       className={
@@ -66,19 +37,12 @@ function MetricTitle({ title, icon, selected, setLayerGroup, clickable }) {
       }
       onClick={setLayerGroup ? () => setLayerGroup(title) : null}
     >
-      <MetricIcon image={icon} />
-      <div className="aeb-title-text-container">
-        <div className="aeb-title-text">{title}</div>
+      <div className="layer-image-container">
+        <Icon />
       </div>
-    </div>
-  );
-}
-
-function SimpleMetric({ metric, suffix, formatter = "$" }) {
-  return (
-    <div className="aeb-number-text">
-      ${kFormatter(metric, formatter)}
-      {suffix ? suffix : null}
+      <div className="aeb-title-text-container">
+        <h4 className="text-white">{title}</h4>
+      </div>
     </div>
   );
 }
@@ -87,84 +51,16 @@ function TemplateMetricContainer({
   title,
   icon,
   children,
-  height,
-  selected,
-  setLayerGroup,
   contentModifier,
-  clickable = false,
+  description = "Metric specific description to come here. Only shown when section is hovered.",
 }) {
   return (
-    <div className="aeb-container">
-      <MetricTitle
-        icon={icon}
-        title={title}
-        selected={selected}
-        setLayerGroup={setLayerGroup}
-        clickable={clickable}
-      />
-      <MetricContent height={height} contentModifier={contentModifier}>
+    <div className="aeb-container text-left">
+      <MetricTitle Icon={icon} title={title} />
+      <MetricContent contentModifier={contentModifier}>
+        <p className="aeb-container-metric-description px-2">{description}</p>
         {children}
       </MetricContent>
-    </div>
-  );
-}
-
-function MapExplorerButton({ image, text, type = "x", region, group }) {
-  const { flyToViewport, setLayerGroup } = useContext(FlyToContext);
-
-  return (
-    <div className={`fly-to-icon ${type}`}>
-      <img
-        src={image}
-        alt=""
-        onClick={() => {
-          flyToViewport(viewports.filter((x) => x.id === region)[0].overview);
-          setLayerGroup(group);
-        }}
-      />
-      <div className="fly-to-icon-text">{text}</div>
-    </div>
-  );
-}
-
-function NoSelectedFeaturesPanel() {
-  return (
-    <div className="no-selected-features-panel">
-      <div className="no-selected-features-panel-text">
-        Quick Explorer
-        <div className="sub-text">
-          Select features to explore metrics, or use one of the zoom links below
-        </div>
-      </div>
-      <MapExplorerButton
-        image={FlyTo_Flooding}
-        text="Flooding"
-        type="flooding"
-        region="Zhanjiang"
-        group="Flooding"
-      />
-      <MapExplorerButton
-        image={FlyTo_Hex}
-        text="Risk Reduction Ratio"
-        type="hex"
-        region="Florida"
-        group="Risk Reduction Ratio"
-      />
-      <MapExplorerButton
-        image={FlyTo_AEB}
-        text="Benefit (AEB)"
-        type="aeb"
-        region="Florida"
-        layerKey="AEB"
-        group="Benefit (AEB)"
-      />
-      <MapExplorerButton
-        image={FlyTo_perHa}
-        text="Benefit per Hectare"
-        type="aeb-per-ha"
-        region="Zhanjiang"
-        group="Benefit per Hectare"
-      />
     </div>
   );
 }
@@ -191,175 +87,175 @@ function getStat(
 function SelectedFeaturesPanel({
   selectedFeatures,
   layerGroup,
+  selectedYear,
   setLayerGroup,
 }) {
   const stockNoMangroves = useMemo(
-    () => getStat("Ab_S_WoAE", selectedFeatures),
-    [selectedFeatures],
+    () =>
+      getStat(`Ben_Stock_${selectedYear}`, selectedFeatures) +
+      getStat(`Risk_Stock_${selectedYear}`, selectedFeatures),
+    [selectedFeatures, selectedYear],
   );
   const stockWithMangroves = useMemo(
-    () => getStat("Ab_S_WAE", selectedFeatures),
-    [selectedFeatures],
+    () => getStat(`Risk_Stock_${selectedYear}`, selectedFeatures),
+    [selectedFeatures, selectedYear],
   );
-  const AEB = useMemo(
-    () => getStat("Ab_S_BAE", selectedFeatures),
-    [selectedFeatures],
+  const popNoMangroves = useMemo(
+    () =>
+      getStat(`Ben_Pop_${selectedYear}`, selectedFeatures) +
+      getStat(`Risk_Pop_${selectedYear}`, selectedFeatures),
+    [selectedFeatures, selectedYear],
+  );
+  const popWithMangroves = useMemo(
+    () => getStat(`Risk_Pop_${selectedYear}`, selectedFeatures),
+    [selectedFeatures, selectedYear],
   );
   const mangroves1996 = useMemo(
-    () => getStat("Man1996", selectedFeatures),
+    () => getStat(`Mang_Ha_1996`, selectedFeatures),
     [selectedFeatures],
   );
   const mangroves2010 = useMemo(
-    () => getStat("Man2010", selectedFeatures),
+    () => getStat(`Mang_Ha_2010`, selectedFeatures),
     [selectedFeatures],
   );
   const mangroves2015 = useMemo(
-    () => getStat("Man2015", selectedFeatures),
+    () => getStat(`Mang_Ha_2015`, selectedFeatures),
     [selectedFeatures],
   );
 
-  const ben_per_ha = AEB / mangroves2010;
+  const stock1996 = useMemo(
+    () => getStat(`Ben_Stock_1996`, selectedFeatures),
+    [selectedFeatures],
+  );
+  const stock2010 = useMemo(
+    () => getStat(`Ben_Stock_2010`, selectedFeatures),
+    [selectedFeatures],
+  );
+  const stock2015 = useMemo(
+    () => getStat(`Ben_Stock_2015`, selectedFeatures),
+    [selectedFeatures],
+  );
+
   const stock_risk_reduct_ratio =
     (stockNoMangroves - stockWithMangroves) / stockNoMangroves;
 
-  const totalStock_10_WO = useMemo(
-    () => getStat("Ab_S_Wo10", selectedFeatures),
-    [selectedFeatures],
-  );
-  const totalStock_25_WO = useMemo(
-    () => getStat("Ab_S_Wo25", selectedFeatures),
-    [selectedFeatures],
-  );
-  const totalStock_50_WO = useMemo(
-    () => getStat("Ab_S_Wo50", selectedFeatures),
-    [selectedFeatures],
-  );
-  const totalStock_100_WO = useMemo(
-    () => getStat("Ab_S_Wo100", selectedFeatures),
-    [selectedFeatures],
-  );
-  const totalStock_10_W = useMemo(
-    () => getStat("Ab_S_W10", selectedFeatures),
-    [selectedFeatures],
-  );
-  const totalStock_25_W = useMemo(
-    () => getStat("Ab_S_W25", selectedFeatures),
-    [selectedFeatures],
-  );
-  const totalStock_50_W = useMemo(
-    () => getStat("Ab_S_W50", selectedFeatures),
-    [selectedFeatures],
-  );
-  const totalStock_100_W = useMemo(
-    () => getStat("Ab_S_W100", selectedFeatures),
-    [selectedFeatures],
-  );
+  const piechart_pop_data = [
+    { name: "Residual", value: popWithMangroves },
+    { name: "Protected", value: popNoMangroves - popWithMangroves },
+  ];
 
   const linechart_data = [
-    { name: "RP10", with: totalStock_10_W, without: totalStock_10_WO },
-    { name: "RP25", with: totalStock_25_W, without: totalStock_25_WO },
-    { name: "RP50", with: totalStock_50_W, without: totalStock_50_WO },
-    { name: "RP100", with: totalStock_100_W, without: totalStock_100_WO },
+    { name: 1996, benefit: stock1996, mangroves: mangroves1996 },
+    { name: 2010, benefit: stock2010, mangroves: mangroves2010 },
+    { name: 2015, benefit: stock2015, mangroves: mangroves2015 },
   ];
 
-  const piechart_stock_data = [
-    { name: "Residual", value: stockWithMangroves },
-    { name: "Protected", value: stockNoMangroves - stockWithMangroves },
+  const domain_gap = 0.01;
+
+  const linechart_keys = [
+    {
+      id: "benefit",
+      fill: "#7bccc4",
+      axisOrientation: "left",
+      tickFormatter: (tick) => {
+        return "$" + kFormatter(tick);
+      },
+      domain: [
+        Math.min(...linechart_data.map((d) => d.stock)) * (1 - domain_gap),
+        Math.max(...linechart_data.map((d) => d.stock)) * (1 + domain_gap),
+      ],
+    },
+    {
+      id: "mangroves",
+      fill: "#C76F85",
+      axisOrientation: "right",
+      tickFormatter: (tick) => {
+        return kFormatter(tick) + " ha";
+      },
+      domain: [
+        Math.min(...linechart_data.map((d) => d.mangroves)) * (1 - domain_gap),
+        Math.max(...linechart_data.map((d) => d.mangroves)) * (1 + domain_gap),
+      ],
+    },
   ];
 
-  if (selectedFeatures.length === 0) {
-    return <NoSelectedFeaturesPanel />;
-  }
+  const mangrove_disclaimer_text =
+    "This analysis accounts changes in mangroves, population and coastal wealth over time. Flood risk benefits from mangroves grow signficantly with increases in coasal population and wealth.";
 
   return (
-    <div onScroll={(e) => console.log(e)}>
-      {/* <MetricHeadlineContainer metric={AEB} title='Annual Expected Benefit' conRef={aebRef} /> */}
+    <>
       <TemplateMetricContainer
-        metric={AEB}
-        icon={Flood}
-        title="Flooding"
-        height={110}
-        selected={layerGroup === "Flooding"}
-        setLayerGroup={setLayerGroup}
-        clickable={true}
+        icon={layerGroups[LayerName.BenefitAEB].IconComponent}
+        description="Annual Expected Benefit (AEB) is amount that mangroves are expected to reduce flood damage each year."
+        title="Economic Benefit"
       >
-        <ColoredSVGChart
-          risk_reduction_ratio={stock_risk_reduct_ratio}
-          no_mang={stockNoMangroves}
-          with_mang={stockWithMangroves}
-        />
-      </TemplateMetricContainer>
-      <TemplateMetricContainer
-        metric={AEB}
-        icon={aeb}
-        title="Benefit (AEB)"
-        height={50}
-        selected={layerGroup === "Benefit (AEB)"}
-        setLayerGroup={setLayerGroup}
-        clickable={true}
-      >
-        <AEB_equation height={55} />
-        <div>=</div>
-        <SimpleMetric metric={AEB} />
-      </TemplateMetricContainer>
-      <TemplateMetricContainer
-        metric={ben_per_ha}
-        icon={aeb_ha}
-        title="Benefit per Hectare"
-        height={60}
-        selected={layerGroup === "Benefit per Hectare"}
-        setLayerGroup={setLayerGroup}
-        clickable={true}
-      >
-        {mangroves2010 === 0 ? (
-          <div className="aeb-content-container">
-            No mangroves in selected study unit. Benefits come from mangroves in
-            adjacent coastal areas.
+        <>
+          <div className="flex align-center flex-wrap w-full">
+            <p className="w-3/5 italic text-right">Damages w/o Mangroves:</p>
+            <p className="ml-2 lining-nums">${kFormatter(stockNoMangroves)}</p>
+            <p className="w-3/5 italic text-right">- Damages w/ Mangroves:</p>
+            <p className="ml-2 lining-nums">
+              ${kFormatter(stockWithMangroves)}
+            </p>
+            <div className="w-3/5 my-1 -translate-x-2 mx-auto pr-4 self-center	 border-solid border-t-[1px] border-trench" />
+            <p className="w-3/5 italic text-right">Total Damage Reduction:</p>
+            <p className="ml-2 lining-nums">
+              <b>${kFormatter(stockWithMangroves - stockNoMangroves)}</b>
+            </p>
           </div>
-        ) : (
-          <>
-            <AEBperHectare_equation height={80} />
-            <div>=</div>
-            <SimpleMetric metric={ben_per_ha} suffix="/ha" />
-          </>
-        )}
+          <div className="flex row w-full pt-8 justify-start">
+            <ColoredSVGChart
+              risk_reduction_ratio={stock_risk_reduct_ratio}
+              no_mang={stockNoMangroves}
+              with_mang={stockWithMangroves}
+            />
+            {/* <PieChart2 data={piechart_stock_data} type="STOCK" /> */}
+          </div>
+        </>
       </TemplateMetricContainer>
+
       <TemplateMetricContainer
-        icon={HEX}
-        title="Risk Reduction Ratio"
-        selected={layerGroup === "Risk Reduction Ratio"}
-        setLayerGroup={setLayerGroup}
-        height={60}
-        clickable={true}
+        icon={layerGroups[LayerName.Population].IconComponent}
+        description="Changes in mangrove extent and their economic benefits from 1996-2015."
+        title="Changing Mangroves & Benefits"
+        height={50}
       >
-        <RRR_equation height={80} />
-        <div>=</div>
-        <PieChart2 data={piechart_stock_data} type="STOCK" />
+        <>
+          <div className="flex align-right flex-wrap">
+            <p className="italic text-center px-2">
+              {mangrove_disclaimer_text}
+            </p>
+          </div>
+        </>
+        <LineChart2 data={linechart_data} keys={linechart_keys} type="STOCK" />
       </TemplateMetricContainer>
+
       <TemplateMetricContainer
-        icon={MangroveExtent}
-        title="Mangrove Change"
-        height={80}
+        icon={layerGroups[LayerName.Population].IconComponent}
+        description="Population Benefit is number of people that mangroves protect from flooding each year."
+        title="Population Benefit"
+        height={50}
       >
-        <ScaledSVGComparison
-          Icon={MangroveIcon}
-          title="Mangrove Trend"
-          size1={mangroves1996}
-          size2={mangroves2015}
-          scaleSize={85}
-        />
+        <>
+          <div className="flex align-center flex-wrap">
+            <p className="w-4/5 italic text-center">
+              People flooded w/o Mangroves:
+            </p>
+            <p className="ml-2 lining-nums">{kFormatter(popNoMangroves)}</p>
+            <p className="w-4/5 italic text-center">
+              - People flooded w/ Mangroves:
+            </p>
+            <p className="ml-2 lining-nums">{kFormatter(popWithMangroves)}</p>
+            <div className="w-4/5 my-1 -translate-x-2 mx-auto pr-4 self-center	 border-solid border-t-[1px] border-trench" />
+            <p className="w-3/5 italic text-right">Total Protection:</p>
+            <p className="ml-2 lining-nums">
+              <b>{kFormatter(popWithMangroves - popNoMangroves)}</b>
+            </p>
+          </div>
+        </>
+        <PieChart2 data={piechart_pop_data} type="STOCK" />
       </TemplateMetricContainer>
-      <TemplateMetricContainer
-        icon={StormIcon}
-        title="Expected Damages"
-        height={220}
-      >
-        <LineChart2 data={linechart_data} />
-      </TemplateMetricContainer>
-      {/* <TemplateMetricContainer icon={HEX} title='National Site Rank' height={150} contentModifier='start'>
-            <CountryLevelList countries={countries} highlightFIDs={fids} />
-        </TemplateMetricContainer> */}
-    </div>
+    </>
   );
 }
 

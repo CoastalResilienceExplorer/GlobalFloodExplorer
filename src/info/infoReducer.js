@@ -3,27 +3,66 @@ export default function reducer(state, action) {
     case "FIRST_3D":
       return {
         ...state,
-        FIRST_3D: action.payload,
+        FIRST_3D: {
+          active: action.active,
+          payload: action.payload,
+        },
       };
     case "FIRST_SELECT":
       return {
         ...state,
-        FIRST_SELECT: action.payload,
+        FIRST_SELECT: {
+          active: action.active,
+          payload: action.payload,
+        },
       };
     case "FIRST_FLOODING":
       return {
         ...state,
-        FIRST_FLOODING: action.payload,
+        FIRST_FLOODING: {
+          active: action.active,
+          payload: action.payload,
+        },
       };
     case "FIRST_FLOODING_ZOOM_IN":
       return {
         ...state,
-        FIRST_FLOODING_ZOOM_IN: action.payload,
+        FIRST_FLOODING_ZOOM_IN: {
+          active: action.active,
+          payload: action.payload,
+        },
       };
     case "FIRST_HEX":
       return {
         ...state,
-        FIRST_HEX: action.payload,
+        FIRST_HEX: {
+          active: action.active,
+          payload: action.payload,
+        },
+      };
+    case "FIRST_HOVER":
+      return {
+        ...state,
+        FIRST_HOVER: {
+          active: action.active,
+          payload: action.payload,
+        },
+      };
+    case "FILTER_HOVER":
+      return {
+        ...state,
+        FILTER_HOVER: {
+          active: action.active,
+          payload: action.payload,
+        },
+      };
+    case "FIRST_RRR":
+      return {
+        ...state,
+        FIRST_RRR: {
+          active: action.active,
+          payload: action.payload,
+        },
       };
     default:
       return state;

@@ -2,9 +2,8 @@ import React from "react";
 import {
   CartesianGrid,
   Legend,
-  Label,
-  Area,
-  AreaChart,
+  LineChart,
+  Line,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -15,18 +14,14 @@ import "./Charts.css";
 
 const CustomTooltip = ({ active, payload, label }) => {
   if (!active) return <></>;
-  const rp = label.slice(2);
   if (active && payload && payload.length) {
     return (
       <div className="custom-tooltip-linechart">
-        <p className="label">{`1 in ${rp} year flood`}</p>
-        <p className="desc">
-          <div>{`Without:`}</div>
-          <div>{`$${kFormatter(payload[0].payload.without)}`}</div>
+        <p className="desc lining-nums">
+          Economic Benefit: ${kFormatter(payload[0].payload.benefit)}
         </p>
-        <p className="desc">
-          <div>{`With:`}</div>
-          <div>{`$${kFormatter(payload[0].payload.with)}`}</div>
+        <p className="desc lining-nums">
+          Mangroves: {kFormatter(payload[0].payload.mangroves)} ha
         </p>
       </div>
     );
@@ -35,10 +30,10 @@ const CustomTooltip = ({ active, payload, label }) => {
   return null;
 };
 
-export default function Example({ data }) {
+export default function Example({ data, keys }) {
   return (
     <ResponsiveContainer width="100%" height={220}>
-      <AreaChart
+      <LineChart
         width={500}
         height={110}
         data={data}
@@ -51,32 +46,28 @@ export default function Example({ data }) {
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="name" dy={5} />
-        <YAxis
-          tickFormatter={(tick) => {
-            return "$" + kFormatter(tick);
-          }}
-        >
-          {/* <Label angle={-90} value='Expected Damage (USD)' offset={15} position='insideLeft' style={{textAnchor: 'middle'}} /> */}
-        </YAxis>
+        {keys.map((k) => (
+          <YAxis
+            key={k.id}
+            yAxisId={k.id}
+            orientation={k.axisOrientation}
+            tickFormatter={k.tickFormatter}
+            domain={k.domain}
+          ></YAxis>
+        ))}
         <Tooltip content={<CustomTooltip />} />
         <Legend align="right" height={10} />
-        <Area
-          type="monotone"
-          dataKey="without"
-          fillOpacity={1}
-          fill="#C76F85"
-          stroke="none"
-          activeDot={{ r: 5 }}
-        />
-        <Area
-          type="monotone"
-          dataKey="with"
-          fillOpacity={1}
-          fill="#7bccc4"
-          stroke="none"
-          activeDot={{ r: 5 }}
-        />
-      </AreaChart>
+        {keys.map((k) => (
+          <Line
+            key={k.id}
+            yAxisId={k.id}
+            type="monotone"
+            dataKey={k.id}
+            stroke={k.fill}
+            activeDot={{ r: 5 }}
+          />
+        ))}
+      </LineChart>
     </ResponsiveContainer>
   );
 }

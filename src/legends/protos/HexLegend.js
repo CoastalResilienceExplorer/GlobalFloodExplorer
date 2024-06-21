@@ -15,10 +15,10 @@ function pt_to_hex(x, y, rad) {
 }
 
 export default function HexLegend({ legend }) {
-  const startingPoint = [45, 50];
-  const rad = 30;
-  const xOffs = 40;
-  const yOffs = 8;
+  const startingPoint = [35, 35];
+  const rad = 20;
+  const xOffs = 30;
+  const yOffs = 5;
   const padding = 0;
   const placements = legend.colorRamp.map((c, i) => {
     if (i % 2 === 0)
@@ -40,17 +40,19 @@ export default function HexLegend({ legend }) {
   });
 
   return (
-    <div className="legend-item">
+    <div className="legend-item wide">
       <div className="legend-layer-title">{legend.layer_title}</div>
       <div className="legend-layer-subtitle">
-        Hex height represents total potential risk.
+        Height represents total potential risk. Color represents the reduction
+        in risk.
       </div>
-      <svg width={300} height={300} className="discrete-point-legend">
+      <svg width={200} height={200} className="discrete-point-legend">
         {placements
           .map((p) => [p[0], pt_to_hex(p[1][0], p[1][1], rad)])
-          .map((h) => (
+          .map((h, i) => (
             <polygon
-              class="hex"
+              className="hex"
+              key={h + i}
               fill={h[0]}
               stroke="white"
               points={`${h[1][0][0]},${h[1][0][1]} 
@@ -63,10 +65,10 @@ export default function HexLegend({ legend }) {
           ))}
         {placements.map((p, i) => (
           <text
-            class="hex-text"
-            fill="black"
-            // fill={p[0]}
-            fontSize="1.2em"
+            key={i}
+            className="font-sans"
+            fill="white"
+            fontSize="1em"
             x={p[1][0] + xOffs}
             y={p[1][1] + yOffs}
           >
