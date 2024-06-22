@@ -13,13 +13,6 @@ SERVICE=coastal-resilience-explorer-frontend-${ENV}
 echo """
 steps:
 - name: "gcr.io/cloud-builders/docker"
-  id: 'test'
-  args: [
-        "build",
-        "-f", "test.Dockerfile",
-        "."
-      ]
-- name: "gcr.io/cloud-builders/docker"
   id: 'build-image'
   args: [
     "build",
