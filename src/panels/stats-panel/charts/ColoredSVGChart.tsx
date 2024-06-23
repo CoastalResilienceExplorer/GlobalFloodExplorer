@@ -1,5 +1,6 @@
 import "./Charts.css";
 import { kFormatter } from "hooks/utils/formattingUtils";
+import { useMemo } from "react";
 import { Bar, BarChart, Cell, ReferenceArea, XAxis, YAxis } from "recharts";
 
 export const ColoredSVGChart = ({
@@ -11,16 +12,21 @@ export const ColoredSVGChart = ({
   no_mang: number;
   with_mang: number;
 }) => {
+  const isMobile = useMemo(() => window.innerWidth < 768, []);
+  const damageWithLabel = isMobile ? "Damage w/ mangr." : "Damage w/ mangroves";
+  const damageWithoutLabel = isMobile
+    ? "Damage w/o mangr."
+    : "Damage w/o mangroves";
   return (
     <BarChart
-      width={350}
+      width={isMobile ? 300 : 350}
       height={250}
       data={[
-        { name: "Damage w/o mangroves", dollars: no_mang },
-        { name: "Damage w/ mangroves", dollars: with_mang },
+        { name: damageWithoutLabel, dollars: no_mang },
+        { name: damageWithLabel, dollars: with_mang },
       ]}
     >
-      <XAxis dataKey="name" />
+      <XAxis dataKey="name" includeHidden />
       <YAxis
         type="number"
         tickFormatter={(value) => `$${kFormatter(value, "$", 0)}`}
@@ -30,8 +36,8 @@ export const ColoredSVGChart = ({
         <Cell fill={"var(--shoreline)"} />
       </Bar>
       <ReferenceArea
-        x1="Damage w/ mangroves"
-        x2="Damage w/ mangroves"
+        x1={damageWithLabel}
+        x2={damageWithLabel}
         y1={no_mang}
         y2={with_mang}
         shape={<CustomReference riskReductionRatio={risk_reduction_ratio} />}
@@ -43,13 +49,14 @@ export const ColoredSVGChart = ({
 export default ColoredSVGChart;
 
 const CustomReference = (props: any) => {
+  const isMobile = useMemo(() => window.innerWidth < 768, []);
   return (
     <>
       <svg
         width="100"
         height={props.height}
         viewBox="0 0 100 115"
-        x={props.x + 130}
+        x={props.x + (isMobile ? 100 : 130)}
         y={props.y}
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -64,7 +71,7 @@ const CustomReference = (props: any) => {
         width={100}
         height={props.height * 0.6}
         viewBox={`0 0 100 ${props.height * 0.6}`}
-        x={props.x + 35}
+        x={props.x + (isMobile ? 10 : 35)}
         y={props.y}
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

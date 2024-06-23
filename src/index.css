@@ -12,6 +12,13 @@
   --red-tide: #c76f85;
 }
 
+html,
+body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
 body {
   margin: 0;
   font-family: "Open Sans", sans-serif;
