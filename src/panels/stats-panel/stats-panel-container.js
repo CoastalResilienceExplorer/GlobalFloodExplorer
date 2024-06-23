@@ -135,7 +135,7 @@ function TopBanner({
           Data in the map shows 2015 values.
         </i>
       )}
-      <div className="absolute !m-0 h-1 bg-open w-full" />
+      <div className="absolute !m-0 h-96 bg-open w-full" />
     </div>
   );
 }
@@ -242,14 +242,11 @@ export default function StatsPanel({
           selectedYear={selectedYear}
           setSelectedYear={setSelectedYear}
         />
-        <div className="overflow-scroll">
+        <div className="overflow-y-scroll">
           <FlyToContext.Provider value={{ flyToViewport, setLayerGroup }}>
             <SelectedFeaturesPanel
               selectedFeatures={selectedFeatures}
-              layerGroup={layerGroup}
-              setLayerGroup={setLayerGroup}
               selectedYear={selectedYear}
-              setSelectedYear={setSelectedYear}
             />
           </FlyToContext.Provider>
         </div>

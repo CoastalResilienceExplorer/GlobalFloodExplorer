@@ -84,12 +84,7 @@ function getStat(
   return return_val;
 }
 
-function SelectedFeaturesPanel({
-  selectedFeatures,
-  layerGroup,
-  selectedYear,
-  setLayerGroup,
-}) {
+function SelectedFeaturesPanel({ selectedFeatures, selectedYear }) {
   const stockNoMangroves = useMemo(
     () =>
       getStat(`Ben_Stock_${selectedYear}`, selectedFeatures) +
@@ -155,7 +150,8 @@ function SelectedFeaturesPanel({
   const linechart_keys = [
     {
       id: "benefit",
-      fill: "#7bccc4",
+      label: "Benefit",
+      fill: "var(--shoreline)",
       axisOrientation: "left",
       tickFormatter: (tick) => {
         return "$" + kFormatter(tick);
@@ -167,7 +163,8 @@ function SelectedFeaturesPanel({
     },
     {
       id: "mangroves",
-      fill: "#C76F85",
+      label: "Mangroves",
+      fill: "var(--red-tide)",
       axisOrientation: "right",
       tickFormatter: (tick) => {
         return kFormatter(tick) + " ha";
@@ -209,7 +206,6 @@ function SelectedFeaturesPanel({
               no_mang={stockNoMangroves}
               with_mang={stockWithMangroves}
             />
-            {/* <PieChart2 data={piechart_stock_data} type="STOCK" /> */}
           </div>
         </>
       </TemplateMetricContainer>

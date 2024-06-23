@@ -49,6 +49,12 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  position: relative;
+  z-index: 1;
+}
+
+.aeb-container:not(:first-of-type) {
+  background-color: white;
 }
 
 .aeb-container-title {
@@ -78,6 +84,8 @@
   padding: 5px;
   padding-top: 16px;
   padding-bottom: 20px;
+  background-color: white;
+  z-index: 1;
 }
 
 .aeb-content-container.start {
@@ -206,6 +214,12 @@
   display: flex;
   align-items: center;
   padding: 0 8px;
+}
+
+@media (max-width: 768px) {
+  .layer-image-container svg {
+    transform: scale(1.4);
+  }
 }
 
 .crl-logo-panel-fill {
