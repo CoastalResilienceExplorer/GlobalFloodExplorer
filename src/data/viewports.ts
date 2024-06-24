@@ -1,4 +1,5 @@
 import { AOI, LayerName } from "types/dataModel";
+import { Viewport } from "types/map";
 
 export const aois: Array<AOI> = [
   {
@@ -199,4 +200,54 @@ export const aois: Array<AOI> = [
   //   },
   //   "size": 30
   // }
+];
+
+export const regions: {
+  id: string;
+  overview: Viewport;
+}[] = [
+  {
+    id: "florida",
+    overview: {
+      bearing: 0,
+      latitude: 27.3,
+      longitude: -79.8,
+      pitch: 0,
+      zoom: 5.4,
+      transitionDuration: 500,
+    },
+  },
+  {
+    id: "florida_pitched",
+    overview: {
+      bearing: -66,
+      latitude: 27.3,
+      longitude: -79.8,
+      pitch: 33.2,
+      zoom: 5.4,
+      transitionDuration: 500,
+    },
+  },
+  {
+    id: "yucatan",
+    overview: {
+      bearing: 0,
+      latitude: 20,
+      longitude: -87,
+      pitch: 0,
+      zoom: 5.4,
+      transitionDuration: 500,
+    },
+  },
+  {
+    id: "vietnam",
+    overview: {
+      latitude: 13.29283913627529,
+      longitude: 105.824939323546,
+      zoom: 5.754528743100825,
+      bearing: 0,
+      pitch: 0,
+      transitionDuration: 500,
+    },
+  },
 ];
