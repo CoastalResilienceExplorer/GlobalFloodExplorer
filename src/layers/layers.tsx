@@ -4,6 +4,7 @@ import {
   SelectedTessela,
   FloodMaps_Bathy,
   Green,
+  Grey,
   Blue_5Step_Pop,
 } from "./colormaps/colormaps";
 import { Layer, LayerGroup, LayerName } from "types/dataModel";
@@ -150,6 +151,20 @@ const reduct_ratio = [
 
 const flooding = [
   {
+    id: "mangroves_nomang",
+    source: "mangroves_2015",
+    source_layer: "cf23fc24843b11eeb772b580fc9aa31f",
+    layer_title: "No Mangroves",
+    colorValue: ["to-number", ["get", "PXLVAL"]],
+    legend: Grey,
+    layer_type: "FILL_WITH_OUTLINE",
+    display_legend: false,
+    subgroup: "flooding_nomang",
+    opacity: 0.4,
+    minzoom: FLOODING_MIN_ZOOM,
+    maxzoom: 18,
+  },
+  {
     id: "mangroves_2015",
     source: "mangroves_2015",
     source_layer: "cf23fc24843b11eeb772b580fc9aa31f",
@@ -163,20 +178,20 @@ const flooding = [
     minzoom: FLOODING_MIN_ZOOM,
     maxzoom: 18,
   },
-  {
-    id: "mangroves_1996",
-    source: "mangroves_1996",
-    source_layer: "GMW_1996_v3_Areas",
-    layer_title: "Mangroves 1996",
-    colorValue: ["to-number", ["get", "PXLVAL"]],
-    legend: Green,
-    layer_type: "FILL_WITH_OUTLINE",
-    display_legend: false,
-    subgroup: "flooding_1996",
-    opacity: 1,
-    minzoom: FLOODING_MIN_ZOOM,
-    maxzoom: 18,
-  },
+  // {
+  //   id: "mangroves_1996",
+  //   source: "mangroves_1996",
+  //   source_layer: "GMW_1996_v3_Areas",
+  //   layer_title: "Mangroves 1996",
+  //   colorValue: ["to-number", ["get", "PXLVAL"]],
+  //   legend: Green,
+  //   layer_type: "FILL_WITH_OUTLINE",
+  //   display_legend: false,
+  //   subgroup: "flooding_1996",
+  //   opacity: 1,
+  //   minzoom: FLOODING_MIN_ZOOM,
+  //   maxzoom: 18,
+  // },
   {
     id: "flooding_nomang",
     source: "flooding_nomang_pt",

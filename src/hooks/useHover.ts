@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef, useCallback, useMemo } from "react";
 import mapboxgl from "mapbox-gl";
 import layerGroups from "layers/layers";
 import { LayerName } from "types/dataModel";
@@ -42,14 +42,24 @@ export function useHover(
   selectedLayer: LayerName,
   theme: BasemapStyle,
 ) {
+  const mapScale = useRef(0);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const popover = useRef<HTMLDivElement | null>(null);
   const [hoveredTessela, setHoveredTessela] = useState<Tessela | null>(null);
   const hoverTimer = useRef<NodeJS.Timeout | null>(null);
   const colors = ThemeMap[theme];
 
+  useEffect(() => {
+    mapScale.current = map?.getZoom();
+    map?.on("zoomend", () => {
+      mapScale.current = map.getZoom();
+    });
+  }, [map]);
+
   const onHover = useCallback(
     (e: mapboxgl.MapLayerMouseEvent) => {
       if (
+        mapScale.current > 4 &&
         e.features?.[0]?.properties?.[
           layerGroups[selectedLayer]?.metricKey as string
         ]
@@ -120,6 +130,7 @@ export function useHover(
 
       setTimeout(() => {
         if (popover.current) {
+          timeoutRef.current && clearTimeout(timeoutRef.current);
           const popoverHeight = popover.current.getBoundingClientRect().height;
           marker.setOffset([0, -popoverHeight]);
           popover.current.className = baseStyles + "opacity-100";
@@ -128,7 +139,7 @@ export function useHover(
     } else {
       if (popover.current) {
         popover.current.className = baseStyles + "!opacity-0";
-        setTimeout(() => {
+        timeoutRef.current = setTimeout(() => {
           if (popover.current) {
             popover.current.remove();
             popover.current = null;

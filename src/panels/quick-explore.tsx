@@ -1,6 +1,6 @@
 import { useCallback, useContext } from "react";
 import FlyToContext from "./FlyToContext";
-import { aois } from "data/viewports";
+import { regions } from "data/viewports";
 import { LayerName } from "types/dataModel";
 import { LayerSelectionFrom, useLayerBounceContext } from "layers/layer-bounce";
 import { Viewport } from "types/map";
@@ -11,10 +11,12 @@ const ExplorerButton = ({
   text,
   region,
   layerName,
+  label,
 }: {
   text: string;
   region: string;
   layerName: LayerName;
+  label: string;
 }) => {
   const flyToContext = useContext(FlyToContext);
   const { setLayerGroupSelectedFrom } = useLayerBounceContext();
@@ -27,7 +29,7 @@ const ExplorerButton = ({
 
     setTimeout(() => {
       flyToContext?.flyToViewport?.({
-        ...(aois.find((x) => x.id === region)?.overview as Viewport),
+        ...(regions.find((x) => x.id === region)?.overview as Viewport),
       });
     }, flyToTimeout);
   }, [flyToContext, layerName, setLayerGroupSelectedFrom, region]);
@@ -38,7 +40,7 @@ const ExplorerButton = ({
       className="basis-1/2 my-2 hover:text-coral hover:drop-shadow"
     >
       <h6 className="transition">{text}</h6>
-      <p className="label italic">({region})</p>
+      <p className="label italic">({label})</p>
     </button>
   );
 };
@@ -50,22 +52,26 @@ const QuickExplore = () => {
       <div className="flex flex-row flex-wrap">
         <ExplorerButton
           text="Benefit (AEB)"
-          region="Florida"
+          region="florida"
+          label="Florida"
           layerName={LayerName.BenefitAEB}
         />
         <ExplorerButton
           text="Risk Reduction Ratio"
-          region="Florida"
+          region="florida_pitched"
+          label="Florida"
           layerName={LayerName.RiskReduction}
         />
         <ExplorerButton
           text="Flooding"
-          region="Vietnam"
+          region="vietnam"
+          label="Vietnam"
           layerName={LayerName.Flooding}
         />
         <ExplorerButton
           text="Benefit (Social)"
-          region="Yucatan"
+          region="yucatan"
+          label="Yucatan"
           layerName={LayerName.Population}
         />
       </div>

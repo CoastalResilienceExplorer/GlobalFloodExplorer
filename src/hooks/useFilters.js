@@ -6,7 +6,7 @@ export const FiltersContext = createContext({});
 export const useFilterContext = () => useContext(FiltersContext);
 
 export function useFilters() {
-  const [filtersOn, setFiltersOn] = useState(true);
+  const [filtersOn, setFiltersOn] = useState(false);
   const [activeFilters, setActiveFilters] = useState(filters);
   const activeFiltersRef = useRef();
 

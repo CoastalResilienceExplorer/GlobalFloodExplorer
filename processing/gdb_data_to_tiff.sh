@@ -1,10 +1,7 @@
 # This script is run with GDAL 3.7.1
 # It converts layers in a FileGDB into efficiently compressed GeoTiffs
-IN_GDB=../data/Global_Flood_Maps_WithoutMang_tr50.gdb
-OUTPUT_DIR=../data/CWON/nomang/as_tiff
-
-gdalinfo -json $IN_GDB
-exit 1
+IN_GDB=~/Desktop/TestData/NBS_Adapts/Dom02/DOM_02_Flood_Raster_50cm_00cm.gdb
+OUTPUT_DIR=~/Desktop/TestData/NBS_Adapts/Dom02
 
 layers=$(gdalinfo -json $IN_GDB | jq .metadata.SUBDATASETS | jq 'with_entries(if (.key|test("NAME")) then ( {key: .key, value: .value } ) else empty end )' | jq 'to_entries[].value')
 for layer in $layers
@@ -19,7 +16,7 @@ do
         OpenFileGDB:${IN_GDB}:${layer_name} ${OUTPUT_DIR}/${layer_name}.tiff \
         -co NUM_THREADS=ALL_CPUS \
         -co RESAMPLING=AVERAGE \
-        -co COMPRESS=DEFLATE -co PREDICTOR=2 -co BIGTIFF=YES -co SPARSE_OK=TRUE
+        -co COMPRESS=LZW -co PREDICTOR=2 -co BIGTIFF=YES -co SPARSE_OK=TRUE
     gdal_edit.py ${OUTPUT_DIR}/${layer_name}.tiff -scale $(bc -l <<< "8/32767.0")
 done
 
