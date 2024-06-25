@@ -57,7 +57,7 @@ export type AOI = {
     latitude: number;
     longitude: number;
     bearing: number;
-    pitch: number;
+    pitch?: number;
     zoom: number;
     transitionDuration?: number;
   };

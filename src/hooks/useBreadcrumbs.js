@@ -84,11 +84,14 @@ function MarkerWithHook(
     (e) => {
       setLayerGroup(aoi.layerGroup);
       setLayerGroupSelectedFrom(LayerSelectionFrom.breadcrumb);
-      if (Object.keys(aoi.location_awareness).includes("bbox")) {
-        map.flyToBounds(aoi.location_awareness.bbox);
-      } else {
-        map.flyToViewport(aoi.overview);
-      }
+
+      setTimeout(() => {
+        if (Object.keys(aoi.location_awareness).includes("bbox")) {
+          map.flyToBounds(aoi.location_awareness.bbox);
+        } else {
+          map.flyToViewport(aoi.overview);
+        }
+      }, 100);
       e.stopImmediatePropagation();
     },
     false,

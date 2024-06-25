@@ -246,6 +246,16 @@ const _Green = {
   legendScale: 3,
 };
 
+const _Grey = {
+  breaks: [0, 1, 2],
+
+  colorRamp: ["#B0B0B0", "#B0B0B0", "#B0B0B0"],
+
+  sizeRamp: [5, 10, 15],
+
+  legendScale: 3,
+};
+
 const _Red = {
   breaks: [0, 1, 2],
 
@@ -363,4 +373,5 @@ export const Blue_5Step_Pop = new DiscreteColorSizeScale(
 );
 
 export const Green = new DiscreteColorSizeScale(_Green, BasicStrokes);
+export const Grey = new DiscreteColorSizeScale(_Grey, BasicStrokes);
 export const Red = new DiscreteColorSizeScale(_Red, BasicStrokes);
