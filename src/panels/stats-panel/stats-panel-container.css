@@ -64,9 +64,9 @@
 .open-toggle-container.coral {
   border: 1px solid coral;
   animation:
-    flash-border-coral 2s infinite,
-    /* flash-border-coral2 2s 10, */ flash-border-coral3 2s 10,
-    bounce-open 1s 1;
+    flash-border-coral-small 2s infinite,
+    flash-border-coral-medium 2s 7,
+    /* flash-border-coral-big 2s 1, */ bounce-open 1s 2;
 }
 
 .open-toggle-container.coral > svg > path {
@@ -147,7 +147,7 @@
   padding-bottom: 0px;
 }
 
-@keyframes flash-border-coral {
+@keyframes flash-border-coral-small {
   0% {
     box-shadow: 0 0 0 1pt rgba(255, 127, 80, 0.5);
     /* background-color: rgba(226, 131, 21, 0.95); */
@@ -164,26 +164,24 @@
   }
 }
 
-@keyframes flash-border-coral2 {
+@keyframes flash-border-coral-big {
   0% {
-    box-shadow: 0 0 0 1pt rgba(255, 127, 80, 0.5);
-    /* background-color: rgba(226, 131, 21, 0.95); */
+    box-shadow: 0 0 0 1pt rgba(255, 127, 80, 0.8);
   }
 
   100% {
-    box-shadow: 0 0 0 10pt rgba(255, 127, 80, 0.5);
-    /* background-color: rgba(226, 131, 21, 0.8); */
+    box-shadow: 0 0 0 40pt rgba(255, 127, 80, 0.5);
   }
 }
 
-@keyframes flash-border-coral3 {
+@keyframes flash-border-coral-medium {
   0% {
-    box-shadow: 0 0 0 1pt rgba(255, 127, 80, 0.8);
+    box-shadow: 0 0 0 1pt rgba(255, 127, 80, 1);
     /* background-color: rgba(226, 131, 21, 0.95); */
   }
 
   100% {
-    box-shadow: 0 0 0 20pt rgba(255, 127, 80, 0);
+    box-shadow: 0 0 0 30pt rgba(255, 127, 80, 0.5);
     /* background-color: rgba(226, 131, 21, 0.8); */
   }
 }

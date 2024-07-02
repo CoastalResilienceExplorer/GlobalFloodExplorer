@@ -139,6 +139,7 @@ export const LayerSelection: React.FC<LayerSelectionProps> = ({
                   Read the scientific paper&nbsp;–›
                 </a>
               </p>
+              <h5>Data</h5>
               <p>
                 {downloads.map((download) => (
                   <a
