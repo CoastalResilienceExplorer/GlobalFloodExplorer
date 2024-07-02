@@ -10,6 +10,8 @@ import { Icon } from "@iconify/react";
 import { default_mang_perc_change_filter } from "layers/filters";
 import { BasemapMap } from "basemap_manager/BasemapManager";
 
+import { Green } from "layers/colormaps/colormaps";
+
 function reverseObject(obj) {
   const reversedObject = {};
   for (const key in obj) {
@@ -21,6 +23,58 @@ function reverseObject(obj) {
 }
 
 const ReversedBasemapMap = reverseObject(BasemapMap);
+
+function MangroveContextLayer({ map, theme }) {
+  const [mangrovesOn, setMangrovesOn] = useState(true);
+  const [filterIsHovering, setFilterIsHovering] = useState(false);
+  console.log(map);
+  const layerId = "mangroves_2015";
+
+  function addLayer() {
+    const layer = {
+      id: layerId,
+      source: "mangroves_2015",
+      type: "fill",
+      "source-layer": "cf23fc24843b11eeb772b580fc9aa31f",
+      paint: {
+        "fill-color": "#f08",
+        "fill-opacity": 0.4,
+      },
+      opacity: 1,
+      minzoom: 0,
+      maxzoom: 18,
+    };
+    if (!map.getLayer(layerId)) {
+      map.addLayer(layer);
+    } else {
+      console.log(`Layer ${layerId} already exists`);
+    }
+  }
+
+  useEffect(() => {
+    if (!map) return;
+    if (!mangrovesOn) map.removeLayer(layerId);
+    else addLayer();
+  }, [mangrovesOn]);
+
+  return (
+    <div
+      className={`controls-icon-container ${mangrovesOn ? "coral" : ""}`}
+      onClick={() => {
+        setMangrovesOn(!mangrovesOn);
+      }}
+      onMouseMove={() => setFilterIsHovering(true)}
+      onMouseLeave={() => setFilterIsHovering(false)}
+    >
+      <Hover text="Show Habitat" extraClasses={ReversedBasemapMap[theme]}>
+        <Icon
+          icon="ph:tree-duotone"
+          className={`controls-icon ${mangrovesOn ? "coral" : ""}`}
+        />
+      </Hover>
+    </div>
+  );
+}
 
 export default function Compass(props) {
   const { useWhile } = useInfoContext();
@@ -62,6 +116,7 @@ export default function Compass(props) {
   return (
     <div className="controls-panel-container">
       <div className="controls-panel" ref={props._ref}>
+        <MangroveContextLayer map={props.map} theme={props.theme} />
         <div
           className={`controls-icon-container ${filtersOn ? "coral" : ""}`}
           onClick={() => setFiltersOn(!filtersOn)}

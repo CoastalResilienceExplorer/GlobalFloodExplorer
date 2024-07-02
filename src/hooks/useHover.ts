@@ -6,6 +6,7 @@ import { kFormatter } from "hooks/utils/formattingUtils";
 import { BasemapStyle } from "basemap_manager/BasemapManager";
 
 const baseStyles = "transition-opacity w-56 ";
+const MINZOOM = 7;
 
 interface Tessela {
   id?: number | string;
@@ -59,7 +60,7 @@ export function useHover(
   const onHover = useCallback(
     (e: mapboxgl.MapLayerMouseEvent) => {
       if (
-        mapScale.current > 4 &&
+        mapScale.current > MINZOOM &&
         e.features?.[0]?.properties?.[
           layerGroups[selectedLayer]?.metricKey as string
         ]
