@@ -9,8 +9,6 @@ export default class RasterInterpolatedProto {
     legend_suffix,
     display_legend = true,
   }) {
-    console.log(layer);
-    console.log(layer.id);
     this.id = id;
     this.layer = layer;
     this.legend = legend;
@@ -20,14 +18,11 @@ export default class RasterInterpolatedProto {
     this.display_legend =
       (floodGroup === "with" && this.id === "flooding_with") ||
       (floodGroup === "without" && this.id === "flooding_without");
-    console.log("ARGS");
-    console.log(floodGroup);
     this.visible =
       (floodGroup === "with" && this.id === "flooding_with") ||
       (floodGroup === "without" && this.id === "flooding_without")
         ? "visible"
         : "none";
-    console.log(this.visible);
   }
 
   get MBLayer() {

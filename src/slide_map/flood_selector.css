@@ -8,22 +8,19 @@
   display: flex;
   flex-direction: row;
   align-items: flex-end;
-
   border-radius: 100px;
-  /* box-shadow: 0 0 0 2pt rgba(60, 132, 150, 0.3); */
-  background-color: rgba(193, 241, 253, 0.9);
-  border: 5px solid rgba(60, 132, 150, 0.8);
-
   border-radius: 0px 50px 50px 0px;
   font-size: 1.2em;
   color: black;
   text-align: left;
-  padding: 10px 20px;
+  padding: 10px 20px 10px 15px;
   margin: 0px;
+  @apply bg-shoreline border-open border-4;
 }
 
 .left > * > .floodgroup-manager-inner-container {
   border-radius: 50px 0px 0px 50px;
+  padding: 10px 15px 10px 20px;
 }
 
 .floodgroup-manager-inner-container > * {
@@ -36,25 +33,24 @@
   align-items: center;
   justify-content: space-between;
   margin: 0px 0px 0px;
-  max-width: 100px;
 }
 
 .circle-selector-text.flooding {
   text-align: center;
   padding: 5px;
   font-size: 0.8em;
-  color: black;
+  white-space: nowrap;
 }
 
 .circle-selector.flooding {
   border-radius: 100px;
   width: 20px;
   height: 20px;
-  background-color: #192e44;
+  @apply bg-shoreline-dark;
 }
 
 .circle-selector.flooding.selected {
-  background-color: #f5ba89;
+  @apply bg-open;
 }
 
 .basemap-options-header {

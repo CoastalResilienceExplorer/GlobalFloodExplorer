@@ -10,7 +10,16 @@
   padding: 6px;
 }
 
-.marker {
+.breadcrumbs-icon {
+  width: 50px;
+  height: 50px;
+}
+
+.breadcrumbs-icon-container {
+  background-color: black;
+}
+
+.marker > * {
   color: white;
   font-size: 20px;
   cursor: pointer;

@@ -1,12 +1,13 @@
-import * as React from "react";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import "./stats-panel-container.css";
-import { ReactComponent as OpenLogo } from "assets/Opentab.svg";
 import SelectedFeaturesPanel from "./selected-features-panel";
 import FlyToContext from "../FlyToContext";
 import { useInfoContext } from "hooks/useInfo";
+import countryMapping from "data/ISO_country_mapping";
+import { Icon } from "@iconify/react";
+import { year as initialYear } from "layers/layers";
 
-function Title({ nStudyUnits, locations, selectionType }) {
+function Title({ studyUnitIds, locations, selectionType }) {
   function countryNameOverride(country) {
     let return_country;
     switch (country) {
@@ -23,7 +24,7 @@ function Title({ nStudyUnits, locations, selectionType }) {
     return return_country;
   }
 
-  const locations_spaces = locations
+  const countries = locations
     .map((l) =>
       l
         // insert a space before all caps
@@ -38,114 +39,51 @@ function Title({ nStudyUnits, locations, selectionType }) {
     // Convert to display names with manual override where necessary
     .map((l) => countryNameOverride(l));
 
-  const selection_display =
-    selectionType === "countries" ? "Country" : "Study Unit";
+  const showLocationsTooltip = false;
+  const locationTooltipY = null;
 
-  const n_locations = locations.length;
-  const too_many_locations = n_locations > 3;
-  const locations_tmp = locations_spaces.slice(0, 3);
+  const formattedCountryList = useMemo(() => {
+    if (countries.length === 1) return countries[0];
+    if (countries.length === 2) return `${countries[0]} and ${countries[1]}`;
+    return `${countries[0]}, ${countries[1]} and ${countries.length - 2} other${
+      countries.length - 2 > 1 ? "s" : ""
+    }`;
+  }, [countries]);
 
-  const [showLocationsTooltip, setShowLocationsTooltip] = useState(false);
-  const [locationTooltipY, setLocationTooltipY] = useState(null);
-
-  // console.log(selectionType)
-
-  function formatLocationList(locations) {
-    let locationsFormatted;
-    if (locations.length === 1)
-      locationsFormatted = (
-        <div>
-          <p className="locations-formatted-text inline-title-text">
-            {locations_spaces[0]}
-          </p>
-        </div>
-      );
-    if (locations.length === 2)
-      locationsFormatted = (
-        <div>
-          <p className="locations-formatted-text inline-title-text">
-            {locations_spaces[0]}
-          </p>{" "}
-          and
-          <br />
-          <p className="locations-formatted-text inline-title-text">
-            {locations_spaces[1]}
-          </p>
-        </div>
-      );
-    if (locations.length === 3)
-      locationsFormatted = (
-        <div>
-          {locations_spaces
-            .slice(0, -1)
-            .map((i) => (
-              <>
-                <p className="locations-formatted-text inline-title-text">
-                  {i}
-                </p>
-                ,<br />
-              </>
-            ))
-            .reduce((prev, curr) => [prev, curr])}
-          and{" "}
-          <p className="locations-formatted-text inline-title-text">
-            {locations_spaces[locations_spaces.length - 1]}
-          </p>
-        </div>
-      );
-    if (too_many_locations)
-      locationsFormatted = (
-        <div>
-          <p className="locations-formatted-text inline-title-text">
-            {locations_spaces[0]}
-          </p>
-          ,
-          <br />
-          <p className="locations-formatted-text inline-title-text">
-            {locations_spaces[1]}
-          </p>
-          <br />
-          and {n_locations - 2} others
-        </div>
-      );
-    // locations_spaces.slice(0, -1).join(', ') + ', and ' + (n_locations - 3) + ' others'
-    return (
-      <div className="location-list" onMouseOver={(e) => onHover(e)}>
-        {locationsFormatted}
-      </div>
-    );
-  }
-
-  const _nStudyUnits = (n) => {
-    return <p className="n-study-units-text inline-title-text">{n}</p>;
-  };
-
-  function onHover(e) {
-    if (too_many_locations) {
-      setShowLocationsTooltip(true);
-      setLocationTooltipY(e.nativeEvent.offsetY);
-      setTimeout(() => setShowLocationsTooltip(false), 3500);
-    }
-  }
+  const formattedLocationList = useMemo(() => {
+    if (studyUnitIds.length === 1)
+      return `Study Unit ${studyUnitIds[0]} in ${formattedCountryList}`;
+    if (studyUnitIds.length === 2)
+      return `Study Units ${studyUnitIds[0]} and ${studyUnitIds[1]} in ${formattedCountryList}`;
+    if (studyUnitIds.length === 3)
+      return `Study Units ${studyUnitIds[0]}, ${studyUnitIds[1]} and ${studyUnitIds[2]} in ${formattedCountryList}`;
+    if (studyUnitIds.length > 3)
+      return `Study Units ${studyUnitIds[0]}, ${studyUnitIds[1]} and ${
+        studyUnitIds.length - 2
+      } others in ${formattedCountryList}`;
+  }, [studyUnitIds, formattedCountryList]);
 
   return (
     <>
       <div className="stats-panel-title">
-        Showing{" "}
-        <b>
-          {selection_display} ({_nStudyUnits(nStudyUnits)})
-        </b>{" "}
-        Statistics for: {formatLocationList(locations_tmp)}
+        <p>Showing statistics for:</p>
+        <p
+          className={`${
+            studyUnitIds.length > 1 ? "body" : "body-large"
+          } italic whitespace-nowrap overflow-hidden text-ellipsis`}
+        >
+          {formattedLocationList}
+        </p>
       </div>
       {showLocationsTooltip && (
         <div
           className="stats-panel-locations-tooltip"
           style={{ right: 20, top: locationTooltipY + 50 }}
         >
-          {locations_spaces.map((l) => (
+          {countries.map((l) => (
             <>
               <div>{l}</div>
-              <br></br>
+              <br />
             </>
           ))}
         </div>
@@ -154,50 +92,116 @@ function Title({ nStudyUnits, locations, selectionType }) {
   );
 }
 
-function TopBanner({ selectedFeatures, selectionType }) {
+function TopBanner({
+  selectedFeatures,
+  selectionType,
+  selectedYear,
+  setSelectedYear,
+}) {
   const locations = [
-    ...new Set(
-      selectedFeatures.map((x) => x.properties.COUNTRY.split(",")).flat(),
-    ),
+    ...new Set(selectedFeatures.map((x) => countryMapping[x.properties.ISO3])),
   ];
+
+  const updateYear = (e) => {
+    setSelectedYear(e.target.value);
+  };
+
   if (selectedFeatures.length === 0) {
     return <></>;
   }
+
   return (
     <div className="top-banner-container">
       <Title
-        nStudyUnits={selectedFeatures
-          .map((x) => (x.properties.point_count ? x.properties.point_count : 1))
-          .reduce((a, b) => a + b, 0)}
+        studyUnitIds={selectedFeatures.map((f) => f.id)}
+        nStudyUnits={selectedFeatures.length}
         selectionType={selectionType}
         locations={locations}
       />
+      <p className="text-right text-white mb-2 px-2">
+        Currently viewing data for{"  "}
+        <select
+          value={selectedYear}
+          onChange={updateYear}
+          className="text-open ml-1 lining-nums rounded"
+        >
+          <option value={1996}>1996</option>
+          <option value={2010}>2010</option>
+          <option value={2015}>2015</option>
+        </select>
+      </p>
+      {selectedYear != initialYear && (
+        <i className="text-right text-white mb-2">
+          Data in the map shows 2015 values.
+        </i>
+      )}
+      <div className="absolute !m-0 h-96 bg-open w-full" />
     </div>
   );
 }
 
-function OpenToggle({ isOpen, setIsOpen }) {
-  const { useFirst, selectRef, selectedFeatures } = useInfoContext();
+function OpenToggle({ isOpen, setIsOpen, disabled }) {
+  const { useFirst, selectRef } = useInfoContext();
+  const [showTooltip, setShowTooltip] = useState(false);
   const openTransform = {
-    transform: "rotate(180deg)",
+    width: "48px",
+    height: "49px",
+    transform: isOpen
+      ? "rotate(180deg) translateX(-1px)"
+      : "rotate(0deg) translateX(-1px)",
+    transition: "transform 0.2s ease",
   };
 
   useFirst(
-    () => selectedFeatures.length !== 0,
+    () => !disabled,
     "FIRST_SELECT",
     () => !!isOpen,
   );
+
+  const onHover = () => {
+    if (!disabled) return;
+    setShowTooltip(true);
+  };
+
+  const onUnhover = () => {
+    setShowTooltip(false);
+  };
+
   return (
-    <div className="open-sidebar" ref={selectRef}>
-      <div>
-        <div>Metrics</div>
-        <div>
-          <OpenLogo
+    <div
+      className="open-sidebar"
+      ref={selectRef}
+      onMouseEnter={onHover}
+      onMouseLeave={onUnhover}
+    >
+      <div
+        className={
+          "flex flex-col items-center	" + (disabled ? " opacity-50" : "")
+        }
+      >
+        <h5 className="z-10">Metrics&nbsp;&nbsp;</h5>
+        <button
+          data-test-id="open-metrics-button"
+          className={
+            "open-toggle-container" + (!disabled && !isOpen ? " coral" : "")
+          }
+          onClick={() => setIsOpen(!isOpen)}
+          disabled={disabled}
+        >
+          <Icon
+            icon="ri:arrow-left-s-line"
             className="open-toggle"
-            onClick={() => setIsOpen(!isOpen)}
-            style={isOpen ? openTransform : {}}
+            style={openTransform}
           />
-        </div>
+        </button>
+      </div>
+      <div
+        className={
+          "absolute bg-white w-32 top-[100%]  px-2 py-1 rounded transition delay-300 duration-300 " +
+          (showTooltip ? "right-0 opacity-100" : "left-[110%] opacity-0")
+        }
+      >
+        <p className="label italic">Select a study unit to view metrics</p>
       </div>
     </div>
   );
@@ -211,25 +215,40 @@ export default function StatsPanel({
   flyToViewport,
 }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedYear, setSelectedYear] = useState(initialYear);
+
+  // Remove this to auto-open the stats panel after the first selection
+  useEffect(() => {
+    if (!selectedFeatures.length) {
+      setIsOpen(false);
+    }
+  }, [selectedFeatures]);
 
   return (
-    <div className={"right-panel" + (isOpen ? " open" : "")}>
-      <OpenToggle isOpen={isOpen} setIsOpen={setIsOpen} />
+    <div
+      className={
+        "right-panel" + (selectedFeatures.length && isOpen ? " open" : "")
+      }
+    >
+      <OpenToggle
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        disabled={selectedFeatures.length < 1}
+      />
       <div className="right-panel-content">
-        <div className="right-panel-outer-content">
-          <div className="right-panel-inner-content">
-            <TopBanner
+        <TopBanner
+          selectedFeatures={selectedFeatures}
+          selectionType={selectionType}
+          selectedYear={selectedYear}
+          setSelectedYear={setSelectedYear}
+        />
+        <div className="overflow-y-scroll">
+          <FlyToContext.Provider value={{ flyToViewport, setLayerGroup }}>
+            <SelectedFeaturesPanel
               selectedFeatures={selectedFeatures}
-              selectionType={selectionType}
+              selectedYear={selectedYear}
             />
-            <FlyToContext.Provider value={{ flyToViewport, setLayerGroup }}>
-              <SelectedFeaturesPanel
-                selectedFeatures={selectedFeatures}
-                layerGroup={layerGroup}
-                setLayerGroup={setLayerGroup}
-              />
-            </FlyToContext.Provider>
-          </div>
+          </FlyToContext.Provider>
         </div>
       </div>
     </div>

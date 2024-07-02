@@ -82,7 +82,8 @@ export default function DiscretePointLegend({
               <text
                 x={xTextOffs}
                 y={bubbles_and_text_total_height - vertical_placement[i] + 5}
-                fill="black"
+                fill="white"
+                className="font-sans"
               >
                 {">" + (legend.prefix ? legend.prefix : "")}
                 {kFormatter(x.value, legend.format)}

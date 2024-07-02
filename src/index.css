@@ -1,3 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --shoreline: #79abb7;
+  --shoreline-dark: #618993;
+  --open: #21233a;
+  --trench: #323340;
+  --trench-light: #47485c;
+  --coral: coral;
+  --red-tide: #c76f85;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
 body {
   margin: 0;
   font-family: "Open Sans", sans-serif;
@@ -5,10 +26,109 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-* {
+code {
   font-family: "Open Sans", sans-serif;
 }
 
-code {
-  font-family: "Open Sans", sans-serif;
+@layer base {
+  /* Block Title */
+  h1 {
+    @apply font-sans text-5xl md:text-6xl uppercase font-bold;
+    margin-block-start: 0;
+    margin-block-end: 0;
+  }
+
+  /* Subtitle */
+  h2 {
+    @apply font-serif text-4xl md:text-4xl italic font-normal;
+    margin-block-start: 0;
+    margin-block-end: 0;
+  }
+
+  h3 {
+    @apply font-sans text-xl md:text-xl uppercase font-bold;
+    margin-block-start: 0;
+    margin-block-end: 0;
+  }
+
+  h4 {
+    @apply font-sans text-sm md:text-base uppercase font-bold;
+    margin-block-start: 0;
+    margin-block-end: 0;
+  }
+
+  h5 {
+    @apply font-sans text-sm md:text-base font-bold;
+    margin-block-start: 0;
+    margin-block-end: 0;
+  }
+
+  h6 {
+    @apply font-sans text-xs md:text-sm font-bold;
+    margin-block-start: 0;
+    margin-block-end: 0;
+  }
+
+  p,
+  input,
+  p > a {
+    @apply font-serif text-base font-normal;
+  }
+
+  li {
+    @apply font-sans text-base font-normal;
+  }
+
+  /* Large Body */
+  .body-x-large {
+    @apply text-lg md:text-3xl;
+  }
+
+  .body-large {
+    @apply text-base md:text-xl;
+  }
+
+  .body {
+    @apply text-base md:text-lg;
+  }
+
+  .label {
+    @apply font-serif text-xs md:text-sm italic font-normal;
+    transition: color 0.2s ease-in-out;
+  }
+
+  .label a {
+    @apply underline;
+  }
+
+  p.label a:hover {
+    @apply text-coral;
+  }
+
+  /* Large Label */
+  .label-large {
+    @apply font-serif text-sm md:text-base italic font-normal;
+    transition: color 0.2s ease-in-out;
+  }
+
+  .label-large a {
+    @apply underline;
+  }
+
+  p.label-large a:hover {
+    @apply text-coral;
+  }
+
+  .label {
+    @apply font-serif text-xs md:text-sm font-normal transition;
+  }
+}
+
+@layer components {
+  .btn-large {
+    @apply bg-shoreline border-2 border-shoreline rounded-2xl px-4 py-3 md:px-6 md:py-4	text-white text-lg md:text-xl font-sans uppercase font-bold transition-colors;
+  }
+  .btn-large:hover {
+    @apply border-coral bg-shoreline-dark;
+  }
 }

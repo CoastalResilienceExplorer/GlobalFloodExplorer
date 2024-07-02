@@ -1,14 +1,15 @@
-export function kFormatter(num, type = "$") {
+export function kFormatter(num, type = "$", toFixed = 1) {
   if (type === "$") {
     const absNum = Math.abs(num);
-    if (absNum > 499999999)
-      return (Math.abs(num) / 1000000000).toFixed(1) + "B";
-    if (absNum > 999999) return (Math.abs(num) / 1000000).toFixed(1) + "M";
-    if (absNum > 999) return (Math.abs(num) / 1000).toFixed(1) + "K";
+    if (absNum > 999999999)
+      return (Math.abs(num) / 1000000000).toFixed(toFixed) + "B";
+    if (absNum > 999999)
+      return (Math.abs(num) / 1000000).toFixed(toFixed) + "M";
+    if (absNum > 999) return (Math.abs(num) / 1000).toFixed(toFixed) + "K";
     return absNum.toFixed(0);
   }
   if (type === "%") {
-    return (num * 100).toFixed(1);
+    return (num * 100).toFixed(toFixed);
   }
 }
 

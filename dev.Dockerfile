@@ -1,8 +1,8 @@
-FROM node:16 as build-stage
-WORKDIR app
+FROM node:20 as build-stage
+WORKDIR /app
 COPY ./package.json /app/package.json
 RUN yarn
-COPY ./app /app
+COPY ./ /app/
 EXPOSE 3000
 
 ARG REACT_APP_USE_SITE_GATING=0

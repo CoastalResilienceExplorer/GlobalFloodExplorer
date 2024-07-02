@@ -31,14 +31,19 @@ export const StagingLogin = ({ setAuthed }) => {
 
   return (
     <form>
-      <p>This site requires a password to view.</p>
-      <input id="password" type="password" />
+      <p className="py-4">This site requires a password to view.</p>
+      <input
+        id="password"
+        type="password"
+        className="border border-black rounded-md p-1"
+      />
       &nbsp;&nbsp;
       <input
         type="submit"
         disabled={loading}
         onClick={evaulatePassword}
         value={loading ? "Loading" : "Login"}
+        className="bg-gray-400 text-white py-1 px-2 rounded-md cursor-pointer"
       />
     </form>
   );
