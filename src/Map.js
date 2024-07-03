@@ -278,6 +278,7 @@ export default function Map() {
       {infoRefs && (
         <Compass
           viewport={viewport}
+          map={map}
           theme={theme}
           setViewport={flyToViewport}
           _ref={infoRefs.COMPASS}

@@ -66,3 +66,11 @@
   background-color: var(--shoreline);
   border-color: var(--shoreline);
 }
+
+.tooltips-slot {
+  background-color: white;
+  color: white;
+  margin-top: 5px;
+  background-color: var(--open);
+  border-radius: 20px;
+}
