@@ -6,6 +6,7 @@ import {
   Green,
   Grey,
   Blue_5Step_Pop,
+  Red_10Step,
 } from "./colormaps/colormaps";
 import { Layer, LayerGroup, LayerName } from "types/dataModel";
 import { Icon } from "@iconify/react";
@@ -62,7 +63,7 @@ const current_risk = [
     source: "UCSC_CWON_studyunits_reppts",
     source_layer: "UCSC_CWON_studyunits_reppts",
     colorValue: risk_stock,
-    legend: Blue_5Step,
+    legend: Red_10Step,
     layer_title: `Annual Expected Risk ${year}`,
     layer_type: "DISCRETE_POINT",
     legend_prefix: "$",
