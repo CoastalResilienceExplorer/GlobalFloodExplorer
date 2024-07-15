@@ -174,7 +174,7 @@ const flooding = [
     layer_type: "FILL_WITH_OUTLINE",
     display_legend: false,
     subgroup: "flooding_2015",
-    opacity: 1,
+    opacity: 0.4,
     minzoom: FLOODING_MIN_ZOOM,
     maxzoom: 18,
   },
@@ -248,7 +248,7 @@ const layerGroups: Record<LayerName, LayerGroup> = {
   [LayerName.CurrentRisk]: {
     name: LayerName.CurrentRisk,
     shortDescription:
-      "The current annual risk from flooding at the coast, including existing benefits from mangroves.",
+      "The current annual risk from flooding at the coast, including present mangroves.",
     IconComponent: () => (
       <Icon icon="mdi:hazard-lights" color="white" className="w-full h-full" />
     ),

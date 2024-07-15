@@ -239,7 +239,7 @@ const _Empty = {
 const _Green = {
   breaks: [0, 1, 2],
 
-  colorRamp: ["#00871D", "#00871D", "#00871D"],
+  colorRamp: ["#24A52B", "#24A52B", "#24A52B"],
 
   sizeRamp: [5, 10, 15],
 

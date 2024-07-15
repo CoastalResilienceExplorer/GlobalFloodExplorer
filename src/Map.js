@@ -279,7 +279,9 @@ export default function Map() {
         <Compass
           viewport={viewport}
           map={map}
+          mapLoaded={mapLoaded}
           theme={theme}
+          selectedLayer={layerGroup}
           setViewport={flyToViewport}
           _ref={infoRefs.COMPASS}
           navigationControls={navigationControls}

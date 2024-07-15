@@ -10,6 +10,8 @@ import { Icon } from "@iconify/react";
 import { default_mang_perc_change_filter } from "layers/filters";
 import { BasemapMap } from "basemap_manager/BasemapManager";
 
+import { LayerName } from "types/dataModel";
+
 import { Green } from "layers/colormaps/colormaps";
 
 function reverseObject(obj) {
@@ -28,10 +30,18 @@ function Tooltip({ text }) {
   return <div className="tooltips-slot">{text}</div>;
 }
 
-function MangroveContextLayer({ map, theme, action }) {
+function MangroveContextLayer({
+  map,
+  mapLoaded,
+  theme,
+  action,
+  selectedLayer,
+}) {
+  console.log(selectedLayer);
   const [mangrovesOn, setMangrovesOn] = useState(false);
   const [filterIsHovering, setFilterIsHovering] = useState(false);
   const layerId = "mangroves_2015";
+  const selectedLayerRef = useRef();
 
   function addLayer() {
     const layer = {
@@ -40,7 +50,7 @@ function MangroveContextLayer({ map, theme, action }) {
       type: "fill",
       "source-layer": "cf23fc24843b11eeb772b580fc9aa31f",
       paint: {
-        "fill-color": "#f08",
+        "fill-color": "#24A52B",
         "fill-opacity": 0.4,
       },
       opacity: 1,
@@ -60,6 +70,14 @@ function MangroveContextLayer({ map, theme, action }) {
     else addLayer();
   }, [mangrovesOn]);
 
+  useEffect(() => {
+    if (selectedLayerRef.current == LayerName.Flooding) {
+      setMangrovesOn(false);
+    }
+    selectedLayerRef.current = selectedLayer;
+    console.log("called");
+  }, [selectedLayer]);
+
   return (
     <div
       className={`controls-icon-container ${mangrovesOn ? "coral" : ""}`}
@@ -70,7 +88,7 @@ function MangroveContextLayer({ map, theme, action }) {
       onMouseLeave={() => setFilterIsHovering(false)}
     >
       <Hover
-        text="Show Habitat"
+        text="Show Mangroves"
         extraClasses={ReversedBasemapMap[theme]}
         action={action}
       >
@@ -126,10 +144,12 @@ export default function Compass(props) {
       <div className="controls-panel" ref={props._ref}>
         <MangroveContextLayer
           map={props.map}
+          mapLoaded={props.mapLoaded}
           theme={props.theme}
+          selectedLayer={props.selectedLayer}
           action={setTooltipText}
         />
-        <div
+        {/* <div
           className={`controls-icon-container ${filtersOn ? "coral" : ""}`}
           onClick={() => setFiltersOn(!filtersOn)}
           onMouseMove={() => setFilterIsHovering(true)}
@@ -145,7 +165,7 @@ export default function Compass(props) {
               className={`controls-icon ${filtersOn ? "coral" : ""}`}
             />
           </Hover>
-        </div>
+        </div> */}
         <div
           className={
             "controls-icon-container " + (highlightCompass ? "coral" : "white")

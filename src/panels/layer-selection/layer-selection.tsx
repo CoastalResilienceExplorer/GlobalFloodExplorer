@@ -116,7 +116,7 @@ export const LayerSelection: React.FC<LayerSelectionProps> = ({
       <div className="bg-trench hover:bg-shoreline block text-left transition-[height]">
         <MenuItem
           iconSprings={iconSprings}
-          name="Links & Data"
+          name="Data from Menéndez et al. 2020"
           description={
             <>
               <p>
