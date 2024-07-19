@@ -8,6 +8,16 @@
   color: white;
 }
 
+.compass-panel > * {
+  cursor: pointer;
+}
+
+.compass-container {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+}
+
 .controls-panel-title {
   font-size: 10px;
 }
@@ -55,4 +65,12 @@
 .controls-icon-container:hover {
   background-color: var(--shoreline);
   border-color: var(--shoreline);
+}
+
+.tooltips-slot {
+  background-color: white;
+  color: white;
+  margin-top: 5px;
+  background-color: var(--open);
+  border-radius: 20px;
 }
