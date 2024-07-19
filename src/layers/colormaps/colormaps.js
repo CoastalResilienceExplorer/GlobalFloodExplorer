@@ -239,7 +239,7 @@ const _Empty = {
 const _Green = {
   breaks: [0, 1, 2],
 
-  colorRamp: ["#00871D", "#00871D", "#00871D"],
+  colorRamp: ["#24A52B", "#24A52B", "#24A52B"],
 
   sizeRamp: [5, 10, 15],
 
@@ -291,16 +291,16 @@ const _Red_10Step = {
   breaks: [0, 1000000, 10000000, 100000000, 1000000000],
 
   colorRamp: [
-    "#FB1414",
+    "#ffffb2",
     // "#FC471C",
-    "#FD7A24",
+    "#fecc5c",
     // "#FEAD2C",
-    "#FFE134",
+    "#fd8d3c",
     // "#E1E730",
-    "#C3ED2C",
+    "#f03b20",
     // "#A6F328",
     // "#88F924",
-    "#6BFF21",
+    "#bd0026",
   ],
 
   sizeRamp: [5, 10, 15, 20, 25],

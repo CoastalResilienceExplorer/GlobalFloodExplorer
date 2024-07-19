@@ -6,6 +6,7 @@ import {
   Green,
   Grey,
   Blue_5Step_Pop,
+  Red_10Step,
 } from "./colormaps/colormaps";
 import { Layer, LayerGroup, LayerName } from "types/dataModel";
 import { Icon } from "@iconify/react";
@@ -62,7 +63,7 @@ const current_risk = [
     source: "UCSC_CWON_studyunits_reppts",
     source_layer: "UCSC_CWON_studyunits_reppts",
     colorValue: risk_stock,
-    legend: Blue_5Step,
+    legend: Red_10Step,
     layer_title: `Annual Expected Risk ${year}`,
     layer_type: "DISCRETE_POINT",
     legend_prefix: "$",
@@ -174,7 +175,7 @@ const flooding = [
     layer_type: "FILL_WITH_OUTLINE",
     display_legend: false,
     subgroup: "flooding_2015",
-    opacity: 1,
+    opacity: 0.4,
     minzoom: FLOODING_MIN_ZOOM,
     maxzoom: 18,
   },
@@ -248,7 +249,7 @@ const layerGroups: Record<LayerName, LayerGroup> = {
   [LayerName.CurrentRisk]: {
     name: LayerName.CurrentRisk,
     shortDescription:
-      "The current annual risk from flooding at the coast, including existing benefits from mangroves.",
+      "The current annual risk from flooding at the coast, including present mangroves.",
     IconComponent: () => (
       <Icon icon="mdi:hazard-lights" color="white" className="w-full h-full" />
     ),

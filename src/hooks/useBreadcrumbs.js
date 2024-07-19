@@ -72,7 +72,7 @@ function MarkerWithHook(
     <div className='breadcrumbs-icon-container'>${src}</div>
   `;
   el.innerHTML = component;
-  el.className = "marker";
+  el.className = `marker`;
 
   // create the marker
   const m = new mapboxgl.Marker(el)
@@ -112,6 +112,7 @@ function MarkerWithHook(
     "mouseleave",
     (e) => {
       setIsHovering(false);
+      setPayload(false);
     },
     false,
   );
@@ -137,6 +138,7 @@ export function useMapWithBreadcrumbs(
 
   useEffect(() => {
     if (!payload) return;
+    console.log(payload);
     payloadRef.current = payload;
   }, [payload]);
 
@@ -146,22 +148,22 @@ export function useMapWithBreadcrumbs(
     }
   }, [markers, isHovering]);
 
-  useWhile.on(
-    () => isHovering,
-    [isHovering],
-    "FIRST_HOVER",
-    undefined,
-    payloadRef.current,
-    0,
-  );
+  // useWhile.on(
+  //   () => isHovering,
+  //   [isHovering],
+  //   "FIRST_HOVER",
+  //   undefined,
+  //   payloadRef.current,
+  //   0,
+  // );
 
-  useWhile.off(
-    () => !isHovering,
-    [isHovering],
-    "FIRST_HOVER",
-    undefined,
-    HOVER_TIMEOUT,
-  );
+  // useWhile.off(
+  //   () => !isHovering,
+  //   [isHovering],
+  //   "FIRST_HOVER",
+  //   undefined,
+  //   HOVER_TIMEOUT,
+  // );
 
   useEffect(() => {
     const filtered_aois_in = aois.filter((aoi) => {

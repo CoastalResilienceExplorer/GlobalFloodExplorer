@@ -49,7 +49,7 @@ export const aois: Array<AOI> = [
     parent: "Caribbean",
     size: 40,
     description:
-      "Belize is protected by mangroves from over $100M of damage each year",
+      "Belize is protected by mangroves from over $20M of damage each year",
     layerGroup: LayerName.Population,
   },
   {

@@ -17,6 +17,9 @@ function Title({ studyUnitIds, locations, selectionType }) {
       case "United Republicof Tanzania":
         return_country = "United Republic of Tanzania";
         break;
+      case "United States of America":
+        return_country = "USA";
+        break;
       default:
         return_country = country;
         break;
@@ -51,26 +54,18 @@ function Title({ studyUnitIds, locations, selectionType }) {
   }, [countries]);
 
   const formattedLocationList = useMemo(() => {
-    if (studyUnitIds.length === 1)
-      return `Study Unit ${studyUnitIds[0]} in ${formattedCountryList}`;
-    if (studyUnitIds.length === 2)
-      return `Study Units ${studyUnitIds[0]} and ${studyUnitIds[1]} in ${formattedCountryList}`;
-    if (studyUnitIds.length === 3)
-      return `Study Units ${studyUnitIds[0]}, ${studyUnitIds[1]} and ${studyUnitIds[2]} in ${formattedCountryList}`;
-    if (studyUnitIds.length > 3)
-      return `Study Units ${studyUnitIds[0]}, ${studyUnitIds[1]} and ${
-        studyUnitIds.length - 2
-      } others in ${formattedCountryList}`;
+    return `${studyUnitIds.length}${
+      studyUnitIds.length > 1 ? " 20km study units" : " 20km study unit"
+    } in ${formattedCountryList}`;
   }, [studyUnitIds, formattedCountryList]);
 
   return (
     <>
       <div className="stats-panel-title">
-        <p>Showing statistics for:</p>
         <p
           className={`${
             studyUnitIds.length > 1 ? "body" : "body-large"
-          } italic whitespace-nowrap overflow-hidden text-ellipsis`}
+          } italic whitespace-nowrap overflow-hidden text-ellipsis text-2xl`}
         >
           {formattedLocationList}
         </p>
@@ -119,7 +114,7 @@ function TopBanner({
         locations={locations}
       />
       <p className="text-right text-white mb-2 px-2">
-        Currently viewing data for{"  "}
+        Statistics for Mangrove Habitats in {"  "}
         <select
           value={selectedYear}
           onChange={updateYear}
@@ -131,9 +126,11 @@ function TopBanner({
         </select>
       </p>
       {selectedYear != initialYear && (
-        <i className="text-right text-white mb-2">
-          Data in the map shows 2015 values.
-        </i>
+        <>
+          <i className="text-left text-white mb-2 text-lg text-[14px]">
+            Data in the map shows 2015 values.
+          </i>
+        </>
       )}
       <div className="absolute !m-0 h-96 bg-open w-full" />
     </div>

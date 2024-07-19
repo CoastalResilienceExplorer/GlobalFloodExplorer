@@ -15,6 +15,14 @@ const sum = (acc, cur) => {
   return acc + cur;
 };
 
+function NoDataPanel() {
+  return (
+    <div className="nodata-panel text-lg text-center">
+      <p>No data for selected locations</p>
+    </div>
+  );
+}
+
 function MetricContent({ children, contentModifier }) {
   return (
     <div
@@ -181,34 +189,46 @@ function SelectedFeaturesPanel({ selectedFeatures, selectedYear }) {
 
   return (
     <>
-      <TemplateMetricContainer
-        icon={layerGroups[LayerName.BenefitAEB].IconComponent}
-        description="Annual Expected Benefit (AEB) is amount that mangroves are expected to reduce flood damage each year."
-        title="Economic Benefit"
-      >
-        <>
-          <div className="flex align-center flex-wrap w-full">
-            <p className="w-3/5 italic text-right">Damages w/o Mangroves:</p>
-            <p className="ml-2 lining-nums">${kFormatter(stockNoMangroves)}</p>
-            <p className="w-3/5 italic text-right">- Damages w/ Mangroves:</p>
-            <p className="ml-2 lining-nums">
-              ${kFormatter(stockWithMangroves)}
-            </p>
-            <div className="w-3/5 my-1 -translate-x-2 mx-auto pr-4 self-center	 border-solid border-t-[1px] border-trench" />
-            <p className="w-3/5 italic text-right">Total Damage Reduction:</p>
-            <p className="ml-2 lining-nums">
-              <b>${kFormatter(stockWithMangroves - stockNoMangroves)}</b>
-            </p>
-          </div>
-          <div className="flex row w-full pt-8 justify-start">
-            <ColoredSVGChart
-              risk_reduction_ratio={stock_risk_reduct_ratio}
-              no_mang={stockNoMangroves}
-              with_mang={stockWithMangroves}
-            />
-          </div>
-        </>
-      </TemplateMetricContainer>
+      {!isNaN(stockWithMangroves) ? (
+        <TemplateMetricContainer
+          icon={layerGroups[LayerName.BenefitAEB].IconComponent}
+          description="Annual Expected Benefit (AEB) is amount that mangroves are expected to reduce flood damage each year."
+          title="Economic Benefit"
+        >
+          <>
+            <div className="flex align-center flex-wrap w-full">
+              <p className="w-3/5 italic text-right">Damages w/o Mangroves:</p>
+              <p className="ml-2 lining-nums">
+                ${kFormatter(stockNoMangroves)}
+              </p>
+              <p className="w-3/5 italic text-right">- Damages w/ Mangroves:</p>
+              <p className="ml-2 lining-nums">
+                ${kFormatter(stockWithMangroves)}
+              </p>
+              <div className="w-3/5 my-1 -translate-x-2 mx-auto pr-4 self-center	 border-solid border-t-[1px] border-trench" />
+              <p className="w-3/5 italic text-right">Total Damage Reduction:</p>
+              <p className="ml-2 lining-nums">
+                <b>${kFormatter(stockWithMangroves - stockNoMangroves)}</b>
+              </p>
+            </div>
+            <div className="flex row w-full pt-8 justify-start">
+              <ColoredSVGChart
+                risk_reduction_ratio={stock_risk_reduct_ratio}
+                no_mang={stockNoMangroves}
+                with_mang={stockWithMangroves}
+              />
+            </div>
+          </>
+        </TemplateMetricContainer>
+      ) : (
+        <TemplateMetricContainer
+          icon={layerGroups[LayerName.BenefitAEB].IconComponent}
+          description=""
+          title="Economic Benefit"
+        >
+          <NoDataPanel />
+        </TemplateMetricContainer>
+      )}
 
       <TemplateMetricContainer
         icon={layerGroups[LayerName.Population].IconComponent}
