@@ -9,7 +9,7 @@ import PieChart2 from "./charts/PieChart2";
 import ColoredSVGChart from "./charts/ColoredSVGChart";
 
 import layerGroups from "layers/layers";
-import { LayerName } from "types/dataModel";
+import { LayerGroupName } from "types/dataModel";
 
 const sum = (acc, cur) => {
   return acc + cur;
@@ -182,7 +182,7 @@ function SelectedFeaturesPanel({ selectedFeatures, selectedYear }) {
   return (
     <>
       <TemplateMetricContainer
-        icon={layerGroups[LayerName.BenefitAEB].IconComponent}
+        icon={layerGroups[LayerGroupName.BenefitAEB].IconComponent}
         description="Annual Expected Benefit (AEB) is amount that mangroves are expected to reduce flood damage each year."
         title="Economic Benefit"
       >
@@ -211,7 +211,7 @@ function SelectedFeaturesPanel({ selectedFeatures, selectedYear }) {
       </TemplateMetricContainer>
 
       <TemplateMetricContainer
-        icon={layerGroups[LayerName.Population].IconComponent}
+        icon={layerGroups[LayerGroupName.Population].IconComponent}
         description="Changes in mangrove extent and their economic benefits from 1996-2015."
         title="Changing Mangroves & Benefits"
         height={50}
@@ -227,7 +227,7 @@ function SelectedFeaturesPanel({ selectedFeatures, selectedYear }) {
       </TemplateMetricContainer>
 
       <TemplateMetricContainer
-        icon={layerGroups[LayerName.Population].IconComponent}
+        icon={layerGroups[LayerGroupName.Population].IconComponent}
         description="Population Benefit is number of people that mangroves protect from flooding each year."
         title="Population Benefit"
         height={50}

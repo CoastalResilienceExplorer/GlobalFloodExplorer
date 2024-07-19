@@ -7,7 +7,7 @@ import {
   Grey,
   Blue_5Step_Pop,
 } from "./colormaps/colormaps";
-import { Layer, LayerGroup, LayerName } from "types/dataModel";
+import { Layer, LayerGroup, LayerGroupName } from "types/dataModel";
 import { Icon } from "@iconify/react";
 import { RP } from "./floodconf";
 import { BREADCRUMB_ICON_SIZE } from "hooks/useBreadcrumbs";
@@ -15,10 +15,10 @@ import { BREADCRUMB_ICON_SIZE } from "hooks/useBreadcrumbs";
 export const COUNTRY_TESELA_ZOOM_SWITCH = 0;
 export const FLOODING_MIN_ZOOM = 3;
 
-export const year = 2015;
-export const ben_stock = ["to-number", ["get", `Ben_Stock_${year}`]];
-const risk_stock = ["to-number", ["get", `Risk_Stock_${year}`]];
-const ben_pop = ["to-number", ["get", `Ben_Pop_${year}`]];
+export const initialYear = 2015;
+export const ben_stock = ["to-number", ["get", "Ben_Stock_2015"]];
+const risk_stock = ["to-number", ["get", "Risk_Stock_2015"]];
+const ben_pop = ["to-number", ["get", "Ben_Pop_2015"]];
 const nomang_risk_stock = ["+", ben_stock, risk_stock];
 const risk_reduction_ratio = [
   "case",
@@ -31,22 +31,33 @@ export const mang_ha_perc_change = [
   "/",
   [
     "-",
-    ["to-number", ["get", `Mang_Ha_${year}`]],
-    ["to-number", ["get", `Mang_Ha_1996`]],
+    ["to-number", ["get", "Mang_Ha_2015"]],
+    ["to-number", ["get", "Mang_Ha_1996"]],
   ],
-  ["to-number", ["get", `Mang_Ha_1996`]],
+  ["to-number", ["get", "Mang_Ha_1996"]],
 ];
 
 export const mang_ha_total_change = [
   "-",
-  ["to-number", ["get", `Mang_Ha_${year}`]],
-  ["to-number", ["get", `Mang_Ha_1996`]],
+  ["to-number", ["get", "Mang_Ha_2015"]],
+  ["to-number", ["get", "Mang_Ha_1996"]],
 ];
 
 const ben_filter_value = 200000;
 
-const current_risk = [
-  {
+export enum LayerName {
+  TESSELA_BOUNDS = "tessela_bounds",
+  TESSELA_RPS = "tessela_rps",
+  HEX = "hex",
+  HEX2 = "hex2",
+  MANGROVES_NOMANG = "mangroves_nomang",
+  MANGROVES_2015 = "mangroves_2015",
+  FLOODING_NOMANG = "flooding_nomang",
+  FLOODING_2015 = "flooding_2015",
+}
+
+export const LAYERS: Record<LayerName, Layer> = {
+  [LayerName.TESSELA_BOUNDS]: {
     id: "tessela_bounds",
     source: "UCSC_CWON_studyunits",
     source_layer: "UCSC_CWON_studyunits",
@@ -57,13 +68,13 @@ const current_risk = [
     filter: [">", ben_stock, ben_filter_value],
     minzoom: COUNTRY_TESELA_ZOOM_SWITCH,
   },
-  {
+  [LayerName.TESSELA_RPS]: {
     id: "tessela_rps",
     source: "UCSC_CWON_studyunits_reppts",
     source_layer: "UCSC_CWON_studyunits_reppts",
     colorValue: risk_stock,
     legend: Blue_5Step,
-    layer_title: `Annual Expected Risk ${year}`,
+    layer_title: `Annual Expected Risk 2015`,
     layer_type: "DISCRETE_POINT",
     legend_prefix: "$",
     format: "$",
@@ -71,47 +82,7 @@ const current_risk = [
     filter: [">", ben_stock, ben_filter_value],
     minzoom: COUNTRY_TESELA_ZOOM_SWITCH,
   },
-];
-
-const annual_benefits = [
-  {
-    id: "tessela_bounds",
-    source: "UCSC_CWON_studyunits",
-    source_layer: "UCSC_CWON_studyunits",
-    legend: SelectedTessela,
-    layer_title: "Tessela",
-    layer_type: "SIMPLE_OUTLINE",
-    selection_dependent_on: "UCSC_CWON_studyunits_reppts",
-    filter: [">", ben_stock, ben_filter_value],
-    minzoom: COUNTRY_TESELA_ZOOM_SWITCH,
-  },
-  {
-    id: "tessela_rps",
-    source: "UCSC_CWON_studyunits_reppts",
-    source_layer: "UCSC_CWON_studyunits_reppts",
-    colorValue: ben_stock,
-    legend: Blue_5Step,
-    layer_title: `Annual Expected Benefit ${year}`,
-    layer_type: "DISCRETE_POINT",
-    legend_prefix: "$",
-    format: "$",
-    is_selectable: true,
-    filter: [">", ben_stock, ben_filter_value],
-    minzoom: COUNTRY_TESELA_ZOOM_SWITCH,
-  },
-];
-
-const reduct_ratio = [
-  {
-    id: "tessela_bounds",
-    source: "UCSC_CWON_studyunits",
-    source_layer: "UCSC_CWON_studyunits",
-    legend: SelectedTessela,
-    layer_title: "Tessela",
-    layer_type: "SIMPLE_OUTLINE",
-    selection_dependent_on: "UCSC_CWON_studyunits_hexs",
-  },
-  {
+  [LayerName.HEX]: {
     id: "hex",
     source: "UCSC_CWON_studyunits_hexs",
     source_layer: "UCSC_CWON_studyunits_hexs",
@@ -120,7 +91,7 @@ const reduct_ratio = [
     heightValue: nomang_risk_stock,
     baseValue: risk_stock,
     scale: 0.3,
-    layer_title: `Risk Reduction ${year}`,
+    layer_title: `Risk Reduction 2015`,
     layer_type: "HEX_3D",
     hex_type: "REDUCTION",
     legend_suffix: "%",
@@ -129,7 +100,7 @@ const reduct_ratio = [
     is_selectable: true,
     minzoom: COUNTRY_TESELA_ZOOM_SWITCH,
   },
-  {
+  [LayerName.HEX2]: {
     id: "hex2",
     source: "UCSC_CWON_studyunits_hexs",
     source_layer: "UCSC_CWON_studyunits_hexs",
@@ -147,10 +118,7 @@ const reduct_ratio = [
     is_selectable: true,
     minzoom: COUNTRY_TESELA_ZOOM_SWITCH,
   },
-];
-
-const flooding = [
-  {
+  [LayerName.MANGROVES_NOMANG]: {
     id: "mangroves_nomang",
     source: "mangroves_2015",
     source_layer: "cf23fc24843b11eeb772b580fc9aa31f",
@@ -164,7 +132,7 @@ const flooding = [
     minzoom: FLOODING_MIN_ZOOM,
     maxzoom: 18,
   },
-  {
+  [LayerName.MANGROVES_2015]: {
     id: "mangroves_2015",
     source: "mangroves_2015",
     source_layer: "cf23fc24843b11eeb772b580fc9aa31f",
@@ -178,21 +146,7 @@ const flooding = [
     minzoom: FLOODING_MIN_ZOOM,
     maxzoom: 18,
   },
-  // {
-  //   id: "mangroves_1996",
-  //   source: "mangroves_1996",
-  //   source_layer: "GMW_1996_v3_Areas",
-  //   layer_title: "Mangroves 1996",
-  //   colorValue: ["to-number", ["get", "PXLVAL"]],
-  //   legend: Green,
-  //   layer_type: "FILL_WITH_OUTLINE",
-  //   display_legend: false,
-  //   subgroup: "flooding_1996",
-  //   opacity: 1,
-  //   minzoom: FLOODING_MIN_ZOOM,
-  //   maxzoom: 18,
-  // },
-  {
+  [LayerName.FLOODING_NOMANG]: {
     id: "flooding_nomang",
     source: "flooding_nomang_pt",
     source_layer: `Without_TC_Tr_${RP}`,
@@ -205,7 +159,7 @@ const flooding = [
     subgroup: "flooding_nomang",
     minzoom: FLOODING_MIN_ZOOM,
   },
-  {
+  [LayerName.FLOODING_2015]: {
     id: "flooding_2015",
     source: "flooding_2015_pt",
     source_layer: `with_2015_TC_Tr_${RP}`,
@@ -217,36 +171,26 @@ const flooding = [
     subgroup: "flooding_2015",
     minzoom: FLOODING_MIN_ZOOM,
   },
+};
+
+const current_risk = [LayerName.TESSELA_BOUNDS, LayerName.TESSELA_RPS];
+
+const annual_benefits = [LayerName.TESSELA_BOUNDS, LayerName.TESSELA_RPS];
+
+const reduct_ratio = [LayerName.TESSELA_BOUNDS, LayerName.HEX, LayerName.HEX2];
+
+const floodingComparison = [
+  LayerName.MANGROVES_NOMANG,
+  LayerName.MANGROVES_2015,
+  LayerName.FLOODING_NOMANG,
+  LayerName.FLOODING_2015,
 ];
 
-const Population = [
-  {
-    id: "tessela_bounds",
-    source: "UCSC_CWON_studyunits",
-    source_layer: "UCSC_CWON_studyunits",
-    legend: SelectedTessela,
-    layer_title: "Tessela",
-    layer_type: "SIMPLE_OUTLINE",
-    selection_dependent_on: "UCSC_CWON_studyunits_reppts",
-    minzoom: COUNTRY_TESELA_ZOOM_SWITCH,
-  },
-  {
-    id: "tessela_rps",
-    source: "UCSC_CWON_studyunits_reppts",
-    source_layer: "UCSC_CWON_studyunits_reppts",
-    colorValue: ben_pop,
-    legend: Blue_5Step_Pop,
-    layer_title: `Annual Population Benefit ${year}`,
-    layer_type: "DISCRETE_POINT",
-    legend_prefix: "",
-    is_selectable: true,
-    minzoom: COUNTRY_TESELA_ZOOM_SWITCH,
-  },
-];
+const Population = [LayerName.TESSELA_BOUNDS, LayerName.TESSELA_RPS];
 
-const layerGroups: Record<LayerName, LayerGroup> = {
-  [LayerName.CurrentRisk]: {
-    name: LayerName.CurrentRisk,
+const layerGroups: Record<LayerGroupName, LayerGroup> = {
+  [LayerGroupName.CurrentRisk]: {
+    name: LayerGroupName.CurrentRisk,
     shortDescription:
       "The current annual risk from flooding at the coast, including existing benefits from mangroves.",
     IconComponent: () => (
@@ -254,11 +198,11 @@ const layerGroups: Record<LayerName, LayerGroup> = {
     ),
     IconComponentHTML: `<iconify-icon icon="mdi:hazard-lights" class="breadcrumbs-icon" width="${BREADCRUMB_ICON_SIZE}px" height="${BREADCRUMB_ICON_SIZE}px"></iconify-icon>`,
     layers: current_risk,
-    metricKey: `Risk_Stock_${year}`,
+    metricKey: `Risk_Stock_2015`,
     units: "in damage per year",
   },
-  [LayerName.BenefitAEB]: {
-    name: LayerName.BenefitAEB,
+  [LayerGroupName.BenefitAEB]: {
+    name: LayerGroupName.BenefitAEB,
     shortDescription:
       "Annual Expected Benefit (AEB) is the flood risk reduced by mangroves annually in a location (in $).",
     IconComponent: () => (
@@ -266,11 +210,11 @@ const layerGroups: Record<LayerName, LayerGroup> = {
     ),
     IconComponentHTML: `<iconify-icon icon="ph:hand-coins" class="breadcrumbs-icon" width="${BREADCRUMB_ICON_SIZE}px" height="${BREADCRUMB_ICON_SIZE}px"></iconify-icon>`,
     layers: annual_benefits,
-    metricKey: `Ben_Stock_${year}`,
+    metricKey: `Ben_Stock_2015`,
     units: "in damage reduced per year",
   },
-  [LayerName.RiskReduction]: {
-    name: LayerName.RiskReduction,
+  [LayerGroupName.RiskReduction]: {
+    name: LayerGroupName.RiskReduction,
     shortDescription:
       "The % of current annual flood risk reduced by mangroves.",
     IconComponent: () => (
@@ -283,8 +227,8 @@ const layerGroups: Record<LayerName, LayerGroup> = {
     IconComponentHTML: `<iconify-icon icon="lucide:git-compare" class="breadcrumbs-icon" width="${BREADCRUMB_ICON_SIZE}px" height="${BREADCRUMB_ICON_SIZE}px"></iconify-icon>`,
     layers: reduct_ratio,
   },
-  [LayerName.Flooding]: {
-    name: LayerName.Flooding,
+  [LayerGroupName.Flooding]: {
+    name: LayerGroupName.Flooding,
     shortDescription:
       "Flood Depth (m) with and without mangroves for 1 in 50 year storm event.",
     IconComponent: () => (
@@ -295,10 +239,10 @@ const layerGroups: Record<LayerName, LayerGroup> = {
       />
     ),
     IconComponentHTML: `<iconify-icon icon="ri:flood-line" class="breadcrumbs-icon" width="${BREADCRUMB_ICON_SIZE}px" height="${BREADCRUMB_ICON_SIZE}px"></iconify-icon>`,
-    layers: flooding,
+    layers: floodingComparison,
   },
-  [LayerName.Population]: {
-    name: LayerName.Population,
+  [LayerGroupName.Population]: {
+    name: LayerGroupName.Population,
     shortDescription:
       "Annual Expected Benefit (AEB) is the flood risk reduced by mangroves annually in a location (in avoided damages to people).",
     IconComponent: () => (
@@ -310,7 +254,7 @@ const layerGroups: Record<LayerName, LayerGroup> = {
     ),
     IconComponentHTML: `<iconify-icon icon="pepicons-pencil:people" class="breadcrumbs-icon" width="${BREADCRUMB_ICON_SIZE}px" height="${BREADCRUMB_ICON_SIZE}px"></iconify-icon>`,
     layers: Population,
-    metricKey: `Ben_Pop_${year}`,
+    metricKey: `Ben_Pop_2015`,
     units: "in reduced exposure per year",
   },
 };
@@ -320,7 +264,7 @@ export const layersByGroup = Object.values(layerGroups).reduce(
     acc[group.name] = group.layers;
     return acc;
   },
-  {} as Record<LayerName, Layer[]>,
+  {} as Record<LayerGroupName, LayerName[]>,
 );
 
 export default layerGroups;

@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef, useCallback, useMemo } from "react";
 import mapboxgl from "mapbox-gl";
 import layerGroups from "layers/layers";
-import { LayerName } from "types/dataModel";
+import { LayerGroupName } from "types/dataModel";
 import { kFormatter } from "hooks/utils/formattingUtils";
 import { BasemapStyle } from "basemap_manager/BasemapManager";
 
@@ -39,7 +39,7 @@ const ThemeMap: Record<BasemapStyle, ColorDefintion> = {
 
 export function useHover(
   map: mapboxgl.Map,
-  selectedLayer: LayerName,
+  selectedLayer: LayerGroupName,
   theme: BasemapStyle,
 ) {
   const mapScale = useRef(0);
@@ -110,7 +110,7 @@ export function useHover(
               ? `<p class="lining-nums text-${
                   colors.textColor
                 }">${selectedLayer}:  ${
-                  selectedLayer === LayerName.Population ? "" : "$"
+                  selectedLayer === LayerGroupName.Population ? "" : "$"
                 }${kFormatter(
                   hoveredTessela.properties[
                     layerGroups[selectedLayer]?.metricKey as string

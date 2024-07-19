@@ -34,7 +34,7 @@ import initialInfo from "./info/initialInfo";
 // Splash Screens
 import { SplashScreen } from "./splash-screens/splash-screen";
 import { DisclaimerScreen } from "./splash-screens/disclaimer-screen";
-import { LayerName } from "types/dataModel";
+import { LayerGroupName } from "types/dataModel";
 import FlyToContext from "panels/FlyToContext";
 import { initTheme } from "layers/theme";
 
@@ -109,16 +109,16 @@ export default function Map() {
     infoRefs,
   } = useInfo(initialInfo, infoReducer);
   useMapWithBreadcrumbs(viewport, aois, map, setLayerGroup, useWhile);
-  useFirst(() => layerGroup === LayerName.Flooding, "FIRST_FLOODING");
+  useFirst(() => layerGroup === LayerGroupName.Flooding, "FIRST_FLOODING");
   useFirst(() => viewport.pitch !== 0, "FIRST_3D");
   useFirst(() => viewport.bearing !== 0, "FIRST_3D");
 
   const [floodsShouldShow, setFloodsShouldShow] = useState(
-    layerGroup === LayerName.Flooding && viewport.zoom < FLOODING_MIN_ZOOM,
+    layerGroup === LayerGroupName.Flooding && viewport.zoom < FLOODING_MIN_ZOOM,
   );
   useEffect(() => {
     if (
-      layerGroup === LayerName.Flooding &&
+      layerGroup === LayerGroupName.Flooding &&
       viewport.zoom < FLOODING_MIN_ZOOM
     ) {
       setFloodsShouldShow(true);
@@ -144,7 +144,7 @@ export default function Map() {
   );
 
   useWhile.on(
-    () => layerGroup === LayerName.RiskReduction,
+    () => layerGroup === LayerGroupName.RiskReduction,
     [layerGroup],
     "FIRST_HEX",
     undefined,
@@ -153,14 +153,14 @@ export default function Map() {
   );
 
   useWhile.off(
-    () => layerGroup !== LayerName.RiskReduction,
+    () => layerGroup !== LayerGroupName.RiskReduction,
     [layerGroup],
     "FIRST_HEX",
     undefined,
   );
 
   useEventWithFunction(
-    () => layerGroup === LayerName.RiskReduction,
+    () => layerGroup === LayerGroupName.RiskReduction,
     "FIRST_RRR",
     undefined,
     () => {
@@ -232,7 +232,7 @@ export default function Map() {
       />
       <div className="screen">
         <Legend legend_items={legends} />
-        {layerGroup === LayerName.Flooding && (
+        {layerGroup === LayerGroupName.Flooding && (
           <SlideMap
             initialStates={initialStates}
             theme={BasemapMap[theme]}
@@ -246,7 +246,7 @@ export default function Map() {
           className="map-container"
           style={{
             visibility:
-              layerGroup !== LayerName.Flooding ? "visible" : "hidden",
+              layerGroup !== LayerGroupName.Flooding ? "visible" : "hidden",
           }}
         />
       </div>

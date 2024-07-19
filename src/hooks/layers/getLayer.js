@@ -1,6 +1,7 @@
-export default function getLayers(layer_lookup, key, args, protos, filters) {
-  const layers = layer_lookup[key];
+import { LAYERS } from "layers/layers";
 
+export default function getLayers(layer_lookup, key, args, protos, filters) {
+  const layers = layer_lookup[key].map((layerName) => LAYERS[layerName]);
   if (!layers || !layers[0])
     return {
       legends: [],

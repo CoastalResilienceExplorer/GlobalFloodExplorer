@@ -2,8 +2,9 @@ import {
   DiscreteColorSizeScale,
   SimpleColorScale,
 } from "layers/colormaps/colormaps";
+import { LayerName } from "layers/layers";
 
-export enum LayerName {
+export enum LayerGroupName {
   CurrentRisk = "Current Risk",
   BenefitAEB = "Benefit (Economic)",
   RiskReduction = "Risk Reduction Ratio",
@@ -36,14 +37,15 @@ export type Layer = {
   maxzoom?: number;
   opacity?: number;
   hex_type?: string;
+  filter?: Filter;
 };
 
 export type LayerGroup = {
-  name: LayerName;
+  name: LayerGroupName;
   shortDescription: string;
   IconComponent: React.FC<React.SVGProps<SVGSVGElement>>;
   IconComponentHTML?: string;
-  layers: Layer[];
+  layers: LayerName[];
   metricKey?: string;
   units?: string;
 };
@@ -70,7 +72,7 @@ export type AOI = {
   parent?: string;
   size?: number;
   description?: string;
-  layerGroup?: LayerName;
+  layerGroup?: LayerGroupName;
 };
 
 export type Filter = [string, any, any];

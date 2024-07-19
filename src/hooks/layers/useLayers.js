@@ -4,7 +4,7 @@ import getLayers from "./getLayer";
 // Data
 import sky from "./sky";
 // PROTOS
-import { LayerName } from "types/dataModel";
+import { LayerGroupName } from "types/dataModel";
 import { useFilterContext } from "hooks/useFilters";
 
 export function useLayers(
@@ -35,7 +35,7 @@ export function useLayers(
   const layersRef = useRef([]);
   const viewportLockTimeout = useRef();
 
-  const { filtersOn, activeFilters: filters } = useFilterContext();
+  const { activeFilters: filters } = useFilterContext();
 
   const layers_and_legends = useMemo(() => {
     return getLayers(
@@ -45,11 +45,11 @@ export function useLayers(
       custom_protos,
       filters,
     );
-  }, [layerGroup, subgroup, filters, filtersOn]);
+  }, [all_layers, layerGroup, subgroup, custom_protos, filters]);
 
   useEffect(() => {
     if (mapLoaded) {
-      if (layerGroup === LayerName.RiskReduction) {
+      if (layerGroup === LayerGroupName.RiskReduction) {
         clearTimeout(viewportLockTimeout.current);
         map.setMaxPitch(75);
         map.dragRotate.enable();
