@@ -1,13 +1,13 @@
-import { mang_ha_perc_change, mang_ha_total_change } from "./layers";
+import { mangHaPercChange, mangHaTotalChange } from "./layers";
 
 export const default_mang_perc_change_filter = -0.15;
 export const default_mang_total_change_filter = -100;
 const default_filter = [
   "any",
-  ["<", mang_ha_perc_change, default_mang_perc_change_filter],
-  ["<", mang_ha_total_change, default_mang_total_change_filter],
+  ["<", mangHaPercChange, default_mang_perc_change_filter],
+  ["<", mangHaTotalChange, default_mang_total_change_filter],
 ];
-const all_features = ["<", mang_ha_total_change, 10000000];
+const all_features = ["<", mangHaTotalChange, 10000000];
 
 export const filters = {
   tessela_bounds: default_filter,

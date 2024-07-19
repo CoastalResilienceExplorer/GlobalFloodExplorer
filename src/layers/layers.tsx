@@ -16,18 +16,18 @@ export const COUNTRY_TESELA_ZOOM_SWITCH = 0;
 export const FLOODING_MIN_ZOOM = 3;
 
 export const initialYear = 2015;
-export const ben_stock = ["to-number", ["get", "Ben_Stock_2015"]];
-const risk_stock = ["to-number", ["get", "Risk_Stock_2015"]];
-const ben_pop = ["to-number", ["get", "Ben_Pop_2015"]];
-const nomang_risk_stock = ["+", ben_stock, risk_stock];
-const risk_reduction_ratio = [
+export const benStock = ["to-number", ["get", "Ben_Stock_2015"]];
+const riskStock = ["to-number", ["get", "Risk_Stock_2015"]];
+const benPop = ["to-number", ["get", "Ben_Pop_2015"]];
+const nomangRiskStock = ["+", benStock, riskStock];
+const riskReductionRatio = [
   "case",
-  ["==", nomang_risk_stock, 0],
+  ["==", nomangRiskStock, 0],
   0,
-  ["-", 1, ["to-number", ["/", risk_stock, nomang_risk_stock]]],
+  ["-", 1, ["to-number", ["/", riskStock, nomangRiskStock]]],
 ];
 
-export const mang_ha_perc_change = [
+export const mangHaPercChange = [
   "/",
   [
     "-",
@@ -37,13 +37,13 @@ export const mang_ha_perc_change = [
   ["to-number", ["get", "Mang_Ha_1996"]],
 ];
 
-export const mang_ha_total_change = [
+export const mangHaTotalChange = [
   "-",
   ["to-number", ["get", "Mang_Ha_2015"]],
   ["to-number", ["get", "Mang_Ha_1996"]],
 ];
 
-const ben_filter_value = 200000;
+const BEN_FILTER_VALUE = 200000;
 
 export enum LayerName {
   TESSELA_BOUNDS = "tessela_bounds",
@@ -69,7 +69,7 @@ export const LAYERS: Record<LayerName, Layer> = {
     layer_title: "Tessela",
     layer_type: "SIMPLE_OUTLINE",
     selection_dependent_on: "UCSC_CWON_studyunits_reppts",
-    filter: [">", ben_stock, ben_filter_value],
+    filter: [">", benStock, BEN_FILTER_VALUE],
     minzoom: COUNTRY_TESELA_ZOOM_SWITCH,
   },
   [LayerName.TESSELA_BOUNDS_RISK_REDUCTION]: {
@@ -95,35 +95,35 @@ export const LAYERS: Record<LayerName, Layer> = {
     id: "tessela_rps",
     source: "UCSC_CWON_studyunits_reppts",
     source_layer: "UCSC_CWON_studyunits_reppts",
-    colorValue: risk_stock,
+    colorValue: riskStock,
     legend: Blue_5Step,
     layer_title: `Annual Expected Risk 2015`,
     layer_type: "DISCRETE_POINT",
     legend_prefix: "$",
     format: "$",
     is_selectable: true,
-    filter: [">", ben_stock, ben_filter_value],
+    filter: [">", benStock, BEN_FILTER_VALUE],
     minzoom: COUNTRY_TESELA_ZOOM_SWITCH,
   },
   [LayerName.TESSELA_RPS_BENEFITS]: {
     id: "tessela_rps",
     source: "UCSC_CWON_studyunits_reppts",
     source_layer: "UCSC_CWON_studyunits_reppts",
-    colorValue: ben_stock,
+    colorValue: benStock,
     legend: Blue_5Step,
     layer_title: `Annual Expected Benefit 2015`,
     layer_type: "DISCRETE_POINT",
     legend_prefix: "$",
     format: "$",
     is_selectable: true,
-    filter: [">", ben_stock, ben_filter_value],
+    filter: [">", benStock, BEN_FILTER_VALUE],
     minzoom: COUNTRY_TESELA_ZOOM_SWITCH,
   },
   [LayerName.TESSELA_RPS_POPULATION]: {
     id: "tessela_rps",
     source: "UCSC_CWON_studyunits_reppts",
     source_layer: "UCSC_CWON_studyunits_reppts",
-    colorValue: ben_pop,
+    colorValue: benPop,
     legend: Blue_5Step_Pop,
     layer_title: `Annual Population Benefit 2015`,
     layer_type: "DISCRETE_POINT",
@@ -136,9 +136,9 @@ export const LAYERS: Record<LayerName, Layer> = {
     source: "UCSC_CWON_studyunits_hexs",
     source_layer: "UCSC_CWON_studyunits_hexs",
     legend: Blue_5Step_0_1,
-    colorValue: risk_reduction_ratio,
-    heightValue: nomang_risk_stock,
-    baseValue: risk_stock,
+    colorValue: riskReductionRatio,
+    heightValue: nomangRiskStock,
+    baseValue: riskStock,
     scale: 0.3,
     layer_title: `Risk Reduction 2015`,
     layer_type: "HEX_3D",
@@ -155,7 +155,7 @@ export const LAYERS: Record<LayerName, Layer> = {
     source_layer: "UCSC_CWON_studyunits_hexs",
     legend: Blue_5Step_0_1,
     colorValue: "white",
-    heightValue: risk_stock,
+    heightValue: riskStock,
     baseValue: 0,
     scale: 0.3,
     layer_title: "Tessela",
@@ -222,30 +222,30 @@ export const LAYERS: Record<LayerName, Layer> = {
   },
 };
 
-const current_risk = [
+const currentRiskLayers = [
   LayerName.TESSELA_BOUNDS,
   LayerName.TESSELA_RPS_RISK_REDUCTION,
 ];
 
-const annual_benefits = [
+const annualBenefitsLayers = [
   LayerName.TESSELA_BOUNDS,
   LayerName.TESSELA_RPS_BENEFITS,
 ];
 
-const reduct_ratio = [
+const reductRatioLayers = [
   LayerName.TESSELA_BOUNDS_RISK_REDUCTION,
   LayerName.HEX,
   LayerName.HEX2,
 ];
 
-const floodingComparison = [
+const floodingComparisonLayers = [
   LayerName.MANGROVES_NOMANG,
   LayerName.MANGROVES_2015,
   LayerName.FLOODING_NOMANG,
   LayerName.FLOODING_2015,
 ];
 
-const Population = [
+const populationLayers = [
   LayerName.TESSELA_BOUNDS_POPULATION,
   LayerName.TESSELA_RPS_POPULATION,
 ];
@@ -259,7 +259,7 @@ const layerGroups: Record<LayerGroupName, LayerGroup> = {
       <Icon icon="mdi:hazard-lights" color="white" className="w-full h-full" />
     ),
     IconComponentHTML: `<iconify-icon icon="mdi:hazard-lights" class="breadcrumbs-icon" width="${BREADCRUMB_ICON_SIZE}px" height="${BREADCRUMB_ICON_SIZE}px"></iconify-icon>`,
-    layers: current_risk,
+    layers: currentRiskLayers,
     metricKey: `Risk_Stock_2015`,
     units: "in damage per year",
   },
@@ -271,7 +271,7 @@ const layerGroups: Record<LayerGroupName, LayerGroup> = {
       <Icon icon="ph:hand-coins" color="white" className="w-full h-full" />
     ),
     IconComponentHTML: `<iconify-icon icon="ph:hand-coins" class="breadcrumbs-icon" width="${BREADCRUMB_ICON_SIZE}px" height="${BREADCRUMB_ICON_SIZE}px"></iconify-icon>`,
-    layers: annual_benefits,
+    layers: annualBenefitsLayers,
     metricKey: `Ben_Stock_2015`,
     units: "in damage reduced per year",
   },
@@ -287,7 +287,7 @@ const layerGroups: Record<LayerGroupName, LayerGroup> = {
       />
     ),
     IconComponentHTML: `<iconify-icon icon="lucide:git-compare" class="breadcrumbs-icon" width="${BREADCRUMB_ICON_SIZE}px" height="${BREADCRUMB_ICON_SIZE}px"></iconify-icon>`,
-    layers: reduct_ratio,
+    layers: reductRatioLayers,
   },
   [LayerGroupName.Flooding]: {
     name: LayerGroupName.Flooding,
@@ -301,7 +301,7 @@ const layerGroups: Record<LayerGroupName, LayerGroup> = {
       />
     ),
     IconComponentHTML: `<iconify-icon icon="ri:flood-line" class="breadcrumbs-icon" width="${BREADCRUMB_ICON_SIZE}px" height="${BREADCRUMB_ICON_SIZE}px"></iconify-icon>`,
-    layers: floodingComparison,
+    layers: floodingComparisonLayers,
   },
   [LayerGroupName.Population]: {
     name: LayerGroupName.Population,
@@ -315,7 +315,7 @@ const layerGroups: Record<LayerGroupName, LayerGroup> = {
       />
     ),
     IconComponentHTML: `<iconify-icon icon="pepicons-pencil:people" class="breadcrumbs-icon" width="${BREADCRUMB_ICON_SIZE}px" height="${BREADCRUMB_ICON_SIZE}px"></iconify-icon>`,
-    layers: Population,
+    layers: populationLayers,
     metricKey: `Ben_Pop_2015`,
     units: "in reduced exposure per year",
   },
