@@ -7,7 +7,13 @@ import {
   Grey,
   Blue_5Step_Pop,
 } from "./colormaps/colormaps";
-import { Layer, LayerGroup, LayerGroupName } from "types/dataModel";
+import {
+  ConfigurableLayers,
+  Layer,
+  LayerGroup,
+  LayerGroupName,
+  LayerName,
+} from "types/dataModel";
 import { Icon } from "@iconify/react";
 import { RP } from "./floodconf";
 import { BREADCRUMB_ICON_SIZE } from "hooks/useBreadcrumbs";
@@ -44,21 +50,6 @@ export const mangHaTotalChange = [
 ];
 
 const BEN_FILTER_VALUE = 200000;
-
-export enum LayerName {
-  TESSELA_BOUNDS = "tessela_bounds",
-  TESSELA_BOUNDS_RISK_REDUCTION = "tessela_bounds_risk_reduction",
-  TESSELA_BOUNDS_POPULATION = "tessela_bounds_population",
-  TESSELA_RPS_RISK_REDUCTION = "tessela_rps_risk_reduction",
-  TESSELA_RPS_BENEFITS = "tessela_rps_benefits",
-  TESSELA_RPS_POPULATION = "tessela_rps_population",
-  HEX = "hex",
-  HEX2 = "hex2",
-  MANGROVES_NOMANG = "mangroves_nomang",
-  MANGROVES_2015 = "mangroves_2015",
-  FLOODING_NOMANG = "flooding_nomang",
-  FLOODING_2015 = "flooding_2015",
-}
 
 export const LAYERS: Record<LayerName, Layer> = {
   [LayerName.TESSELA_BOUNDS]: {
@@ -201,7 +192,9 @@ export const LAYERS: Record<LayerName, Layer> = {
     source_layer: `Without_TC_Tr_${RP}`,
     legend: FloodMaps_Bathy,
     colorValue: ["to-number", ["get", "value"]],
-    layer_title: `Expected Flooding, 1 in ${parseInt(RP)} year storm`,
+    layer_title: "Expected Flooding",
+    layer_subtitle: `1 in ${parseInt(RP)} year storm`,
+    layer_toggle: "Show Flooding without Mangroves",
     display_legend: true,
     layer_type: "GEO_POINT",
     legend_suffix: "m",
@@ -214,7 +207,9 @@ export const LAYERS: Record<LayerName, Layer> = {
     source_layer: `with_2015_TC_Tr_${RP}`,
     legend: FloodMaps_Bathy,
     colorValue: ["to-number", ["get", "value"]],
-    layer_title: `Without Mangroves, RP${parseInt(RP)}`,
+    layer_title: "Expected Flooding",
+    layer_subtitle: `1 in ${parseInt(RP)} year storm`,
+    layer_toggle: "Show Flooding with Mangroves",
     layer_type: "GEO_POINT",
     legend_suffix: "m",
     subgroup: "flooding_2015",
@@ -238,12 +233,24 @@ const reductRatioLayers = [
   LayerName.HEX2,
 ];
 
-const floodingComparisonLayers = [
-  LayerName.MANGROVES_NOMANG,
-  LayerName.MANGROVES_2015,
-  LayerName.FLOODING_NOMANG,
-  LayerName.FLOODING_2015,
-];
+const floodingComparisonLayers: ConfigurableLayers = {
+  [LayerName.MANGROVES_NOMANG]: {
+    position: "right",
+    sharedKey: "mangrove_extent",
+  },
+  [LayerName.MANGROVES_2015]: {
+    position: "left",
+    sharedKey: "mangrove_extent",
+  },
+  [LayerName.FLOODING_NOMANG]: {
+    position: "right",
+    slideMapKey: "flooding",
+  },
+  [LayerName.FLOODING_2015]: {
+    position: "left",
+    slideMapKey: "flooding",
+  },
+};
 
 const populationLayers = [
   LayerName.TESSELA_BOUNDS_POPULATION,
@@ -326,7 +333,7 @@ export const layersByGroup = Object.values(layerGroups).reduce(
     acc[group.name] = group.layers;
     return acc;
   },
-  {} as Record<LayerGroupName, LayerName[]>,
+  {} as Record<LayerGroupName, LayerName[] | ConfigurableLayers>,
 );
 
 export default layerGroups;

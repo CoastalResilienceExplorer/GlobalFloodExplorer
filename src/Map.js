@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 // Custom Hooks
 import { useMap } from "hooks/useMap";
@@ -37,6 +37,7 @@ import { DisclaimerScreen } from "./splash-screens/disclaimer-screen";
 import { LayerGroupName } from "types/dataModel";
 import FlyToContext from "panels/FlyToContext";
 import { initTheme } from "layers/theme";
+import LegendLayerSelector from "legends/legend-layer-selector";
 
 const all_selectable_layers = Object.values(layersByGroup)
   .flat()
@@ -96,6 +97,33 @@ export default function Map() {
     all_selectable_layers,
     layerSelectionDependencies,
   );
+
+  const [layerSelection, setLayerSelection] = useState({});
+  const layers = useMemo(() => layersByGroup[layerGroup], [layerGroup]);
+
+  useEffect(() => {
+    const layerSelection = {};
+    if (Array.isArray(layers)) {
+      return;
+    }
+    Object.keys(layers).forEach((layer) => {
+      const key = layers[layer]?.sharedKey ?? layer;
+      if (layers[layer]?.slideMapKey) {
+        layerSelection[key] =
+          Object.entries(layerSelection).findIndex(
+            ([k, v]) =>
+              layers[k]?.slideMapKey === layers[layer]?.slideMapKey && v,
+          ) === -1;
+      } else {
+        layerSelection[key] = true;
+      }
+    });
+    setLayerSelection(layerSelection);
+  }, [layers]);
+
+  const toggleSelection = useCallback((layer) => {
+    setLayerSelection((prev) => ({ ...prev, [layer]: !prev[layer] }));
+  }, []);
 
   useHover(map, layerGroup, theme);
 
@@ -231,22 +259,35 @@ export default function Map() {
         refs={infoRefs}
       />
       <div className="screen">
-        <Legend legend_items={legends} />
-        {layerGroup === LayerGroupName.Flooding && (
-          <SlideMap
-            initialStates={initialStates}
-            theme={BasemapMap[theme]}
-            viewport={viewport}
-            accessToken={token}
-            otherMap={map}
-          />
-        )}
+        <Legend legend_items={legends}>
+          {layerGroup === LayerGroupName.Flooding && (
+            <LegendLayerSelector
+              layerSelection={layerSelection}
+              toggleSelection={toggleSelection}
+            />
+          )}
+        </Legend>
+        {layerGroup === LayerGroupName.Flooding &&
+          layerSelection.flooding_nomang &&
+          layerSelection.flooding_2015 && (
+            <SlideMap
+              initialStates={initialStates}
+              theme={BasemapMap[theme]}
+              viewport={viewport}
+              accessToken={token}
+              otherMap={map}
+            />
+          )}
         <div
           ref={mapContainer}
           className="map-container"
           style={{
             visibility:
-              layerGroup !== LayerGroupName.Flooding ? "visible" : "hidden",
+              layerGroup === LayerGroupName.Flooding &&
+              layerSelection.flooding_nomang &&
+              layerSelection.flooding_2015
+                ? "hidden"
+                : "visible",
           }}
         />
       </div>

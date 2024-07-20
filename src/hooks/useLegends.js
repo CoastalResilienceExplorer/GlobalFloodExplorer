@@ -1,4 +1,3 @@
-// import 'react'
 import { useMemo } from "react";
 
 import getLayers from "./layers/getLayer";
@@ -21,9 +20,7 @@ export function useLegends(
       custom_layer_protos,
       filters,
     ).legends;
-  }, [layerGroup, subgroup, mapLoaded]);
+  }, [layers, layerGroup, subgroup, custom_layer_protos, filters]);
 
-  return {
-    legends,
-  };
+  return { legends };
 }

@@ -13,6 +13,7 @@ export default class GeoScaledPointProto {
     legend_prefix = null,
     legend_suffix = null,
     display_legend = false,
+    layer_subtitle = null,
   }) {
     this.id = id;
     this.source = source;
@@ -23,6 +24,7 @@ export default class GeoScaledPointProto {
     this.legend_suffix = legend_suffix;
     this.strokes = legend.strokes;
     this.layer_title = layer_title;
+    this.layer_subtitle = layer_subtitle;
     this.layer_type = layer_type;
     this.color_header = legend.colorHeader(colorValue);
     this.colorValue = colorValue;
@@ -89,7 +91,9 @@ export default class GeoScaledPointProto {
 
   get Legend() {
     return Object.assign(this.legend, {
+      layer_id: this.id,
       layer_title: this.layer_title,
+      layer_subtitle: this.layer_subtitle,
       prefix: this.legend_prefix,
       suffix: this.legend_suffix,
       format: this.format,

@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import "./flood_selector.css";
 import { FloodSelector } from "./flood_selector";
 import { Viewport } from "types/map";
+import { LayerGroupName, LayerName } from "types/dataModel";
 
 export const SlideMap = ({
   initialStates,
@@ -67,12 +68,12 @@ export const SlideMap = ({
   );
 
   useEffect(() => {
-    leftSetLayerGroup("Flooding");
-    rightSetLayerGroup("Flooding");
+    leftSetLayerGroup(LayerGroupName.Flooding);
+    rightSetLayerGroup(LayerGroupName.Flooding);
     // Wait for initialization
     setTimeout(() => {
-      leftSetSubgroup("flooding_nomang");
-      rightSetSubgroup("flooding_2015");
+      leftSetSubgroup(LayerName.FLOODING_NOMANG);
+      rightSetSubgroup(LayerName.FLOODING_2015);
     }, 500);
     document
       .getElementById("compare-swiper-vertical")

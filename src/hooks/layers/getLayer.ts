@@ -1,7 +1,21 @@
 import { LAYERS } from "layers/layers";
 
-export default function getLayers(layer_lookup, key, args, protos, filters) {
-  const layers = layer_lookup[key].map((layerName) => LAYERS[layerName]);
+import { ConfigurableLayers, LayerGroupName, LayerName } from "types/dataModel";
+
+export default function getLayers(
+  allLayers: Record<LayerGroupName, LayerName[] | ConfigurableLayers>,
+  key: LayerGroupName,
+  args: Record<string, any>,
+  protos: Record<string, any>,
+  filters: Record<string, any>,
+) {
+  const rawLayers = allLayers[key];
+  const layers = Array.isArray(rawLayers)
+    ? rawLayers.map((layerName) => LAYERS[layerName])
+    : Object.entries(rawLayers).map(
+        ([layerName, configurableLayer]) =>
+          LAYERS[layerName as LayerName] || configurableLayer,
+      );
   if (!layers || !layers[0])
     return {
       legends: [],
