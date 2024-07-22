@@ -3,8 +3,8 @@ import { memo, useEffect, useMemo, useState } from "react";
 import { ConfigurableLayers, LayerGroupName, LayerName } from "types/dataModel";
 
 interface LegendLayerSelectorProps {
-  layerSelection: LayerSelection;
-  toggleSelection: (layer: string) => void;
+  layersToggle: LayerSelection;
+  toggleLayer: (layer: string) => void;
 }
 
 interface LayerSelection {
@@ -17,17 +17,17 @@ const titleCase = (s: string) =>
     .replace(/[-_]+(.)/g, (_, c) => " " + c.toUpperCase());
 
 export default memo(function LegendLayerSelector({
-  layerSelection,
-  toggleSelection,
+  layersToggle,
+  toggleLayer,
 }: LegendLayerSelectorProps) {
   return (
     <>
-      {Object.entries(layerSelection).map(([layer, enabled]) => (
+      {Object.entries(layersToggle).map(([layer, enabled]) => (
         <div key={layer}>
           <input
             type="checkbox"
             checked={enabled}
-            onChange={() => toggleSelection(layer)}
+            onChange={() => toggleLayer(layer)}
           />
           <label>
             {LAYERS[layer as LayerName]?.layer_toggle ?? titleCase(layer)}

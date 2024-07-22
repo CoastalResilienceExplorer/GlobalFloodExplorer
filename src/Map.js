@@ -39,7 +39,7 @@ import FlyToContext from "panels/FlyToContext";
 import { initTheme } from "layers/theme";
 import LegendLayerSelector from "legends/legend-layer-selector";
 
-const all_selectable_layers = Object.values(layersByGroup)
+const allSelectableLayers = Object.values(layersByGroup)
   .flat()
   .filter((x) => x.is_selectable)
   .map((x) => x.id);
@@ -65,6 +65,8 @@ export default function Map() {
     subgroupOn,
     setLayerGroup,
     setSubgroup,
+    layersToggle,
+    toggleLayer,
   } = useLayers(
     map,
     mapLoaded,
@@ -94,36 +96,9 @@ export default function Map() {
     map,
     mapLoaded,
     mapContainer,
-    all_selectable_layers,
+    allSelectableLayers,
     layerSelectionDependencies,
   );
-
-  const [layerSelection, setLayerSelection] = useState({});
-  const layers = useMemo(() => layersByGroup[layerGroup], [layerGroup]);
-
-  useEffect(() => {
-    const layerSelection = {};
-    if (Array.isArray(layers)) {
-      return;
-    }
-    Object.keys(layers).forEach((layer) => {
-      const key = layers[layer]?.sharedKey ?? layer;
-      if (layers[layer]?.slideMapKey) {
-        layerSelection[key] =
-          Object.entries(layerSelection).findIndex(
-            ([k, v]) =>
-              layers[k]?.slideMapKey === layers[layer]?.slideMapKey && v,
-          ) === -1;
-      } else {
-        layerSelection[key] = true;
-      }
-    });
-    setLayerSelection(layerSelection);
-  }, [layers]);
-
-  const toggleSelection = useCallback((layer) => {
-    setLayerSelection((prev) => ({ ...prev, [layer]: !prev[layer] }));
-  }, []);
 
   useHover(map, layerGroup, theme);
 
@@ -262,20 +237,21 @@ export default function Map() {
         <Legend legend_items={legends}>
           {layerGroup === LayerGroupName.Flooding && (
             <LegendLayerSelector
-              layerSelection={layerSelection}
-              toggleSelection={toggleSelection}
+              layersToggle={layersToggle}
+              toggleLayer={toggleLayer}
             />
           )}
         </Legend>
         {layerGroup === LayerGroupName.Flooding &&
-          layerSelection.flooding_nomang &&
-          layerSelection.flooding_2015 && (
+          layersToggle.flooding_nomang &&
+          layersToggle.flooding_2015 && (
             <SlideMap
               initialStates={initialStates}
               theme={BasemapMap[theme]}
               viewport={viewport}
               accessToken={token}
               otherMap={map}
+              layersToggle={layersToggle}
             />
           )}
         <div
@@ -284,8 +260,8 @@ export default function Map() {
           style={{
             visibility:
               layerGroup === LayerGroupName.Flooding &&
-              layerSelection.flooding_nomang &&
-              layerSelection.flooding_2015
+              layersToggle.flooding_nomang &&
+              layersToggle.flooding_2015
                 ? "hidden"
                 : "visible",
           }}

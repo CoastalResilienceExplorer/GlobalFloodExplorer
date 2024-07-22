@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import getLayers from "./getLayer";
 
 // Data
@@ -16,6 +16,7 @@ export function useLayers(
   all_layers,
   all_sources,
   custom_protos,
+  providedLayersToggle,
 ) {
   /**
    * Maintains the loaded sources and layers for a MapboxGL Map.  Allows for switching of groups of layers.
@@ -27,25 +28,87 @@ export function useLayers(
    * @param all_layers   An object mapping layer_groups to sets of layers
    * @param all_sources All sources used amongst layers
    * @param custom_protos  Custom layer parsers, which lets you create your own symbology.
-   * @return {Object} layerGroup, layerSelectionDependencies, subgroup, subgroupOn, setLayerGroup, setSubgroup
+   * @param layersToggle  A state to toggle layers on and off
+   * @return {Object} layerGroup, layerSelectionDependencies, subgroup, subgroupOn, setLayerGroup, setSubgroup, layersToggle, toggleLayer
    */
   const [layerGroup, setLayerGroup] = useState(init_layer_group);
-  const [subgroup, setSubgroup] = useState(init_subgroup);
+  const [subgroup, setSubgroup] = useState("");
   const [subgroupOn, setSubgroupOn] = useState(false);
   const layersRef = useRef([]);
   const viewportLockTimeout = useRef();
 
+  const [layersToggle, setLayersToggle] = useState(providedLayersToggle ?? {});
+  const availableLayers = useMemo(
+    () => all_layers[layerGroup],
+    [all_layers, layerGroup],
+  );
+
+  useEffect(() => {
+    if (Array.isArray(availableLayers)) return;
+    setLayersToggle(
+      Object.keys(availableLayers).reduce((acc, layer) => {
+        const key = availableLayers[layer]?.sharedKey ?? layer;
+        if (availableLayers[layer]?.sharedKey) {
+          const keys = Object.keys(availableLayers).filter(
+            (l) => availableLayers[l]?.sharedKey === key,
+          );
+          acc[key] = keys.some((k) => acc[k]);
+        } else if (availableLayers[layer]?.slideMapKey) {
+          acc[key] =
+            Object.entries(acc).findIndex(
+              ([k, v]) =>
+                availableLayers[k]?.slideMapKey ===
+                  availableLayers[layer]?.slideMapKey && v,
+            ) === -1;
+        } else {
+          acc[key] = true;
+        }
+        return acc;
+      }, {}),
+    );
+  }, [availableLayers]);
+
+  const toggleLayer = useCallback(
+    (layer) => {
+      setLayersToggle((prev) => {
+        const newToggleState = { ...prev, [layer]: !prev[layer] };
+        const sharedKey = availableLayers[layer]?.sharedKey;
+        if (sharedKey) {
+          Object.keys(availableLayers).forEach((l) => {
+            if (availableLayers[l]?.sharedKey === sharedKey) {
+              newToggleState[l] = newToggleState[layer];
+            }
+          });
+        }
+        return newToggleState;
+      });
+    },
+    [availableLayers],
+  );
+
   const { activeFilters: filters } = useFilterContext();
 
   const layers_and_legends = useMemo(() => {
+    const loggedLayers = Object.keys(layersToggle).filter(
+      (layer) => layersToggle[layer] && !availableLayers[layer]?.sharedKey,
+    );
+
     return getLayers(
       all_layers,
       layerGroup,
-      { floodGroup: subgroup },
+      { floodGroup: subgroup || loggedLayers[1] },
       custom_protos,
       filters,
     );
-  }, [all_layers, layerGroup, subgroup, custom_protos, filters]);
+  }, [
+    layersToggle,
+    all_layers,
+    layerGroup,
+    subgroup,
+    custom_protos,
+    filters,
+    availableLayers,
+  ]);
 
   useEffect(() => {
     if (mapLoaded) {
@@ -64,7 +127,19 @@ export function useLayers(
     }
   }, [layerGroup, mapLoaded]);
 
-  const layers = useMemo(() => layers_and_legends.layers, [layers_and_legends]);
+  const layers = useMemo(
+    () =>
+      !Array.isArray(availableLayers)
+        ? layers_and_legends.layers.filter((layer) => {
+            const sharedKey = availableLayers[layer.key]?.sharedKey;
+            return sharedKey
+              ? layersToggle[sharedKey] ?? true
+              : layersToggle[layer.key] ?? true;
+          })
+        : layers_and_legends.layers,
+    [layers_and_legends.layers, layersToggle, availableLayers],
+  );
+
   const layerSelectionDependencies = useMemo(
     () => layers_and_legends.selectionDependencies,
     [layers_and_legends],
@@ -83,7 +158,6 @@ export function useLayers(
         map.addSource(source[0], source[1]);
       }
     }
-    // map.setTerrain({ source: "mapbox-dem", exaggeration: 1.5 });
     map.setFog({ color: "rgba(255, 255, 255, 0.82)" });
   }
 
@@ -122,5 +196,7 @@ export function useLayers(
     subgroupOn,
     setLayerGroup,
     setSubgroup,
+    layersToggle,
+    toggleLayer,
   };
 }

@@ -18,12 +18,14 @@ export const SlideMap = ({
   viewport,
   accessToken,
   otherMap,
+  layersToggle,
 }: {
   initialStates: { layer: string; subgroup: string };
   theme: string;
   viewport: Viewport;
   accessToken: string;
   otherMap: "left" | "right";
+  layersToggle: Record<string, boolean>;
 }) => {
   const {
     map: leftMap,
@@ -36,6 +38,17 @@ export const SlideMap = ({
     mapContainer: rightMapContainer,
     mapLoaded: rightMapLoaded,
   } = useMap(viewport, accessToken, theme);
+
+  const leftToggle = {
+    ...layersToggle,
+    [LayerName.FLOODING_NOMANG]: true,
+    [LayerName.FLOODING_2015]: false,
+  };
+  const rightToggle = {
+    ...layersToggle,
+    [LayerName.FLOODING_2015]: true,
+    [LayerName.FLOODING_NOMANG]: false,
+  };
 
   const {
     subgroup: leftSubgroup,
@@ -50,6 +63,7 @@ export const SlideMap = ({
     layersByGroup,
     sources,
     customLayerProtos,
+    leftToggle,
   );
 
   const {
@@ -65,6 +79,7 @@ export const SlideMap = ({
     layersByGroup,
     sources,
     customLayerProtos,
+    rightToggle,
   );
 
   useEffect(() => {
