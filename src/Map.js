@@ -239,6 +239,7 @@ export default function Map() {
             <LegendLayerSelector
               layersToggle={layersToggle}
               toggleLayer={toggleLayer}
+              layerGroup={layerGroup}
             />
           )}
         </Legend>

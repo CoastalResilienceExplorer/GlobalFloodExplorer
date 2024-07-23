@@ -58,7 +58,7 @@ export default React.memo(function DiscretePointLegend({
   const xTextOffs = 2 * (max_width + dimensions.leftMargin);
 
   return (
-    <div className="legend-item">
+    <div className={`legend-item ${!!children ? "custom-legend-item" : ""}`}>
       <div className="legend-layer-title">{legend.layer_title}</div>
       <div className="legend-layer-subtitle">{legend.layer_subtitle}</div>
       {children}

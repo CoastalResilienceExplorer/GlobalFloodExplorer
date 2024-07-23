@@ -57,12 +57,13 @@ export type Layer = {
 };
 
 export type ConfigurableLayer = {
-  slideMapKey?: string;
+  slideKey?: string;
+  slidePosition: "left" | "right" | "both";
+  slideLabel?: string;
   sharedKey?: string;
-  position: "left" | "right";
 };
 
-export type ConfigurableLayers = {
+export type ConfigurableLayerMap = {
   [key in LayerName]?: ConfigurableLayer;
 };
 
@@ -71,7 +72,7 @@ export type LayerGroup = {
   shortDescription: string;
   IconComponent: React.FC<React.SVGProps<SVGSVGElement>>;
   IconComponentHTML?: string;
-  layers: LayerName[] | ConfigurableLayers;
+  layers: LayerName[] | ConfigurableLayerMap;
   metricKey?: string;
   units?: string;
 };

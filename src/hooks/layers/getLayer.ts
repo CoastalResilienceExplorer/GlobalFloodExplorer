@@ -1,9 +1,13 @@
 import { LAYERS } from "layers/layers";
 
-import { ConfigurableLayers, LayerGroupName, LayerName } from "types/dataModel";
+import {
+  ConfigurableLayerMap,
+  LayerGroupName,
+  LayerName,
+} from "types/dataModel";
 
 export default function getLayers(
-  allLayers: Record<LayerGroupName, LayerName[] | ConfigurableLayers>,
+  allLayers: Record<LayerGroupName, LayerName[] | ConfigurableLayerMap>,
   key: LayerGroupName,
   args: Record<string, any>,
   protos: Record<string, any>,

@@ -1,0 +1,217 @@
+/* Originally pulled from https://codesandbox.io/s/react-triple-toggle-forked-lpk2i5 */
+
+.triple-switch-container input[type="radio"] {
+  display: none;
+}
+
+.triple-switch-container label {
+  color: white;
+  z-index: 10;
+  cursor: pointer;
+}
+
+.triple-switch-container label h6 {
+  font-size: 11px;
+  font-weight: 200;
+  text-transform: uppercase;
+  transition: color ease 0.3s;
+}
+
+.triple-switch-container .black-font {
+  color: black !important;
+}
+
+.triple-switch-container {
+  display: inline-block;
+  vertical-align: middle;
+  width: 101%;
+  height: 30px;
+  border-radius: 100px;
+  background-color: #4d4d4d;
+  position: relative;
+  left: -1%;
+  box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.5);
+  user-select: none;
+  margin: 12px 0;
+}
+
+.switch {
+  height: 24px;
+  width: 33%;
+  background-color: white;
+  border-radius: 100px;
+  position: absolute;
+  left: 3px;
+  top: 3px;
+  transition: ease-in-out;
+}
+
+/*---------------- LEFT ------------------- */
+.switch.left-to-center {
+  animation-name: leftToCenter;
+  animation-duration: 0.3s;
+}
+
+.switch.left-to-right {
+  animation-name: leftToRight;
+  animation-duration: 0.3s;
+}
+
+.switch.left-position {
+  left: 3px;
+}
+
+.left-label {
+  position: absolute;
+  left: 2px;
+}
+
+#left + label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  width: 33%;
+  border-radius: 100px;
+}
+
+#left:checked + label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  width: 33%;
+  border-radius: 100px;
+}
+
+@keyframes leftToCenter {
+  from {
+    left: 3px;
+  }
+  to {
+    left: 35%;
+  }
+}
+
+@keyframes leftToRight {
+  from {
+    left: 3px;
+  }
+  to {
+    left: 66%;
+  }
+}
+
+/* -------------------- center ------------------ */
+.switch.center-to-left {
+  animation-name: centerToLeft;
+  animation-duration: 0.3s;
+}
+
+.switch.center-to-right {
+  animation-name: centerToRight;
+  animation-duration: 0.3s;
+}
+
+.switch.center-position {
+  left: 35%;
+  width: 30%;
+}
+
+.center-label {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#center + label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  width: 33%;
+  border-radius: 100px;
+}
+
+#center:checked + label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  width: 33%;
+  border-radius: 100px;
+}
+
+@keyframes centerToLeft {
+  from {
+    left: 35%;
+  }
+  to {
+    left: 3px;
+  }
+}
+
+@keyframes centerToRight {
+  from {
+    left: 35%;
+  }
+  to {
+    right: 1px;
+  }
+}
+
+/* ------------------- RIGHT ------------------- */
+.switch.right-to-left {
+  animation-name: rightToLeft;
+  animation-duration: 0.4s;
+}
+
+.switch.right-to-center {
+  animation-name: rightToCenter;
+  animation-duration: 0.4s;
+}
+
+.switch.right-position {
+  left: 66%;
+}
+
+.right-label {
+  position: absolute;
+  right: 2px;
+}
+
+#right + label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  width: 33%;
+  border-radius: 100px;
+}
+
+#right:checked + label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  width: 33%;
+  border-radius: 100px;
+}
+
+@keyframes rightToLeft {
+  from {
+    left: 66.6%;
+  }
+  to {
+    left: 3px;
+  }
+}
+
+@keyframes rightToCenter {
+  from {
+    left: 66.6%;
+  }
+  to {
+    right: 33.3%;
+  }
+}

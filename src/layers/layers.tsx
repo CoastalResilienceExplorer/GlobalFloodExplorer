@@ -8,7 +8,7 @@ import {
   Blue_5Step_Pop,
 } from "./colormaps/colormaps";
 import {
-  ConfigurableLayers,
+  ConfigurableLayerMap,
   Layer,
   LayerGroup,
   LayerGroupName,
@@ -233,22 +233,24 @@ const reductRatioLayers = [
   LayerName.HEX2,
 ];
 
-const floodingComparisonLayers: ConfigurableLayers = {
+const floodingComparisonLayers: ConfigurableLayerMap = {
   [LayerName.MANGROVES_NOMANG]: {
-    position: "right",
+    slidePosition: "right",
     sharedKey: "mangrove_extent",
   },
   [LayerName.MANGROVES_2015]: {
-    position: "left",
+    slidePosition: "left",
     sharedKey: "mangrove_extent",
   },
   [LayerName.FLOODING_NOMANG]: {
-    position: "right",
-    slideMapKey: "flooding",
+    slidePosition: "right",
+    slideKey: "flooding",
+    slideLabel: "No Mang.",
   },
   [LayerName.FLOODING_2015]: {
-    position: "left",
-    slideMapKey: "flooding",
+    slidePosition: "left",
+    slideKey: "flooding",
+    slideLabel: "2015 Mang.",
   },
 };
 
@@ -333,7 +335,7 @@ export const layersByGroup = Object.values(layerGroups).reduce(
     acc[group.name] = group.layers;
     return acc;
   },
-  {} as Record<LayerGroupName, LayerName[] | ConfigurableLayers>,
+  {} as Record<LayerGroupName, LayerName[] | ConfigurableLayerMap>,
 );
 
 export default layerGroups;
