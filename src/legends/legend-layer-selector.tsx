@@ -65,10 +65,23 @@ export default memo(function LegendLayerSelector({
 
   const handleSwitchUpdate = useCallback(
     (key: string) => (value: string | number) => {
-      console.log("key", key);
-      console.log("value", value);
+      if (value === "compare") {
+        slideMapLayers[key]?.forEach((layer) => {
+          if (!layersToggle[layer]) {
+            toggleLayer(layer);
+          }
+        });
+      } else {
+        slideMapLayers[key]?.forEach((layer) => {
+          if (layer === value && !layersToggle[layer]) {
+            toggleLayer(layer);
+          } else if (layer !== value && layersToggle[layer]) {
+            toggleLayer(layer);
+          }
+        });
+      }
     },
-    [],
+    [layersToggle, slideMapLayers, toggleLayer],
   );
 
   return (
@@ -77,7 +90,18 @@ export default memo(function LegendLayerSelector({
         <div key={key}>
           {layers?.length && (
             <>
-              <TripleSwitch onChange={handleSwitchUpdate(key)}>
+              <TripleSwitch
+                onChange={handleSwitchUpdate(key)}
+                selection={
+                  layersToggle[layers[0]] && layersToggle[layers[1]]
+                    ? "compare"
+                    : layersToggle[layers[0]]
+                    ? layers[0]
+                    : layersToggle[layers[1]]
+                    ? layers[1]
+                    : "compare"
+                }
+              >
                 <TripleSwitchOption
                   title={
                     (layersByGroup[layerGroup] as ConfigurableLayerMap)[

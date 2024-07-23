@@ -41,13 +41,13 @@ export const SlideMap = ({
 
   const leftToggle = {
     ...layersToggle,
-    [LayerName.FLOODING_NOMANG]: true,
-    [LayerName.FLOODING_2015]: false,
+    [LayerName.FLOODING_NOMANG]: false,
+    [LayerName.FLOODING_2015]: true,
   };
   const rightToggle = {
     ...layersToggle,
-    [LayerName.FLOODING_2015]: true,
-    [LayerName.FLOODING_NOMANG]: false,
+    [LayerName.FLOODING_2015]: false,
+    [LayerName.FLOODING_NOMANG]: true,
   };
 
   const {

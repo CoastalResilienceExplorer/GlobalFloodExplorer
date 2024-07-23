@@ -1,5 +1,11 @@
 /* Originally pulled from https://codesandbox.io/s/react-triple-toggle-forked-lpk2i5 */
-import React, { useState, ChangeEvent, useMemo, useCallback } from "react";
+import React, {
+  useState,
+  ChangeEvent,
+  useMemo,
+  useCallback,
+  useEffect,
+} from "react";
 import "./triple-switch.css";
 
 type ValueType = string | number;
@@ -41,12 +47,14 @@ export const TripleSwitchOption: React.FC<TripleSwitchOptionProps> = ({
 );
 
 interface TripleSwitchProps {
+  selection: ValueType;
   onChange: (value: ValueType) => void;
   styles?: React.CSSProperties;
   children?: React.ReactElement<TripleSwitchOptionProps>[];
 }
 
 export const TripleSwitch: React.FC<TripleSwitchProps> = ({
+  selection,
   onChange,
   styles,
   children,
@@ -68,6 +76,18 @@ export const TripleSwitch: React.FC<TripleSwitchProps> = ({
 
   const getSwitchAnimation = useCallback(
     (value: ValueType) => {
+      const valueOfSelection = options.find(
+        (option) => option.props.position === value,
+      )?.props.value;
+      onChange(valueOfSelection as ValueType);
+    },
+    [options, onChange],
+  );
+
+  useEffect(() => {
+    const value = options.find((option) => option.props.value === selection)
+      ?.props.position;
+    if (value) {
       let animation: string | null = null;
       if (value === "center" && switchPosition === "left") {
         animation = "left-to-center";
@@ -82,15 +102,10 @@ export const TripleSwitch: React.FC<TripleSwitchProps> = ({
       } else if (value === "left" && switchPosition === "right") {
         animation = "right-to-left";
       }
-      const valueOfSelection = options.find(
-        (option) => option.props.position === value,
-      )?.props.value;
-      onChange(valueOfSelection as ValueType);
-      setSwitchPosition(value as string);
       setAnimation(animation);
-    },
-    [options, onChange, switchPosition],
-  );
+      setSwitchPosition(value as string);
+    }
+  }, [selection, getSwitchAnimation, options, switchPosition]);
 
   return (
     <div className="triple-switch-container" style={styles}>
