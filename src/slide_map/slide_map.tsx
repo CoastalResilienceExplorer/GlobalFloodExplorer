@@ -87,8 +87,8 @@ export const SlideMap = ({
     rightSetLayerGroup(LayerGroupName.Flooding);
     // Wait for initialization
     setTimeout(() => {
-      leftSetSubgroup(LayerName.FLOODING_NOMANG);
-      rightSetSubgroup(LayerName.FLOODING_2015);
+      leftSetSubgroup(LayerName.FLOODING_2015);
+      rightSetSubgroup(LayerName.FLOODING_NOMANG);
     }, 500);
     document
       .getElementById("compare-swiper-vertical")
