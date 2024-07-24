@@ -47,7 +47,7 @@
   position: absolute;
   left: 3px;
   top: 3px;
-  transition: ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 
 /*---------------- LEFT ------------------- */
@@ -166,12 +166,12 @@
 /* ------------------- RIGHT ------------------- */
 .switch.right-to-left {
   animation-name: rightToLeft;
-  animation-duration: 0.4s;
+  animation-duration: 0.3s;
 }
 
 .switch.right-to-center {
   animation-name: rightToCenter;
-  animation-duration: 0.4s;
+  animation-duration: 0.3s;
 }
 
 .switch.right-position {

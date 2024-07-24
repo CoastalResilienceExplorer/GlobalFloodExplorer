@@ -59,9 +59,6 @@ export const TripleSwitch: React.FC<TripleSwitchProps> = ({
   styles,
   children,
 }) => {
-  const [switchPosition, setSwitchPosition] = useState<string>("left");
-  const [animation, setAnimation] = useState<string | null>(null);
-
   // Treat children as an array of TripleSwitchOption components and validate them
   const options = useMemo(
     () =>
@@ -84,35 +81,20 @@ export const TripleSwitch: React.FC<TripleSwitchProps> = ({
     [options, onChange],
   );
 
-  useEffect(() => {
-    const value = options.find((option) => option.props.value === selection)
-      ?.props.position;
-    if (value) {
-      let animation: string | null = null;
-      if (value === "center" && switchPosition === "left") {
-        animation = "left-to-center";
-      } else if (value === "right" && switchPosition === "center") {
-        animation = "center-to-right";
-      } else if (value === "center" && switchPosition === "right") {
-        animation = "right-to-center";
-      } else if (value === "left" && switchPosition === "center") {
-        animation = "center-to-left";
-      } else if (value === "right" && switchPosition === "left") {
-        animation = "left-to-right";
-      } else if (value === "left" && switchPosition === "right") {
-        animation = "right-to-left";
-      }
-      setAnimation(animation);
-      setSwitchPosition(value as string);
-    }
-  }, [selection, getSwitchAnimation, options, switchPosition]);
+  const newPosition = useMemo(() => {
+    return options.find((option) => option.props.value === selection)?.props
+      .position;
+  }, [selection, options]);
 
   return (
     <div className="triple-switch-container" style={styles}>
-      <div className={`switch ${animation} ${switchPosition}-position`} />
+      <div className={`switch ${newPosition}-position`} />
       {/* Render the option children and pass the getSwitchAnimation function */}
       {options.map((option) =>
-        React.cloneElement(option, { getSwitchAnimation, switchPosition }),
+        React.cloneElement(option, {
+          getSwitchAnimation,
+          switchPosition: newPosition as string,
+        }),
       )}
     </div>
   );
