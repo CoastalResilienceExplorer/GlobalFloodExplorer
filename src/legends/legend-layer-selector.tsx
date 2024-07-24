@@ -103,7 +103,7 @@ export default memo(function LegendLayerSelector({
 
   const legendColor = useMemo(() => {
     const builtColorMap: Record<string, string> = {};
-    Object.entries(LAYERS).forEach(([key, layer], i) => {
+    Object.keys(LAYERS).forEach((key) => {
       const associatedLayer = getLayerConfig<ConfigurableSharedLayer>(
         layerGroup,
         key as LayerName,

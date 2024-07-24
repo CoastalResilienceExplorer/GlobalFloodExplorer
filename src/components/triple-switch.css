@@ -14,7 +14,11 @@
   font-size: 11px;
   font-weight: 200;
   text-transform: uppercase;
-  transition: color ease 0.3s;
+  transition: ease 0.3s;
+}
+
+.triple-switch-container label h6:hover {
+  transform: scale(1.05);
 }
 
 .triple-switch-container .black-font {
@@ -120,8 +124,7 @@
 
 .center-label {
   position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 33.3%;
 }
 
 #center + label {

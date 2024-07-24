@@ -36,6 +36,7 @@
 /* On mouse-over, add a grey background color */
 .custom-checkbox:hover input ~ .checkmark {
   opacity: 0.5;
+  transform: scale(1.075);
 }
 
 /* When the checkbox is checked, add a blue background */
