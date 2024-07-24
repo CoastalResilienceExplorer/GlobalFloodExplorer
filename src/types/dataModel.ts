@@ -65,6 +65,8 @@ export type ConfigurableSlideLayer = {
 export type ConfigurableSharedLayer = {
   sharedKey: string;
   sharedLabel: string;
+  slidePosition: "left" | "right" | "both";
+  associatedLayer: LayerName;
 };
 
 export type ConfigurableLayer =

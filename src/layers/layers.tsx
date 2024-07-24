@@ -238,11 +238,13 @@ const floodingComparisonLayers: ConfigurableLayerMap = {
     slidePosition: "right",
     sharedKey: "mangrove_extent",
     sharedLabel: "Show mangroves (2015)",
+    associatedLayer: LayerName.FLOODING_NOMANG,
   },
   [LayerName.MANGROVES_2015]: {
     slidePosition: "left",
     sharedKey: "mangrove_extent",
     sharedLabel: "Show mangroves (2015)",
+    associatedLayer: LayerName.FLOODING_2015,
   },
   [LayerName.FLOODING_NOMANG]: {
     slidePosition: "right",

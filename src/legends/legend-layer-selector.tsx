@@ -1,5 +1,5 @@
 import { TripleSwitch, TripleSwitchOption } from "components/triple-switch";
-import { layersByGroup } from "layers/layers";
+import { LAYERS, layersByGroup } from "layers/layers";
 import { memo, useCallback, useMemo } from "react";
 import {
   ConfigurableLayer,
@@ -9,6 +9,8 @@ import {
   LayerGroupName,
   LayerName,
 } from "types/dataModel";
+import "./legend-layer-selector.css";
+import { DiscreteColorSizeScale } from "layers/colormaps/colormaps";
 
 interface LegendLayerSelectorProps {
   layersToggle: LayerSelection;
@@ -99,6 +101,27 @@ export default memo(function LegendLayerSelector({
     [layersToggle, slideMapLayers, toggleLayer],
   );
 
+  const legendColor = useMemo(() => {
+    const builtColorMap: Record<string, string> = {};
+    Object.entries(LAYERS).forEach(([key, layer], i) => {
+      const associatedLayer = getLayerConfig<ConfigurableSharedLayer>(
+        layerGroup,
+        key as LayerName,
+      )?.associatedLayer;
+      if (associatedLayer && layersToggle[associatedLayer]) {
+        const layer = LAYERS[key as LayerName].legend as InstanceType<
+          typeof DiscreteColorSizeScale
+        >;
+        builtColorMap[key] = layer.colorRamp?.[0];
+      }
+    });
+    return Object.keys(builtColorMap).length < 1
+      ? "blue"
+      : Object.keys(builtColorMap).length === 1
+      ? builtColorMap[Object.keys(builtColorMap)[0]]
+      : builtColorMap[Object.keys(builtColorMap)[1]];
+  }, [layerGroup, layersToggle]);
+
   return (
     <>
       {Object.entries(slideMapLayers).map(([key, layers]) => (
@@ -143,7 +166,7 @@ export default memo(function LegendLayerSelector({
                   position="right"
                 />
               </TripleSwitch>
-              <div className="h-[1px] w-full border-t border-dashed border-gray-200" />
+              <div className="h-[1px] mt-2 w-full border-t border-dashed border-gray-200" />
             </>
           )}
         </div>
@@ -152,13 +175,21 @@ export default memo(function LegendLayerSelector({
       {Object.entries(sharedKeyLayers).map(
         ([key, layers]) =>
           layers && (
-            <div key={key}>
-              <input
-                type="checkbox"
-                checked={layersToggle[key]}
-                onChange={() => toggleLayer(key)}
-              />
-              <label>
+            <div key={key} className="mt-4">
+              <label className="text-sm custom-checkbox">
+                <input
+                  type="checkbox"
+                  checked={layersToggle[key]}
+                  onChange={() => toggleLayer(key)}
+                  className="mr-2"
+                />
+                <span
+                  className="checkmark"
+                  style={{
+                    backgroundColor: legendColor,
+                    borderColor: legendColor,
+                  }}
+                />
                 {
                   getLayerConfig<ConfigurableSharedLayer>(layerGroup, layers[0])
                     ?.sharedLabel
