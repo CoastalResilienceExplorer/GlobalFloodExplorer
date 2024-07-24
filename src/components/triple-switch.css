@@ -51,16 +51,6 @@
 }
 
 /*---------------- LEFT ------------------- */
-.switch.left-to-center {
-  animation-name: leftToCenter;
-  animation-duration: 0.3s;
-}
-
-.switch.left-to-right {
-  animation-name: leftToRight;
-  animation-duration: 0.3s;
-}
-
 .switch.left-position {
   left: 3px;
 }
@@ -88,35 +78,7 @@
   border-radius: 100px;
 }
 
-@keyframes leftToCenter {
-  from {
-    left: 3px;
-  }
-  to {
-    left: 35%;
-  }
-}
-
-@keyframes leftToRight {
-  from {
-    left: 3px;
-  }
-  to {
-    left: 66%;
-  }
-}
-
 /* -------------------- center ------------------ */
-.switch.center-to-left {
-  animation-name: centerToLeft;
-  animation-duration: 0.3s;
-}
-
-.switch.center-to-right {
-  animation-name: centerToRight;
-  animation-duration: 0.3s;
-}
-
 .switch.center-position {
   left: 35%;
   width: 30%;
@@ -145,35 +107,7 @@
   border-radius: 100px;
 }
 
-@keyframes centerToLeft {
-  from {
-    left: 35%;
-  }
-  to {
-    left: 3px;
-  }
-}
-
-@keyframes centerToRight {
-  from {
-    left: 35%;
-  }
-  to {
-    right: 1px;
-  }
-}
-
 /* ------------------- RIGHT ------------------- */
-.switch.right-to-left {
-  animation-name: rightToLeft;
-  animation-duration: 0.3s;
-}
-
-.switch.right-to-center {
-  animation-name: rightToCenter;
-  animation-duration: 0.3s;
-}
-
 .switch.right-position {
   left: 66%;
 }
@@ -199,22 +133,4 @@
   height: 30px;
   width: 33%;
   border-radius: 100px;
-}
-
-@keyframes rightToLeft {
-  from {
-    left: 66.6%;
-  }
-  to {
-    left: 3px;
-  }
-}
-
-@keyframes rightToCenter {
-  from {
-    left: 66.6%;
-  }
-  to {
-    right: 33.3%;
-  }
 }
