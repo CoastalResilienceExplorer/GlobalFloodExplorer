@@ -190,10 +190,14 @@ export default memo(function LegendLayerSelector({
                     borderColor: legendColor,
                   }}
                 />
-                {
-                  getLayerConfig<ConfigurableSharedLayer>(layerGroup, layers[0])
-                    ?.sharedLabel
-                }
+                <span className="checkmark-label">
+                  {
+                    getLayerConfig<ConfigurableSharedLayer>(
+                      layerGroup,
+                      layers[0],
+                    )?.sharedLabel
+                  }
+                </span>
               </label>
             </div>
           ),

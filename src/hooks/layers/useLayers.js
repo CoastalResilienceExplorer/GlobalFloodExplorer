@@ -185,8 +185,6 @@ export function useLayers(
     });
   }, [style]);
 
-  // console.log("RUNNING", id, layers)
-
   useEffect(() => {
     if (!mapLoaded) return;
     setSubgroupOn(

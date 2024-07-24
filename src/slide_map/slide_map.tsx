@@ -5,7 +5,7 @@ import { useLayers } from "hooks/layers/useLayers";
 import sources from "layers/sources";
 import { layersByGroup } from "layers/layers";
 import { protos as customLayerProtos } from "layers/protos/custom_protos";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 
 import "./flood_selector.css";
 import { FloodSelector } from "./flood_selector";
@@ -39,16 +39,23 @@ export const SlideMap = ({
     mapLoaded: rightMapLoaded,
   } = useMap(viewport, accessToken, theme);
 
-  const leftToggle = {
-    ...layersToggle,
-    [LayerName.FLOODING_NOMANG]: false,
-    [LayerName.FLOODING_2015]: true,
-  };
-  const rightToggle = {
-    ...layersToggle,
-    [LayerName.FLOODING_2015]: false,
-    [LayerName.FLOODING_NOMANG]: true,
-  };
+  const leftToggle = useMemo(
+    () => ({
+      ...layersToggle,
+      [LayerName.FLOODING_NOMANG]: false,
+      [LayerName.FLOODING_2015]: true,
+    }),
+    [layersToggle],
+  );
+
+  const rightToggle = useMemo(
+    () => ({
+      ...layersToggle,
+      [LayerName.FLOODING_2015]: false,
+      [LayerName.FLOODING_NOMANG]: true,
+    }),
+    [layersToggle],
+  );
 
   const {
     subgroup: leftSubgroup,

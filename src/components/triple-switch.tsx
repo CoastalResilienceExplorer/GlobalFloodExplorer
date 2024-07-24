@@ -1,11 +1,4 @@
-/* Originally pulled from https://codesandbox.io/s/react-triple-toggle-forked-lpk2i5 */
-import React, {
-  useState,
-  ChangeEvent,
-  useMemo,
-  useCallback,
-  useEffect,
-} from "react";
+import React, { ChangeEvent, useMemo, useCallback } from "react";
 import "./triple-switch.css";
 
 type ValueType = string | number;

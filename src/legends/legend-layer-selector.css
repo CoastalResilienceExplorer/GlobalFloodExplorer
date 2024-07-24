@@ -33,10 +33,18 @@
   border-style: solid;
 }
 
-/* On mouse-over, add a grey background color */
+.custom-checkbox input ~ .checkmark-label {
+  transition: all 0.2s ease-in-out;
+  border-bottom: 1px solid rgba(255, 255, 255, 0);
+}
+
 .custom-checkbox:hover input ~ .checkmark {
   opacity: 0.5;
-  transform: scale(1.075);
+  transform: scale(1.1);
+}
+
+.custom-checkbox:hover input ~ .checkmark-label {
+  border-bottom: 1px solid rgba(255, 255, 255, 1);
 }
 
 /* When the checkbox is checked, add a blue background */
