@@ -17,6 +17,7 @@ export function useLayers(
   all_sources,
   custom_protos,
   providedLayersToggle,
+  id,
 ) {
   /**
    * Maintains the loaded sources and layers for a MapboxGL Map.  Allows for switching of groups of layers.
@@ -37,14 +38,18 @@ export function useLayers(
   const layersRef = useRef([]);
   const viewportLockTimeout = useRef();
 
-  const [layersToggle, setLayersToggle] = useState(providedLayersToggle ?? {});
+  const [layersToggle, setLayersToggle] = useState({});
+  const layerToggleToUse = useMemo(
+    () => providedLayersToggle ?? layersToggle,
+    [providedLayersToggle, layersToggle],
+  );
   const availableLayers = useMemo(
     () => all_layers[layerGroup],
     [all_layers, layerGroup],
   );
 
   useEffect(() => {
-    if (Array.isArray(availableLayers)) return;
+    if (Array.isArray(availableLayers) || providedLayersToggle) return;
     setLayersToggle(
       Object.keys(availableLayers).reduce((acc, layer) => {
         const key = availableLayers[layer]?.sharedKey ?? layer;
@@ -66,31 +71,32 @@ export function useLayers(
         return acc;
       }, {}),
     );
-  }, [availableLayers]);
+  }, [availableLayers, providedLayersToggle]);
 
   const toggleLayer = useCallback(
     (layer) => {
-      setLayersToggle((prev) => {
-        const newToggleState = { ...prev, [layer]: !prev[layer] };
-        const sharedKey = availableLayers[layer]?.sharedKey;
-        if (sharedKey) {
-          Object.keys(availableLayers).forEach((l) => {
-            if (availableLayers[l]?.sharedKey === sharedKey) {
-              newToggleState[l] = newToggleState[layer];
-            }
-          });
-        }
-        return newToggleState;
-      });
+      !providedLayersToggle &&
+        setLayersToggle((prev) => {
+          const newToggleState = { ...prev, [layer]: !prev[layer] };
+          const sharedKey = availableLayers[layer]?.sharedKey;
+          if (sharedKey) {
+            Object.keys(availableLayers).forEach((l) => {
+              if (availableLayers[l]?.sharedKey === sharedKey) {
+                newToggleState[l] = newToggleState[layer];
+              }
+            });
+          }
+          return newToggleState;
+        });
     },
-    [availableLayers],
+    [availableLayers, providedLayersToggle],
   );
 
   const { activeFilters: filters } = useFilterContext();
 
   const layers_and_legends = useMemo(() => {
-    const loggedLayers = Object.keys(layersToggle).filter(
-      (layer) => layersToggle[layer] && !availableLayers[layer]?.sharedKey,
+    const loggedLayers = Object.keys(layerToggleToUse).filter(
+      (layer) => layerToggleToUse[layer] && !availableLayers[layer]?.sharedKey,
     );
 
     return getLayers(
@@ -101,7 +107,7 @@ export function useLayers(
       filters,
     );
   }, [
-    layersToggle,
+    layerToggleToUse,
     all_layers,
     layerGroup,
     subgroup,
@@ -133,11 +139,11 @@ export function useLayers(
         ? layers_and_legends.layers.filter((layer) => {
             const sharedKey = availableLayers[layer.key]?.sharedKey;
             return sharedKey
-              ? layersToggle[sharedKey] ?? true
-              : layersToggle[layer.key] ?? true;
+              ? layerToggleToUse[sharedKey] ?? true
+              : layerToggleToUse[layer.key] ?? true;
           })
         : layers_and_legends.layers,
-    [layers_and_legends.layers, layersToggle, availableLayers],
+    [layers_and_legends.layers, layerToggleToUse, availableLayers],
   );
 
   const layerSelectionDependencies = useMemo(
@@ -179,6 +185,8 @@ export function useLayers(
     });
   }, [style]);
 
+  // console.log("RUNNING", id, layers)
+
   useEffect(() => {
     if (!mapLoaded) return;
     setSubgroupOn(
@@ -196,7 +204,7 @@ export function useLayers(
     subgroupOn,
     setLayerGroup,
     setSubgroup,
-    layersToggle,
+    layersToggle: layerToggleToUse,
     toggleLayer,
   };
 }

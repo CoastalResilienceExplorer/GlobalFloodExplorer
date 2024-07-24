@@ -56,12 +56,20 @@ export type Layer = {
   filter?: Filter;
 };
 
-export type ConfigurableLayer = {
-  slideKey?: string;
+export type ConfigurableSlideLayer = {
+  slideKey: string;
   slidePosition: "left" | "right" | "both";
-  slideLabel?: string;
-  sharedKey?: string;
+  slideLabel: string;
 };
+
+export type ConfigurableSharedLayer = {
+  sharedKey: string;
+  sharedLabel: string;
+};
+
+export type ConfigurableLayer =
+  | ConfigurableSlideLayer
+  | ConfigurableSharedLayer;
 
 export type ConfigurableLayerMap = {
   [key in LayerName]?: ConfigurableLayer;

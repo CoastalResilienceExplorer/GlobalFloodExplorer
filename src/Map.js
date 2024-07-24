@@ -76,6 +76,8 @@ export default function Map() {
     layersByGroup,
     sources,
     custom_layer_protos,
+    undefined,
+    "main",
   );
 
   const { legends } = useLegends(

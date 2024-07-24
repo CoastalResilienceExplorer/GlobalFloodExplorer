@@ -64,6 +64,7 @@ export const SlideMap = ({
     sources,
     customLayerProtos,
     leftToggle,
+    "left",
   );
 
   const {
@@ -80,6 +81,7 @@ export const SlideMap = ({
     sources,
     customLayerProtos,
     rightToggle,
+    "right",
   );
 
   useEffect(() => {
