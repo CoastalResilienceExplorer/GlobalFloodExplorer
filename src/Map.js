@@ -12,7 +12,7 @@ import { useHover } from "hooks/useHover";
 
 // Data
 import sources from "./layers/sources";
-import layerGroups, { layersByGroup } from "./layers/layers";
+import layerGroups, { LAYERS, layersByGroup } from "./layers/layers";
 import { protos as custom_layer_protos } from "./layers/protos/custom_protos";
 import { init_viewport, init_layer, init_subgroup } from "./data/startup_data";
 import { aois } from "./data/viewports";
@@ -40,9 +40,10 @@ import { initTheme } from "layers/theme";
 import LegendLayerSelector from "legends/legend-layer-selector";
 
 const allSelectableLayers = Object.values(layersByGroup)
+  .map((x) => (Array.isArray(x) ? x : Object.keys(x)))
   .flat()
-  .filter((x) => x.is_selectable)
-  .map((x) => x.id);
+  .filter((x) => LAYERS[x].is_selectable)
+  .map((x) => LAYERS[x].id);
 
 const token =
   "pk.eyJ1IjoiY2xvd3JpZSIsImEiOiJja21wMHpnMnIwYzM5Mm90OWFqaTlyejhuIn0.TXE-FIaqF4K_K1OirvD0wQ";
