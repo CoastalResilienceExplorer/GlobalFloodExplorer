@@ -12,6 +12,7 @@ body {
   cursor: all-scroll !important;
 }
 
+.slide-map-outer-container,
 #slide-map-container {
   height: 100vh;
   grid-area: map;

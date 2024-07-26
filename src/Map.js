@@ -188,6 +188,14 @@ export default function Map() {
   const [navigationControls, setNavigationControls] = useState(null);
   const isTouch = window.matchMedia("(pointer: coarse)").matches;
 
+  const slideMapVisible = useMemo(
+    () =>
+      layerGroup === LayerGroupName.Flooding &&
+      layersToggle.flooding_nomang &&
+      layersToggle.flooding_2015,
+    [layerGroup, layersToggle],
+  );
+
   useEffect(() => {
     if (disclaimer) {
       setTimeout(() => {
@@ -246,18 +254,19 @@ export default function Map() {
             />
           )}
         </Legend>
-        {layerGroup === LayerGroupName.Flooding &&
-          layersToggle.flooding_nomang &&
-          layersToggle.flooding_2015 && (
-            <SlideMap
-              initialStates={initialStates}
-              theme={BasemapMap[theme]}
-              viewport={viewport}
-              accessToken={token}
-              otherMap={map}
-              layersToggle={layersToggle}
-            />
-          )}
+        <div
+          className="slide-map-outer-container"
+          style={{ visibility: slideMapVisible ? "visible" : "hidden" }}
+        >
+          <SlideMap
+            initialStates={initialStates}
+            theme={BasemapMap[theme]}
+            viewport={viewport}
+            accessToken={token}
+            otherMap={map}
+            layersToggle={layersToggle}
+          />
+        </div>
         <div
           ref={mapContainer}
           className="map-container"
