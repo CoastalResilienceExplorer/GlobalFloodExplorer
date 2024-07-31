@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useSpring, animated, SpringValue } from "@react-spring/web";
-import { LayerGroup, LayerName } from "types/dataModel";
+import { LayerGroup, LayerGroupName } from "types/dataModel";
 import { ReactComponent as LinkSvg } from "assets/link-icon.svg";
 import downloads from "data/downloads";
 import SearchBar, { Bounds } from "panels/home-info-panel/search-bar";
@@ -15,9 +15,9 @@ import "panels/layer-selection/layer-selection.css";
 import QuickExplore from "panels/quick-explore";
 
 type LayerSelectionProps = {
-  layerGroups: Record<LayerName, LayerGroup>;
-  selectedLayer: LayerName;
-  setSelectedLayer: (layer: LayerName) => void;
+  layerGroups: Record<LayerGroupName, LayerGroup>;
+  selectedLayer: LayerGroupName;
+  setSelectedLayer: (layer: LayerGroupName) => void;
   setBounds: (bounds: Bounds) => void;
 };
 

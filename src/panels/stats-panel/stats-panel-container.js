@@ -5,7 +5,7 @@ import FlyToContext from "../FlyToContext";
 import { useInfoContext } from "hooks/useInfo";
 import countryMapping from "data/ISO_country_mapping";
 import { Icon } from "@iconify/react";
-import { year as initialYear } from "layers/layers";
+import { initialYear } from "layers/layers";
 
 function Title({ studyUnitIds, locations, selectionType }) {
   function countryNameOverride(country) {

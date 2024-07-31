@@ -5,11 +5,12 @@ import { useLayers } from "hooks/layers/useLayers";
 import sources from "layers/sources";
 import { layersByGroup } from "layers/layers";
 import { protos as customLayerProtos } from "layers/protos/custom_protos";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 
 import "./flood_selector.css";
 import { FloodSelector } from "./flood_selector";
 import { Viewport } from "types/map";
+import { LayerGroupName, LayerName } from "types/dataModel";
 
 export const SlideMap = ({
   initialStates,
@@ -17,12 +18,14 @@ export const SlideMap = ({
   viewport,
   accessToken,
   otherMap,
+  layersToggle,
 }: {
   initialStates: { layer: string; subgroup: string };
   theme: string;
   viewport: Viewport;
   accessToken: string;
   otherMap: "left" | "right";
+  layersToggle: Record<string, boolean>;
 }) => {
   const {
     map: leftMap,
@@ -35,6 +38,24 @@ export const SlideMap = ({
     mapContainer: rightMapContainer,
     mapLoaded: rightMapLoaded,
   } = useMap(viewport, accessToken, theme);
+
+  const leftToggle = useMemo(
+    () => ({
+      ...layersToggle,
+      [LayerName.FLOODING_NOMANG]: false,
+      [LayerName.FLOODING_2015]: true,
+    }),
+    [layersToggle],
+  );
+
+  const rightToggle = useMemo(
+    () => ({
+      ...layersToggle,
+      [LayerName.FLOODING_2015]: false,
+      [LayerName.FLOODING_NOMANG]: true,
+    }),
+    [layersToggle],
+  );
 
   const {
     subgroup: leftSubgroup,
@@ -49,6 +70,8 @@ export const SlideMap = ({
     layersByGroup,
     sources,
     customLayerProtos,
+    leftToggle,
+    "left",
   );
 
   const {
@@ -64,15 +87,17 @@ export const SlideMap = ({
     layersByGroup,
     sources,
     customLayerProtos,
+    rightToggle,
+    "right",
   );
 
   useEffect(() => {
-    leftSetLayerGroup("Flooding");
-    rightSetLayerGroup("Flooding");
+    leftSetLayerGroup(LayerGroupName.Flooding);
+    rightSetLayerGroup(LayerGroupName.Flooding);
     // Wait for initialization
     setTimeout(() => {
-      leftSetSubgroup("flooding_nomang");
-      rightSetSubgroup("flooding_2015");
+      leftSetSubgroup(LayerName.FLOODING_2015);
+      rightSetSubgroup(LayerName.FLOODING_NOMANG);
     }, 500);
     document
       .getElementById("compare-swiper-vertical")

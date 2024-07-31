@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 // Custom Hooks
 import { useMap } from "hooks/useMap";
@@ -12,7 +12,7 @@ import { useHover } from "hooks/useHover";
 
 // Data
 import sources from "./layers/sources";
-import layerGroups, { layersByGroup } from "./layers/layers";
+import layerGroups, { LAYERS, layersByGroup } from "./layers/layers";
 import { protos as custom_layer_protos } from "./layers/protos/custom_protos";
 import { init_viewport, init_layer, init_subgroup } from "./data/startup_data";
 import { aois } from "./data/viewports";
@@ -34,14 +34,16 @@ import initialInfo from "./info/initialInfo";
 // Splash Screens
 import { SplashScreen } from "./splash-screens/splash-screen";
 import { DisclaimerScreen } from "./splash-screens/disclaimer-screen";
-import { LayerName } from "types/dataModel";
+import { LayerGroupName } from "types/dataModel";
 import FlyToContext from "panels/FlyToContext";
 import { initTheme } from "layers/theme";
+import LegendLayerSelector from "legends/legend-layer-selector";
 
-const all_selectable_layers = Object.values(layersByGroup)
+const allSelectableLayers = Object.values(layersByGroup)
+  .map((x) => (Array.isArray(x) ? x : Object.keys(x)))
   .flat()
-  .filter((x) => x.is_selectable)
-  .map((x) => x.id);
+  .filter((x) => LAYERS[x].is_selectable)
+  .map((x) => LAYERS[x].id);
 
 const token =
   "pk.eyJ1IjoiY2xvd3JpZSIsImEiOiJja21wMHpnMnIwYzM5Mm90OWFqaTlyejhuIn0.TXE-FIaqF4K_K1OirvD0wQ";
@@ -64,6 +66,8 @@ export default function Map() {
     subgroupOn,
     setLayerGroup,
     setSubgroup,
+    layersToggle,
+    toggleLayer,
   } = useLayers(
     map,
     mapLoaded,
@@ -73,6 +77,8 @@ export default function Map() {
     layersByGroup,
     sources,
     custom_layer_protos,
+    undefined,
+    "main",
   );
 
   const { legends } = useLegends(
@@ -93,7 +99,7 @@ export default function Map() {
     map,
     mapLoaded,
     mapContainer,
-    all_selectable_layers,
+    allSelectableLayers,
     layerSelectionDependencies,
   );
 
@@ -109,16 +115,16 @@ export default function Map() {
     infoRefs,
   } = useInfo(initialInfo, infoReducer);
   useMapWithBreadcrumbs(viewport, aois, map, setLayerGroup, useWhile);
-  useFirst(() => layerGroup === LayerName.Flooding, "FIRST_FLOODING");
+  useFirst(() => layerGroup === LayerGroupName.Flooding, "FIRST_FLOODING");
   useFirst(() => viewport.pitch !== 0, "FIRST_3D");
   useFirst(() => viewport.bearing !== 0, "FIRST_3D");
 
   const [floodsShouldShow, setFloodsShouldShow] = useState(
-    layerGroup === LayerName.Flooding && viewport.zoom < FLOODING_MIN_ZOOM,
+    layerGroup === LayerGroupName.Flooding && viewport.zoom < FLOODING_MIN_ZOOM,
   );
   useEffect(() => {
     if (
-      layerGroup === LayerName.Flooding &&
+      layerGroup === LayerGroupName.Flooding &&
       viewport.zoom < FLOODING_MIN_ZOOM
     ) {
       setFloodsShouldShow(true);
@@ -144,7 +150,7 @@ export default function Map() {
   );
 
   useWhile.on(
-    () => layerGroup === LayerName.RiskReduction,
+    () => layerGroup === LayerGroupName.RiskReduction,
     [layerGroup],
     "FIRST_HEX",
     undefined,
@@ -153,14 +159,14 @@ export default function Map() {
   );
 
   useWhile.off(
-    () => layerGroup !== LayerName.RiskReduction,
+    () => layerGroup !== LayerGroupName.RiskReduction,
     [layerGroup],
     "FIRST_HEX",
     undefined,
   );
 
   useEventWithFunction(
-    () => layerGroup === LayerName.RiskReduction,
+    () => layerGroup === LayerGroupName.RiskReduction,
     "FIRST_RRR",
     undefined,
     () => {
@@ -181,6 +187,14 @@ export default function Map() {
   const [disclaimer, setDisclaimer] = useState(null);
   const [navigationControls, setNavigationControls] = useState(null);
   const isTouch = window.matchMedia("(pointer: coarse)").matches;
+
+  const slideMapVisible = useMemo(
+    () =>
+      layerGroup === LayerGroupName.Flooding &&
+      layersToggle.flooding_nomang &&
+      layersToggle.flooding_2015,
+    [layerGroup, layersToggle],
+  );
 
   useEffect(() => {
     if (disclaimer) {
@@ -231,22 +245,38 @@ export default function Map() {
         refs={infoRefs}
       />
       <div className="screen">
-        <Legend legend_items={legends} />
-        {layerGroup === LayerName.Flooding && (
+        <Legend legend_items={legends}>
+          {layerGroup === LayerGroupName.Flooding && (
+            <LegendLayerSelector
+              layersToggle={layersToggle}
+              toggleLayer={toggleLayer}
+              layerGroup={layerGroup}
+            />
+          )}
+        </Legend>
+        <div
+          className="slide-map-outer-container"
+          style={{ visibility: slideMapVisible ? "visible" : "hidden" }}
+        >
           <SlideMap
             initialStates={initialStates}
             theme={BasemapMap[theme]}
             viewport={viewport}
             accessToken={token}
             otherMap={map}
+            layersToggle={layersToggle}
           />
-        )}
+        </div>
         <div
           ref={mapContainer}
           className="map-container"
           style={{
             visibility:
-              layerGroup !== LayerName.Flooding ? "visible" : "hidden",
+              layerGroup === LayerGroupName.Flooding &&
+              layersToggle.flooding_nomang &&
+              layersToggle.flooding_2015
+                ? "hidden"
+                : "visible",
           }}
         />
       </div>

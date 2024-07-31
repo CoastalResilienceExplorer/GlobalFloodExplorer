@@ -1,7 +1,7 @@
 import { useInfoContext } from "hooks/useInfo";
 import "./flood_selector.css";
 
-type CircleSelectorKeys =
+export type CircleSelectorKeys =
   | "None"
   | "flooding_1996"
   | "flooding_2015"
@@ -20,8 +20,8 @@ const CircleSelector = ({
   thisFloodgroup,
   setFloodGroup,
 }: {
-  thisFloodgroup: CircleSelectorKeys;
-  setFloodGroup: (floodGroup: CircleSelectorKeys) => void;
+  thisFloodgroup: string;
+  setFloodGroup: (floodGroup: string) => void;
 }) => {
   return (
     <div
@@ -29,7 +29,7 @@ const CircleSelector = ({
       onClick={() => setFloodGroup(thisFloodgroup)}
     >
       <p className="circle-selector-text text-white flooding font-sans font-bold">
-        {styles[thisFloodgroup]}
+        {styles[thisFloodgroup as CircleSelectorKeys]}
       </p>
     </div>
   );
@@ -41,8 +41,8 @@ export const FloodSelector = ({
   floodingOn,
   position,
 }: {
-  floodGroup: CircleSelectorKeys;
-  setFloodGroup: (floodGroup: CircleSelectorKeys) => void;
+  floodGroup: string;
+  setFloodGroup: (floodGroup: string) => void;
   floodingOn: boolean;
   position: "left" | "right";
 }) => {

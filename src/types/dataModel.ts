@@ -3,12 +3,27 @@ import {
   SimpleColorScale,
 } from "layers/colormaps/colormaps";
 
-export enum LayerName {
+export enum LayerGroupName {
   CurrentRisk = "Current Risk",
   BenefitAEB = "Benefit (Economic)",
   RiskReduction = "Risk Reduction Ratio",
   Flooding = "Flooding",
   Population = "Benefit (Social)",
+}
+
+export enum LayerName {
+  TESSELA_BOUNDS = "tessela_bounds",
+  TESSELA_BOUNDS_RISK_REDUCTION = "tessela_bounds_risk_reduction",
+  TESSELA_BOUNDS_POPULATION = "tessela_bounds_population",
+  TESSELA_RPS_RISK_REDUCTION = "tessela_rps_risk_reduction",
+  TESSELA_RPS_BENEFITS = "tessela_rps_benefits",
+  TESSELA_RPS_POPULATION = "tessela_rps_population",
+  HEX = "hex",
+  HEX2 = "hex2",
+  MANGROVES_NOMANG = "mangroves_nomang",
+  MANGROVES_2015 = "mangroves_2015",
+  FLOODING_NOMANG = "flooding_nomang",
+  FLOODING_2015 = "flooding_2015",
 }
 
 export type Layer = {
@@ -23,6 +38,8 @@ export type Layer = {
     | InstanceType<typeof DiscreteColorSizeScale>
     | InstanceType<typeof SimpleColorScale>;
   layer_title: string;
+  layer_subtitle?: string;
+  layer_toggle?: string;
   layer_type: string;
   legend_prefix?: string;
   legend_suffix?: string;
@@ -36,14 +53,36 @@ export type Layer = {
   maxzoom?: number;
   opacity?: number;
   hex_type?: string;
+  filter?: Filter;
+};
+
+export type ConfigurableSlideLayer = {
+  slideKey: string;
+  slidePosition: "left" | "right" | "both";
+  slideLabel: string;
+};
+
+export type ConfigurableSharedLayer = {
+  sharedKey: string;
+  sharedLabel: string;
+  slidePosition: "left" | "right" | "both";
+  associatedLayer: LayerName;
+};
+
+export type ConfigurableLayer =
+  | ConfigurableSlideLayer
+  | ConfigurableSharedLayer;
+
+export type ConfigurableLayerMap = {
+  [key in LayerName]?: ConfigurableLayer;
 };
 
 export type LayerGroup = {
-  name: LayerName;
+  name: LayerGroupName;
   shortDescription: string;
   IconComponent: React.FC<React.SVGProps<SVGSVGElement>>;
   IconComponentHTML?: string;
-  layers: Layer[];
+  layers: LayerName[] | ConfigurableLayerMap;
   metricKey?: string;
   units?: string;
 };
@@ -70,7 +109,7 @@ export type AOI = {
   parent?: string;
   size?: number;
   description?: string;
-  layerGroup?: LayerName;
+  layerGroup?: LayerGroupName;
 };
 
 export type Filter = [string, any, any];

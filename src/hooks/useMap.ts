@@ -32,6 +32,12 @@ export function useMap(
   }, []);
 
   useEffect(() => {
+    return () => {
+      map.current?.remove();
+    };
+  }, []);
+
+  useEffect(() => {
     map.current = new mapboxgl.Map({
       container: mapContainer.current as HTMLElement,
       style: theme,

@@ -1,4 +1,4 @@
-import { AOI, LayerName } from "types/dataModel";
+import { AOI, LayerGroupName } from "types/dataModel";
 import { Viewport } from "types/map";
 
 export const aois: Array<AOI> = [
@@ -25,7 +25,7 @@ export const aois: Array<AOI> = [
     size: 50,
     description:
       "Florida has one of the highest concentrations of mangrove shoreline protection in the world",
-    layerGroup: LayerName.BenefitAEB,
+    layerGroup: LayerGroupName.BenefitAEB,
   },
   {
     id: "Yucatan",
@@ -50,7 +50,7 @@ export const aois: Array<AOI> = [
     size: 40,
     description:
       "Belize is protected by mangroves from over $100M of damage each year",
-    layerGroup: LayerName.Population,
+    layerGroup: LayerGroupName.Population,
   },
   {
     id: "Sundarbans",
@@ -73,7 +73,7 @@ export const aois: Array<AOI> = [
     },
     size: 50,
     description: "The Sundarbans protect over 600,000 people per year",
-    layerGroup: LayerName.Population,
+    layerGroup: LayerGroupName.Population,
   },
   {
     id: "Vietnam",
@@ -91,7 +91,7 @@ export const aois: Array<AOI> = [
     },
     size: 50,
     description: "Mangroves reduce over 60% of coastal risk in Vietnam",
-    layerGroup: LayerName.RiskReduction,
+    layerGroup: LayerGroupName.RiskReduction,
   },
   // {
   //   id: "Caribbean",
@@ -113,7 +113,7 @@ export const aois: Array<AOI> = [
   //     maxzoom: 4,
   //   },
   //   size: 40,
-  //   layerGroup: LayerName.BenefitAEB,
+  //   layerGroup: LayerGroupName.BenefitAEB,
   // },
   // {
   //   "id": "Bay of Bengal",

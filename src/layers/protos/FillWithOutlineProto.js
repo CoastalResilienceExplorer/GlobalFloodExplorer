@@ -37,7 +37,8 @@ export default class FillWithOutlineProto {
     this.maxzoom = maxzoom;
     this.visible =
       (subgroup !== undefined && subgroup === floodGroup) ||
-      subgroup === undefined
+      subgroup === undefined ||
+      floodGroup === undefined
         ? "visible"
         : "none";
   }

@@ -1,7 +1,7 @@
 import { useCallback, useContext } from "react";
 import FlyToContext from "./FlyToContext";
 import { regions } from "data/viewports";
-import { LayerName } from "types/dataModel";
+import { LayerGroupName } from "types/dataModel";
 import { LayerSelectionFrom, useLayerBounceContext } from "layers/layer-bounce";
 import { Viewport } from "types/map";
 
@@ -15,7 +15,7 @@ const ExplorerButton = ({
 }: {
   text: string;
   region: string;
-  layerName: LayerName;
+  layerName: LayerGroupName;
   label: string;
 }) => {
   const flyToContext = useContext(FlyToContext);
@@ -23,7 +23,7 @@ const ExplorerButton = ({
 
   const onClick = useCallback(() => {
     // Need to give Flooding sub-maps time to initialize
-    const flyToTimeout = layerName === LayerName.Flooding ? 1000 : 250;
+    const flyToTimeout = layerName === LayerGroupName.Flooding ? 1000 : 250;
     flyToContext?.setLayerGroup?.(layerName);
     setLayerGroupSelectedFrom(LayerSelectionFrom.layerSelectionPanel);
 
@@ -32,7 +32,7 @@ const ExplorerButton = ({
         ...(regions.find((x) => x.id === region)?.overview as Viewport),
       });
     }, flyToTimeout);
-  }, [flyToContext, layerName, setLayerGroupSelectedFrom, region]);
+  }, [layerName, flyToContext, setLayerGroupSelectedFrom, region]);
 
   return (
     <button
@@ -54,25 +54,25 @@ const QuickExplore = () => {
           text="Benefit (AEB)"
           region="florida"
           label="Florida"
-          layerName={LayerName.BenefitAEB}
+          layerName={LayerGroupName.BenefitAEB}
         />
         <ExplorerButton
           text="Risk Reduction Ratio"
           region="florida_pitched"
           label="Florida"
-          layerName={LayerName.RiskReduction}
+          layerName={LayerGroupName.RiskReduction}
         />
         <ExplorerButton
           text="Flooding"
           region="vietnam"
           label="Vietnam"
-          layerName={LayerName.Flooding}
+          layerName={LayerGroupName.Flooding}
         />
         <ExplorerButton
           text="Benefit (Social)"
           region="yucatan"
           label="Yucatan"
-          layerName={LayerName.Population}
+          layerName={LayerGroupName.Population}
         />
       </div>
     </div>

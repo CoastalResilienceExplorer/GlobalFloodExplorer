@@ -4,7 +4,6 @@
   left: 0px;
   z-index: 2;
   color: white;
-  /* text-align: left; */
   display: grid;
   grid-template-columns: auto 25px;
   gap: 2px;
@@ -31,22 +30,26 @@
   margin: 0px;
   max-width: 185px;
   color: white;
+  padding: 0 10px;
+}
+
+.legend-item.custom-legend-item {
+  max-width: 260px;
+  width: 260px;
 }
 
 .legend-item.wide {
   max-width: 215px;
 }
 .legend-layer-title {
-  font-size: 1.1em;
-  padding: 0 10px;
-  padding-top: 5px;
+  font-size: 1.2em;
+  padding-top: 8px;
+  margin-bottom: -4px;
   @apply font-sans font-bold;
 }
 
 .legend-layer-subtitle {
-  font-size: 0.9em;
-  padding: 0 10px;
-  margin-bottom: -10px;
+  font-size: 1em;
   @apply font-serif;
 }
 

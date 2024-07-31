@@ -7,19 +7,21 @@ const spacing_styles = {
   CENTER_TO_TOP: "CENTER_TO_TOP", //the center of the circle is placed at the top of the circle below it
 };
 
-export default function DiscretePointLegend({
+const dimensions = {
+  leftMargin: 10,
+  rightMargin: 10,
+  topMargin: 10,
+  bottomMargin: 10,
+  ySpread: 50,
+  baseSize: 150,
+  textPadding: 80,
+  additionalBubbleSpacing: 8,
+};
+
+export default React.memo(function DiscretePointLegend({
   legend,
+  children,
   spacing_style = spacing_styles.CENTER_TO_TOP,
-  dimensions = {
-    leftMargin: 10,
-    rightMargin: 10,
-    topMargin: 10,
-    bottomMargin: 10,
-    ySpread: 50,
-    baseSize: 150,
-    textPadding: 80,
-    additionalBubbleSpacing: 8,
-  },
 }) {
   const max_width = legend.sizeRamp[legend.sizeRamp.length - 1] * legend.Scale;
 
@@ -56,8 +58,10 @@ export default function DiscretePointLegend({
   const xTextOffs = 2 * (max_width + dimensions.leftMargin);
 
   return (
-    <div className="legend-item">
+    <div className={`legend-item ${!!children ? "custom-legend-item" : ""}`}>
       <div className="legend-layer-title">{legend.layer_title}</div>
+      <div className="legend-layer-subtitle">{legend.layer_subtitle}</div>
+      {children}
       <svg
         width={bubbles_and_text_total_width}
         height={bubbles_and_text_total_height}
@@ -95,4 +99,4 @@ export default function DiscretePointLegend({
       </svg>
     </div>
   );
-}
+});

@@ -37,7 +37,7 @@ export const SplashScreen = ({
   return (
     <animated.div
       style={springProps}
-      className="z-10 w-full h-full overflow-scroll flex-col flex absolute bg-cover justify-between bg-open bg-[url('./assets/SplashBackground_Mobile.jpg')] md:bg-[url('./assets/SplashBackground.jpg')]"
+      className="z-10 w-full h-full overflow-scroll flex-col flex absolute bg-cover bg-bottom justify-between bg-open bg-[url('./assets/SplashBackground_Mobile.jpg')] md:bg-[url('./assets/SplashBackground.jpg')]"
     >
       <header className="flex  px-2 md:px-8 py-1 pr-12 md:pr-24 scale-y-[-1] mr-auto bg-[length:100%_100%] bg-[url('./assets/SplashFooterBackground.png')]">
         <div className="flex flex-row items-center scale-y-[-1]">

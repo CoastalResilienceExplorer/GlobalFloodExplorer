@@ -9,54 +9,54 @@ import Flood from "assets/Flood_square.png";
 
 import { ReactComponent as OpenCloseToggleIcon } from "assets/OpenCloseToggle2.svg";
 
-enum LayerName {
+enum LayerGroupName {
   AEB = "Benefit (AEB)",
   AEB_HA = "Benefit per Hectare",
   RRR = "Risk Reduction Ratio",
   FLOOD = "Flooding",
 }
 
-const LayerDisplayText: Record<LayerName, string> = {
+const LayerDisplayText: Record<LayerGroupName, string> = {
   "Benefit per Hectare": "Annual Expected Benefits per Hectare Mangroves",
   "Benefit (AEB)": "Annual Expected Benefits",
   "Risk Reduction Ratio": "Risk Reduction Ratio",
   Flooding: "Flooding",
 };
 
-const layers: Record<LayerName, React.ReactNode> = {
-  [LayerName.AEB]: (
+const layers: Record<LayerGroupName, React.ReactNode> = {
+  [LayerGroupName.AEB]: (
     <div className="layer-selection-image-container">
       <img
         src={aeb}
         className="layer-selection-icon"
-        alt={`Graphic representing ${LayerDisplayText[LayerName.AEB]}`}
+        alt={`Graphic representing ${LayerDisplayText[LayerGroupName.AEB]}`}
       />
     </div>
   ),
-  [LayerName.AEB_HA]: (
+  [LayerGroupName.AEB_HA]: (
     <div className="layer-selection-image-container">
       <img
         src={aeb_ha}
         className="layer-selection-icon"
-        alt={`Graphic representing ${LayerDisplayText[LayerName.AEB_HA]}`}
+        alt={`Graphic representing ${LayerDisplayText[LayerGroupName.AEB_HA]}`}
       />
     </div>
   ),
-  [LayerName.RRR]: (
+  [LayerGroupName.RRR]: (
     <div className="layer-selection-image-container">
       <img
         src={HEX}
         className="layer-selection-icon"
-        alt={`Graphic representing ${LayerDisplayText[LayerName.RRR]}`}
+        alt={`Graphic representing ${LayerDisplayText[LayerGroupName.RRR]}`}
       />
     </div>
   ),
-  [LayerName.FLOOD]: (
+  [LayerGroupName.FLOOD]: (
     <div className="layer-selection-image-container">
       <img
         src={Flood}
         className="layer-selection-icon"
-        alt={`Graphic representing ${LayerDisplayText[LayerName.FLOOD]}`}
+        alt={`Graphic representing ${LayerDisplayText[LayerGroupName.FLOOD]}`}
       />
     </div>
   ),
@@ -68,9 +68,9 @@ function LayerSelectionButtonContainer({
   setSelectedLayer,
   isOpen,
 }: {
-  id: LayerName;
+  id: LayerGroupName;
   isSelected: boolean;
-  setSelectedLayer: (layer: LayerName) => void;
+  setSelectedLayer: (layer: LayerGroupName) => void;
   isOpen: boolean;
 }) {
   return (
@@ -123,7 +123,7 @@ function OpenCloseToggle({
 function CurrentlyViewingTitle({
   selectedLayer,
 }: {
-  selectedLayer: LayerName;
+  selectedLayer: LayerGroupName;
 }) {
   return (
     <div className="currently-viewing-text-container">
@@ -141,8 +141,8 @@ function TouchLayerSelectionPanel({
   selectedLayer,
   setSelectedLayer,
 }: {
-  selectedLayer: LayerName;
-  setSelectedLayer: (layer: LayerName) => void;
+  selectedLayer: LayerGroupName;
+  setSelectedLayer: (layer: LayerGroupName) => void;
 }) {
   const isOpen = false;
   const [swipeStartX, setSwipeStartX] = useState<number | null>(null);
@@ -165,7 +165,7 @@ function TouchLayerSelectionPanel({
   }
 
   function changeSelectedLayer() {
-    const l = Object.keys(layers) as LayerName[];
+    const l = Object.keys(layers) as LayerGroupName[];
     const currentIndex = l.indexOf(selectedLayer);
     if (swipeType() === "RIGHT") {
       const nextIndex = (currentIndex + 1) % l.length;
@@ -221,8 +221,8 @@ function LayerSelectionPanel({
   setSelectedLayer,
   isTouch,
 }: {
-  selectedLayer: LayerName;
-  setSelectedLayer: (layer: LayerName) => void;
+  selectedLayer: LayerGroupName;
+  setSelectedLayer: (layer: LayerGroupName) => void;
   isTouch: boolean;
 }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -265,7 +265,7 @@ function LayerSelectionPanel({
           className="layer-selection-content-container"
           style={{ x: childSprings.x.to((val) => val * -1) }}
         >
-          {(Object.keys(layers) as LayerName[]).map((x) => (
+          {(Object.keys(layers) as LayerGroupName[]).map((x) => (
             <LayerSelectionButtonContainer
               id={x}
               key={x}

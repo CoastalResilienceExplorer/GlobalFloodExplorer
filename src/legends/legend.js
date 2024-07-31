@@ -1,9 +1,9 @@
-import { useRef } from "react";
+import { memo, useRef } from "react";
 import "./legend.css";
 
 import { all_protos } from "./protos/all_protos";
 
-export default function Legend({ legend_items }) {
+export default memo(function Legend({ legend_items, children }) {
   const isOpen = true;
   const ref = useRef(null);
 
@@ -22,9 +22,13 @@ export default function Legend({ legend_items }) {
       <div className="legend-content" ref={ref}>
         {legend_items.map((x, i) => {
           const Proto = all_protos[x.layer_type];
-          return <Proto legend={x} key={x.layer_title} />;
+          return (
+            <Proto legend={x} key={x.layer_title}>
+              {children}
+            </Proto>
+          );
         })}
       </div>
     </div>
   );
-}
+});
