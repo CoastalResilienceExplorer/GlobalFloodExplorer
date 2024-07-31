@@ -13,7 +13,7 @@ export default class HexLayerProto {
     layer_type,
     hex_type = "REDUCTION",
     display_legend = true,
-    filter = 250000,
+    filter = null,
     legend_prefix = null,
     legend_suffix = null,
     minzoom = 5,
@@ -76,8 +76,11 @@ export default class HexLayerProto {
         "fill-extrusion-base": ["*", ["^", this.baseValue, 2 / 3], this.scale],
       },
       minzoom: this.minzoom,
-      filter: this.filter,
     };
+
+    if (this.filter !== null) {
+      layer_proto.filter = this.filter;
+    }
 
     return layer_proto;
   }
