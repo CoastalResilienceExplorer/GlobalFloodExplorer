@@ -105,13 +105,7 @@ export default function Map() {
     layerGroup,
   );
 
-  useSelectionSync(
-    layerGroup,
-    selectedFeatures,
-    layerSelectionDependencies,
-    setSelectedFeatures,
-    map,
-  );
+  useSelectionSync(layerGroup, selectedFeatures, setSelectedFeatures, map);
 
   useHover(map, layerGroup, theme);
 

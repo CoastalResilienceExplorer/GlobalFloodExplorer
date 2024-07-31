@@ -6,7 +6,6 @@ import { setFeatureState_withDependencies } from "./useSelection";
 export function useSelectionSync(
   layerGroup: LayerGroupName,
   selectionBuffer: any[],
-  layerSelectionDependencies: string[],
   setSelectedFeatures: any,
   map: mapboxgl.Map,
 ) {
@@ -14,6 +13,7 @@ export function useSelectionSync(
 
   useEffect(() => {
     if (!map) return;
+    if (layerGroup == LayerGroupName.Flooding) return;
 
     const selectedLayers = [
       ...(layerGroups[layerGroup].layers as LayerName[]),
@@ -50,7 +50,6 @@ export function useSelectionSync(
           return acc;
         }
       }, []);
-      console.log(uniqueData);
       if (uniqueData.length > 0) {
         setSelectedFeatures(uniqueData);
       }
