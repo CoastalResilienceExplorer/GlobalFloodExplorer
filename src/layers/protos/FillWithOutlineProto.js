@@ -8,14 +8,14 @@ export default class FillWithOutlineProto {
     format,
     layer_title,
     layer_type,
-    opacity,
     floodGroup,
     subgroup,
     display_legend = true,
-    filter_value = 250000,
+    filter = null,
     legend_prefix = null,
     legend_suffix = null,
     minzoom = 0,
+    opacity = 0.8,
     maxzoom = 12,
   }) {
     this.id = id;
@@ -30,7 +30,7 @@ export default class FillWithOutlineProto {
     this.layer_type = layer_type;
     this.color_header = legend.colorHeader(colorValue);
     this.display_legend = display_legend;
-    this.filter_value = filter_value;
+    this.filter = filter;
     this.format = format;
     this.opacity = opacity;
     this.minzoom = minzoom;
@@ -44,7 +44,7 @@ export default class FillWithOutlineProto {
   }
 
   get MBLayer() {
-    const layer_proto = {
+    let layer_proto = {
       id: this.id,
       key: this.id,
       type: "fill",
@@ -67,6 +67,10 @@ export default class FillWithOutlineProto {
       minzoom: this.minzoom,
       maxzoom: this.maxzoom,
     };
+
+    if (this.filter) {
+      layer_proto.filter = this.filter;
+    }
 
     return Object.assign(layer_proto, {
       layout: {

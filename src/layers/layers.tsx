@@ -6,6 +6,7 @@ import {
   Green,
   Grey,
   Blue_5Step_Pop,
+  Red_10Step,
 } from "./colormaps/colormaps";
 import {
   ConfigurableLayerMap,
@@ -182,38 +183,43 @@ export const LAYERS: Record<LayerName, Layer> = {
     layer_type: "FILL_WITH_OUTLINE",
     display_legend: false,
     subgroup: "flooding_2015",
-    opacity: 1,
+    opacity: 0.4,
     minzoom: FLOODING_MIN_ZOOM,
     maxzoom: 18,
   },
   [LayerName.FLOODING_NOMANG]: {
     id: "flooding_nomang",
-    source: "flooding_nomang_pt",
-    source_layer: `Without_TC_Tr_${RP}`,
+    source: "flooding_squares",
+    source_layer: `CWON_all_reindexed`,
     legend: FloodMaps_Bathy,
-    colorValue: ["to-number", ["get", "value"]],
+    colorValue: ["to-number", ["get", `without_2015_TC_Tr_${RP}`]],
     layer_title: "Expected Flooding",
     layer_subtitle: `1 in ${parseInt(RP)} year storm`,
     layer_toggle: "Show Flooding without Mangroves",
     display_legend: true,
-    layer_type: "GEO_POINT",
+    layer_type: "FILL_WITH_OUTLINE",
     legend_suffix: "m",
     subgroup: "flooding_nomang",
     minzoom: FLOODING_MIN_ZOOM,
+    maxzoom: 18,
+    filter: [">", ["to-number", ["get", `without_2015_TC_Tr_${RP}`]], 0],
   },
   [LayerName.FLOODING_2015]: {
     id: "flooding_2015",
-    source: "flooding_2015_pt",
-    source_layer: `with_2015_TC_Tr_${RP}`,
+    source: "flooding_squares",
+    source_layer: `CWON_all_reindexed`,
     legend: FloodMaps_Bathy,
-    colorValue: ["to-number", ["get", "value"]],
+    colorValue: ["to-number", ["get", `with_2015_TC_Tr_${RP}`]],
     layer_title: "Expected Flooding",
     layer_subtitle: `1 in ${parseInt(RP)} year storm`,
     layer_toggle: "Show Flooding with Mangroves",
-    layer_type: "GEO_POINT",
+    layer_type: "FILL_WITH_OUTLINE",
+    display_legend: false,
     legend_suffix: "m",
     subgroup: "flooding_2015",
     minzoom: FLOODING_MIN_ZOOM,
+    maxzoom: 18,
+    filter: [">", ["to-number", ["get", `with_2015_TC_Tr_${RP}`]], 0],
   },
 };
 
@@ -267,7 +273,7 @@ const layerGroups: Record<LayerGroupName, LayerGroup> = {
   [LayerGroupName.CurrentRisk]: {
     name: LayerGroupName.CurrentRisk,
     shortDescription:
-      "The current annual risk from flooding at the coast, including existing benefits from mangroves.",
+      "The current annual risk from flooding at the coast, including present mangroves.",
     IconComponent: () => (
       <Icon icon="mdi:hazard-lights" color="white" className="w-full h-full" />
     ),
@@ -319,7 +325,7 @@ const layerGroups: Record<LayerGroupName, LayerGroup> = {
   [LayerGroupName.Population]: {
     name: LayerGroupName.Population,
     shortDescription:
-      "Annual Expected Benefit (AEB) is the flood risk reduced by mangroves annually in a location (in avoided damages to people).",
+      "Annual Expected Benefit (AEB) is the flood risk reduced by mangroves annually in a location (in avoided people exposed to flooding).",
     IconComponent: () => (
       <Icon
         icon="pepicons-pencil:people"

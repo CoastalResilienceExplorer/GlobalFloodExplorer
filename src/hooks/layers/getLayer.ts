@@ -31,8 +31,9 @@ export default function getLayers(
     .map((l) => [l.selection_dependent_on, l.source_layer]);
   const subgroups = layers.filter((l) => l.is_subgroup);
   const layersWithProtos = layers.map((l) => {
-    const filters_to_add = Object.assign({}, { filter: filters[l.id] });
-    return new protos[l.layer_type](Object.assign(l, args, filters_to_add));
+    // const filters_to_add = Object.assign({}, { filter: filters[l.id] });
+    // return new protos[l.layer_type](Object.assign(l, args, filters_to_add));
+    return new protos[l.layer_type](Object.assign(l, args));
   });
   const layers_to_return = layersWithProtos.map((l) => l.MBLayer);
   const legends_to_return = layersWithProtos

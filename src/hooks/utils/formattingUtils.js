@@ -6,7 +6,7 @@ export function kFormatter(num, type = "$", toFixed = 1) {
     if (absNum > 999999)
       return (Math.abs(num) / 1000000).toFixed(toFixed) + "M";
     if (absNum > 999) return (Math.abs(num) / 1000).toFixed(toFixed) + "K";
-    return absNum.toFixed(0);
+    return absNum.toFixed(toFixed);
   }
   if (type === "%") {
     return (num * 100).toFixed(toFixed);
