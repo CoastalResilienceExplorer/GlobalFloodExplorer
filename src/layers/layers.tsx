@@ -190,7 +190,7 @@ export const LAYERS: Record<LayerName, Layer> = {
   [LayerName.FLOODING_NOMANG]: {
     id: "flooding_nomang",
     source: "flooding_squares",
-    source_layer: `CWON_all_reindexed`,
+    source_layer: `CWON_Tr50_reindexed`,
     legend: FloodMaps_Bathy,
     colorValue: ["to-number", ["get", `without_2015_TC_Tr_${RP}`]],
     layer_title: "Expected Flooding",
@@ -207,7 +207,7 @@ export const LAYERS: Record<LayerName, Layer> = {
   [LayerName.FLOODING_2015]: {
     id: "flooding_2015",
     source: "flooding_squares",
-    source_layer: `CWON_all_reindexed`,
+    source_layer: `CWON_Tr50_reindexed`,
     legend: FloodMaps_Bathy,
     colorValue: ["to-number", ["get", `with_2015_TC_Tr_${RP}`]],
     layer_title: "Expected Flooding",

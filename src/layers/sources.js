@@ -38,7 +38,7 @@ const flooding_squares = {
   id: "flooding_squares",
   type: "vector",
   format: "mvt",
-  tiles: [`${PMSERVER_URL}/CWON_reindexed/CWON_all_reindexed/{z}/{x}/{y}.mvt`],
+  tiles: [`${PMSERVER_URL}/CWON_reindexed/CWON_Tr50_reindexed/{z}/{x}/{y}.mvt`],
   minzoom: 0,
   maxzoom: 14,
 };
