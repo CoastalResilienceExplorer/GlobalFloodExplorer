@@ -1,7 +1,7 @@
-import layerGroups, { LAYERS, layersByGroup } from "layers/layers";
-import { useEffect, useRef, useState } from "react";
-import { Layer, LayerGroupName, LayerName } from "types/dataModel";
-import { setFeatureState_withDependencies } from "./useSelection";
+import layerGroups, { LAYERS } from "layers/layers";
+import { MapboxGeoJSONFeature } from "mapbox-gl";
+import { useEffect } from "react";
+import { LayerGroupName, LayerName } from "types/dataModel";
 
 export function useSelectionSync(
   layerGroup: LayerGroupName,
@@ -9,11 +9,11 @@ export function useSelectionSync(
   setSelectedFeatures: any,
   map: mapboxgl.Map,
 ) {
-  const previousLayer = useRef();
-
   useEffect(() => {
     if (!map) return;
-    if (layerGroup == LayerGroupName.Flooding) return;
+    if (layerGroup == LayerGroupName.Flooding) {
+      return;
+    }
 
     const selectedLayers = [
       ...(layerGroups[layerGroup].layers as LayerName[]),
@@ -27,7 +27,6 @@ export function useSelectionSync(
       })
       .filter((s) => selectedLayers.includes(s[1]));
 
-    // @ts-ignore
     const selectionSync = [...new Set([..._selectionSync])];
 
     map.once("idle", () => {
@@ -40,16 +39,17 @@ export function useSelectionSync(
         })
         .flat()
         .filter((d) => selectionBuffer.map((s) => s.id).includes(d.id));
-      const uniqueData = _data.reduce((acc, current) => {
-        // @ts-ignore
-        const x = acc.find((item) => item.id === current.id);
-        if (!x) {
-          // @ts-ignore
-          return acc.concat([current]);
-        } else {
-          return acc;
-        }
-      }, []);
+      const uniqueData = _data.reduce<MapboxGeoJSONFeature[]>(
+        (acc, current) => {
+          const x = acc.find((item) => item.id === current.id);
+          if (!x) {
+            return acc.concat([current]);
+          } else {
+            return acc;
+          }
+        },
+        [],
+      );
       if (uniqueData.length > 0) {
         setSelectedFeatures(uniqueData);
       }

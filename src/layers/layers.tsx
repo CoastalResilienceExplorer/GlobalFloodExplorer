@@ -347,7 +347,6 @@ const layerGroups: Record<LayerGroupName, LayerGroup> = {
       />
     ),
     IconComponentHTML: `<iconify-icon icon="ri:flood-line" class="breadcrumbs-icon" width="${BREADCRUMB_ICON_SIZE}px" height="${BREADCRUMB_ICON_SIZE}px"></iconify-icon>`,
-    // @ts-ignore
     layers: floodingComparisonLayers,
   },
   [LayerGroupName.Population]: {
