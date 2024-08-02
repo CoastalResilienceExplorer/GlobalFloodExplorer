@@ -8,4 +8,5 @@ export const all_protos = Object.assign(
   { RASTER2: InterpolateLegend },
   { HEX_3D: HexLegend },
   { GEO_POINT: DiscretePointLegend },
+  { FILL_WITH_OUTLINE: DiscretePointLegend },
 );

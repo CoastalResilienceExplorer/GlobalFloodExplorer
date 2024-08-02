@@ -189,16 +189,15 @@ const _Blue_5Step_per_ha = {
 };
 
 const _Floodmaps_Bathy = {
-  breaks: [0, 2, 4, 6],
+  breaks: [0, 1.5, 3],
 
   colorRamp: [
     "rgba(255, 255, 0, 1)",
     "rgba(255, 200, 0, 1)",
-    "rgba(255, 120, 0, 1)",
     "rgba(255, 0, 0, 1)",
   ],
 
-  sizeRamp: [10, 10, 10, 10],
+  sizeRamp: [10, 10, 10],
 
   legendScale: 3,
 };

@@ -6,6 +6,7 @@
     "prepare": "husky install",
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "test": "react-scripts test",
     "cypress:dev": "cypress open",
     "cypress:run": "cypress run",
     "cypress:ci": "react-scripts build & npx serve -s build & wait-on http://localhost:3000 & cypress run",
