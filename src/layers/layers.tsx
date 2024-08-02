@@ -6,10 +6,11 @@ import {
   Green,
   Grey,
   Blue_5Step_Pop,
-  Red_10Step,
+  Red_5Step,
 } from "./colormaps/colormaps";
 import {
   ConfigurableLayerMap,
+  Filter,
   Layer,
   LayerGroup,
   LayerGroupName,
@@ -50,8 +51,8 @@ export const mangHaTotalChange = [
   ["to-number", ["get", "Mang_Ha_1996"]],
 ];
 
-const EXISTING_RISK_FILTER_VALUE = 1;
-const BEN_FILTER_VALUE = 1;
+export const FILTER_VALUE = 1;
+export const FILTER = [">", riskStock, FILTER_VALUE] as Filter;
 
 export const LAYERS: Record<LayerName, Layer> = {
   // Existing Risk
@@ -63,7 +64,7 @@ export const LAYERS: Record<LayerName, Layer> = {
     layer_title: "Tessela",
     layer_type: "SIMPLE_OUTLINE",
     selection_dependent_on: "UCSC_CWON_studyunits_reppts",
-    filter: [">", riskStock, EXISTING_RISK_FILTER_VALUE],
+    filter: FILTER,
     minzoom: COUNTRY_TESELA_ZOOM_SWITCH,
   },
   [LayerName.TESSELA_RPS_EXISTING_RISK]: {
@@ -71,13 +72,13 @@ export const LAYERS: Record<LayerName, Layer> = {
     source: "UCSC_CWON_studyunits_reppts",
     source_layer: "UCSC_CWON_studyunits_reppts",
     colorValue: riskStock,
-    legend: Blue_5Step,
+    legend: Red_5Step,
     layer_title: `Annual Expected Risk 2015`,
     layer_type: "DISCRETE_POINT",
     legend_prefix: "$",
     format: "$",
     is_selectable: true,
-    filter: [">", riskStock, EXISTING_RISK_FILTER_VALUE],
+    filter: FILTER,
     selection_sync_with: "UCSC_CWON_studyunits_hexs",
     minzoom: COUNTRY_TESELA_ZOOM_SWITCH,
   },
@@ -90,7 +91,7 @@ export const LAYERS: Record<LayerName, Layer> = {
     layer_title: "Tessela",
     layer_type: "SIMPLE_OUTLINE",
     selection_dependent_on: "UCSC_CWON_studyunits_reppts",
-    filter: [">", riskStock, EXISTING_RISK_FILTER_VALUE],
+    filter: FILTER,
   },
   [LayerName.TESSELA_RPS_STOCK_BENEFITS]: {
     id: "tessela_rps",
@@ -103,7 +104,7 @@ export const LAYERS: Record<LayerName, Layer> = {
     legend_prefix: "$",
     format: "$",
     is_selectable: true,
-    filter: [">", benStock, BEN_FILTER_VALUE],
+    filter: FILTER,
     selection_sync_with: "UCSC_CWON_studyunits_hexs",
     minzoom: COUNTRY_TESELA_ZOOM_SWITCH,
   },
@@ -117,7 +118,7 @@ export const LAYERS: Record<LayerName, Layer> = {
     layer_type: "SIMPLE_OUTLINE",
     selection_dependent_on: "UCSC_CWON_studyunits_reppts",
     minzoom: COUNTRY_TESELA_ZOOM_SWITCH,
-    filter: [">", benStock, BEN_FILTER_VALUE],
+    filter: FILTER,
   },
   [LayerName.TESSELA_RPS_POPULATION_BENEFITS]: {
     id: "tessela_rps",
@@ -131,7 +132,7 @@ export const LAYERS: Record<LayerName, Layer> = {
     is_selectable: true,
     minzoom: COUNTRY_TESELA_ZOOM_SWITCH,
     selection_sync_with: "UCSC_CWON_studyunits_hexs",
-    filter: [">", benPop, BEN_FILTER_VALUE],
+    filter: FILTER,
   },
   // Risk Reduction Ratio
   [LayerName.TESSELA_BOUNDS_RISK_REDUCTION_RATIO]: {
@@ -143,7 +144,7 @@ export const LAYERS: Record<LayerName, Layer> = {
     layer_type: "SIMPLE_OUTLINE",
     selection_dependent_on: "UCSC_CWON_studyunits_hexs",
     minzoom: COUNTRY_TESELA_ZOOM_SWITCH,
-    filter: [">", benStock, BEN_FILTER_VALUE],
+    filter: FILTER,
   },
   [LayerName.HEX]: {
     id: "hex",
@@ -163,7 +164,7 @@ export const LAYERS: Record<LayerName, Layer> = {
     is_selectable: true,
     selection_sync_with: "UCSC_CWON_studyunits_reppts",
     minzoom: COUNTRY_TESELA_ZOOM_SWITCH,
-    filter: [">", benStock, BEN_FILTER_VALUE],
+    filter: FILTER,
   },
   [LayerName.HEX2]: {
     id: "hex2",
@@ -183,7 +184,7 @@ export const LAYERS: Record<LayerName, Layer> = {
     is_selectable: true,
     selection_sync_with: "UCSC_CWON_studyunits_reppts",
     minzoom: COUNTRY_TESELA_ZOOM_SWITCH,
-    filter: [">", benStock, BEN_FILTER_VALUE],
+    filter: FILTER,
   },
   // Flooding
   [LayerName.MANGROVES_NOMANG]: {
