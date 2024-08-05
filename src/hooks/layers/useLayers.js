@@ -104,7 +104,6 @@ export function useLayers(
       layerGroup,
       { floodGroup: subgroup || loggedLayers[1] },
       custom_protos,
-      filters,
     );
   }, [
     layerToggleToUse,

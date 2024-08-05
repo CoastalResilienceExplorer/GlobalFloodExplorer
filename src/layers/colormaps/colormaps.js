@@ -101,7 +101,7 @@ const _Blue_5Step = {
   breaks: [1, 100000, 1000000, 10000000, 100000000, 1000000000],
 
   colorRamp: [
-    "rgba(255, 255, 255, 0.2)",
+    "rgba(202, 240, 248, 0.5)",
     "#caf0f8",
     "#90e0ef",
     "#00b4d8",
@@ -109,7 +109,7 @@ const _Blue_5Step = {
     "#03045e",
   ],
 
-  sizeRamp: [1, 5, 10, 15, 20, 25],
+  sizeRamp: [1.6, 5, 10, 15, 20, 25],
 
   legendScale: 3,
 };
@@ -136,7 +136,7 @@ const _Red_5Step_ExistingRisk = {
     "rgba(189, 0, 38, 1)",
   ],
 
-  sizeRamp: [3, 6, 7, 9, 15, 20],
+  sizeRamp: [2, 3, 6, 8, 15, 22],
 
   legendScale: 3,
 };
