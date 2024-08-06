@@ -6,7 +6,6 @@ import {
   Green,
   Grey,
   Blue_5Step_Pop,
-  Red_10Step,
 } from "./colormaps/colormaps";
 import {
   ConfigurableLayerMap,

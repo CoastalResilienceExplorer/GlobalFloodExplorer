@@ -89,14 +89,8 @@ const BasicStrokes = {
     color: "cyan",
     opacity: 0.5,
   },
-};
-
-const BasicStrokes_Thick = {
-  width: 1.5,
-  color: "white",
-  opacity: 0.5,
-  selected: {
-    width: 10.0,
+  hovered: {
+    width: 5.0,
     color: "cyan",
     opacity: 0.5,
   },
@@ -108,6 +102,11 @@ const SelectedTesselaStrokes = {
   opacity: 0.5,
   selected: {
     width: 10.0,
+    color: "cyan",
+    opacity: 0.5,
+  },
+  hovered: {
+    width: 5.0,
     color: "cyan",
     opacity: 0.5,
   },

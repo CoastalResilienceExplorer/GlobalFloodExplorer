@@ -39,6 +39,7 @@ export function useHover(
   const mapScale = useRef(0);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const popover = useRef<mapboxgl.Popup | null>(null);
+  const hoveredFeature = useRef<mapboxgl.MapboxGeoJSONFeature | null>(null);
   const colors = ThemeMap[theme];
 
   useEffect(() => {
@@ -47,6 +48,20 @@ export function useHover(
       mapScale.current = map.getZoom();
     });
   }, [map]);
+
+  const updateFeatureState = useCallback(
+    (feature: mapboxgl.MapboxGeoJSONFeature, state: boolean) => {
+      map.setFeatureState(
+        {
+          source: feature.layer.source as string,
+          sourceLayer: feature.layer["source-layer"] as string,
+          id: feature.id,
+        },
+        { hovered: state },
+      );
+    },
+    [map],
+  );
 
   const onHover = useCallback(
     (e: mapboxgl.MapLayerMouseEvent) => {
@@ -58,10 +73,15 @@ export function useHover(
       ) {
         map.getCanvas().style.cursor = "pointer";
         const hoveredTessela = e.features?.[0];
-        console.log(hoveredTessela);
+
         if (popover.current) {
           popover.current.remove();
         }
+        if (timeoutRef.current) {
+          clearTimeout(timeoutRef.current);
+        }
+        updateFeatureState(hoveredTessela, true);
+        hoveredFeature.current = hoveredTessela;
         popover.current = new mapboxgl.Popup({
           closeButton: false,
           closeOnClick: false,
@@ -99,6 +119,13 @@ export function useHover(
           number,
         ];
 
+        // Get the screen coordinates of the point
+        const point = map.project(coordinates);
+        const mapHeight = map.getContainer().clientHeight;
+
+        // Determine if the popup should be rendered above or below the point
+        const offset = point.y > mapHeight * 0.1 ? -20 : 20;
+
         // Populate the popup and set its coordinates
         // based on the feature found.
         popover.current
@@ -106,7 +133,7 @@ export function useHover(
             lng: coordinates[0],
             lat: coordinates[1],
           })
-          .setOffset([0, -20])
+          .setOffset([0, offset])
           .addTo(map);
 
         setTimeout(() => {
@@ -117,11 +144,21 @@ export function useHover(
         }, 100);
       }
     },
-    [colors.bgColor, colors.borderColor, colors.textColor, map, selectedLayer],
+    [
+      colors.bgColor,
+      colors.borderColor,
+      colors.textColor,
+      map,
+      selectedLayer,
+      updateFeatureState,
+    ],
   );
 
   const onHoverEnd = useCallback(() => {
     map.getCanvas().style.cursor = "grab";
+    if (hoveredFeature.current) {
+      updateFeatureState(hoveredFeature.current, false);
+    }
     setTimeout(() => {
       if (popover.current) {
         popover.current.addClassName(baseStyles + "!opacity-0");

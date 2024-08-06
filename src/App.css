@@ -126,4 +126,5 @@ body {
 
 .mapboxgl-popup .mapboxgl-popup-tip {
   border-top-color: var(--trench);
+  border-bottom-color: var(--trench);
 }
