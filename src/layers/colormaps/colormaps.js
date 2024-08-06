@@ -15,6 +15,8 @@ Floodmasks:
 - PostStorm
 */
 
+import { FILTER } from "layers/layers";
+
 class MapboxPaintManager {
   constructMapboxExpression(array) {
     return [array[0]].concat(
@@ -66,13 +68,6 @@ export class DiscreteColorSizeScale extends MapboxPaintManager {
   }
 }
 
-class RasterInterpolatedSymbology {
-  constructor(symbology) {
-    this.breaks = symbology.breaks;
-    this.colors = symbology.colors;
-  }
-}
-
 export class SimpleColorScale {
   constructor(strokes, scale = 1) {
     this.strokes = strokes;
@@ -99,11 +94,11 @@ const BasicStrokes = {
 const SelectedTesselaStrokes = {
   width: 0.2,
   color: "white",
-  opacity: 0.5,
+  opacity: 1.0,
   selected: {
-    width: 10.0,
+    width: 8.0,
     color: "cyan",
-    opacity: 0.5,
+    opacity: 0.7,
   },
   hovered: {
     width: 5.0,
@@ -112,45 +107,57 @@ const SelectedTesselaStrokes = {
   },
 };
 
-const MangroveStrokes = {
-  width: 1,
-  color: "white",
-  opacity: 0.6,
+const SelectedTesselaStrokes = {
+  width: 1.0,
+  color: "#000000",
+  opacity: 0.0,
   selected: {
-    width: 10.0,
+    width: 8.0,
     color: "cyan",
-    opacity: 0.5,
+    opacity: 0.7,
   },
 };
 
 const _Blue_5Step = {
-  breaks: [0, 1000000, 10000000, 100000000, 1000000000],
+  breaks: [1, 100000, 1000000, 10000000, 100000000, 1000000000],
 
   colorRamp: [
-    "rgba(255, 255, 255, 0)",
-    "#bae4bc",
-    "#7bccc4",
-    "#43a2ca",
-    "#0868ac",
+    "rgba(202, 240, 248, 0.5)",
+    "#caf0f8",
+    "#90e0ef",
+    "#00b4d8",
+    "#0077b6",
+    "#03045e",
   ],
+
+  sizeRamp: [1.6, 5, 10, 15, 20, 25],
+
+  legendScale: 3,
+};
+
+const _Blue_5Step_Pop = {
+  breaks: [15, 500, 1000, 10000, 20000],
+
+  colorRamp: ["#caf0f8", "#90e0ef", "#00b4d8", "#0077b6", "#03045e"],
 
   sizeRamp: [5, 10, 15, 20, 25],
 
   legendScale: 3,
 };
 
-const _Blue_5Step_Pop = {
-  breaks: [0, 500, 5000, 10000, 25000],
+const _Red_5Step_ExistingRisk = {
+  breaks: [1, 10000, 100000, 1000000, 10000000, 100000000],
 
   colorRamp: [
-    "rgba(255, 255, 255, 0)",
-    "#bae4bc",
-    "#7bccc4",
-    "#43a2ca",
-    "#0868ac",
+    "rgba(255, 255, 178, 1)",
+    "rgba(254, 204, 92, 1)",
+    "rgba(254, 170, 75, 1)",
+    "rgba(253, 141, 60, 1)",
+    "rgba(240, 59, 32, 1)",
+    "rgba(189, 0, 38, 1)",
   ],
 
-  sizeRamp: [5, 10, 15, 20, 25],
+  sizeRamp: [2, 3, 6, 8, 15, 22],
 
   legendScale: 3,
 };
@@ -158,36 +165,14 @@ const _Blue_5Step_Pop = {
 const _Blue_5Step_0_1 = {
   breaks: [0, 0.2, 0.4, 0.6, 0.8],
 
-  colorRamp: [
-    "rgba(255, 255, 255, 0.35)",
-    "#bae4bc",
-    "#7bccc4",
-    "#43a2ca",
-    "#0868ac",
-  ],
+  colorRamp: ["#caf0f8", "#90e0ef", "#00b4d8", "#0077b6", "#03045e"],
 
   sizeRamp: [5, 10, 15, 20, 25],
 
   legendScale: 3,
 };
 
-const _Blue_5Step_per_ha = {
-  breaks: [0, 1000, 5000, 10000, 100000],
-
-  colorRamp: [
-    "rgba(255, 255, 255, 0)",
-    "#bae4bc",
-    "#7bccc4",
-    "#43a2ca",
-    "#0868ac",
-  ],
-
-  sizeRamp: [5, 10, 15, 20, 25],
-
-  legendScale: 3,
-};
-
-const _Floodmaps_Bathy = {
+const _Floodmaps = {
   breaks: [0, 1.5, 3],
 
   colorRamp: [
@@ -197,38 +182,6 @@ const _Floodmaps_Bathy = {
   ],
 
   sizeRamp: [10, 10, 10],
-
-  legendScale: 3,
-};
-
-const _Floodmaps_Bathy2 = {
-  breaks: [0, 2, 4, 6, 8],
-
-  colorRamp: [
-    "rgba(255, 255, 255, 0.8)",
-    "rgba(255, 255, 255, 0.8)",
-    "rgba(255, 255, 255, 0.8)",
-    "rgba(255, 255, 255, 0.8)",
-    "rgba(255, 255, 255, 0.8)",
-  ],
-
-  sizeRamp: [10, 10, 10, 10, 10],
-
-  legendScale: 3,
-};
-
-const _Empty = {
-  breaks: [0, 1000000, 10000000, 100000000, 1000000000],
-
-  colorRamp: [
-    "rgba(255, 255, 255, 0)",
-    "rgba(255, 255, 255, 0)",
-    "rgba(255, 255, 255, 0)",
-    "rgba(255, 255, 255, 0)",
-    "rgba(255, 255, 255, 0)",
-  ],
-
-  sizeRamp: [5, 10, 15, 20, 25],
 
   legendScale: 3,
 };
@@ -254,7 +207,7 @@ const _Grey = {
 };
 
 const _Red = {
-  breaks: [0, 1, 2],
+  breaks: [0, 1.5, 3],
 
   colorRamp: ["#FB1414", "#FB1414", "#FB1414"],
 
@@ -263,82 +216,6 @@ const _Red = {
   legendScale: 3,
 };
 
-const _Red_10Step_0_1 = {
-  breaks: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
-
-  colorRamp: [
-    "#FB1414",
-    "#FC471C",
-    "#FD7A24",
-    "#FEAD2C",
-    "#FFE134",
-    "#E1E730",
-    "#C3ED2C",
-    "#A6F328",
-    "#88F924",
-    "#6BFF21",
-  ],
-
-  sizeRamp: [7, 7, 7, 5, 5, 5, 4, 4, 4, 3],
-
-  legendScale: 3,
-};
-
-const _Red_10Step = {
-  breaks: [0, 1000000, 10000000, 100000000, 1000000000],
-
-  colorRamp: [
-    "#FB1414",
-    // "#FC471C",
-    "#FD7A24",
-    // "#FEAD2C",
-    "#FFE134",
-    // "#E1E730",
-    "#C3ED2C",
-    // "#A6F328",
-    // "#88F924",
-    "#6BFF21",
-  ],
-
-  sizeRamp: [5, 10, 15, 20, 25],
-
-  legendScale: 3,
-};
-
-const _Red_10Step_negative1_positive1 = {
-  breaks: [-0.5, -0.4, -0.3, -0.2, -0.1, 0, 0.1, 0.2, 0.3, 0.4, 0.5],
-
-  colorRamp: [
-    "#FB1414",
-    "#FC471C",
-    "#FD7A24",
-    "#FEAD2C",
-    "#FFE134",
-    "#FFE134",
-    "#E1E730",
-    "#C3ED2C",
-    "#A6F328",
-    "#88F924",
-    "#6BFF21",
-  ],
-
-  sizeRamp: [7, 7, 7, 5, 5, 5, 5, 5, 7, 7, 7],
-
-  legendScale: 3,
-};
-
-export const Red_10Step_0_1 = new DiscreteColorSizeScale(
-  _Red_10Step_0_1,
-  BasicStrokes,
-);
-export const Red_10Step_negative1_positive1 = new DiscreteColorSizeScale(
-  _Red_10Step_negative1_positive1,
-  BasicStrokes,
-);
-export const Red_10Step = new DiscreteColorSizeScale(_Red_10Step, BasicStrokes);
-
-export const Empty = new DiscreteColorSizeScale(_Empty, BasicStrokes);
-
 export const Blue_5Step_0_1 = new DiscreteColorSizeScale(
   _Blue_5Step_0_1,
   BasicStrokes,
@@ -346,21 +223,10 @@ export const Blue_5Step_0_1 = new DiscreteColorSizeScale(
 
 export const Blue_5Step = new DiscreteColorSizeScale(_Blue_5Step, BasicStrokes);
 
-export const Blue_5Step_per_ha = new DiscreteColorSizeScale(
-  _Blue_5Step_per_ha,
-  BasicStrokes,
-);
-
 export const SelectedTessela = new SimpleColorScale(SelectedTesselaStrokes);
 
-export const Mangroves = new SimpleColorScale(MangroveStrokes);
-
 export const FloodMaps_Bathy = new DiscreteColorSizeScale(
-  _Floodmaps_Bathy,
-  BasicStrokes,
-);
-export const Floodmaps_Bathy2 = new DiscreteColorSizeScale(
-  _Floodmaps_Bathy2,
+  _Floodmaps,
   BasicStrokes,
 );
 
@@ -371,4 +237,8 @@ export const Blue_5Step_Pop = new DiscreteColorSizeScale(
 
 export const Green = new DiscreteColorSizeScale(_Green, BasicStrokes);
 export const Grey = new DiscreteColorSizeScale(_Grey, BasicStrokes);
-export const Red = new DiscreteColorSizeScale(_Red, BasicStrokes);
+
+export const Red_5Step = new DiscreteColorSizeScale(
+  _Red_5Step_ExistingRisk,
+  BasicStrokes,
+);

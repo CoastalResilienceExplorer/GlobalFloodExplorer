@@ -6,7 +6,7 @@ export default class SimpleOutlineProto {
     legend, //Symbology
     layer_title,
     display_legend = false,
-    filter = [],
+    filter = null,
     minzoom = 0,
     maxzoom = 16,
   }) {
@@ -53,8 +53,11 @@ export default class SimpleOutlineProto {
       },
       minzoom: this.minzoom,
       maxzoom: this.maxzoom,
-      filter: this.filter,
     };
+
+    if (this.filter !== null) {
+      layer_proto.filter = this.filter;
+    }
 
     return layer_proto;
   }

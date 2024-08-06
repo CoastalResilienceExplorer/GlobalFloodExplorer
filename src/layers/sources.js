@@ -61,34 +61,34 @@ const mangroves_2015 = {
   maxzoom: 14,
 };
 
-const CWON_tesela_reppts = {
-  id: "UCSC_CWON_studyunits_reppts",
+const CWON_RESULTS_TESELA_ALLYEARS_RepPt = {
+  id: "CWON_RESULTS_TESELA_ALLYEARS_RepPt",
   type: "vector",
   format: "mvt",
   tiles: [
-    `${PMSERVER_URL}/vectors/cwon-teselas/UCSC_CWON_studyunits_reppts/{z}/{x}/{y}.mvt`,
+    `${PMSERVER_URL}/cwon-teselas/CWON_RESULTS_TESELA_ALLYEARS_RepPt/{z}/{x}/{y}.mvt`,
   ],
   minzoom: 0,
   maxzoom: 14,
 };
 
-const CWON_tesela_bounds = {
-  id: "UCSC_CWON_studyunits",
+const CWON_RESULTS_TESELA_ALLYEARS = {
+  id: "CWON_RESULTS_TESELA_ALLYEARS",
   type: "vector",
   format: "mvt",
   tiles: [
-    `${PMSERVER_URL}/vectors/cwon-teselas/UCSC_CWON_studyunits/{z}/{x}/{y}.mvt`,
+    `${PMSERVER_URL}/cwon-teselas/CWON_RESULTS_TESELA_ALLYEARS/{z}/{x}/{y}.mvt`,
   ],
   minzoom: 0,
   maxzoom: 14,
 };
 
-const CWON_tesela_hexs = {
-  id: "UCSC_CWON_studyunits_hexs",
+const CWON_RESULTS_TESELA_ALLYEARS_Hex = {
+  id: "CWON_RESULTS_TESELA_ALLYEARS_Hex",
   type: "vector",
   format: "mvt",
   tiles: [
-    `${PMSERVER_URL}/vectors/cwon-teselas/UCSC_CWON_studyunits_hexs/{z}/{x}/{y}.mvt`,
+    `${PMSERVER_URL}/cwon-teselas/CWON_RESULTS_TESELA_ALLYEARS_Hex/{z}/{x}/{y}.mvt`,
   ],
   minzoom: 0,
   maxzoom: 14,
@@ -112,9 +112,9 @@ const sources = [
   ["flooding_2015_pt", flooding_2015_pt],
   ["flooding_nomang_pt", flooding_nomang_pt],
   ["flooding_squares", flooding_squares],
-  ["UCSC_CWON_studyunits", CWON_tesela_bounds],
-  ["UCSC_CWON_studyunits_reppts", CWON_tesela_reppts],
-  ["UCSC_CWON_studyunits_hexs", CWON_tesela_hexs],
+  ["CWON_RESULTS_TESELA_ALLYEARS", CWON_RESULTS_TESELA_ALLYEARS],
+  ["CWON_RESULTS_TESELA_ALLYEARS_RepPt", CWON_RESULTS_TESELA_ALLYEARS_RepPt],
+  ["CWON_RESULTS_TESELA_ALLYEARS_Hex", CWON_RESULTS_TESELA_ALLYEARS_Hex],
   ["UCSC_CWON_countrybounds", CWON_countries],
 ];
 

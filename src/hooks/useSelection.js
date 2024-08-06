@@ -1,6 +1,34 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 
+export function setFeatureState_withDependencies(
+  f,
+  state,
+  layerSelectionDependencies,
+  map,
+) {
+  map.setFeatureState(
+    {
+      source: f.layer.source,
+      sourceLayer: f.layer["source-layer"],
+      id: f.id,
+    },
+    { selected: state },
+  );
+  layerSelectionDependencies.forEach((lsd) => {
+    if (lsd[0] === f.layer["source-layer"]) {
+      map.setFeatureState(
+        {
+          source: lsd[1],
+          sourceLayer: lsd[1],
+          id: f.id,
+        },
+        { selected: state },
+      );
+    }
+  });
+}
+
 export function useSelection(
   map,
   mapLoaded,
@@ -19,29 +47,6 @@ export function useSelection(
       selectedFeatures.filter((f) => f.layer.id === selectionType),
     );
   }, [selectionType]);
-
-  function setFeatureState_withDependencies(f, state) {
-    map.setFeatureState(
-      {
-        source: f.layer.source,
-        sourceLayer: f.layer["source-layer"],
-        id: f.id,
-      },
-      { selected: state },
-    );
-    layerSelectionDependenciesRef.current.forEach((lsd) => {
-      if (lsd[0] === f.layer["source-layer"]) {
-        map.setFeatureState(
-          {
-            source: lsd[1],
-            sourceLayer: lsd[1],
-            id: f.id,
-          },
-          { selected: state },
-        );
-      }
-    });
-  }
 
   useEffect(() => {
     // return
@@ -149,7 +154,12 @@ export function useSelection(
   useEffect(() => {
     renderFeatures.current = () => {
       selectedFeatures.forEach((f) => {
-        setFeatureState_withDependencies(f, true);
+        setFeatureState_withDependencies(
+          f,
+          true,
+          layerSelectionDependenciesRef.current,
+          map,
+        );
       });
       featuresRef.current = selectedFeatures;
     };
@@ -159,12 +169,22 @@ export function useSelection(
     if (!mapLoaded) return;
     featuresRef.current.forEach((f) => {
       if (!selectedFeatures.includes(f)) {
-        setFeatureState_withDependencies(f, false);
+        setFeatureState_withDependencies(
+          f,
+          false,
+          layerSelectionDependenciesRef.current,
+          map,
+        );
       }
     });
     selectedFeatures.forEach((f) => {
       if (!featuresRef.current.includes(f)) {
-        setFeatureState_withDependencies(f, true);
+        setFeatureState_withDependencies(
+          f,
+          true,
+          layerSelectionDependenciesRef.current,
+          map,
+        );
       }
     });
     featuresRef.current = selectedFeatures;
@@ -234,5 +254,5 @@ export function useSelection(
     });
   }, [map, mapLoaded]);
 
-  return { selectedFeatures, selectionType };
+  return { selectedFeatures, selectionType, setSelectedFeatures };
 }

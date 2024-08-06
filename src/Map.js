@@ -5,6 +5,7 @@ import { useMap } from "hooks/useMap";
 import { useLayers } from "hooks/layers/useLayers";
 import { useLegends } from "hooks/useLegends";
 import { useSelection } from "hooks/useSelection";
+import { useSelectionSync } from "hooks/useSelectionAcrossLayers";
 import { useMapWithBreadcrumbs } from "hooks/useBreadcrumbs";
 import { InfoContext, useInfo } from "hooks/useInfo";
 import { usePermalinks } from "hooks/usePermalinks";
@@ -95,13 +96,16 @@ export default function Map() {
     subgroup: subgroup,
   });
 
-  const { selectedFeatures, selectionType } = useSelection(
+  const { selectedFeatures, selectionType, setSelectedFeatures } = useSelection(
     map,
     mapLoaded,
     mapContainer,
     allSelectableLayers,
     layerSelectionDependencies,
+    layerGroup,
   );
+
+  useSelectionSync(layerGroup, selectedFeatures, setSelectedFeatures, map);
 
   useHover(map, layerGroup, theme);
 

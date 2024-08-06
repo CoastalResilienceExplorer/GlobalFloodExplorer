@@ -68,7 +68,7 @@ export default class FillWithOutlineProto {
       maxzoom: this.maxzoom,
     };
 
-    if (this.filter) {
+    if (this.filter !== null) {
       layer_proto.filter = this.filter;
     }
 

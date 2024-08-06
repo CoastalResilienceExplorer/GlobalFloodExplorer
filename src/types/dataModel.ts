@@ -11,15 +11,23 @@ export enum LayerGroupName {
   Population = "Benefit (Social)",
 }
 
+export type Filter = [string, any, any];
+
 export enum LayerName {
-  TESSELA_BOUNDS = "tessela_bounds",
-  TESSELA_BOUNDS_RISK_REDUCTION = "tessela_bounds_risk_reduction",
-  TESSELA_BOUNDS_POPULATION = "tessela_bounds_population",
-  TESSELA_RPS_RISK_REDUCTION = "tessela_rps_risk_reduction",
-  TESSELA_RPS_BENEFITS = "tessela_rps_benefits",
-  TESSELA_RPS_POPULATION = "tessela_rps_population",
+  // Existing Risk
+  TESSELA_BOUNDS_EXISTING_RISK = "tessela_bounds_existing_risk",
+  TESSELA_RPS_EXISTING_RISK = "tessela_rps_existing_risk",
+  // Stock Benefits
+  TESSELA_BOUNDS_STOCK_BENEFITS = "tessela_bounds_stock_benefits",
+  TESSELA_RPS_STOCK_BENEFITS = "tessela_rps_stock_benefits",
+  // Pop Benefits
+  TESSELA_BOUNDS_POPULATION_BENEFITS = "tessela_bounds_population_benefits",
+  TESSELA_RPS_POPULATION_BENEFITS = "tessela_rps_population_benefits",
+  // Risk Reduction Ratio
+  TESSELA_BOUNDS_RISK_REDUCTION_RATIO = "tessela_bounds_risk_reduction_ratio",
   HEX = "hex",
   HEX2 = "hex2",
+  // Flooding
   MANGROVES_NOMANG = "mangroves_nomang",
   MANGROVES_2015 = "mangroves_2015",
   FLOODING_NOMANG = "flooding_nomang",
@@ -54,6 +62,7 @@ export type Layer = {
   opacity?: number;
   hex_type?: string;
   filter?: Filter;
+  selection_sync_with?: string;
 };
 
 export type ConfigurableSlideLayer = {
@@ -111,5 +120,3 @@ export type AOI = {
   description?: string;
   layerGroup?: LayerGroupName;
 };
-
-export type Filter = [string, any, any];
