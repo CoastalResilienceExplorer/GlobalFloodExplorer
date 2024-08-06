@@ -1,3 +1,5 @@
+import { FILTER_VALUE } from "layers/layers";
+
 export default class DiscretePointProto {
   constructor({
     id, //Unique ID
@@ -32,6 +34,7 @@ export default class DiscretePointProto {
   }
 
   get MBLayer() {
+    const filter_header = ["case", ["<", this.colorValue, FILTER_VALUE], 0.0];
     const layer_proto = {
       id: this.id,
       key: this.id,
@@ -42,7 +45,10 @@ export default class DiscretePointProto {
         // Color
         "circle-color": [].concat(this.color_header, ...this.legend.ColorRamp),
         // Size
-        "circle-radius": [].concat(this.color_header, ...this.legend.SizeRamp),
+        "circle-radius": [
+          ...filter_header,
+          [].concat(this.color_header, ...this.legend.SizeRamp),
+        ],
         // Strokes
         "circle-stroke-color": [
           "case",
@@ -51,16 +57,22 @@ export default class DiscretePointProto {
           this.strokes.color,
         ],
         "circle-stroke-width": [
-          "case",
-          ["boolean", ["feature-state", "selected"], false],
-          this.strokes.selected.width,
-          this.strokes.width,
+          ...filter_header,
+          [
+            "case",
+            ["boolean", ["feature-state", "selected"], false],
+            this.strokes.selected.width,
+            this.strokes.width,
+          ],
         ],
         "circle-stroke-opacity": [
-          "case",
-          ["boolean", ["feature-state", "selected"], false],
-          this.strokes.selected.opacity,
-          this.strokes.opacity,
+          ...filter_header,
+          [
+            "case",
+            ["boolean", ["feature-state", "selected"], false],
+            this.strokes.selected.opacity,
+            this.strokes.opacity,
+          ],
         ],
       },
       layout: {

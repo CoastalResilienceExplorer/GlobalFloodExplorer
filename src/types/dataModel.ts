@@ -11,6 +11,8 @@ export enum LayerGroupName {
   Population = "Benefit (Social)",
 }
 
+export type Filter = [string, any, any];
+
 export enum LayerName {
   // Existing Risk
   TESSELA_BOUNDS_EXISTING_RISK = "tessela_bounds_existing_risk",
@@ -118,5 +120,3 @@ export type AOI = {
   description?: string;
   layerGroup?: LayerGroupName;
 };
-
-export type Filter = [string, any, any];
