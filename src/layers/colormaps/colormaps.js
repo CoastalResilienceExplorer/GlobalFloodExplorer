@@ -103,7 +103,7 @@ const BasicStrokes_Thick = {
 };
 
 const SelectedTesselaStrokes = {
-  width: 0.2,
+  width: 0.1,
   color: "white",
   opacity: 0.5,
   selected: {
@@ -125,17 +125,17 @@ const MangroveStrokes = {
 };
 
 const _Blue_5Step = {
-  breaks: [0, 1000000, 10000000, 100000000, 1000000000],
+  breaks: [0, 1, 10000000, 100000000, 1000000000],
 
   colorRamp: [
-    "rgba(255, 255, 255, 0)",
+    "rgba(255, 255, 255, 0.2)",
     "#bae4bc",
     "#7bccc4",
     "#43a2ca",
     "#0868ac",
   ],
 
-  sizeRamp: [5, 10, 15, 20, 25],
+  sizeRamp: [1, 10, 15, 20, 25],
 
   legendScale: 3,
 };

@@ -9,7 +9,7 @@ export default class DiscretePointProto {
     layer_title,
     layer_type,
     display_legend = true,
-    filter = 250000,
+    filter = null,
     legend_prefix = null,
     legend_suffix = null,
     minzoom = 0,
@@ -68,8 +68,11 @@ export default class DiscretePointProto {
       },
       minzoom: this.minzoom,
       maxzoom: 16,
-      filter: this.filter,
     };
+
+    if (this.filter !== null) {
+      layer_proto.filter = this.filter;
+    }
 
     return layer_proto;
   }

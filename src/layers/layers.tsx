@@ -50,10 +50,12 @@ export const mangHaTotalChange = [
   ["to-number", ["get", "Mang_Ha_1996"]],
 ];
 
-const BEN_FILTER_VALUE = 200000;
+const EXISTING_RISK_FILTER_VALUE = 1;
+const BEN_FILTER_VALUE = 1;
 
 export const LAYERS: Record<LayerName, Layer> = {
-  [LayerName.TESSELA_BOUNDS]: {
+  // Existing Risk
+  [LayerName.TESSELA_BOUNDS_EXISTING_RISK]: {
     id: "tessela_bounds",
     source: "UCSC_CWON_studyunits",
     source_layer: "UCSC_CWON_studyunits",
@@ -61,29 +63,10 @@ export const LAYERS: Record<LayerName, Layer> = {
     layer_title: "Tessela",
     layer_type: "SIMPLE_OUTLINE",
     selection_dependent_on: "UCSC_CWON_studyunits_reppts",
-    filter: [">", benStock, BEN_FILTER_VALUE],
+    filter: [">", riskStock, EXISTING_RISK_FILTER_VALUE],
     minzoom: COUNTRY_TESELA_ZOOM_SWITCH,
   },
-  [LayerName.TESSELA_BOUNDS_RISK_REDUCTION]: {
-    id: "tessela_bounds",
-    source: "UCSC_CWON_studyunits",
-    source_layer: "UCSC_CWON_studyunits",
-    legend: SelectedTessela,
-    layer_title: "Tessela",
-    layer_type: "SIMPLE_OUTLINE",
-    selection_dependent_on: "UCSC_CWON_studyunits_hexs",
-  },
-  [LayerName.TESSELA_BOUNDS_POPULATION]: {
-    id: "tessela_bounds",
-    source: "UCSC_CWON_studyunits",
-    source_layer: "UCSC_CWON_studyunits",
-    legend: SelectedTessela,
-    layer_title: "Tessela",
-    layer_type: "SIMPLE_OUTLINE",
-    selection_dependent_on: "UCSC_CWON_studyunits_reppts",
-    minzoom: COUNTRY_TESELA_ZOOM_SWITCH,
-  },
-  [LayerName.TESSELA_RPS_RISK_REDUCTION]: {
+  [LayerName.TESSELA_RPS_EXISTING_RISK]: {
     id: "tessela_rps",
     source: "UCSC_CWON_studyunits_reppts",
     source_layer: "UCSC_CWON_studyunits_reppts",
@@ -94,10 +77,22 @@ export const LAYERS: Record<LayerName, Layer> = {
     legend_prefix: "$",
     format: "$",
     is_selectable: true,
-    filter: [">", benStock, BEN_FILTER_VALUE],
+    filter: [">", riskStock, EXISTING_RISK_FILTER_VALUE],
+    selection_sync_with: "UCSC_CWON_studyunits_hexs",
     minzoom: COUNTRY_TESELA_ZOOM_SWITCH,
   },
-  [LayerName.TESSELA_RPS_BENEFITS]: {
+  // Stock Benefits
+  [LayerName.TESSELA_BOUNDS_STOCK_BENEFITS]: {
+    id: "tessela_bounds",
+    source: "UCSC_CWON_studyunits",
+    source_layer: "UCSC_CWON_studyunits",
+    legend: SelectedTessela,
+    layer_title: "Tessela",
+    layer_type: "SIMPLE_OUTLINE",
+    selection_dependent_on: "UCSC_CWON_studyunits_reppts",
+    filter: [">", riskStock, EXISTING_RISK_FILTER_VALUE],
+  },
+  [LayerName.TESSELA_RPS_STOCK_BENEFITS]: {
     id: "tessela_rps",
     source: "UCSC_CWON_studyunits_reppts",
     source_layer: "UCSC_CWON_studyunits_reppts",
@@ -109,9 +104,22 @@ export const LAYERS: Record<LayerName, Layer> = {
     format: "$",
     is_selectable: true,
     filter: [">", benStock, BEN_FILTER_VALUE],
+    selection_sync_with: "UCSC_CWON_studyunits_hexs",
     minzoom: COUNTRY_TESELA_ZOOM_SWITCH,
   },
-  [LayerName.TESSELA_RPS_POPULATION]: {
+  // Pop Benefits
+  [LayerName.TESSELA_BOUNDS_POPULATION_BENEFITS]: {
+    id: "tessela_bounds",
+    source: "UCSC_CWON_studyunits",
+    source_layer: "UCSC_CWON_studyunits",
+    legend: SelectedTessela,
+    layer_title: "Tessela",
+    layer_type: "SIMPLE_OUTLINE",
+    selection_dependent_on: "UCSC_CWON_studyunits_reppts",
+    minzoom: COUNTRY_TESELA_ZOOM_SWITCH,
+    filter: [">", benStock, BEN_FILTER_VALUE],
+  },
+  [LayerName.TESSELA_RPS_POPULATION_BENEFITS]: {
     id: "tessela_rps",
     source: "UCSC_CWON_studyunits_reppts",
     source_layer: "UCSC_CWON_studyunits_reppts",
@@ -122,6 +130,20 @@ export const LAYERS: Record<LayerName, Layer> = {
     legend_prefix: "",
     is_selectable: true,
     minzoom: COUNTRY_TESELA_ZOOM_SWITCH,
+    selection_sync_with: "UCSC_CWON_studyunits_hexs",
+    filter: [">", benPop, BEN_FILTER_VALUE],
+  },
+  // Risk Reduction Ratio
+  [LayerName.TESSELA_BOUNDS_RISK_REDUCTION_RATIO]: {
+    id: "tessela_bounds",
+    source: "UCSC_CWON_studyunits",
+    source_layer: "UCSC_CWON_studyunits",
+    legend: SelectedTessela,
+    layer_title: "Tessela",
+    layer_type: "SIMPLE_OUTLINE",
+    selection_dependent_on: "UCSC_CWON_studyunits_hexs",
+    minzoom: COUNTRY_TESELA_ZOOM_SWITCH,
+    filter: [">", benStock, BEN_FILTER_VALUE],
   },
   [LayerName.HEX]: {
     id: "hex",
@@ -139,7 +161,9 @@ export const LAYERS: Record<LayerName, Layer> = {
     format: "%",
     display_legend: true,
     is_selectable: true,
+    selection_sync_with: "UCSC_CWON_studyunits_reppts",
     minzoom: COUNTRY_TESELA_ZOOM_SWITCH,
+    filter: [">", benStock, BEN_FILTER_VALUE],
   },
   [LayerName.HEX2]: {
     id: "hex2",
@@ -157,8 +181,11 @@ export const LAYERS: Record<LayerName, Layer> = {
     format: "%",
     display_legend: false,
     is_selectable: true,
+    selection_sync_with: "UCSC_CWON_studyunits_reppts",
     minzoom: COUNTRY_TESELA_ZOOM_SWITCH,
+    filter: [">", benStock, BEN_FILTER_VALUE],
   },
+  // Flooding
   [LayerName.MANGROVES_NOMANG]: {
     id: "mangroves_nomang",
     source: "mangroves_2015",
@@ -224,17 +251,17 @@ export const LAYERS: Record<LayerName, Layer> = {
 };
 
 const currentRiskLayers = [
-  LayerName.TESSELA_BOUNDS,
-  LayerName.TESSELA_RPS_RISK_REDUCTION,
+  LayerName.TESSELA_BOUNDS_EXISTING_RISK,
+  LayerName.TESSELA_RPS_EXISTING_RISK,
 ];
 
 const annualBenefitsLayers = [
-  LayerName.TESSELA_BOUNDS,
-  LayerName.TESSELA_RPS_BENEFITS,
+  LayerName.TESSELA_BOUNDS_STOCK_BENEFITS,
+  LayerName.TESSELA_RPS_STOCK_BENEFITS,
 ];
 
 const reductRatioLayers = [
-  LayerName.TESSELA_BOUNDS_RISK_REDUCTION,
+  LayerName.TESSELA_BOUNDS_RISK_REDUCTION_RATIO,
   LayerName.HEX,
   LayerName.HEX2,
 ];
@@ -265,8 +292,8 @@ const floodingComparisonLayers: ConfigurableLayerMap = {
 };
 
 const populationLayers = [
-  LayerName.TESSELA_BOUNDS_POPULATION,
-  LayerName.TESSELA_RPS_POPULATION,
+  LayerName.TESSELA_BOUNDS_POPULATION_BENEFITS,
+  LayerName.TESSELA_RPS_POPULATION_BENEFITS,
 ];
 
 const layerGroups: Record<LayerGroupName, LayerGroup> = {
