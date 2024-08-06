@@ -114,3 +114,17 @@ body {
   background-color: var(--shoreline);
   cursor: pointer;
 }
+
+.mapboxgl-popup {
+  opacity: 0;
+}
+
+.mapboxgl-popup .mapboxgl-popup-content {
+  padding: 0;
+  background-color: transparent;
+}
+
+.mapboxgl-popup .mapboxgl-popup-tip {
+  border-top-color: var(--trench);
+  border-bottom-color: var(--trench);
+}
