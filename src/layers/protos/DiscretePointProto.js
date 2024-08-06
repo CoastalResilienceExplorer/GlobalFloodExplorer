@@ -65,8 +65,8 @@ export default class DiscretePointProto {
             ["boolean", ["feature-state", "selected"], false],
             this.strokes.selected.width,
             ["boolean", ["feature-state", "hovered"], false],
-            this.strokes.hovered.opacity,
-            this.strokes.opacity,          
+            this.strokes.hovered.width,
+            this.strokes.width,
           ],
         ],
         "circle-stroke-opacity": [

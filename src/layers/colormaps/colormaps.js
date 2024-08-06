@@ -15,8 +15,6 @@ Floodmasks:
 - PostStorm
 */
 
-import { FILTER } from "layers/layers";
-
 class MapboxPaintManager {
   constructMapboxExpression(array) {
     return [array[0]].concat(
@@ -92,9 +90,9 @@ const BasicStrokes = {
 };
 
 const SelectedTesselaStrokes = {
-  width: 0.2,
-  color: "white",
-  opacity: 1.0,
+  width: 1.0,
+  color: "#000000",
+  opacity: 0.0,
   selected: {
     width: 8.0,
     color: "cyan",
@@ -104,17 +102,6 @@ const SelectedTesselaStrokes = {
     width: 5.0,
     color: "cyan",
     opacity: 0.5,
-  },
-};
-
-const SelectedTesselaStrokes = {
-  width: 1.0,
-  color: "#000000",
-  opacity: 0.0,
-  selected: {
-    width: 8.0,
-    color: "cyan",
-    opacity: 0.7,
   },
 };
 
