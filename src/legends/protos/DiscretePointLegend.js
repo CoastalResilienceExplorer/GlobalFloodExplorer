@@ -1,6 +1,10 @@
 import * as React from "react";
 import "../legend.css";
 import { kFormatter } from "hooks/utils/formattingUtils";
+import {
+  LegendLayerSwitch,
+  LegendLayerToggle,
+} from "legends/legend-layer-selector";
 
 const spacing_styles = {
   CONSTANT: "CONSTANT", //a constant value between each circle
@@ -57,11 +61,27 @@ export default React.memo(function DiscretePointLegend({
 
   const xTextOffs = 2 * (max_width + dimensions.leftMargin);
 
+  const switchChildren = React.Children.toArray(children).filter(
+    (child) =>
+      React.isValidElement(child) &&
+      (child.type === LegendLayerSwitch ||
+        child.type.name === LegendLayerSwitch.displayName),
+  );
+
+  const toggleChildren = React.Children.toArray(children).filter(
+    (child) =>
+      React.isValidElement(child) &&
+      (child.type === LegendLayerToggle ||
+        child.type.name === LegendLayerToggle.displayName),
+  );
+
   return (
-    <div className={`legend-item ${!!children ? "custom-legend-item" : ""}`}>
+    <div className={`legend-item custom-legend-item`}>
       <div className="legend-layer-title">{legend.layer_title}</div>
       <div className="legend-layer-subtitle">{legend.layer_subtitle}</div>
-      {children}
+      {switchChildren}
+      {/* These toggles are only displayed if there is a switch */}
+      {toggleChildren}
       <svg
         width={bubbles_and_text_total_width}
         height={bubbles_and_text_total_height}
@@ -97,6 +117,8 @@ export default React.memo(function DiscretePointLegend({
           );
         })}
       </svg>
+      {/* These toggles are only displayed if there is not a switch */}
+      {toggleChildren}
     </div>
   );
 });

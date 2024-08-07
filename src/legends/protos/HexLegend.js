@@ -1,5 +1,9 @@
 import * as React from "react";
 import "../legend.css";
+import {
+  LegendLayerSwitch,
+  LegendLayerToggle,
+} from "legends/legend-layer-selector";
 
 function pt_to_hex(x, y, rad) {
   // clockwise, 6 points
@@ -14,7 +18,7 @@ function pt_to_hex(x, y, rad) {
   return angles.map((a) => [x + Math.cos(a) * rad, y + Math.sin(a) * rad]);
 }
 
-export default function HexLegend({ legend }) {
+export default function HexLegend({ legend, children }) {
   const startingPoint = [35, 35];
   const rad = 20;
   const xOffs = 30;
@@ -39,6 +43,20 @@ export default function HexLegend({ legend }) {
       ];
   });
 
+  const switchChildren = React.Children.toArray(children).filter(
+    (child) =>
+      React.isValidElement(child) &&
+      (child.type === LegendLayerSwitch ||
+        child.type.name === LegendLayerSwitch.displayName),
+  );
+
+  const toggleChildren = React.Children.toArray(children).filter(
+    (child) =>
+      React.isValidElement(child) &&
+      (child.type === LegendLayerToggle ||
+        child.type.name === LegendLayerToggle.displayName),
+  );
+
   return (
     <div className="legend-item wide">
       <div className="legend-layer-title">{legend.layer_title}</div>
@@ -46,6 +64,9 @@ export default function HexLegend({ legend }) {
         Height represents total potential risk. Color represents the reduction
         in risk.
       </div>
+      {switchChildren}
+      {/* These toggles are only displayed if there is a switch */}
+      {toggleChildren}
       <svg width={200} height={200} className="discrete-point-legend">
         {placements
           .map((p) => [p[0], pt_to_hex(p[1][0], p[1][1], rad)])
@@ -55,7 +76,7 @@ export default function HexLegend({ legend }) {
               key={h + i}
               fill={h[0]}
               stroke="white"
-              points={`${h[1][0][0]},${h[1][0][1]} 
+              points={` ${h[1][0][0]},${h[1][0][1]} 
                         ${h[1][1][0]},${h[1][1][1]} 
                         ${h[1][2][0]},${h[1][2][1]} 
                         ${h[1][3][0]},${h[1][3][1]} 
@@ -76,6 +97,7 @@ export default function HexLegend({ legend }) {
           </text>
         ))}
       </svg>
+      {toggleChildren}
     </div>
   );
 }

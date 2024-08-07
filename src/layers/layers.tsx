@@ -251,34 +251,44 @@ export const LAYERS: Record<LayerName, Layer> = {
   },
 };
 
-const currentRiskLayers = [
-  LayerName.TESSELA_BOUNDS_EXISTING_RISK,
-  LayerName.TESSELA_RPS_EXISTING_RISK,
-];
+const currentRiskLayers: ConfigurableLayerMap = {
+  [LayerName.MANGROVES_2015]: {
+    toggleLabel: "Show mangroves (2015)",
+    toggleKey: "mangrove_extent",
+  },
+  [LayerName.TESSELA_BOUNDS_EXISTING_RISK]: true,
+  [LayerName.TESSELA_RPS_EXISTING_RISK]: true,
+};
 
-const annualBenefitsLayers = [
-  LayerName.TESSELA_BOUNDS_STOCK_BENEFITS,
-  LayerName.TESSELA_RPS_STOCK_BENEFITS,
-];
+const annualBenefitsLayers: ConfigurableLayerMap = {
+  [LayerName.MANGROVES_2015]: {
+    toggleLabel: "Show mangroves (2015)",
+    toggleKey: "mangrove_extent",
+  },
+  [LayerName.TESSELA_BOUNDS_STOCK_BENEFITS]: true,
+  [LayerName.TESSELA_RPS_STOCK_BENEFITS]: true,
+};
 
-const reductRatioLayers = [
-  LayerName.TESSELA_BOUNDS_RISK_REDUCTION_RATIO,
-  LayerName.HEX,
-  LayerName.HEX2,
-];
+const reductRatioLayers: ConfigurableLayerMap = {
+  [LayerName.MANGROVES_2015]: {
+    toggleLabel: "Show mangroves (2015)",
+    toggleKey: "mangrove_extent",
+  },
+  [LayerName.TESSELA_BOUNDS_RISK_REDUCTION_RATIO]: true,
+  [LayerName.HEX]: true,
+  [LayerName.HEX2]: true,
+};
 
 const floodingComparisonLayers: ConfigurableLayerMap = {
   [LayerName.MANGROVES_NOMANG]: {
     slidePosition: "right",
-    sharedKey: "mangrove_extent",
-    sharedLabel: "Show mangroves (2015)",
-    associatedLayer: LayerName.FLOODING_NOMANG,
+    toggleKey: "mangrove_extent",
+    toggleLabel: "Show mangroves (2015)",
   },
   [LayerName.MANGROVES_2015]: {
     slidePosition: "left",
-    sharedKey: "mangrove_extent",
-    sharedLabel: "Show mangroves (2015)",
-    associatedLayer: LayerName.FLOODING_2015,
+    toggleKey: "mangrove_extent",
+    toggleLabel: "Show mangroves (2015)",
   },
   [LayerName.FLOODING_NOMANG]: {
     slidePosition: "right",
@@ -292,10 +302,14 @@ const floodingComparisonLayers: ConfigurableLayerMap = {
   },
 };
 
-const populationLayers = [
-  LayerName.TESSELA_BOUNDS_POPULATION_BENEFITS,
-  LayerName.TESSELA_RPS_POPULATION_BENEFITS,
-];
+const populationLayers: ConfigurableLayerMap = {
+  [LayerName.MANGROVES_2015]: {
+    toggleLabel: "Show mangroves (2015)",
+    toggleKey: "mangrove_extent",
+  },
+  [LayerName.TESSELA_BOUNDS_POPULATION_BENEFITS]: true,
+  [LayerName.TESSELA_RPS_POPULATION_BENEFITS]: true,
+};
 
 const layerGroups: Record<LayerGroupName, LayerGroup> = {
   [LayerGroupName.CurrentRisk]: {

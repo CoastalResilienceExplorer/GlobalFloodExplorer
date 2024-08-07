@@ -50,12 +50,12 @@ export function useLayers(
 
   useEffect(() => {
     if (Array.isArray(availableLayers) || providedLayersToggle) return;
-    setLayersToggle(
-      Object.keys(availableLayers).reduce((acc, layer) => {
-        const key = availableLayers[layer]?.sharedKey ?? layer;
-        if (availableLayers[layer]?.sharedKey) {
+    setLayersToggle({
+      ...Object.keys(availableLayers).reduce((acc, layer) => {
+        const key = availableLayers[layer]?.toggleKey ?? layer;
+        if (availableLayers[layer]?.toggleKey) {
           const keys = Object.keys(availableLayers).filter(
-            (l) => availableLayers[l]?.sharedKey === key,
+            (l) => availableLayers[l]?.toggleKey === key,
           );
           acc[key] = keys.some((k) => acc[k]);
         } else if (availableLayers[layer]?.slideMapKey) {
@@ -70,7 +70,8 @@ export function useLayers(
         }
         return acc;
       }, {}),
-    );
+      ...layersToggle,
+    });
   }, [availableLayers, providedLayersToggle]);
 
   const toggleLayer = useCallback(
@@ -78,7 +79,7 @@ export function useLayers(
       !providedLayersToggle &&
         setLayersToggle((prev) => {
           const newToggleState = { ...prev, [layer]: !prev[layer] };
-          const sharedKey = availableLayers[layer]?.sharedKey;
+          const sharedKey = availableLayers[layer]?.toggleKey;
           if (sharedKey) {
             Object.keys(availableLayers).forEach((l) => {
               if (availableLayers[l]?.sharedKey === sharedKey) {
@@ -96,7 +97,7 @@ export function useLayers(
 
   const layers_and_legends = useMemo(() => {
     const loggedLayers = Object.keys(layerToggleToUse).filter(
-      (layer) => layerToggleToUse[layer] && !availableLayers[layer]?.sharedKey,
+      (layer) => layerToggleToUse[layer] && !availableLayers[layer]?.toggleKey,
     );
 
     return getLayers(
@@ -136,10 +137,32 @@ export function useLayers(
     () =>
       !Array.isArray(availableLayers)
         ? layers_and_legends.layers.filter((layer) => {
-            const sharedKey = availableLayers[layer.key]?.sharedKey;
-            return sharedKey
-              ? layerToggleToUse[sharedKey] ?? true
-              : layerToggleToUse[layer.key] ?? true;
+            const toggleKey = availableLayers[layer.key]?.toggleKey;
+            if (
+              availableLayers[layer.key] === true ||
+              !availableLayers[layer.key]
+            ) {
+              return true;
+            }
+
+            if (availableLayers[layer.key].slidePosition) {
+              const associatedLayerName = Object.keys(availableLayers).find(
+                (layerName) =>
+                  availableLayers[layerName]?.slidePosition ===
+                    availableLayers[layer.key].slidePosition &&
+                  !!availableLayers[layerName]?.slideKey,
+              );
+              return (
+                layerToggleToUse[associatedLayerName] &&
+                (toggleKey
+                  ? layerToggleToUse[toggleKey]
+                  : layerToggleToUse[layer.key])
+              );
+            } else {
+              return toggleKey
+                ? layerToggleToUse[toggleKey] ?? layerToggleToUse[layer.key]
+                : layerToggleToUse[layer.key];
+            }
           })
         : layers_and_legends.layers,
     [layers_and_legends.layers, layerToggleToUse, availableLayers],

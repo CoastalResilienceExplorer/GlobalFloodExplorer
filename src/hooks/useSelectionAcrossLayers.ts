@@ -11,16 +11,20 @@ export function useSelectionSync(
 ) {
   useEffect(() => {
     if (!map) return;
-    if (layerGroup == LayerGroupName.Flooding) {
+    if (layerGroup === LayerGroupName.Flooding) {
       return;
     }
 
+    const layers = Array.isArray(layerGroups[layerGroup].layers)
+      ? layerGroups[layerGroup].layers
+      : Object.keys(layerGroups[layerGroup].layers);
+
     const selectedLayers = [
-      ...(layerGroups[layerGroup].layers as LayerName[]),
+      ...layers,
       ...selectionBuffer.map((s) => s.sourceLayer),
     ];
-    const _selectionSync = (layerGroups[layerGroup].layers as LayerName[])
-      .map((l) => LAYERS[l])
+    const _selectionSync = layers
+      .map((l) => LAYERS[l as LayerName])
       .filter((l) => l.selection_sync_with !== undefined)
       .map((l) => {
         return [l.id, l.selection_sync_with];

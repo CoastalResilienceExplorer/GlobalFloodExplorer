@@ -35,12 +35,6 @@ export default class FillWithOutlineProto {
     this.opacity = opacity;
     this.minzoom = minzoom;
     this.maxzoom = maxzoom;
-    this.visible =
-      (subgroup !== undefined && subgroup === floodGroup) ||
-      subgroup === undefined ||
-      floodGroup === undefined
-        ? "visible"
-        : "none";
   }
 
   get MBLayer() {
@@ -72,11 +66,7 @@ export default class FillWithOutlineProto {
       layer_proto.filter = this.filter;
     }
 
-    return Object.assign(layer_proto, {
-      layout: {
-        visibility: this.visible,
-      },
-    });
+    return layer_proto;
   }
 
   get Legend() {

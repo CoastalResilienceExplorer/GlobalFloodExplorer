@@ -2,7 +2,7 @@ import * as React from "react";
 import "../legend.css";
 import { kFormatter } from "hooks/utils/formattingUtils";
 
-export default function InterpolateLegend({ legend }) {
+export default function InterpolateLegend({ legend, children }) {
   const xTextOffs = "50%";
   const max_break = legend.breaks[legend.breaks.length - 1];
   const breaks_as_perc = [
