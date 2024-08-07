@@ -44,12 +44,16 @@ export const LegendLayerSwitch = ({
       (layerKey) =>
         getLayerConfig(layerGroup, layerKey)?.hasOwnProperty("slideKey"),
     );
-    const groupedLayers: GroupedLayers = Object.groupBy(
-      layers,
-      (layerKey) =>
+    const groupedLayers: GroupedLayers = layers.reduce((acc, layerKey) => {
+      const key =
         getLayerConfig<SlideLayer>(layerGroup, layerKey)?.slideKey ??
-        "not-slide",
-    );
+        "not-slide";
+      if (!acc[key]) {
+        acc[key] = [];
+      }
+      acc[key].push(layerKey);
+      return acc;
+    }, {} as GroupedLayers);
     return Object.fromEntries(
       Object.entries(groupedLayers).map(([key, layers]) => [
         key,
@@ -148,12 +152,16 @@ export const LegendLayerToggle = ({
       (layerKey) =>
         getLayerConfig(layerGroup, layerKey)?.hasOwnProperty("toggleKey"),
     );
-    const groupedLayers: GroupedLayers = Object.groupBy(
-      layers,
-      (layerKey) =>
+    const groupedLayers: GroupedLayers = layers.reduce((acc, layerKey) => {
+      const toggleKey =
         getLayerConfig<ToggleLayer>(layerGroup, layerKey)?.toggleKey ??
-        "not-shared",
-    );
+        "not-shared";
+      if (!acc[toggleKey]) {
+        acc[toggleKey] = [];
+      }
+      acc[toggleKey].push(layerKey);
+      return acc;
+    }, {} as GroupedLayers);
     return groupedLayers;
   }, [layerGroup]);
 
