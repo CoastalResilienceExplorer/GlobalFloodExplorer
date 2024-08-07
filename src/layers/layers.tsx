@@ -252,31 +252,31 @@ export const LAYERS: Record<LayerName, Layer> = {
 };
 
 const currentRiskLayers: ConfigurableLayerMap = {
-  [LayerName.TESSELA_BOUNDS_EXISTING_RISK]: true,
-  [LayerName.TESSELA_RPS_EXISTING_RISK]: true,
   [LayerName.MANGROVES_2015]: {
     toggleLabel: "Show mangroves (2015)",
     toggleKey: "mangrove_extent",
   },
+  [LayerName.TESSELA_BOUNDS_EXISTING_RISK]: true,
+  [LayerName.TESSELA_RPS_EXISTING_RISK]: true,
 };
 
 const annualBenefitsLayers: ConfigurableLayerMap = {
-  [LayerName.TESSELA_BOUNDS_STOCK_BENEFITS]: true,
-  [LayerName.TESSELA_RPS_STOCK_BENEFITS]: true,
   [LayerName.MANGROVES_2015]: {
     toggleLabel: "Show mangroves (2015)",
     toggleKey: "mangrove_extent",
   },
+  [LayerName.TESSELA_BOUNDS_STOCK_BENEFITS]: true,
+  [LayerName.TESSELA_RPS_STOCK_BENEFITS]: true,
 };
 
 const reductRatioLayers: ConfigurableLayerMap = {
-  [LayerName.TESSELA_BOUNDS_RISK_REDUCTION_RATIO]: true,
-  [LayerName.HEX]: true,
-  [LayerName.HEX2]: true,
   [LayerName.MANGROVES_2015]: {
     toggleLabel: "Show mangroves (2015)",
     toggleKey: "mangrove_extent",
   },
+  [LayerName.TESSELA_BOUNDS_RISK_REDUCTION_RATIO]: true,
+  [LayerName.HEX]: true,
+  [LayerName.HEX2]: true,
 };
 
 const floodingComparisonLayers: ConfigurableLayerMap = {
@@ -303,12 +303,12 @@ const floodingComparisonLayers: ConfigurableLayerMap = {
 };
 
 const populationLayers: ConfigurableLayerMap = {
-  [LayerName.TESSELA_BOUNDS_POPULATION_BENEFITS]: true,
-  [LayerName.TESSELA_RPS_POPULATION_BENEFITS]: true,
   [LayerName.MANGROVES_2015]: {
     toggleLabel: "Show mangroves (2015)",
     toggleKey: "mangrove_extent",
   },
+  [LayerName.TESSELA_BOUNDS_POPULATION_BENEFITS]: true,
+  [LayerName.TESSELA_RPS_POPULATION_BENEFITS]: true,
 };
 
 const layerGroups: Record<LayerGroupName, LayerGroup> = {

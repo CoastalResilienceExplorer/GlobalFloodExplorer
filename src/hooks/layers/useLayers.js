@@ -50,8 +50,8 @@ export function useLayers(
 
   useEffect(() => {
     if (Array.isArray(availableLayers) || providedLayersToggle) return;
-    setLayersToggle(
-      Object.keys(availableLayers).reduce((acc, layer) => {
+    setLayersToggle({
+      ...Object.keys(availableLayers).reduce((acc, layer) => {
         const key = availableLayers[layer]?.toggleKey ?? layer;
         if (availableLayers[layer]?.toggleKey) {
           const keys = Object.keys(availableLayers).filter(
@@ -70,7 +70,8 @@ export function useLayers(
         }
         return acc;
       }, {}),
-    );
+      ...layersToggle,
+    });
   }, [availableLayers, providedLayersToggle]);
 
   const toggleLayer = useCallback(
