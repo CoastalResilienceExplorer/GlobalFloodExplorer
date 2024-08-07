@@ -39,7 +39,7 @@
 }
 
 .legend-item.wide {
-  max-width: 215px;
+  max-width: 225px;
 }
 .legend-layer-title {
   font-size: 1.2em;
@@ -69,4 +69,20 @@
   text-orientation: upright;
   font-size: 0.8em;
   cursor: pointer;
+}
+
+.legend-layer-toggle {
+  display: none;
+}
+
+.legend-layer-toggle ~ .legend-layer-toggle {
+  display: block;
+}
+
+.legend-layer-switch + .legend-layer-toggle {
+  display: block;
+}
+
+.legend-layer-switch + .legend-layer-toggle ~ .legend-layer-toggle {
+  display: none;
 }

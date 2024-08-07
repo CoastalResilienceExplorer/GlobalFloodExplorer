@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 // Custom Hooks
 import { useMap } from "hooks/useMap";
@@ -38,7 +38,10 @@ import { DisclaimerScreen } from "./splash-screens/disclaimer-screen";
 import { LayerGroupName } from "types/dataModel";
 import FlyToContext from "panels/FlyToContext";
 import { initTheme } from "layers/theme";
-import LegendLayerSelector from "legends/legend-layer-selector";
+import {
+  LegendLayerSwitch,
+  LegendLayerToggle,
+} from "legends/legend-layer-selector";
 
 const allSelectableLayers = Object.values(layersByGroup)
   .map((x) => (Array.isArray(x) ? x : Object.keys(x)))
@@ -250,13 +253,16 @@ export default function Map() {
       />
       <div className="screen">
         <Legend legend_items={legends}>
-          {layerGroup === LayerGroupName.Flooding && (
-            <LegendLayerSelector
-              layersToggle={layersToggle}
-              toggleLayer={toggleLayer}
-              layerGroup={layerGroup}
-            />
-          )}
+          <LegendLayerSwitch
+            layersToggle={layersToggle}
+            toggleLayer={toggleLayer}
+            layerGroup={layerGroup}
+          />
+          <LegendLayerToggle
+            layersToggle={layersToggle}
+            toggleLayer={toggleLayer}
+            layerGroup={layerGroup}
+          />
         </Legend>
         <div
           className="slide-map-outer-container"

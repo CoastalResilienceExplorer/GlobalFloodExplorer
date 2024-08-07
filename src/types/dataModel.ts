@@ -65,22 +65,21 @@ export type Layer = {
   selection_sync_with?: string;
 };
 
-export type ConfigurableSlideLayer = {
+export type SlideLayer = {
   slideKey: string;
   slidePosition: "left" | "right" | "both";
   slideLabel: string;
 };
 
-export type ConfigurableSharedLayer = {
-  sharedKey: string;
-  sharedLabel: string;
-  slidePosition: "left" | "right" | "both";
-  associatedLayer: LayerName;
+export type ToggleLayer = {
+  toggleKey: string;
+  toggleLabel?: string;
+  slidePosition?: "left" | "right" | "both";
 };
 
-export type ConfigurableLayer =
-  | ConfigurableSlideLayer
-  | ConfigurableSharedLayer;
+export type StableLayer = true;
+
+export type ConfigurableLayer = SlideLayer | ToggleLayer | StableLayer;
 
 export type ConfigurableLayerMap = {
   [key in LayerName]?: ConfigurableLayer;
