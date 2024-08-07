@@ -1,6 +1,6 @@
 import { TripleSwitch, TripleSwitchOption } from "components/triple-switch";
 import { LAYERS, layersByGroup } from "layers/layers";
-import { memo, useCallback, useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import {
   ConfigurableLayer,
   ConfigurableLayerMap,
